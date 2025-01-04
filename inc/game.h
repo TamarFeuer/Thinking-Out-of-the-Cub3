@@ -3,12 +3,18 @@
 
 #include "MLX42.h"
 
+
+typedef struct s_pox
+{
+	int	x;
+	int	y;
+}	t_pos;
+
 typedef struct s_game
 {
 	mlx_t		*mlx;
 	mlx_image_t	*img;
-	int		player_pos_x;
-	int		player_pos_y;
+	t_pos	player_pos;
 }	t_game;
 
 #endif
