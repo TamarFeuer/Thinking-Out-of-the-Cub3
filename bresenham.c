@@ -1,5 +1,7 @@
 #include "../inc/game.h"
 
+#include "../inc/game.h"
+
 void bresenham_line(t_game *game, int start[2], int end[2])
 {
     int x = start[0];
@@ -18,11 +20,6 @@ void bresenham_line(t_game *game, int start[2], int end[2])
     if (end[1] < start[1])  // Moving up
         step_y = -1;
 
-    // Boundary check
-    if (start[0] < 0 || start[0] >= MAP_WIDTH || start[1] < 0 || start[1] >= MAP_HEIGHT ||
-        end[0] < 0 || end[0] >= MAP_WIDTH || end[1] < 0 || end[1] >= MAP_HEIGHT)
-        return;  // Stop if out of bounds
-
     // Case 1: Vertical line (undefined slope)
     if (delta_x == 0)
     {
@@ -30,6 +27,8 @@ void bresenham_line(t_game *game, int start[2], int end[2])
         {
             while (y <= end[1])
             {
+                if (x < 0 || x >= MAP_WIDTH || y < 0 || y >= MAP_HEIGHT)
+                    break;
                 mlx_put_pixel(game->map, x, y, 0xFF0000FF);
                 y++;
             }
@@ -38,6 +37,8 @@ void bresenham_line(t_game *game, int start[2], int end[2])
         {
             while (y >= end[1])
             {
+                if (x < 0 || x >= MAP_WIDTH || y < 0 || y >= MAP_HEIGHT)
+                    break;
                 mlx_put_pixel(game->map, x, y, 0xFF0000FF);
                 y--;
             }
@@ -51,6 +52,8 @@ void bresenham_line(t_game *game, int start[2], int end[2])
         decision_variable = 2 * delta_y - delta_x;
         while (x != end[0])
         {
+            if (x < 0 || x >= MAP_WIDTH || y < 0 || y >= MAP_HEIGHT)
+                break;
             mlx_put_pixel(game->map, x, y, 0xFF0000FF);
             if (decision_variable >= 0)
             {
@@ -67,6 +70,8 @@ void bresenham_line(t_game *game, int start[2], int end[2])
         decision_variable = 2 * delta_x - delta_y;
         while (y != end[1])
         {
+            if (x < 0 || x >= MAP_WIDTH || y < 0 || y >= MAP_HEIGHT)
+                break;
             mlx_put_pixel(game->map, x, y, 0xFF0000FF);
             if (decision_variable >= 0)
             {
