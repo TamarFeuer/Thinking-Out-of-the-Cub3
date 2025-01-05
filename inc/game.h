@@ -41,11 +41,16 @@ typedef struct s_game
 {
 	mlx_t		*mlx;
 	mlx_image_t	*map;
+	mlx_image_t *rays;
 	t_player	player;
 
 }	t_game;
 
-
-void bresenham_line(t_game *game, int start[2], int end[2]);
+void	bresenham_line(t_game *game, int start[2], int end[2]);
+void	draw_grid(t_game *game, int rows, int cols);
+void	draw_player(t_game *game);
+void	cast_rays(t_game *game);
+void	key_hook(mlx_key_data_t keydata, void *param);
+void	clean_nicely(t_game *game);
 
 #endif
