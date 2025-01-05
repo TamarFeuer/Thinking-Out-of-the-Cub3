@@ -7,7 +7,21 @@
 #include <stdlib.h>
 #include <math.h>
 
+//mini map
+#define X_START 0
+#define Y_START 0
+#define CONST 6
+#define ROWS 8
+#define COLS 10
 
+#define FOV 60.0           // Field of View in degrees
+#define RAY_COUNT 120      // Number of rays to cast (adjust for resolution)
+#define M_PI 3.14159265358979323846
+#define DEG_TO_RAD (M_PI / 180.0)
+
+#define MAX_RAY_LENGTH 300
+#define MAP_WIDTH COLS * 8 * CONST
+#define MAP_HEIGHT ROWS * 8 * CONST
 
 typedef struct s_pos
 {
@@ -30,5 +44,8 @@ typedef struct s_game
 	t_player	player;
 
 }	t_game;
+
+
+void bresenham_line(t_game *game, int start[2], int end[2]);
 
 #endif

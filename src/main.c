@@ -1,21 +1,6 @@
 
 #include "../inc/game.h"
 
-//mini map
-#define X_START 0
-#define Y_START 0
-#define CONST 6
-#define ROWS 8
-#define COLS 10
-
-#define FOV 60.0           // Field of View in degrees
-#define RAY_COUNT 120      // Number of rays to cast (adjust for resolution)
-#define M_PI 3.14159265358979323846
-#define DEG_TO_RAD (M_PI / 180.0)
-
-#define MAX_RAY_LENGTH 300
-
-
 void cast_rays(t_game *game)
 {
     float ray_angle;
@@ -23,36 +8,35 @@ void cast_rays(t_game *game)
     float end_angle = game->player.angle + (FOV / 2) * DEG_TO_RAD;
     float step = FOV * DEG_TO_RAD / RAY_COUNT;
 
-    // Loop through the angles from start to end
-    for (ray_angle = start_angle; ray_angle <= end_angle; ray_angle += step)
+	mlx_delete_image(game->mlx, game->map);
+    game->map = mlx_new_image(game->mlx, 1024, 512);
+    if (!game->map || mlx_image_to_window(game->mlx, game->map, 0, 0) < 0)
+		return;
+
+	// Loop through the angles from start to end
+	ray_angle = start_angle;
+    while (ray_angle <= end_angle)
     {
-        // Example: Calculate ray direction using trigonometry
+        // Calculate ray direction using trigonometry
         float dx = cos(ray_angle);
         float dy = sin(ray_angle);
 
-        // Traverse and draw the ray
-        float x = game->player.x;
-        float y = game->player.y;
-        
-        float ray_length = 0;
-        float max_ray_length = 300;  // Maximum ray length in pixels
-        float step_size = 1.0;  // How much the ray steps per iteration
+        // Starting point of the ray (player position)
+        float start_x = game->player.x;
+        float start_y = game->player.y;
 
-        while (ray_length < max_ray_length)  // Limit the ray's length
-        {
-            // Check for bounds or collisions here (if required)
-            // if (collision_detected(x, y)) break;
+        // Ending point of the ray (after a fixed length or until collision)
+        float end_x = start_x + dx * 300;  // Ray length 300 pixels
+        float end_y = start_y + dy * 300;
 
-            mlx_put_pixel(game->map, (int)x, (int)y, 0xFFFFFF00);  // Draw ray in yellow
-            x += dx * step_size;  // Move ray in x direction
-            y += dy * step_size;  // Move ray in y direction
+        // Use Bresenham's line algorithm to cast the ray
+        int ver1[2] = {start_x, start_y}; 
+        int ver2[2] = {end_x, end_y}; 
 
-            ray_length += step_size;  // Increment ray length
-        }
+        bresenham_line(game, ver1, ver2);
+		ray_angle += step;
     }
 }
-
-
 
 void draw_player(t_game *game)
 {
@@ -86,36 +70,53 @@ void draw_player(t_game *game)
 }
 
 
-static void	check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
+static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 {
     int new_x = game->player.x;
     int new_y = game->player.y;
+	float new_angle = game->player.angle;
 
-    if ((keydata.key == MLX_KEY_W || keydata.key == MLX_KEY_UP)
+ 
+    if ((keydata.key == MLX_KEY_W)
         && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
         new_y += -2 * CONST;
-    if ((keydata.key == MLX_KEY_S || keydata.key == MLX_KEY_DOWN)
+    if ((keydata.key == MLX_KEY_S)
         && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
         new_y += 2 * CONST;
-    if ((keydata.key == MLX_KEY_A || keydata.key == MLX_KEY_LEFT)
+    if ((keydata.key == MLX_KEY_A)
         && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
         new_x += -2 * CONST;
-    if ((keydata.key == MLX_KEY_D || keydata.key == MLX_KEY_RIGHT)
+    if ((keydata.key == MLX_KEY_D)
         && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
         new_x += 2 * CONST;
 
-    // Check boundaries
-    int grid_width = COLS * 8 * CONST;
-    int grid_height = ROWS * 8 * CONST;
-    
-    if (new_x >= X_START && new_x <= X_START + grid_width - CONST  &&
-        new_y >= Y_START && new_y <= Y_START + grid_height - CONST )
+	 // Boundary check for player movement    
+    if (new_x >= X_START && new_x <= X_START + MAP_WIDTH - CONST  &&
+        new_y >= Y_START && new_y <= Y_START + MAP_HEIGHT - CONST )
     {
         game->player.x = new_x;
         game->player.y = new_y;
-    }
-}
+		cast_rays(game);
+    }	
 
+    if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+        new_angle -= 0.05;  // Rotate counterclockwise (left)
+    if (keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+        new_angle += 0.05;  // Rotate clockwise (right)
+
+    // Ensure angle stays within [0, 2 * PI]
+    if (new_angle < 0)
+        new_angle += 2 * M_PI;  // Wrap around to 2 * PI if below 0
+    if (new_angle >= 2 * M_PI)
+		new_angle -= 2 * M_PI;  // Wrap around to 0 if 2 * PI or greater
+
+	if (new_angle != game->player.angle)
+	{
+		game->player.angle = new_angle;
+		cast_rays(game);
+	}
+   
+}
 
 void	key_hook(mlx_key_data_t keydata, void *param)
 {
@@ -186,7 +187,7 @@ int	main(int argc, char *argv[])
 	draw_grid(game, ROWS, COLS);
 
 	draw_player(game);
-	// cast_rays(game);
+	cast_rays(game);
 
 	mlx_key_hook(game->mlx, key_hook, game);
 	mlx_loop(game->mlx);

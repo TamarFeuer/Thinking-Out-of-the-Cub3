@@ -8,6 +8,11 @@ void bresenham_line(t_game *game, int start[2], int end[2])
     int delta_y = end[1] - start[1];
     int decision_variable;
 
+	if (start[0] < 0 || start[0] >= MAP_WIDTH || start[1] < 0 || start[1] >= MAP_HEIGHT ||
+        end[0] < 0 || end[0] >= MAP_WIDTH || end[1] < 0 || end[1] >= MAP_HEIGHT)
+        return;  // Stop if out of bounds
+
+
     // Case 1: Vertical line (undefined slope)
     if (delta_x == 0)
     {
