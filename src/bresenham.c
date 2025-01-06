@@ -25,7 +25,7 @@ void bresenham_rays(t_game *game, int start[2], int end[2])
 		{
 			while (y <= end[1])
 			{
-				if (x < 0 || x >= MAP_WIDTH || y < 0 || y >= MAP_HEIGHT)
+				if (x < X_START || x >= X_END || y < Y_START || y >= Y_END)
 					break;
 				mlx_put_pixel(game->rays, x, y, 0xFF0000FF);
 				y++;
@@ -35,7 +35,7 @@ void bresenham_rays(t_game *game, int start[2], int end[2])
 		{
 			while (y >= end[1])
 			{
-				if (x < 0 || x >= MAP_WIDTH || y < 0 || y >= MAP_HEIGHT)
+				if (x < X_START || x >= X_END || y < Y_START || y >= Y_END)
 					break;
 				mlx_put_pixel(game->rays, x, y, 0xFF0000FF);
 				y--;
@@ -50,7 +50,7 @@ void bresenham_rays(t_game *game, int start[2], int end[2])
 		decision_variable = 2 * delta_y - delta_x;
 		while (x != end[0])
 		{
-			if (x < 0 || x >= MAP_WIDTH || y < 0 || y >= MAP_HEIGHT)
+			if (x < X_START || x >= X_END || y < Y_START || y >= Y_END)
 				break;
 			mlx_put_pixel(game->rays, x, y, 0xFF0000FF);
 			if (decision_variable >= 0)
@@ -68,7 +68,7 @@ void bresenham_rays(t_game *game, int start[2], int end[2])
 		decision_variable = 2 * delta_x - delta_y;
 		while (y != end[1])
 		{
-			if (x < 0 || x >= MAP_WIDTH || y < 0 || y >= MAP_HEIGHT)
+			if (x < X_START || x >= X_END || y < Y_START || y >=Y_END)
 				break;
 			mlx_put_pixel(game->rays, x, y, 0xFF0000FF);
 			if (decision_variable >= 0)

@@ -19,7 +19,11 @@ void	clean_nicely(t_game *game)
 			free (game->player.player_img);
 			game->player.player_img = NULL;
 		}
-		
+		if (game->stats)
+		{
+			free (game->stats);
+			game->stats = NULL;
+		}
 		free (game);
 		game = NULL;
 	}

@@ -2,7 +2,7 @@
 
 void draw_player(t_game *game)
 {
-	int size = 2 * CONST; // Player is 3x3 pixels
+	int size = 2 * CONST; // Player is 2 x 2 pixels
 	int x = game->player.x;
 	int y = game->player.y;
 

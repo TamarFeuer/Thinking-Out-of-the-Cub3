@@ -29,6 +29,7 @@ int	main(int argc, char *argv[])
 	draw_grid(game, ROWS, COLS);
 	draw_player(game);
 	cast_rays(game);
+	print_stats(game);
 
 	mlx_key_hook(game->mlx, key_hook, game);
 	mlx_loop(game->mlx);

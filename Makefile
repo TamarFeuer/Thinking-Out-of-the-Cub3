@@ -6,7 +6,8 @@ LDFLAGS = -ldl -lglfw -pthread -lm
 
 NAME = cub3D
 
-SRC =	src/main.c src/bresenham.c src/map.c src/player.c src/hooks.c src/clean.c
+SRC =	src/main.c src/bresenham.c src/map.c src/player.c src/hooks.c src/clean.c \
+		src/stats.c src/libft.c
 
 OBJ_DIR = obj
 OBJ = $(SRC:src/%.c=$(OBJ_DIR)/%.o)

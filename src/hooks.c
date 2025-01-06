@@ -27,6 +27,7 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
         game->player.y = new_y;
 		draw_player(game);
 		cast_rays(game);
+        print_stats(game);
     }	
 
     if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
@@ -45,8 +46,8 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 		game->player.angle = new_angle;
 		draw_player(game);
 		cast_rays(game);
+        print_stats(game);
 	}
-   
 }
 
 void	key_hook(mlx_key_data_t keydata, void *param)
@@ -58,7 +59,7 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 		printf("Player pressed ESC. Closing the game...\n"); //change printf
 
 		mlx_close_window(game->mlx);
-		// exit_nicely(game, NULL);
+		clean_nicely(game);
 		exit (EXIT_SUCCESS);
 	}
 	check_keys_for_movement(game, keydata);
