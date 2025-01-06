@@ -211,8 +211,8 @@ void cast_rays(t_game *game)
 		float dx = cos(ray_angle);
 		float dy = sin(ray_angle);
 
-		float start_x = game->player.x + 1 * CONST;
-		float start_y = game->player.y + 1 * CONST;
+		float start_x = game->player.x + .5 * CONST;
+		float start_y = game->player.y + .5 * CONST;
 
 		float end_x = start_x + dx * MAX_RAY_DISTANCE;
 		float end_y = start_y + dy * MAX_RAY_DISTANCE;

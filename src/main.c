@@ -10,8 +10,10 @@ int	main(int argc, char *argv[])
 		return (EXIT_FAILURE);
 	game->map = NULL;
 	game->rays = NULL;
-	game->player.x = X_START;
-	game->player.y = Y_START;
+	game->player.x = X_START + ((PIXELS_PER_BLOCK /2) - 1) * CONST + 4;
+	game->player.y = Y_START + ((PIXELS_PER_BLOCK /2) - 1) * CONST + 4;
+	
+	game->player.angle = 0;
 	game->mlx = mlx_init(1024, 512, "Mini Map", true);
 	if (!game->mlx)
 		return (EXIT_FAILURE);

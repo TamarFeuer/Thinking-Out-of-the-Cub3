@@ -5,7 +5,7 @@ void print_stats(t_game *game)
 	if (game->stats)
 		mlx_delete_image(game->mlx, game->stats);
 
-	char *temp = ft_ftoa(game->player.angle / M_PI, 2);
+	char *temp = ft_ftoa(game->player.angle / M_PI, 6);
 	if (!temp)
 		printf("error converting float to string\n");
 	char *str = ft_strjoin ("Angle: ", temp);
@@ -18,7 +18,8 @@ void print_stats(t_game *game)
 	str = ft_strjoin (str, " X = ");
 	if (!str)
 		printf("error allocation dynamic memory\n");
-	temp = ft_itoa((game->player.x - X_START)/CONST + 1);
+	temp = ft_itoa((game->player.x - X_START)/CONST);
+	// temp = ft_itoa((game->player.x - X_START));
 	if (!temp)
 		printf("error converting float to string\n");
 	str = ft_strjoin (str, temp);
@@ -29,7 +30,8 @@ void print_stats(t_game *game)
 	if (!str)
 		printf("error allocation dynamic memory\n");
 	
-	temp = ft_itoa((game->player.y - Y_START)/CONST + 1);
+	temp = ft_itoa((game->player.y - Y_START)/CONST);
+	// temp = ft_itoa((game->player.y - Y_START) );
 	if (!temp)
 		printf("error converting float to string\n");
 	str = ft_strjoin (str, temp);
