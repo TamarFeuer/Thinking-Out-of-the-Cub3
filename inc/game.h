@@ -26,6 +26,8 @@
 #define X_END (X_START + MAP_WIDTH)
 #define Y_END (Y_START + MAP_HEIGHT)
 
+#define MAX_RAY_DISTANCE 300
+
 typedef struct s_pos
 {
 	int	x;

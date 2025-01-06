@@ -22,7 +22,7 @@ void draw_player(t_game *game)
 		int j = 0;
 		while (j < size)
 		{
-			mlx_put_pixel(game->player.player_img, i, j, 0xF38080FF);
+			mlx_put_pixel(game->player.player_img, i, j, 0xB00000FF);
 			j++;
 		}
 		i++;

@@ -25,7 +25,7 @@ void draw_grid(t_game *game, int rows, int cols)
 		int x_start = X_START;
 		int x_end = X_START + cols * 8 * CONST;
 		for (x = x_start; x <= x_end; x++)
-			mlx_put_pixel(game->map, x, Y_START + y, 0xFF0000FF);  // Red color
+			mlx_put_pixel(game->map, x, Y_START + y, 0xFF0000FF);
 	}
 
 	// Drawing vertical lines

@@ -12,7 +12,7 @@ int	main(int argc, char *argv[])
 	game->rays = NULL;
 	game->player.x = X_START;
 	game->player.y = Y_START;
-	game->mlx = mlx_init(1024, 512, "Pretty grid", true);
+	game->mlx = mlx_init(1024, 512, "Mini Map", true);
 	if (!game->mlx)
 		return (EXIT_FAILURE);
 	
@@ -34,6 +34,6 @@ int	main(int argc, char *argv[])
 	mlx_key_hook(game->mlx, key_hook, game);
 	mlx_loop(game->mlx);
 	mlx_terminate(game->mlx);
-	clean_nicely(game);
+
 
 }
