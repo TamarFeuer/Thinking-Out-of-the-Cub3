@@ -1,10 +1,6 @@
 #include "../inc/game.h"
 
-float limit_decimal_places(float number, int decimal_places) // allowed?
-{
-    float factor = pow(10, decimal_places);  // Calculate 10^decimal_places
-    return round(number * factor) / factor;  // Round and return the limited number
-}
+
 
 size_t	ft_strlen(const char *s)
 {

@@ -2,8 +2,8 @@
 
 static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 {
-	int new_x = game->player.x;
-	int new_y = game->player.y;
+	float new_x = game->player.x;
+	float new_y = game->player.y;
 	double new_angle = game->player.angle;
 	double angle_size = 2 * M_PI / 100;
 	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))

@@ -3,8 +3,8 @@
 void draw_player(t_game *game)
 {
 	int size = PLAYER_SIZE * CONST; // Player is PLAYER_SIZE x PLAYER_SIZE pixels
-	int x = game->player.x;
-	int y = game->player.y;
+	int x = round(game->player.x);
+	int y = round(game->player.y);
 
 	if (game->player.player_img)
 		mlx_delete_image(game->mlx, game->player.player_img);

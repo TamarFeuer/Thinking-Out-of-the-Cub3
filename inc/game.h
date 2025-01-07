@@ -39,8 +39,8 @@ typedef struct s_pos
 
 typedef struct s_player 
 {
-    int			x;
-    int			y;
+    double			x;
+    double			y;
     double		angle;  // in radians
 	
 	mlx_image_t	*player_img;
