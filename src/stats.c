@@ -15,7 +15,7 @@ void print_stats(t_game *game)
 	str = ft_strjoin (str, "PI");
 	if (!str)
 		printf("error allocation dynamic memory\n");
-	str = ft_strjoin (str, " X = ");
+	str = ft_strjoin (str, " X: ");
 	if (!str)
 		printf("error allocation dynamic memory\n");
 	temp = ft_itoa((game->player.x - X_START)/CONST);
@@ -26,7 +26,7 @@ void print_stats(t_game *game)
 	free(temp);
 	if (!str)
 		printf("error allocation dynamic memory\n");
-	str = ft_strjoin (str, " Y = ");
+	str = ft_strjoin (str, " Y: ");
 	if (!str)
 		printf("error allocation dynamic memory\n");
 	

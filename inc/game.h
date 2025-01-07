@@ -50,6 +50,7 @@ typedef struct s_game
 {
 	mlx_t		*mlx;
 	mlx_image_t	*map;
+	mlx_image_t *fill;
 	mlx_image_t *rays;
 	mlx_image_t *stats;
 	t_player	player;

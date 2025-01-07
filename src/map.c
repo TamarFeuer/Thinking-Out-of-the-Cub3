@@ -1,39 +1,86 @@
 #include "../inc/game.h"
 
-char mapdata[8 * 10] = 
+void fill_grid(t_game *game, int rows, int cols)
 {
-	1, 1, 1, 1, 1, 1, 1, 1,
-	1, 0, 0, 0, 1, 1, 0, 1,
-	1, 0, 0, 0, 1, 1, 0, 1,
-	1, 0, 0, 1, 1, 1, 0, 1,
-	1, 0, 0, 0, 1, 1, 1, 1,
-	1, 0, 0, 0, 1, 1, 0, 1,
-	1, 0, 0, 0, 0, 0, 0, 1,
-	1, 1, 1, 1, 1, 1, 1, 1
-};
+	int col, row;
+	mlx_texture_t	*texture;
+	char mapdata[8 * 10] = 
+	{
+		1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+		1, 0, 0, 0, 1, 1, 0, 1, 0, 1,
+		1, 0, 0, 0, 1, 1, 0, 1, 0, 1,
+		1, 0, 0, 1, 1, 1, 0, 1, 0, 1,
+		1, 0, 0, 0, 1, 1, 1, 1, 0, 1,
+		1, 0, 0, 0, 1, 1, 0, 1, 0, 1,
+		1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+		1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+	};
+	texture = mlx_load_png("textures/roof48.png");
+	if (!texture)
+		printf ("error loading texture\n");
+	game->fill = mlx_texture_to_image(game->mlx, texture);
+	if (!game->fill)
+		printf ("error converting texture to image\n");
+	mlx_delete_texture(texture);
+	printf ("rows = %d, cols = %d\n", rows, cols);
+	if (rows <= 0 || cols <= 0)
+		return;
+	row = 0;
+	while (row < rows)
+	{
+		col = 0;
+		while (col < cols)
+		{
+			if (mapdata[row * cols + col] == 1)
+			{	
+				printf ("row is %d and col is %d\n", row, col);
+				mlx_image_to_window(game->mlx, game->fill, 
+					X_START + col * PIXELS_PER_BLOCK * CONST,
+					Y_START + row * PIXELS_PER_BLOCK * CONST);
+			}
+			col++;
+		}
+		row++;
+	}	
+}
+
 
 void draw_grid(t_game *game, int rows, int cols)
 {
+	
 	int x, y;
 
 	if (rows <= 0 || cols <= 0)
 		return;
 
 	// Drawing horizontal lines
-	for (y = 0; y <= rows * 8 * CONST; y += 8 * CONST)
+	y = 0;
+	while (y <= rows * PIXELS_PER_BLOCK * CONST)
 	{
 		int x_start = X_START;
-		int x_end = X_START + cols * 8 * CONST;
-		for (x = x_start; x <= x_end; x++)
-			mlx_put_pixel(game->map, x, Y_START + y, 0xFF0000FF);
+		int x_end = X_START + cols * PIXELS_PER_BLOCK * CONST;
+		x = x_start;
+		while (x <= x_end)
+		{
+			mlx_put_pixel(game->map, x, Y_START + y, 0x777777FF);
+			x++;
+		}
+		y += PIXELS_PER_BLOCK * CONST;
 	}
 
 	// Drawing vertical lines
-	for (x = 0; x <= cols * 8 * CONST; x += 8 * CONST)
+	x = 0;
+	while(x <= cols * PIXELS_PER_BLOCK * CONST)
 	{
 		int y_start = Y_START;
-		int y_end = Y_START + rows * 8 * CONST;
-		for (y = y_start; y <= y_end; y++)
-			mlx_put_pixel(game->map, X_START + x, y, 0xFF0000FF);
+		int y_end = Y_START + rows * PIXELS_PER_BLOCK * CONST;
+		y = y_start;
+		while (y <= y_end)
+		{
+			mlx_put_pixel(game->map, X_START + x, y, 0x777777FF);
+			y++;
+		}
+		x += PIXELS_PER_BLOCK * CONST;
 	}
+	fill_grid(game, rows, cols);
 }
