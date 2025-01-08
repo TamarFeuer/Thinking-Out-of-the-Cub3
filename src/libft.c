@@ -1,6 +1,61 @@
 #include "../inc/game.h"
 
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	void	*ptr;
+	size_t	i;
 
+	if (nmemb == 0 || size == 0)
+		return (NULL);
+	if ((nmemb * size) / nmemb != size)
+		return (NULL);
+	ptr = malloc(nmemb * size);
+	if (!ptr)
+	{
+		perror("ft_calloc");
+		return (NULL);
+	}
+	i = 0;
+	while (i < (nmemb * size))
+	{
+		((char *)ptr)[i] = '\0';
+		i++;
+	}
+	return (ptr);
+}
+
+char	*ft_strdup(char const *str)
+{
+	char	*new;
+	ssize_t	len;
+	ssize_t	i;
+
+	len = ft_strlen((char *) str);
+	new = malloc (len + 1);
+	if (!new)
+		return (NULL);
+	i = 0;
+	while (str && str[i] && i < len)
+	{
+		new[i] = str[i];
+		i++;
+	}
+	new[i] = '\0';
+	return (new);
+}
+
+void	*ft_memset(void *s, int c, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+	{
+		*(char *)(s + i) = c;
+		i++;
+	}
+	return (s);
+}
 
 size_t	ft_strlen(const char *s)
 {

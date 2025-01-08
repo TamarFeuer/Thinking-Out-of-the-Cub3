@@ -1,11 +1,17 @@
-
 #include "../inc/game.h"
 
 int	main(int argc, char *argv[])
 {
+	t_game	*game;
+	t_data	*data;
+	
 	(void)argc;
 	(void)argv;
-	t_game *game = (t_game *)malloc(sizeof(t_game));
+	data = NULL;
+	init_data_struct(&data);
+	parse_file(data, argv[1]);
+
+	game = (t_game *) malloc(sizeof(t_game));
 	if (!game)
 		return (EXIT_FAILURE);
 	game->map = NULL;

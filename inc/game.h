@@ -6,6 +6,11 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <math.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include "errors.h"
+#include "gnl.h"
 
 //mini map
 #define X_START 50
@@ -44,7 +49,7 @@ typedef struct s_player
     double		angle;  // in radians
 	
 	mlx_image_t	*player_img;
-} t_player;
+}	t_player;
 
 typedef struct s_game
 {
@@ -57,6 +62,21 @@ typedef struct s_game
 
 }	t_game;
 
+typedef struct s_mapdata
+{
+	char	*path;
+	int		nbr_of_lines;
+	char	**file_data;
+	int		height;
+	int		width;
+}	t_mapdata;
+
+typedef struct s_data
+{
+	t_mapdata	map_data;
+}	t_data;
+
+
 void	bresenham_line(t_game *game, int start[2], int end[2]);
 void	draw_grid(t_game *game, int rows, int cols);
 void	draw_player(t_game *game);
@@ -66,9 +86,22 @@ void	print_stats(t_game *game);
 void	clean_nicely(t_game *game);
 
 // LIBFT
+void	*ft_calloc(size_t nmemb, size_t size);
+char	*ft_strdup(char const *str);
+void	*ft_memset(void *s, int c, size_t n);
+size_t	ft_strlen(const char *s);
 char	*ft_itoa(int n);
 char	*ft_ftoa(float n, int precision);
 char	*ft_strjoin(char const *s1, char const *s2);
 float	limit_decimal_places(float number, int decimal_places);
+
+// PARSING
+char	*get_next_line(int fd);
+void	init_data_struct(t_data **data);
+void	parse_file(t_data *data, char *file_path);
+int		count_lines(char *file_path);
+void	store_file_contents(t_mapdata *mapinfo, char *file_path);
+void	ft_print_arr(char **arr);
+
 
 #endif

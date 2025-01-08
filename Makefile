@@ -1,13 +1,15 @@
 CC = cc
 # CFLAGS = -Wall -Wextra -Werror -Isrc -Ilibs/libft -Ilibs/MLX42/include/MLX42 -g -fsanitize=address -O3
 # CFLAGS = -Wall -Wextra -Werror -Isrc -Ilibs/MLX42/include/MLX42 -g -fsanitize=address -O3
-CFLAGS = -Wall -Wextra -Werror -Isrc -Ilibs/MLX42/include/MLX42
+CFLAGS = -Wall -Wextra -Werror -Isrc -Ilibs/MLX42/include/MLX42 -g
 LDFLAGS = -ldl -lglfw -pthread -lm
 
 NAME = cub3D
 
 SRC =	src/main.c src/bresenham.c src/map.c src/player.c src/hooks.c src/clean.c \
-		src/stats.c src/libft.c
+		src/stats.c src/libft.c src/parsing.c src/parsing2.c src/parsing_utils.c \
+		src/gnl/gnl.c src/gnl/gnl_utils.c \
+		
 
 OBJ_DIR = obj
 OBJ = $(SRC:src/%.c=$(OBJ_DIR)/%.o)
