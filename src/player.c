@@ -15,7 +15,6 @@ void draw_player(t_game *game)
 		printf("Failed to create player image.\n");
 		return;
 	}
-
 	int i = 0;
 	while (i < size)
 	{

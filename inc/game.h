@@ -67,6 +67,7 @@ void	clean_nicely(t_game *game);
 int		distance_to_color(int distance);
 void	DDA_rays(t_game *game, t_pos start, t_pos end);
 double	get_distance(t_pos start, t_pos end);
+int		get_block_index(t_pos *grid_pos);
 
 // LIBFT
 char	*ft_itoa(int n);

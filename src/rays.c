@@ -9,6 +9,7 @@ int get_block_index(t_pos *grid_pos)
     int block_index_y = (int)((grid_pos->y - Y_START) / (PIXELS_PER_BLOCK * CONST));
     //printf("on grid_x %d, on grid Y %d\n", block_index_x, block_index_y);
     result = (block_index_y) * COLS + (block_index_x);
+	//printf ("result is %d\n", result);
     return result;
 }
 
@@ -38,22 +39,22 @@ float cast_ray(t_game *game, t_pos start, t_pos *end, double angle) //start and 
 		1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
 		1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 	};
-	printf ("angle is %f\n", angle);
-	printf ("starting in x=%f y=%f\n", start.x, start.y);
+	//printf ("angle is %f\n", angle);
+	//printf ("starting in x=%f y=%f\n", start.x, start.y);
     while (distance < MAX_RAY_LENGTH)
     {
         end->x += cos(angle) * step_size;
         end->y += sin(angle) * step_size;
         distance += step_size;
 		// printf ("ray_x %f ray_y %f\n", ray_x, ray_y);
-		// mlx_put_pixel(game->map, (int)end->x, (int)end->y, 0xFF0000FF);
+		 mlx_put_pixel(game->map, (int)end->x, (int)end->y, 0xFF0000FF);
 
         //check map limits
         {
 			if (mapdata[get_block_index(end)] == 1)
             {
-				printf ("Intersection found\n");
-				printf ("With my stats: end->x is %f, end->y is %f\n", (end->x) - X_START,(end->y)- Y_START);
+				//printf ("Intersection found\n");
+				//printf ("With my stats: end->x is %f, end->y is %f\n", (end->x) - X_START,(end->y)- Y_START);
 				return distance;
             }
         }
@@ -69,6 +70,9 @@ float cast_ray(t_game *game, t_pos start, t_pos *end, double angle) //start and 
 
 void cast_rays(t_game *game)
 {
+	t_pos start = {game->player.x + PLAYER_SIZE * CONST / 2, game->player.y + PLAYER_SIZE * CONST / 2};
+    t_pos end = start;
+	cast_ray(game, start, &end, game->player.angle);
     float start_angle = game->player.angle - (FOV / 2) * DEG_TO_RAD;
     while (start_angle >= 2 * M_PI)
         start_angle -= 2 * M_PI;
@@ -86,11 +90,11 @@ void cast_rays(t_game *game)
     float ray_angle = start_angle;
     for (int i = 0; i < RAY_COUNT; i++)
     {
-        t_pos start = {game->player.x + PLAYER_SIZE * CONST / 2, game->player.y + PLAYER_SIZE * CONST / 2};
-        t_pos end = start;
+        
 
-        float distance = cast_ray(game, start, &end, ray_angle);
-        printf("Ray %d: distance %f, end.x %f, end.y %f\n", i, distance, end.x, end.y);
+        //float distance = cast_ray(game, start, &end, ray_angle);
+		//cast_ray(game, start, &end, ray_angle);
+        //printf("Ray %d: distance %f, end.x %f, end.y %f\n", i, distance, end.x, end.y);
 
         DDA_rays(game, start, end);
         ray_angle += step;

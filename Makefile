@@ -1,7 +1,7 @@
 CC = cc
 # CFLAGS = -Wall -Wextra -Werror -Isrc -Ilibs/libft -Ilibs/MLX42/include/MLX42 -g -fsanitize=address -O3
 # CFLAGS = -Wall -Wextra -Werror -Isrc -Ilibs/MLX42/include/MLX42 -g -fsanitize=address -O3
-CFLAGS = -Wall -Wextra -Werror -Isrc -Ilibs/MLX42/include/MLX42
+CFLAGS = -Wall -Wextra -Werror -Isrc -g -Ilibs/MLX42/include/MLX42
 LDFLAGS = -ldl -lglfw -pthread -lm
 
 NAME = cub3D
