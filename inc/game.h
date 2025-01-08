@@ -18,7 +18,7 @@
 #define PLAYER_SIZE 1
 
 #define FOV 60.0 // Field of View in degrees
-#define RAY_COUNT 120
+#define RAY_COUNT 100
 #define M_PI 3.14159265358979323846
 #define DEG_TO_RAD (M_PI / 180.0)
 
@@ -33,8 +33,8 @@
 
 typedef struct s_pos
 {
-	int	x;
-	int	y;
+	double	x;
+	double	y;
 }	t_pos;
 
 typedef struct s_player 
@@ -64,6 +64,9 @@ void	cast_rays(t_game *game);
 void	key_hook(mlx_key_data_t keydata, void *param);
 void	print_stats(t_game *game);
 void	clean_nicely(t_game *game);
+int		distance_to_color(int distance);
+void	DDA_rays(t_game *game, t_pos start, t_pos end);
+double	get_distance(t_pos start, t_pos end);
 
 // LIBFT
 char	*ft_itoa(int n);

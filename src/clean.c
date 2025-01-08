@@ -27,5 +27,5 @@ void	clean_nicely(t_game *game)
 		free (game);
 		game = NULL;
 	}
-		
+	//free all instances of the roof tiles
 }

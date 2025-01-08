@@ -18,8 +18,8 @@ void print_stats(t_game *game)
 	str = ft_strjoin (str, " X: ");
 	if (!str)
 		printf("error allocation dynamic memory\n");
-	temp = ft_itoa((game->player.x - X_START)/CONST);
-	// temp = ft_itoa((game->player.x - X_START));
+	// temp = ft_itoa((game->player.x - X_START)/CONST);
+	temp = ft_itoa((game->player.x - X_START));
 	if (!temp)
 		printf("error converting float to string\n");
 	str = ft_strjoin (str, temp);
@@ -30,8 +30,8 @@ void print_stats(t_game *game)
 	if (!str)
 		printf("error allocation dynamic memory\n");
 	
-	temp = ft_itoa((game->player.y - Y_START)/CONST);
-	// temp = ft_itoa((game->player.y - Y_START) );
+	// temp = ft_itoa((game->player.y - Y_START)/CONST);
+	temp = ft_itoa((game->player.y - Y_START) );
 	if (!temp)
 		printf("error converting float to string\n");
 	str = ft_strjoin (str, temp);
