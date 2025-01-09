@@ -1,19 +1,9 @@
 #include "../inc/game.h"
 
-bool is_collision(t_pos new, int *x_offset, int *y_offset)
+bool is_collision(t_game *game, t_pos new, int *x_offset, int *y_offset)
 {
-	char mapdata[8 * 10] = 
-	{
-		1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-		1, 0, 0, 0, 1, 1, 0, 1, 0, 1,
-		1, 0, 0, 0, 1, 1, 0, 1, 0, 1,
-		1, 0, 0, 1, 1, 1, 0, 1, 0, 1,
-		1, 0, 0, 0, 1, 1, 1, 1, 0, 1,
-		1, 0, 0, 0, 1, 1, 0, 1, 0, 1,
-		1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-		1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-	};
 	int range = CONST - 1;
+
 	while (*y_offset <= range)
 	{
 		*x_offset = 0;
@@ -21,7 +11,7 @@ bool is_collision(t_pos new, int *x_offset, int *y_offset)
 		{
 			// Check the position (x + x_offset, y + y_offset)
 			t_pos check_pos = {new.x + *x_offset, new.y + *y_offset};
-			if (mapdata[get_block_index(&check_pos)] == 1)
+			if (game->mapdata[get_block_index(&check_pos)] == 1)
 				return true;
 			(*x_offset)++;
 		}
@@ -40,21 +30,21 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
 		new.x += cos(game->player.angle) * DISTANCE_PER_TURN;
-		new.y += sin(game->player.angle) * DISTANCE_PER_TURN;
+		new.y -= sin(game->player.angle) * DISTANCE_PER_TURN;
 	}
 	else if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
 		new.x -= cos(game->player.angle) * DISTANCE_PER_TURN;
-		new.y -= sin(game->player.angle) * DISTANCE_PER_TURN;
+		new.y += sin(game->player.angle) * DISTANCE_PER_TURN;
 	}
 	else if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
-		new.x += sin(game->player.angle) * DISTANCE_PER_TURN;
+		new.x -= sin(game->player.angle) * DISTANCE_PER_TURN;
 		new.y -= cos(game->player.angle) * DISTANCE_PER_TURN;
 	}
 	else if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
-		new.x -= sin(game->player.angle) * DISTANCE_PER_TURN;
+		new.x += sin(game->player.angle) * DISTANCE_PER_TURN;
 		new.y += cos(game->player.angle) * DISTANCE_PER_TURN;
 	}
 
@@ -72,7 +62,7 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 		int x_offset = 0;
 		int y_offset = 0;
 
-		if ((sin(game->player.angle) < 0 || sin(game->player.angle) > 0) && is_collision(new, &x_offset, &y_offset))
+		if ((sin(game->player.angle) < 0 || sin(game->player.angle) > 0) && is_collision(game, new, &x_offset, &y_offset))
 		{	
 			printf ("Collision! x_offset %d y_offest %d\n", x_offset, y_offset);
 			printf ("sin(game->player.angle) %f, cos(game->player.angle) %f\n", sin(game->player.angle), cos(game->player.angle));

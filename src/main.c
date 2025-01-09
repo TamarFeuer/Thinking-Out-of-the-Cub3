@@ -20,7 +20,7 @@ int	main(int argc, char *argv[])
 	game->mlx = mlx_init(1024, 512, "Mini Map", true);
 	if (!game->mlx)
 		return (EXIT_FAILURE);
-	
+	init_map(game);
 	if (game->map)
 		mlx_delete_image(game->mlx, game->map);
 	game->map = mlx_new_image(game->mlx, 1024, 512);

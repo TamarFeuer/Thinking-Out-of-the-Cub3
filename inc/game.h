@@ -8,6 +8,8 @@
 #include <math.h>
 
 //mini map
+#define EMPTY 0
+#define WALL 1
 #define X_START 50
 #define Y_START 50
 
@@ -16,6 +18,7 @@
 #define COLS 10
 #define PIXELS_PER_BLOCK 8
 #define PLAYER_SIZE 1
+#define PLAYER_DIRECTION_SIZE 100
 
 #define FOV 60.0 // Field of View in degrees
 #define RAY_COUNT 100
@@ -50,9 +53,11 @@ typedef struct s_game
 {
 	mlx_t		*mlx;
 	mlx_image_t	*map;
+	char        *mapdata;
 	mlx_image_t *fill;
 	mlx_image_t *rays;
 	mlx_image_t *stats;
+	mlx_image_t *player_dir;
 	t_player	player;
 
 }	t_game;
@@ -68,11 +73,12 @@ int		distance_to_color(int distance);
 void	DDA_rays(t_game *game, t_pos start, t_pos end);
 double	get_distance(t_pos start, t_pos end);
 int		get_block_index(t_pos *grid_pos);
+void 	init_map(t_game *game);
 
 // LIBFT
 char	*ft_itoa(int n);
 char	*ft_ftoa(float n, int precision);
 char	*ft_strjoin(char const *s1, char const *s2);
-float	limit_decimal_places(float number, int decimal_places);
+
 
 #endif
