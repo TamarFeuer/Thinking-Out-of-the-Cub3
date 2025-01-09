@@ -164,4 +164,40 @@ char *ft_ftoa(float n, int precision)
     return str;
 }
 
+void	*ft_memset(void *s, int c, size_t n)
+{
+	size_t	i;
 
+	i = 0;
+	while (i < n)
+	{
+		((unsigned char *)s)[i] = c;
+		i++;
+	}
+	return (s);
+}
+
+void	ft_bzero(void *s, size_t n)
+{
+	ft_memset(s, '\0', n);
+}
+
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	void	*p1;
+
+	if (size != 0 && ((nmemb * size) / size != nmemb))
+	{
+		return (NULL);
+	}
+	else
+	{
+		p1 = (void *) malloc(nmemb * size);
+		if (!p1)
+		{
+			return (NULL);
+		}
+		ft_bzero(p1, nmemb * size);
+		return (p1);
+	}
+}

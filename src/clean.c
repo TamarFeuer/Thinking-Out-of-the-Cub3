@@ -40,6 +40,11 @@ void	clean_nicely(t_game *game)  //use ft_free as in minishell
 			free (game->mapdata);
 			game->mapdata = NULL;
 		}
+		if (game->ray)
+		{
+			free(game->ray);
+			game->ray = NULL;
+		}
 		free (game);
 		game = NULL;
 	}

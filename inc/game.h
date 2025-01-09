@@ -34,6 +34,8 @@
 #define MAX_RAY_DISTANCE 300
 #define DISTANCE_PER_TURN 1 * CONST
 
+#define SCREEN_WIDTH 1920
+
 typedef struct s_pos
 {
 	double	x;
@@ -49,20 +51,36 @@ typedef struct s_player
 	mlx_image_t	*player_img;
 } t_player;
 
+typedef struct s_ray
+{
+	int			ray_n;
+	float		unit_angle;
+	float		current_angle;
+	bool		wall_met;
+	int			found_vertical_first;
+	float		distance;
+	t_pos		end;
+}	t_ray;
+
 typedef struct s_game
 {
-	mlx_t		*mlx;
-	mlx_image_t	*map;
-	char        *mapdata;
-	mlx_image_t *fill;
-	mlx_image_t *rays;
-	mlx_image_t *stats;
-	mlx_image_t *player_dir;
-	t_player	player;
+	mlx_t			*mlx;
+	mlx_image_t		*map;
+	char        	*mapdata;
+	mlx_image_t 	*fill;
+	mlx_image_t 	*rays;
+	t_ray			*ray;
+	mlx_image_t 	*stats;
+	mlx_image_t 	*player_dir;
+	t_player		player;
+	mlx_texture_t	*north;
+	mlx_texture_t	*south;
+	mlx_texture_t	*west;
+	mlx_texture_t	*east;
 
 }	t_game;
 
-void	bresenham_line(t_game *game, int start[2], int end[2]);
+
 void	draw_grid(t_game *game, int rows, int cols);
 void	draw_player(t_game *game);
 void	cast_rays(t_game *game);
@@ -71,6 +89,7 @@ void	print_stats(t_game *game);
 void	clean_nicely(t_game *game);
 int		distance_to_color(int distance);
 void	DDA_ray(t_game *game, t_pos start, t_pos end);
+void 	bresenham_ray(t_game *game, t_pos start, t_pos end);
 double	get_distance(t_pos start, t_pos end);
 int		get_block_index(t_pos *grid_pos);
 void 	init_map(t_game *game);
@@ -79,6 +98,7 @@ void 	init_map(t_game *game);
 char	*ft_itoa(int n);
 char	*ft_ftoa(float n, int precision);
 char	*ft_strjoin(char const *s1, char const *s2);
+void	*ft_calloc(size_t nmemb, size_t size);
 
 
 #endif

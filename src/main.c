@@ -8,9 +8,14 @@ int	main(int argc, char *argv[])
 {
 	(void)argc;
 	(void)argv;
+	//mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	t_game *game = (t_game *)malloc(sizeof(t_game));
 	if (!game)
 		return (EXIT_FAILURE);
+	game->ray = ft_calloc(1, sizeof(t_ray));
+	if (!game->ray)
+		return (EXIT_FAILURE);
+	game->ray->found_vertical_first = -1;
 	game->map = NULL;
 	game->rays = NULL;
 	game->player.x = X_START + 48 + 24 - 3;

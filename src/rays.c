@@ -44,12 +44,11 @@ void draw_player_direction(t_game *game, t_pos start, double angle)
 	}
 }
 
-
-float cast_ray(t_game *game, t_pos start, t_pos *end, double angle) //start and end include X_START and Y_START
+void reach_nearest_wall_block(t_game *game, t_pos start, double angle) //start and end include X_START and Y_START
 {
 	(void)game;
-	end->x = start.x;
-	end->y = start.y;
+	game->ray->end.x = start.x;
+	game->ray->end.y = start.y;
 	double step_size = .1;  // Small step to move along the ray
 	double distance = 0.0;
    
@@ -64,19 +63,29 @@ float cast_ray(t_game *game, t_pos start, t_pos *end, double angle) //start and 
 
 	while (distance < MAX_RAY_LENGTH)
 	{
-		end->x += cos(angle) * step_size;
-		end->y -= sin(angle) * step_size;
-		distance += step_size;
+		game->ray->end.x += cos(angle) * step_size;
+		game->ray->end.y -= sin(angle) * step_size;
+		game->ray-> distance += step_size;
 		// printf ("ray_x %f ray_y %f\n", ray_x, ray_y);
-		//mlx_put_pixel(game->rays, (int)end->x, (int)end->y, 0xFF0000FF);
+		//mlx_put_pixel(game->rays, (int)game->ray->end.x, (int)game->ray->end.y, distance_to_color(distance));
 
 		//check map limits
 		{
-			if (game->mapdata[get_block_index(end)] == 1)
+			if (game->mapdata[get_block_index(&game->ray->end)] == 1)
 			{
 				//printf ("Intersection found\n");
-				//printf ("With my stats: end->x is %f, end->y is %f\n", (end->x) - X_START,(end->y)- Y_START);
-				return distance;
+				//printf ("With my stats: game->ray->end.x is %f, game->ray->end.y is %f\n", game->ray->end.x - X_START, game->ray->end.y - Y_START);
+				if ((int)(round(game->ray->end.x) - X_START) % (PIXELS_PER_BLOCK * CONST) == 0)
+				{
+					//printf ("It met vertical first\n");
+					game->ray->found_vertical_first = true;
+				}
+				if ((int)(round(game->ray->end.y) - Y_START) % (PIXELS_PER_BLOCK * CONST) == 0)
+				{
+					//printf ("It met horizontal first\n");
+					game->ray->found_vertical_first = false;
+				}
+				return;
 			}
 		}
 		// else
@@ -85,16 +94,13 @@ float cast_ray(t_game *game, t_pos start, t_pos *end, double angle) //start and 
 		//     break;
 		// }
 	}
-	return MAX_RAY_LENGTH;
 }
 
 void cast_rays(t_game *game)
 {
 	t_pos start = {game->player.x + PLAYER_SIZE * CONST / 2, game->player.y + PLAYER_SIZE * CONST / 2};
-	t_pos end = start;
+	//t_pos start = {206, 380};
 	
-	
-
 	if (game->rays)
 		mlx_delete_image(game->mlx, game->rays);
 
@@ -113,14 +119,18 @@ void cast_rays(t_game *game)
 	double ray_angle = start_angle;
 	int i = 0;
 	while (i < RAY_COUNT)
+	// while (i < 4)
 	{
 		//printf("angle is %f\n", ray_angle / M_PI);
 		//float distance = cast_ray(game, start, &end, ray_angle);
-		cast_ray(game, start, &end, ray_angle);
+		reach_nearest_wall_block(game, start, ray_angle);
 		// 	//printf("Ray %d: distance %f, end.x %f, end.y %f\n", i, distance, end.x, end.y);
 
-		DDA_ray(game, start, end);
+		DDA_ray(game, start, game->ray->end);  			//what happens with pi/4 5pi/4 etc?
+		//bresenham_ray(game, start, game->ray->end);   //what happens after moving the player?
+
 		ray_angle += step;
+		//ray_angle += 0.5;
 		//printf ("ray angle is %f\n", ray_angle);
 		while (ray_angle >= 2 * M_PI)
 			ray_angle -= 2 * M_PI;
