@@ -9,6 +9,8 @@ void bresenham_ray(t_game *game, t_pos start, t_pos end)
 	int delta_x = (int)round(fabs(end.x - start.x));
 	int delta_y = (int)round(fabs(end.y - start.y));
 	int decision_variable;
+    int distance;
+
 
 	// Direction factors to ensure correct increments
 	int step_x = 1;
@@ -20,49 +22,23 @@ void bresenham_ray(t_game *game, t_pos start, t_pos end)
 	if (end_y < start.y)  // Moving up
 		step_y = -1;
 
-	// // Case 1: Vertical line (undefined slope)
-	// if (delta_x == 0)
-	// {
-	// 	if (y < end_y)
-	// 	{
-	// 		while (y <= end_y)
-	// 		{
-	// 			if (x < X_START || x >= X_END || y < Y_START || y >= Y_END)
-	// 				break;
-	// 			int distance = get_distance(start.x, x, start.y, y);
-	// 			mlx_put_pixel(game->rays, x, y, );
-				
-	// 			y++;
-	// 		}
-	// 	}
-	// 	else
-	// 	{
-	// 		while (y >= end_y)
-	// 		{
-	// 			if (x < X_START || x >= X_END || y < Y_START || y >= Y_END)
-	// 				break;
-	// 			int distance = get_distance(start, end);
-	// 			mlx_put_pixel(game->rays, x, y, distance_to_color(distance));
-	// 			y--;
-	// 		}
-	// 	}
-	// 	return;
-	// }
-
 	// Case 2: Positive slope (slope >= 0)
 	if (delta_x >= delta_y)
 	{
-		//printf ("positive slope\n");
+        printf ("positive slope, \n");
 		decision_variable = 2 * delta_y - delta_x;
 		while (1)
 		{
 
 			if ((x == end_x && y == end_y) || x < X_START || x >= X_END || y < Y_START || y >= Y_END)
+            {
+                distance =  sqrt((x - start.x) * (x - start.x) + (y - start.y) * (y - start.y));
+                //printf ("positive slope, distance is %d\n", distance);
                 return;
-            int distance =  sqrt((x - start.x) * (x - start.x) + (y - start.y) * (y - start.y));
-
+            }
+            distance =  sqrt((x - start.x) * (x - start.x) + (y - start.y) * (y - start.y));
+            //printf ("positive slope, distance is %d\n", distance);
 			mlx_put_pixel(game->rays, x, y, distance_to_color(distance));
-			//mlx_put_pixel(game->rays, x, y, 0x112323FF);
 			
 			if (decision_variable >= 0)
 			{
@@ -74,20 +50,27 @@ void bresenham_ray(t_game *game, t_pos start, t_pos end)
 		}
 	}
 	// Case 3: Negative slope (slope < 0)
-	else
+    
+	else if (delta_y > delta_x)  //also includes nearly vertical (dx =71, dy =72 for example)
 	{
+        //printf ("3. dx is %d, dy is %d\n", delta_x, delta_y);
         //printf ("negative slope\n");
 		decision_variable = 2 * delta_x - delta_y;
 		while (1)
 		{
 
-			if ((x == end_x && y == end_y) || x < X_START || x >= X_END || y < Y_START || y >= Y_END
-                || (game->ray->found_vertical_first == 1 &&  x > X_END)
-                || (game->ray->found_vertical_first == 0 &&  y > Y_END))
-				break;
+			if ((x == end_x && y == end_y) || x < X_START || x >= X_END || y < Y_START || y >= Y_END)
+            {
+                // || (game->ray->found_vertical_first == 1 &&  x > X_END)
+                // || (game->ray->found_vertical_first == 0 &&  y > Y_END))
+                distance =  sqrt((x - start.x) * (x - start.x) + (y - start.y) * (y - start.y));
+                //printf ("Negative slope, distance is %d\n", distance);
+                return;
+            }
+				
 			//int distance = get_distance(start, end);
-            int distance =  sqrt((x - start.x) * (x - start.x) + (y - start.y) * (y - start.y));
-            //printf ("Negative slope, distance is %d\n", distance);
+            distance =  sqrt((x - start.x) * (x - start.x) + (y - start.y) * (y - start.y));
+            printf ("positive slope, distance is %d\n", distance);
 			mlx_put_pixel(game->rays, x, y, distance_to_color(distance));
 			
 			if (decision_variable >= 0)
@@ -99,7 +82,38 @@ void bresenham_ray(t_game *game, t_pos start, t_pos end)
 			y += step_y;
 		}
 	}
+    // // Case 1: Vertical line (undefined slope)
+	// if (delta_x == 0)
+	else
+    {
+        printf ("4. dx is %d, dy is %d\n", delta_x, delta_y);
+        printf ("vertical?\n");
+		// if (y < end_y)
+		// {
+		// 	while (y <= end_y)
+		// 	{
+		// 		if (x < X_START || x >= X_END || y < Y_START || y >= Y_END)
+		// 			return;
+		// 		distance =  sqrt((x - start.x) * (x - start.x) + (y - start.y) * (y - start.y));
+		// 		mlx_put_pixel(game->rays, x, y, distance_to_color(distance));
+				
+		// 		y++;
+		// 	}
+		// }
+		// else
+		// {
+		// 	while (y >= end_y)
+		// 	{
+		// 		if (x < X_START || x >= X_END || y < Y_START || y >= Y_END)
+		// 			return;
+		// 		distance =  sqrt((x - start.x) * (x - start.x) + (y - start.y) * (y - start.y));
+		// 		mlx_put_pixel(game->rays, x, y, distance_to_color(distance));
+		// 		y--;
+		// 	}
+	}
+		return;
 }
+
 
 void DDA_ray(t_game *game, t_pos start, t_pos end)
 {
@@ -133,7 +147,7 @@ void DDA_ray(t_game *game, t_pos start, t_pos end)
         double distance = get_distance(start, (t_pos){x, y});
         
         //printf("Distance at step %d: %f\n", step_count, distance);
-        mlx_put_pixel(game->rays, (int)x, (int)y, distance_to_color(distance));
+        mlx_put_pixel(game->rays, (int)round(x), (int)round(y), distance_to_color(distance));
         
     
         x += x_increment;

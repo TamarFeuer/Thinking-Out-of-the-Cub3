@@ -16,10 +16,11 @@ int	main(int argc, char *argv[])
 	if (!game->ray)
 		return (EXIT_FAILURE);
 	game->ray->found_vertical_first = -1;
+	game->ray->wall_met= false;
 	game->map = NULL;
 	game->rays = NULL;
-	game->player.x = X_START + 48 + 24 - 3;
-	game->player.y = Y_START + 48 + 24 - 3;
+	game->player.x = X_START + 48 + 24 - 3 - 14 + 48;
+	game->player.y = Y_START + 48 + 24 - 3 + 48;
 	
 	game->player.angle = 0;
 	game->mlx = mlx_init(1024, 512, "Mini Map", true);

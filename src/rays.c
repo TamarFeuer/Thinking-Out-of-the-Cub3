@@ -66,7 +66,7 @@ void reach_nearest_wall_block(t_game *game, t_pos start, double angle) //start a
 		game->ray->end.x += cos(angle) * step_size;
 		game->ray->end.y -= sin(angle) * step_size;
 		game->ray-> distance += step_size;
-		// printf ("ray_x %f ray_y %f\n", ray_x, ray_y);
+		//printf ("REACH NEAREST: game->ray->end.x %f game->ray->end.y %f\n", game->ray->end.x, game->ray->end.y);
 		//mlx_put_pixel(game->rays, (int)game->ray->end.x, (int)game->ray->end.y, distance_to_color(distance));
 
 		//check map limits
@@ -75,6 +75,8 @@ void reach_nearest_wall_block(t_game *game, t_pos start, double angle) //start a
 			{
 				//printf ("Intersection found\n");
 				//printf ("With my stats: game->ray->end.x is %f, game->ray->end.y is %f\n", game->ray->end.x - X_START, game->ray->end.y - Y_START);
+				game->ray->wall_met= 1;
+				game->ray->distance = get_distance(start, game->ray->end);
 				if ((int)(round(game->ray->end.x) - X_START) % (PIXELS_PER_BLOCK * CONST) == 0)
 				{
 					//printf ("It met vertical first\n");
@@ -88,11 +90,13 @@ void reach_nearest_wall_block(t_game *game, t_pos start, double angle) //start a
 				return;
 			}
 		}
-		// else
-		// {
-		//     // Out of bounds, stop casting
-		//     break;
-		// }
+		if (distance > MAX_RAY_LENGTH)
+		{
+			// Out of bounds, stop casting
+			game->ray->wall_met= false;
+			break;
+		}
+		
 	}
 }
 
@@ -109,25 +113,27 @@ void cast_rays(t_game *game)
 		return; //error msg
 
 	float start_angle = game->player.angle - (FOV / 2) * DEG_TO_RAD;
+	
 	while (start_angle >= 2 * M_PI)
 		start_angle -= 2 * M_PI;
 	while (start_angle < 0)
 		start_angle += 2 * M_PI;
-
+	//printf ("in CAST RAYS start angle is %f\n", start_angle);  //!
 	float step = FOV * DEG_TO_RAD / RAY_COUNT;
-	printf ("step is %f\n", step);
+	//printf ("step is %f\n", step);
 	double ray_angle = start_angle;
 	int i = 0;
 	while (i < RAY_COUNT)
-	// while (i < 4)
+	// while (i < 5)
 	{
-		//printf("angle is %f\n", ray_angle / M_PI);
+		
 		//float distance = cast_ray(game, start, &end, ray_angle);
 		reach_nearest_wall_block(game, start, ray_angle);
-		// 	//printf("Ray %d: distance %f, end.x %f, end.y %f\n", i, distance, end.x, end.y);
-
-		DDA_ray(game, start, game->ray->end);  			//what happens with pi/4 5pi/4 etc?
-		//bresenham_ray(game, start, game->ray->end);   //what happens after moving the player?
+		printf("Ray %d: distance %f, end.x %f, end.y %f\n", i, game->ray->distance, game->ray->end.x, game->ray->end.y);
+		printf(" i is %d, angle is %f\n", i, ray_angle / M_PI);
+		printf ("RAYS: end_x is %f and end_y %f\n wall found? %d\n", game->ray->end.x, game->ray->end.y,game->ray->wall_met );
+		//DDA_ray(game, start, game->ray->end);  			//what happens with pi/4 5pi/4 etc?
+		bresenham_ray(game, start, game->ray->end);   //what happens after moving the player?
 
 		ray_angle += step;
 		//ray_angle += 0.5;
