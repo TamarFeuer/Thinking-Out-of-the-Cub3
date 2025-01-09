@@ -62,7 +62,7 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 		int x_offset = 0;
 		int y_offset = 0;
 
-		if ((sin(game->player.angle) < 0 || sin(game->player.angle) > 0) && is_collision(game, new, &x_offset, &y_offset))
+		if (is_collision(game, new, &x_offset, &y_offset))
 		{	
 			printf ("Collision! x_offset %d y_offest %d\n", x_offset, y_offset);
 			printf ("sin(game->player.angle) %f, cos(game->player.angle) %f\n", sin(game->player.angle), cos(game->player.angle));

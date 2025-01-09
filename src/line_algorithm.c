@@ -98,19 +98,24 @@
 // 	}
 // }
 
-void DDA_rays(t_game *game, t_pos start, t_pos end)
+void DDA_ray(t_game *game, t_pos start, t_pos end)
 {
     double dx = end.x - start.x;
     double dy = end.y - start.y;
     double steps;
 
+    if (fabs(dx) == fabs(dy))
+        {
+            printf ("!, \n");
+        }
     // Determine the number of steps needed
-    if (fabs(dx) > fabs(dy))
-        steps = fabs(dx);
-    else 
-        steps = fabs(dy);
+    // if (fabs(dx) > fabs(dy))
+    //     steps = fabs(dx);
+    // else 
+    //     steps = fabs(dy);
+    steps = fmax(fabs(dx), fabs(dy));
 
-
+    //printf ("steps is %f\n", steps);
     double x_increment = dx / steps;
     double y_increment = dy / steps;
 
@@ -120,9 +125,13 @@ void DDA_rays(t_game *game, t_pos start, t_pos end)
 
     while (step_count <= steps) 
     {
+        (void)game;
+        
         double distance = get_distance(start, (t_pos){x, y});
+        
         //printf("Distance at step %d: %f\n", step_count, distance);
         mlx_put_pixel(game->rays, (int)x, (int)y, distance_to_color(distance));
+        
         
 
         x += x_increment;

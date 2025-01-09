@@ -18,10 +18,10 @@
 #define COLS 10
 #define PIXELS_PER_BLOCK 8
 #define PLAYER_SIZE 1
-#define PLAYER_DIRECTION_SIZE 100
+#define PLAYER_DIRECTION_SIZE 50
 
 #define FOV 60.0 // Field of View in degrees
-#define RAY_COUNT 100
+#define RAY_COUNT 360
 #define M_PI 3.14159265358979323846
 #define DEG_TO_RAD (M_PI / 180.0)
 
@@ -70,7 +70,7 @@ void	key_hook(mlx_key_data_t keydata, void *param);
 void	print_stats(t_game *game);
 void	clean_nicely(t_game *game);
 int		distance_to_color(int distance);
-void	DDA_rays(t_game *game, t_pos start, t_pos end);
+void	DDA_ray(t_game *game, t_pos start, t_pos end);
 double	get_distance(t_pos start, t_pos end);
 int		get_block_index(t_pos *grid_pos);
 void 	init_map(t_game *game);
