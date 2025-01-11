@@ -69,8 +69,8 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 		}
 		else
 		{
-			game->player.x = new.x;
-			game->player.y = new.y;
+			game->player.x = round(new.x);
+			game->player.y = round(new.y);
 			draw_player(game);
 			cast_rays(game);
 			print_stats(game);

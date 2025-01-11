@@ -119,19 +119,19 @@ void cast_rays(t_game *game)
 	while (start_angle < 0)
 		start_angle += 2 * M_PI;
 	//printf ("in CAST RAYS start angle is %f\n", start_angle);  //!
-	float step = FOV * DEG_TO_RAD / RAY_COUNT;
+	float step = FOV * DEG_TO_RAD / RAY_NUMBER;
 	//printf ("step is %f\n", step);
 	double ray_angle = start_angle;
 	int i = 0;
-	while (i < RAY_COUNT)
+	while (i < RAY_NUMBER)
 	// while (i < 5)
 	{
 		
 		//float distance = cast_ray(game, start, &end, ray_angle);
 		reach_nearest_wall_block(game, start, ray_angle);
-		printf("Ray %d: distance %f, end.x %f, end.y %f\n", i, game->ray->distance, game->ray->end.x, game->ray->end.y);
-		printf(" i is %d, angle is %f\n", i, ray_angle / M_PI);
-		printf ("RAYS: end_x is %f and end_y %f\n wall found? %d\n", game->ray->end.x, game->ray->end.y,game->ray->wall_met );
+		// printf("Ray %d: distance %f, end.x %f, end.y %f\n", i, game->ray->distance, game->ray->end.x, game->ray->end.y);
+		// printf(" i is %d, angle is %f\n", i, ray_angle / M_PI);
+		// printf ("RAYS: end_x is %f and end_y %f\n wall found? %d\n", game->ray->end.x, game->ray->end.y,game->ray->wall_met );
 		//DDA_ray(game, start, game->ray->end);  			//what happens with pi/4 5pi/4 etc?
 		bresenham_ray(game, start, game->ray->end);   //what happens after moving the player?
 

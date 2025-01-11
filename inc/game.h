@@ -21,7 +21,7 @@
 #define PLAYER_DIRECTION_SIZE 50
 
 #define FOV 60.0 // Field of View in degrees
-#define RAY_COUNT 360
+#define RAY_NUMBER 360
 #define M_PI 3.14159265358979323846
 #define DEG_TO_RAD (M_PI / 180.0)
 
@@ -35,6 +35,7 @@
 #define DISTANCE_PER_TURN 1 * CONST
 
 #define SCREEN_WIDTH 1920
+#define SCREEN_HEIGHT 850
 
 typedef struct s_pos
 {

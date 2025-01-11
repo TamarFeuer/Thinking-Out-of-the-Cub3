@@ -25,7 +25,7 @@ void bresenham_ray(t_game *game, t_pos start, t_pos end)
 	// Case 2: Positive slope (slope >= 0)
 	if (delta_x >= delta_y)
 	{
-        printf ("positive slope, \n");
+        //printf ("positive slope, \n");
 		decision_variable = 2 * delta_y - delta_x;
 		while (1)
 		{
@@ -37,7 +37,7 @@ void bresenham_ray(t_game *game, t_pos start, t_pos end)
                 return;
             }
             distance =  sqrt((x - start.x) * (x - start.x) + (y - start.y) * (y - start.y));
-            //printf ("positive slope, distance is %d\n", distance);
+            //printf ("negative slope, distance is %d\n", distance);
 			mlx_put_pixel(game->rays, x, y, distance_to_color(distance));
 			
 			if (decision_variable >= 0)
@@ -70,7 +70,7 @@ void bresenham_ray(t_game *game, t_pos start, t_pos end)
 				
 			//int distance = get_distance(start, end);
             distance =  sqrt((x - start.x) * (x - start.x) + (y - start.y) * (y - start.y));
-            printf ("positive slope, distance is %d\n", distance);
+            //printf ("positive slope, distance is %d\n", distance);
 			mlx_put_pixel(game->rays, x, y, distance_to_color(distance));
 			
 			if (decision_variable >= 0)
