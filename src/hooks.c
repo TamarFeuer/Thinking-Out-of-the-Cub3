@@ -23,8 +23,8 @@ bool is_collision(t_game *game, t_pos new, int *x_offset, int *y_offset)
 static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 {
 	t_pos new;
-	new.x = game->player.x;
-	new.y = game->player.y;
+	new.x = game->player.p_pos.x;
+	new.y = game->player.p_pos.y;
 	double new_angle = game->player.angle;
 	double angle_size = 2 * M_PI / 100;
 	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
@@ -49,16 +49,16 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 	}
 
 	// Boundary check for player movement
-	if (new.x != game->player.x || new.y != game->player.y)
+	if (new.x != game->player.p_pos.x || new.y != game->player.p_pos.y)
 	{
 		if (new.x < X_START)
 			new.x = X_START;
 		if (new.y < Y_START)
 			new.y = Y_START;
-		if (new.x > X_START + MAP_WIDTH - CONST)
-			new.x = X_START + MAP_WIDTH - CONST;
-		if (new.y > Y_START + MAP_HEIGHT - CONST)
-			new.y = Y_START + MAP_HEIGHT - CONST;
+		if (new.x > X_START + MMAP_WIDTH - CONST)
+			new.x = X_START + MMAP_WIDTH - CONST;
+		if (new.y > Y_START + MMAP_HEIGHT - CONST)
+			new.y = Y_START + MMAP_HEIGHT - CONST;
 		int x_offset = 0;
 		int y_offset = 0;
 
@@ -69,8 +69,11 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 		}
 		else
 		{
-			game->player.x = round(new.x);
-			game->player.y = round(new.y);
+			game->player.p_pos.x = round(new.x);
+			game->player.p_pos.y = round(new.y);
+			game->camera.x = game->player.p_pos.x + CONST /2;
+			game->camera.y = game->player.p_pos.y + CONST /2;
+			printf ("drawing player");
 			draw_player(game);
 			cast_rays(game);
 			print_stats(game);
@@ -87,6 +90,20 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 			new_angle += 2 * M_PI;
 	if (new_angle != game->player.angle)
 	{
+		if (cos(new_angle) < 1 && cos(new_angle) >= 0 )
+		{
+			if (sin(new_angle) < 1 && sin(new_angle) >= 0)
+				game->player.angle_quad = 1;
+			else
+				game->player.angle_quad = 4;
+		}
+		else
+		{
+			if (sin(new_angle) < 1 && sin(new_angle) >= 0)
+				game->player.angle_quad = 2;
+			else
+				game->player.angle_quad = 3;
+		}
 		game->player.angle = new_angle;
 		cast_rays(game);
 		print_stats(game);

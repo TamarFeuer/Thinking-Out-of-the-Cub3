@@ -4,25 +4,20 @@ void	clean_nicely(t_game *game)  //use ft_free as in minishell
 {
 	if (game)
 	{
-		if (game->map)
+		if (game->screen)
 		{
-			free (game->map);
-			game->map = NULL;
+			free (game->screen);
+			game->screen = NULL;
 		}
-		if (game->map)
+		if (game->screen)
 		{
-			free (game->map);
-			game->map = NULL;
+			free (game->screen);
+			game->screen = NULL;
 		}
 		if (game->player.player_img)
 		{
 			free (game->player.player_img);
 			game->player.player_img = NULL;
-		}
-		if (game->player_dir)
-		{
-			free (game->player_dir);
-			game->player_dir = NULL;
 		}
 		if (game->rays)
 		{

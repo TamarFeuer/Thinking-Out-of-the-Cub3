@@ -76,14 +76,14 @@ void draw_grid(t_game *game, int rows, int cols)
 
 	// Drawing horizontal lines
 	y = 0;
-	while (y <= (rows -1)* PIXELS_PER_BLOCK * CONST)
+	while (y <= (rows - 1)* PIXELS_PER_BLOCK * CONST)
 	{
 		int x_start = X_START;
 		int x_end = X_START + cols * PIXELS_PER_BLOCK * CONST;
 		x = x_start;
 		while (x <= x_end)
 		{
-			mlx_put_pixel(game->map, x, Y_START + y, 0x777777FF);
+			mlx_put_pixel(game->screen, x, Y_START + y, 0x777777FF);
 			x++;
 		}
 		y += PIXELS_PER_BLOCK * CONST;
@@ -98,7 +98,7 @@ void draw_grid(t_game *game, int rows, int cols)
 		y = y_start;
 		while (y <= y_end)
 		{
-			mlx_put_pixel(game->map, X_START + x, y, 0x777777FF);
+			mlx_put_pixel(game->screen, X_START + x, y, 0x777777FF);
 			y++;
 		}
 		x += PIXELS_PER_BLOCK * CONST;
