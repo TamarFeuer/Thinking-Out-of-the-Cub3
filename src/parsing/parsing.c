@@ -4,7 +4,7 @@ void		init_data_struct(t_data **data);
 void		parse_file(t_data *data, char *file_path);
 static bool	check_file_extension(char *file_path);
 static bool	check_file_format(char *file_path);
-static void	store_map_data(t_data *data, char *file_path);
+static void	copy_file_contents(t_data *data, char *file_path);
 
 void	init_data_struct(t_data **data)
 {
@@ -18,8 +18,9 @@ void	parse_file(t_data *data, char *file_path)
 {
 	check_file_extension(file_path);
 	check_file_format(file_path);
-	store_map_data(data, file_path);
-	ft_print_arr(data->map_data.file_data);
+	copy_file_contents(data, file_path);
+	parse_identifiers(data);
+	// ft_print_arr(data->map_data.file_data);
 	(void) data;
 	printf("PARSING OK!\n");
 }
@@ -47,27 +48,28 @@ static bool	check_file_format(char *file_path)
 	if (fd >= 3)
 	{
 		close(fd);
-		printf("%s", ERR_FIL_IS_DIR);
+		printf("%s", ERR_IS_DIR);
 	}
 	fd = open(file_path, O_RDONLY);
 	if (fd < 0)
 	{
-		printf("%s", ERR_FIL_ERR);
+		printf("%s", ERR_OPEN);
 		exit(EXIT_FAILURE);
 	}
 	close(fd);
 	return (true);
 }
 
-static void	store_map_data(t_data *data, char *file_path)
+static void	copy_file_contents(t_data *data, char *file_path)
 {
 	data->map_data.nbr_of_lines = count_lines(file_path);
 	data->map_data.path = file_path;
 	data->map_data.file_data = (char **) ft_calloc(data->map_data.nbr_of_lines + 1, sizeof(char *));
 	if (!data->map_data.file_data)
 	{
-		perror("store_map_data");
+		perror("copy_file_contents");
 		exit(EXIT_FAILURE);
 	}
-	store_file_contents(&data->map_data, file_path);
+	copy_line_by_line(&data->map_data, file_path);
 }
+

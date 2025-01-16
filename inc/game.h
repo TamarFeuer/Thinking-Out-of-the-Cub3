@@ -62,6 +62,16 @@ typedef struct s_game
 
 }	t_game;
 
+typedef struct s_textures
+{
+	char	*north;
+	char	*south;
+	char	*west;
+	char	*east;
+	char	*floor;
+	char	*ceiling;
+}	t_textures;
+
 typedef struct s_mapdata
 {
 	char	*path;
@@ -74,6 +84,7 @@ typedef struct s_mapdata
 typedef struct s_data
 {
 	t_mapdata	map_data;
+	t_textures	textures;
 }	t_data;
 
 
@@ -100,8 +111,9 @@ char	*get_next_line(int fd);
 void	init_data_struct(t_data **data);
 void	parse_file(t_data *data, char *file_path);
 int		count_lines(char *file_path);
-void	store_file_contents(t_mapdata *mapinfo, char *file_path);
+void	copy_line_by_line(t_mapdata *mapinfo, char *file_path);
 void	ft_print_arr(char **arr);
+void parse_identifiers(t_data *data);
 
 
 #endif

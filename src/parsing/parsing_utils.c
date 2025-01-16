@@ -7,7 +7,7 @@ void	ft_print_arr(char **arr)
 	i = 0;
 	while (arr[i])
 	{
-		printf("%s\n", arr[i]);
+		printf("%s", arr[i]);
 		i++;
 	}
 }

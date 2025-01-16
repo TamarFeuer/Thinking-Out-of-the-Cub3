@@ -24,7 +24,7 @@ int	count_lines(char *file_path)
 	return (nbr_of_lines);
 }
 
-void	store_file_contents(t_mapdata *mapdata, char *file_path)
+void	copy_line_by_line(t_mapdata *mapdata, char *file_path)
 {
 	int		fd;
 	char	*curr_line;
@@ -36,7 +36,7 @@ void	store_file_contents(t_mapdata *mapdata, char *file_path)
 	fd = open(file_path, O_RDONLY);
 	if (fd < 0)
 	{
-		perror("store_file_contents");
+		perror("copy_line_by_line");
 		exit(EXIT_FAILURE);
 	}
 	curr_line = get_next_line(fd);
@@ -47,7 +47,7 @@ void	store_file_contents(t_mapdata *mapdata, char *file_path)
 		mapdata->file_data[row] = (char *) ft_calloc(line_len + 1, sizeof(char));
 		if (!mapdata->file_data[row])
 		{
-			perror("store_file_contents");
+			perror("copy_line_by_line");
 			exit(EXIT_FAILURE);
 		}
 		i = 0;
