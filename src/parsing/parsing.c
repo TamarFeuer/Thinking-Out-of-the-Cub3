@@ -3,7 +3,7 @@
 void		init_data_struct(t_data **data);
 void		parse_file(t_data *data, char *file_path);
 static bool	check_file_extension(char *file_path);
-static bool	check_file_format(char *file_path);
+bool		check_file_format(char *file_path);
 static void	copy_file_contents(t_data *data, char *file_path);
 
 void	init_data_struct(t_data **data)
@@ -19,7 +19,8 @@ void	parse_file(t_data *data, char *file_path)
 	check_file_extension(file_path);
 	check_file_format(file_path);
 	copy_file_contents(data, file_path);
-	parse_identifiers(data);
+	parse_identifiers(data); //I should pass i and j values here, so that parse_map can also use them.
+	parse_map(data);
 	// ft_print_arr(data->map_data.file_data);
 	(void) data;
 	printf("PARSING OK!\n");
@@ -40,7 +41,7 @@ static bool	check_file_extension(char *file_path)
 	return (true);
 }
 
-static bool	check_file_format(char *file_path)
+bool	check_file_format(char *file_path)
 {
 	int	fd;
 
@@ -48,12 +49,12 @@ static bool	check_file_format(char *file_path)
 	if (fd >= 3)
 	{
 		close(fd);
-		printf("%s", ERR_IS_DIR);
+		printf("%s\n", ERR_IS_DIR);
 	}
 	fd = open(file_path, O_RDONLY);
 	if (fd < 0)
 	{
-		printf("%s", ERR_OPEN);
+		printf("%s\n", ERR_OPEN);
 		exit(EXIT_FAILURE);
 	}
 	close(fd);

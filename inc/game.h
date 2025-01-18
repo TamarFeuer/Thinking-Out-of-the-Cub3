@@ -97,6 +97,7 @@ void	print_stats(t_game *game);
 void	clean_nicely(t_game *game);
 
 // LIBFT
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
 char	*ft_strdup(char const *str);
 void	*ft_memset(void *s, int c, size_t n);
@@ -113,7 +114,8 @@ void	parse_file(t_data *data, char *file_path);
 int		count_lines(char *file_path);
 void	copy_line_by_line(t_mapdata *mapinfo, char *file_path);
 void	ft_print_arr(char **arr);
-void parse_identifiers(t_data *data);
+void 	parse_identifiers(t_data *data);
+bool	check_file_format(char *file_path);
 
 
 #endif
