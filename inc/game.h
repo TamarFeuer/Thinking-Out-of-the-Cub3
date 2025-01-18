@@ -77,6 +77,7 @@ typedef struct s_mapdata
 	char	*path;
 	int		nbr_of_lines;
 	char	**file_data;
+	char	**map;
 	int		height;
 	int		width;
 }	t_mapdata;
@@ -106,6 +107,7 @@ char	*ft_itoa(int n);
 char	*ft_ftoa(float n, int precision);
 char	*ft_strjoin(char const *s1, char const *s2);
 float	limit_decimal_places(float number, int decimal_places);
+int		ft_isdigit(char c);
 
 // PARSING
 char	*get_next_line(int fd);
@@ -114,8 +116,9 @@ void	parse_file(t_data *data, char *file_path);
 int		count_lines(char *file_path);
 void	copy_line_by_line(t_mapdata *mapinfo, char *file_path);
 void	ft_print_arr(char **arr);
-void parse_identifiers(t_data *data, int *i, int *j);
+void 	parse_identifiers(t_data *data, int *i, int *j);
 bool	check_file_format(char *file_path);
+void 	parse_map(t_data *data, int *i, int *j);
 
 
 #endif
