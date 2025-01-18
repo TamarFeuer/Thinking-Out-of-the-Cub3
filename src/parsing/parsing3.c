@@ -12,11 +12,11 @@ void parse_identifiers(t_data *data, int *i, int *j)
 	while (map[*i] && map[*i][*j]) //Skips empty lines and whitespaces
 	{
 		while (map[*i][*j] == ' ' || map[*i][*j] == '\t') //Skip spaces function?
-			j++;
+			*j += 1;
 		if (map[*i][*j] != '\n')
 			get_identifier(data, i, j);
-		j = 0;
-		i++;
+		*j = 0;
+		*i += 1;
 		if (data->textures.north && data->textures.south && data->textures.east \
 			&& data->textures.west && data->textures.ceiling && data->textures.floor)
 			break ;

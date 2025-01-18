@@ -114,7 +114,7 @@ void	parse_file(t_data *data, char *file_path);
 int		count_lines(char *file_path);
 void	copy_line_by_line(t_mapdata *mapinfo, char *file_path);
 void	ft_print_arr(char **arr);
-void 	parse_identifiers(t_data *data);
+void parse_identifiers(t_data *data, int *i, int *j);
 bool	check_file_format(char *file_path);
 
 

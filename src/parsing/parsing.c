@@ -16,11 +16,16 @@ void	init_data_struct(t_data **data)
 
 void	parse_file(t_data *data, char *file_path)
 {
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
 	check_file_extension(file_path);
 	check_file_format(file_path);
 	copy_file_contents(data, file_path);
-	parse_identifiers(data); //I should pass i and j values here, so that parse_map can also use them.
-	parse_map(data);
+	parse_identifiers(data, &i, &j); //I should pass i and j values here, so that parse_map can also use them.
+	parse_map(data, &i, &j);
 	// ft_print_arr(data->map_data.file_data);
 	(void) data;
 	printf("PARSING OK!\n");
