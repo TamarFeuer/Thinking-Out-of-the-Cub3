@@ -26,7 +26,7 @@ void	parse_file(t_data *data, char *file_path)
 	copy_file_contents(data, file_path);
 	parse_identifiers(data, &i, &j); //I should pass i and j values here, so that parse_map can also use them.
 	parse_map(data, &i, &j);
-	// ft_print_arr(data->map_data.file_data);
+	ft_print_arr(data->map_data.map);
 	(void) data;
 	printf("PARSING OK!\n");
 }

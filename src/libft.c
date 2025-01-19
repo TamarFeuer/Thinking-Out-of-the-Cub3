@@ -1,5 +1,12 @@
 #include "../inc/game.h"
 
+bool	ft_is_pos_identifier(char c)
+{
+	if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
+		return (true);
+	return (false);
+}
+
 int	ft_isdigit(char c)
 {
 	if (c >= '0' && c <= '9')

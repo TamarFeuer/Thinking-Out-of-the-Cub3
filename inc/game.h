@@ -98,6 +98,7 @@ void	print_stats(t_game *game);
 void	clean_nicely(t_game *game);
 
 // LIBFT
+bool	ft_is_pos_identifier(char c);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
 char	*ft_strdup(char const *str);
