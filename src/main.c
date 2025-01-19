@@ -46,12 +46,15 @@ int	main(int argc, char *argv[])
 	t_game *game = (t_game *)ft_calloc(1, sizeof(t_game));
 	if (!game)
 		return (EXIT_FAILURE);
-	if (argc == 2 && ft_strncmp(argv[1], "-d", 3) == 0)
-		game->debug = true;
-	else
-		game->debug = false;
-	init_game_struct(game);
 	
+	init_game_struct(game);
+	if (argc == 2 && ft_strncmp(argv[1], "-d", 3) == 0)
+	{
+		game->is_debug = true;
+		game->is_mmap = true;
+	}
+	else
+		game->is_debug = false;
 	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Ray caster", true);
 	if (!game->mlx)
 		return (EXIT_FAILURE);

@@ -44,7 +44,7 @@ void	load_pngs(t_game *game)
 
 void init_game_struct(t_game *game)
 {
-	game->is_mmap = false;
+	game->is_mmap = true;
 	game->ray = ft_calloc(1, sizeof(t_ray));
 	if (!game->ray) //error
 		return;

@@ -35,7 +35,7 @@ void cast_rays(t_game *game)
 	
 	
 	game->ray->ray_n = 0;
-	if (game->debug == false)
+	if (game->is_debug == false)
 		game->ray->number_of_rays = NUMBER_OF_RAYS;
 	else
 		game->ray->number_of_rays = 1;
@@ -45,20 +45,20 @@ void cast_rays(t_game *game)
 		printf ("cast rays: angle is %f\n", game->ray->current_angle);
 		reach_nearest_wall_block(game, start, game->ray->current_angle);
 		
-		// DDA_ray(game, start, game->ray->end);
+		//DDA_ray(game, start, game->ray->end);
 		printf("1st: Ray %d: game->ray->distance %f, end.x %f, end.y %f\n\n", game->ray->ray_n, game->ray->distance, game->ray->end.x, game->ray->end.y);
 		
-		//reach_nearest_wall_block2(game, start, game->ray->current_angle);
+		reach_nearest_wall_block2(game, start, game->ray->current_angle);
 		
 		//printf("2nd: Ray %d: game->ray->distance %f, end.x %f, end.y %f\n\n", game->ray->ray_n, game->ray->distance, game->ray->end.x, game->ray->end.y);
 		//printf(" game->ray->ray_n is %d, angle is %f\n", game->ray->ray_n, game->ray->current_angle / M_PI);
 		//printf ("RAYS: end_x is %f and end_y %f\n wall found? %d\n", game->ray->end.x, game->ray->end.y,game->ray->wall_met );
 		//printf ("end.x %f, end.y %f\n", game->ray->end.x , game->ray->end.y);
 		
-		// if (game->is_mmap == true)
+		// if (game->is_mmap == true && game->is_debug == false)
 		// 	DDA_ray(game, start, game->ray->end);
 		
-		if (game->is_mmap == true)
+		if (game->is_mmap == true && game->is_debug == false)
 			bresenham_ray(game, start, game->ray->end);
 		
 		draw_the_thing(game);

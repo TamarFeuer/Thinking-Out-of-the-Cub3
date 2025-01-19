@@ -72,10 +72,10 @@ void	wall_drawing(t_game *game, float slice_height, int top_pixel, int low_pixel
 	{
 		if ((int)vertical_offset >= 0 && (int)vertical_offset < (int)texture->height
 			&& (int)horizontal_offset >= 0 && (int)horizontal_offset < (int)texture->width)
-			protected_put_pixel(game, game->ray->ray_n, top_pixel, 
+			safe_put_pixel(game, game->ray->ray_n, top_pixel, 
 				convert_to_mlx42_endian(arr[(int)vertical_offset * texture->width + (int)horizontal_offset]));
 		else
-			protected_put_pixel(game, game->ray->ray_n, top_pixel, 0x000000FF);
+			safe_put_pixel(game, game->ray->ray_n, top_pixel, 0x000000FF);
 		vertical_offset += factor;
 		top_pixel++;
 	}

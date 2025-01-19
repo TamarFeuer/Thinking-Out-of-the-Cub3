@@ -50,7 +50,7 @@ void reach_nearest_wall_block(t_game *game, t_pos start, double angle) //start a
 }
 
 
-void	inc_and_pixel_vert(t_game *game, float *increase_x, int *delta_x_to_next_vertical, \
+void	set_inc_vert(t_game *game, float *increase_x, int *delta_x_to_next_vertical, \
 															float *increase_y)
 {
 	if (game->ray->angle_quad == 1 || game->ray->angle_quad == 4) // quad 1 and quad 4
@@ -67,7 +67,7 @@ void	inc_and_pixel_vert(t_game *game, float *increase_x, int *delta_x_to_next_ve
 		*increase_y *= -1;
 }
 
-void	inc_and_pixel_horiz(t_game *game, float *increase_y, int *delta_y_to_next_horiz, \
+void	set_inc_horiz(t_game *game, float *increase_y, int *delta_y_to_next_horiz, \
 															float *increase_x)
 {
 	(void)increase_x;
@@ -81,7 +81,6 @@ void	inc_and_pixel_horiz(t_game *game, float *increase_y, int *delta_y_to_next_h
 		*increase_y = -4 * 8;
 		*delta_y_to_next_horiz = -1; //0
 	}
-	// if (game->ray->angle_quad == 2 || game->ray->angle_quad == 3)
 	if (game->ray->angle_quad == 3 || game->ray->angle_quad == 4)
 		*increase_x *= -1;
 	
@@ -119,7 +118,7 @@ float	horiz_intersect(t_game *game, float angle)
 	//printf ("\nHORIZONTAL:\n");
 	delta_y_to_next_horiz = 0;
 	increase_x = 4 * 8 / tan(angle);
-	inc_and_pixel_horiz(game, &increase_y, &delta_y_to_next_horiz, &increase_x);
+	set_inc_horiz(game, &increase_y, &delta_y_to_next_horiz, &increase_x);
 	//printf ("increase_x is %f\n", increase_x);
 	//printf ("increase_y is %f, delta_y_to_next_horiz is %d, \n", increase_y, delta_y_to_next_horiz);
 	
@@ -130,8 +129,11 @@ float	horiz_intersect(t_game *game, float angle)
 	//printf ("game->camera.y %d, floor(game->camera.y / (4.0*8.0)) %f\n", game->camera.y, floor(game->camera.y / (4.0*8.0)));
 	game->ray->inter.x = (game->camera.x - X_START) - (game->ray->inter.y - game->camera.y) / tan(angle);
 	//printf ("game->ray->inter.x %f\n", game->ray->inter.x);
+	
 	while (!is_out_of_bounds(game->ray->inter) && !is_wall_hit(game, game->ray->inter))
 	{
+		if (game->is_debug )
+		safe_put_pixel(game, (int)game->ray->inter.x, (int)game->ray->inter.y, 0xFF00FFFF);
 		//mlx_put_pixel(game->rays, (int)round(game->ray->inter.x) - X_START, (int)round(game->ray->inter.y) - Y_START, 0xFFBBBBFF);
 		//printf ("horiz intersect: did not hit wall yet\n");
 		game->ray->inter.y += increase_y;
@@ -139,6 +141,8 @@ float	horiz_intersect(t_game *game, float angle)
 	}
 	if (is_out_of_bounds(game->ray->inter))
 		return (OUT_OF_BOUNDS);
+	if (game->is_debug )
+		safe_put_pixel(game, (int)game->ray->inter.x, (int)game->ray->inter.y, 0xFF00FFFF);
 	game->ray->h_hit_x = game->ray->inter.x;
 	game->ray->h_hit_y = game->ray->inter.y;
 	//printf ("horiz intersect: end.x is %f and end.y is %f\n", game->ray->h_hit_x, game->ray->h_hit_y = game->ray->h_hit_x);
@@ -159,7 +163,7 @@ float	vertical_intersect(t_game *game, float angle)
 	//increase_x = 4 * 8;
 	increase_y = 4 * 8 * tan(angle); //how much y changes when x changes by 1 (or -1) block_size
 	
-	inc_and_pixel_vert(game, &increase_x, &delta_x_to_next_vertical, &increase_y);
+	set_inc_vert(game, &increase_x, &delta_x_to_next_vertical, &increase_y);
 	//printf ("increase_y is %f\n", increase_y);
 	//printf ("increase_x is %f, delta_x_to_next_vertical is %d, \n", increase_x, delta_x_to_next_vertical);
 	
@@ -171,6 +175,8 @@ float	vertical_intersect(t_game *game, float angle)
 	//printf ("game->ray->inter.y %f\n", game->ray->inter.y);
 	while (!is_out_of_bounds(game->ray->inter) && !is_wall_hit(game, game->ray->inter))
 	{
+		if (game->is_debug )
+		safe_put_pixel(game, (int)game->ray->inter.x, (int)game->ray->inter.y, 0xFFFF00FF);
 		//printf ("vertical intersect. did not hit wall yet\n");
 		//mlx_put_pixel(game->rays, (int)round(game->ray->inter.x) - X_START,  (int)round(game->ray->inter.y) - Y_START, 0x008000FF);
 		game->ray->inter.y += increase_y; //the sign was already dealt with
@@ -180,6 +186,8 @@ float	vertical_intersect(t_game *game, float angle)
 	}
 	if (is_out_of_bounds(game->ray->inter))
 		return (OUT_OF_BOUNDS);
+	if (game->is_debug )
+		safe_put_pixel(game, (int)game->ray->inter.x, (int)game->ray->inter.y, 0xFFFF00FF);
 	game->ray->v_hit_x = game->ray->inter.x;
 	game->ray->v_hit_y = game->ray->inter.y;
 	//printf ("vertical intersect, end.x is %f and end.y is %f\n", game->ray->v_hit_x = inter_x, game->ray->v_hit_y = inter_y);

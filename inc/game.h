@@ -124,7 +124,7 @@ typedef struct s_ray
 
 typedef struct s_game
 {
-	bool			debug;
+	bool			is_debug;
 	bool			is_mmap;
 	mlx_t			*mlx;
 	char			*mapdata;
@@ -162,7 +162,7 @@ void 	reach_nearest_wall_block2(t_game *game, t_pos start, double angle);
 void 	draw_player_direction(t_game *game, t_pos start, double angle);
 void 	draw_the_thing(t_game *game);
 void	normalize_angle_to_2pi(float *angle);
-void	protected_put_pixel(t_game *game, int x, int y, int color);
+void	safe_put_pixel(t_game *game, int x, int y, int color);
 int		convert_to_mlx42_endian(int c);
 void 	determine_quad(double angle, int *quad);
 void	absolute(int *d, int *i);
