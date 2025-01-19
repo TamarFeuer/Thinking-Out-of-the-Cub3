@@ -2,14 +2,14 @@
 
 void	delete_static_images(t_game *game)
 {
-	if (game->rays)
-		mlx_delete_image(game->mlx, game->rays);
 	if (game->stats)
 		mlx_delete_image(game->mlx, game->stats);
 	if (game->fill)
 		mlx_delete_image(game->mlx, game->fill);
 	if (game->scene)
 		mlx_delete_image(game->mlx, game->scene);
+	if (game->grid)
+		mlx_delete_image(game->mlx, game->grid);
 }
 
 void	clean_nicely(t_game *game)  //use ft_free as in minishell
@@ -36,3 +36,4 @@ void	clean_nicely(t_game *game)  //use ft_free as in minishell
 		free(game);
 	}
 }
+ //add cleaning the wall textures

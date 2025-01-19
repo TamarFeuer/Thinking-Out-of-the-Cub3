@@ -38,7 +38,7 @@ void bresenham_ray(t_game *game, t_pos start, t_pos end)
             }
             distance =  sqrt((x - start.x) * (x - start.x) + (y - start.y) * (y - start.y));
             //printf ("negative slope, distance is %d\n", distance);
-			mlx_put_pixel(game->rays, x, y, distance_to_color(distance));
+			mlx_put_pixel(game->scene, x, y, distance_to_color(distance));
 			
 			if (decision_variable >= 0)
 			{
@@ -71,7 +71,7 @@ void bresenham_ray(t_game *game, t_pos start, t_pos end)
 			//int distance = get_distance(start, end);
             distance =  sqrt((x - start.x) * (x - start.x) + (y - start.y) * (y - start.y));
             //printf ("positive slope, distance is %d\n", distance);
-			mlx_put_pixel(game->rays, x, y, distance_to_color(distance));
+			mlx_put_pixel(game->scene, x, y, distance_to_color(distance));
 			
 			if (decision_variable >= 0)
 			{
@@ -108,8 +108,8 @@ void DDA_ray(t_game *game, t_pos start, t_pos end)
         double distance = get_distance(start, (t_pos){x, y});
         
         //printf("Distance at step %d: %f\n", step_count, distance);
-        //mlx_put_pixel(game->rays, (int)round(x), (int)round(y), distance_to_color(distance));
-        mlx_put_pixel(game->rays, (int)round(x) - X_START,  (int)round(y) - Y_START, 
+        //mlx_put_pixel(game->scene, (int)round(x), (int)round(y), distance_to_color(distance));
+        mlx_put_pixel(game->scene, (int)round(x) - X_START,  (int)round(y) - Y_START, 
 			convert_to_mlx42_endian(distance_to_color(distance)));
     
         x += x_increment;

@@ -1,16 +1,16 @@
 #include "../inc/game.h"
-float	get_x_o(mlx_texture_t *texture, t_game *game)
+float	get_x_offset(mlx_texture_t *texture, t_game *game)
 {
-	double	x_o;
+	double	x_offset;
 	
 	
 	if (!game->ray->found_vertical_first)
-		x_o = (int)fmodf((game->ray->end.x *
+		x_offset = (int)fmodf((game->ray->end.x *
 				(texture->width / SCENE_BLOCK_SIZE)), texture->width);
 	else
-	 	x_o = (int)fmodf((game->ray->end.y * 
+	 	x_offset = (int)fmodf((game->ray->end.y * 
 				(texture->width /SCENE_BLOCK_SIZE)), texture->width);
-	return (x_o);
+	return (x_offset);
 }
 
 mlx_texture_t	*get_texture(t_game *game)
@@ -48,41 +48,46 @@ mlx_texture_t	*get_texture(t_game *game)
 }
 
 
-void	wall_drawing(t_game *game, float slice_height, int high_pixel, int low_pixel)
+void	wall_drawing(t_game *game, float slice_height, int top_pixel, int low_pixel)
 {
-	double			x_o;
-	double			y_o;
+	double			horizontal_offset;
+	double			vertical_offset;
 	double			factor;
 	uint32_t		*arr;
 	mlx_texture_t	*texture;
 
 	texture = get_texture(game);
+	if (texture == NULL) 
+	{
+    	printf("Error: Texture not found.\n");
+    	return;
+	}
 	arr = (uint32_t *)texture->pixels;
 	factor = (double)texture->height / slice_height;
-	x_o = get_x_o(texture, game);
-	y_o = (high_pixel - (SCENE_HEIGHT / 2) + (slice_height / 2)) * factor;
-	if (y_o < 0)
-		y_o = 0;
-	while (high_pixel < low_pixel)
+	horizontal_offset = get_x_offset(texture, game);
+	vertical_offset = (top_pixel - (SCENE_HEIGHT / 2) + (slice_height / 2)) * factor;
+	if (vertical_offset < 0)
+		vertical_offset = 0;
+	while (top_pixel < low_pixel)
 	{
-		if ((int)y_o >= 0 && (int)y_o < (int)texture->height
-			&& (int)x_o >= 0 && (int)x_o < (int)texture->width)
-			protected_put_pixel(game, game->ray->ray_n, high_pixel, 
-				convert_to_mlx42_endian(arr[(int)y_o * texture->width + (int)x_o]));
+		if ((int)vertical_offset >= 0 && (int)vertical_offset < (int)texture->height
+			&& (int)horizontal_offset >= 0 && (int)horizontal_offset < (int)texture->width)
+			protected_put_pixel(game, game->ray->ray_n, top_pixel, 
+				convert_to_mlx42_endian(arr[(int)vertical_offset * texture->width + (int)horizontal_offset]));
 		else
-			protected_put_pixel(game, game->ray->ray_n, 
-				high_pixel, 0x000000FF);
-		y_o += factor;
-		high_pixel++;
+			protected_put_pixel(game, game->ray->ray_n, top_pixel, 0x000000FF);
+		vertical_offset += factor;
+		top_pixel++;
 	}
 }
+
 
 
 void	manage_wall_slice(t_game *game)
 {
 	float	slice_height;
-	int		low_pixel;
-	int		high_pixel;
+	int		bottom_pixel;
+	int		top_pixel;
 	float	relative_ray_angle;
 
 	relative_ray_angle = game->ray->current_angle - game->player.angle;
@@ -91,18 +96,17 @@ void	manage_wall_slice(t_game *game)
 	
 	slice_height = SCENE_BLOCK_SIZE / game->ray->corrected_distance * 
 					game->camera.plane_distance;
-	low_pixel = SCENE_HEIGHT / 2 + slice_height / 2;
-	high_pixel = SCENE_HEIGHT / 2 - slice_height / 2;
-	if (high_pixel < 0)
-		high_pixel = 0;
-	if (low_pixel > SCENE_HEIGHT)
-		low_pixel = SCENE_HEIGHT;
+	bottom_pixel = SCENE_HEIGHT / 2 + slice_height / 2;
+	top_pixel = SCENE_HEIGHT / 2 - slice_height / 2;
+	if (top_pixel < 0)
+		top_pixel = 0;
+	if (bottom_pixel > SCENE_HEIGHT)
+		bottom_pixel = SCENE_HEIGHT;
 	
-	wall_drawing(game, slice_height, high_pixel, low_pixel);
+	wall_drawing(game, slice_height, top_pixel, bottom_pixel);
 	
-	// while (low_pixel < SCREEN_HEIGHT)
-	// 	mlx_put_pixel(game->scene, 
-	// 				game->ray->ray_n, low_pixel++, 0xFF00cc40);
+	while (bottom_pixel < SCREEN_HEIGHT)
+		mlx_put_pixel(game->scene, game->ray->ray_n, bottom_pixel++, FLOOR_COLOR);
 }
 
 

@@ -37,7 +37,7 @@
 
 //rays
 #define FOV 60.0 // Field of View in degrees
-#define NUMBER_OF_RAYS 120
+#define NUMBER_OF_RAYS 640
 #define MAX_RAY_LENGTH 400
 #define MAX_RAY_DISTANCE 300
 #define DISTANCE_PER_TURN 1 * CONST
@@ -45,11 +45,11 @@
 
 
 //scene
-#define SCENE_BLOCK_SIZE 64
+#define SCENE_BLOCK_SIZE 32
 #define SCENE_WIDTH  1920
-#define SCENE_HEIGHT 600
+#define SCENE_HEIGHT 1080
 #define PROJECTION_DISTANCE 1108
-
+#define FLOOR_COLOR 0xFF00cc40
 
 typedef struct s_pos
 {
@@ -129,11 +129,10 @@ typedef struct s_game
 	mlx_t			*mlx;
 	char			*mapdata;
 	mlx_image_t 	*fill;
-	mlx_image_t 	*rays; //including player
+	mlx_image_t 	*scene; //including player
 	t_ray			*ray;
 	mlx_image_t 	*grid;
 	mlx_image_t 	*stats;
-	mlx_image_t 	*scene;
 	t_player		player;
 	t_camera		camera;
 	mlx_texture_t	*north;

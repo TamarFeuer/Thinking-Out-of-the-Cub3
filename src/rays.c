@@ -32,6 +32,8 @@ void cast_rays(t_game *game)
 	determine_quad(game->ray->current_angle, &game->ray->angle_quad);
 	printf ("cast rays: angle is %f\n", game->ray->current_angle);
 	
+	
+	
 	game->ray->ray_n = 0;
 	if (game->debug == false)
 		game->ray->number_of_rays = NUMBER_OF_RAYS;
@@ -53,9 +55,11 @@ void cast_rays(t_game *game)
 		//printf ("RAYS: end_x is %f and end_y %f\n wall found? %d\n", game->ray->end.x, game->ray->end.y,game->ray->wall_met );
 		//printf ("end.x %f, end.y %f\n", game->ray->end.x , game->ray->end.y);
 		
-		//DDA_ray(game, start, game->ray->end);
-
-		bresenham_ray(game, start, game->ray->end);
+		// if (game->is_mmap == true)
+		// 	DDA_ray(game, start, game->ray->end);
+		
+		if (game->is_mmap == true)
+			bresenham_ray(game, start, game->ray->end);
 		
 		draw_the_thing(game);
 		
@@ -66,6 +70,5 @@ void cast_rays(t_game *game)
 		determine_quad(game->ray->current_angle, &game->ray->angle_quad);
 		game->ray->ray_n++;
 	}
-	//draw_player_direction(game, start, game->player.angle);
 }
 

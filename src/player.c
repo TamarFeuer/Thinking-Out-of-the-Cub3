@@ -2,11 +2,11 @@
 
 void draw_player_direction(t_game *game, t_pos start, double angle)
 {
-	// if (game->rays)
-	// 	mlx_delete_image(game->mlx, game->rays);
+	// if (game->scene)
+	// 	mlx_delete_image(game->mlx, game->scene);
 
-	// game->rays = mlx_new_image(game->mlx, MMAP_WIDTH, MMAP_HEIGHT);  //+ 100
-	// if (!game->rays|| (mlx_image_to_window(game->mlx, game->rays ,X_START, Y_START) < 0))
+	// game->scene = mlx_new_image(game->mlx, MMAP_WIDTH, MMAP_HEIGHT);  //+ 100
+	// if (!game->scene|| (mlx_image_to_window(game->mlx, game->scene ,X_START, Y_START) < 0))
 	// 	return; //error msg
 	double end_x = start.x;
 	double end_y = start.y;
@@ -19,7 +19,7 @@ void draw_player_direction(t_game *game, t_pos start, double angle)
 		distance += step_size;
 		if (game->mapdata[get_block_index(&(t_pos){end_x, end_y})] == 1)
 			return;
-		mlx_put_pixel(game->rays, (int)end_x - X_START, (int)end_y - Y_START, 0xFF0000FF);
+		mlx_put_pixel(game->scene, (int)end_x - X_START, (int)end_y - Y_START, 0xFF0000FF);
 	}
 }
 
@@ -30,23 +30,23 @@ void draw_player(t_game *game)
 	int y = round(game->player.p_pos.y);
 	//printf ("y is %d\n", y);
 
-	// if (game->rays)
-	// 	mlx_delete_image(game->mlx, game->rays);
+	// if (game->scene)
+	// 	mlx_delete_image(game->mlx, game->tays);
 
-	// game->rays = mlx_new_image(game->mlx, MMAP_WIDTH, MMAP_HEIGHT);
-	// if (!game->rays)
+	// game->scene = mlx_new_image(game->mlx, MMAP_WIDTH, MMAP_HEIGHT);
+	// if (!game->scene)
 	// {
 	// 	printf("Failed to create player image.\n");
 	// 	return;
 	// }
-	//mlx_image_to_window(game->mlx, game->rays, X_START, Y_START);
+	mlx_image_to_window(game->mlx, game->scene, X_START, Y_START);
 	int i = 0;
 	while (i < size)
 	{
 		int j = 0;
 		while (j < size)
 		{
-			mlx_put_pixel(game->rays, (x - X_START) + i, (y - Y_START) + j, 0xC8A2C8FF);
+			mlx_put_pixel(game->scene, (x - X_START) + i, (y - Y_START) + j, 0xC8A2C8FF);
 			j++;
 		}
 		i++;
