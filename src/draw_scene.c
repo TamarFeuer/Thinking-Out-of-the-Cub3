@@ -94,9 +94,12 @@ void	manage_wall_slice(t_game *game)
 	normalize_angle_to_2pi(&relative_ray_angle);
 	game->ray->corrected_distance = game->ray->distance * cos(relative_ray_angle);  //fixing fish eye
 	
-	slice_height = SCENE_BLOCK_SIZE / game->ray->corrected_distance * 
-					game->camera.plane_distance;
+	slice_height = SCENE_BLOCK_SIZE / game->ray->corrected_distance * game->camera.plane_distance;
+	printf ("slice_height is %f\n", slice_height);
+	printf ("game->camera.plane_distance is %f\n", game->camera.plane_distance);
+	printf ("game->ray->corrected_distance is %f\n", game->ray->corrected_distance);
 	bottom_pixel = SCENE_HEIGHT / 2 + slice_height / 2;
+	printf ("bottom pixel is %d\n", bottom_pixel);
 	top_pixel = SCENE_HEIGHT / 2 - slice_height / 2;
 	if (top_pixel < 0)
 		top_pixel = 0;
@@ -106,7 +109,8 @@ void	manage_wall_slice(t_game *game)
 	wall_drawing(game, slice_height, top_pixel, bottom_pixel);
 	
 	while (bottom_pixel < SCREEN_HEIGHT)
-		mlx_put_pixel(game->scene, game->ray->ray_n, bottom_pixel++, FLOOR_COLOR);
+		//mlx_put_pixel(game->scene, game->ray->ray_n, bottom_pixel++, FLOOR_COLOR);
+		safe_put_pixel(game, game->ray->ray_n, bottom_pixel++, FLOOR_COLOR);
 }
 
 

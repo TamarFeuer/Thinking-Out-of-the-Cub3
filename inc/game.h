@@ -13,7 +13,6 @@
 #define SCREEN_WIDTH 1920
 #define SCREEN_HEIGHT 1080
 
-
 //map
 #define ROWS 8
 #define COLS 10
@@ -42,7 +41,6 @@
 #define MAX_RAY_DISTANCE 300
 #define DISTANCE_PER_TURN 1 * CONST
 #define OUT_OF_BOUNDS 1000000000
-
 
 //scene
 #define SCENE_BLOCK_SIZE 32
@@ -74,9 +72,6 @@ typedef struct s_point
 // }	t_wall_slice;
 
 
-
-
-
 typedef struct s_player
 {
     t_pos		p_pos;
@@ -87,11 +82,10 @@ typedef struct s_player
 
 typedef struct s_camera
 {
-	int			x;
-	float		float_x;
+	// int		x;
+	// int		y;
+	t_pos		pos;
 	float		pdx;
-	int			y;
-	float		float_y;
 	float		pdy;
 	float		angle;
 	float		fov_radi;

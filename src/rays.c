@@ -23,14 +23,14 @@ double get_distance(t_pos start, t_pos end)
 
 void cast_rays(t_game *game)
 {
-	t_pos start = {game->camera.x, game->camera.y};
+	// t_pos start = {game->camera.pos.x, game->camera.pos.y};
 
 	float step = FOV * DEG_TO_RAD / NUMBER_OF_RAYS;
 	// printf ("step is %f\n", step);
 	game->ray->current_angle = game->player.angle + (FOV / 2) * DEG_TO_RAD;
 	normalize_angle_to_2pi(&game->ray->current_angle);
 	determine_quad(game->ray->current_angle, &game->ray->angle_quad);
-	printf ("cast rays: angle is %f\n", game->ray->current_angle);
+	//printf ("cast rays: angle is %f\n", game->ray->current_angle);
 	
 	
 	
@@ -42,15 +42,15 @@ void cast_rays(t_game *game)
 		
 	while (game->ray->ray_n < game->ray->number_of_rays)
 	{
-		printf ("cast rays: angle is %f\n", game->ray->current_angle);
-		reach_nearest_wall_block(game, start, game->ray->current_angle);
+		//printf ("cast rays: angle is %f\n", game->ray->current_angle);
+		reach_nearest_wall_block(game, game->camera.pos, game->ray->current_angle);
 		
 		//DDA_ray(game, start, game->ray->end);
-		printf("1st: Ray %d: game->ray->distance %f, end.x %f, end.y %f\n\n", game->ray->ray_n, game->ray->distance, game->ray->end.x, game->ray->end.y);
+		//printf("1st: Ray %d: game->ray->distance %f, end.x %f, end.y %f\n\n", game->ray->ray_n, game->ray->distance, game->ray->end.x, game->ray->end.y);
 		
-		reach_nearest_wall_block2(game, start, game->ray->current_angle);
+		//reach_nearest_wall_block2(game, game->camera.pos, game->ray->current_angle);
 		
-		//printf("2nd: Ray %d: game->ray->distance %f, end.x %f, end.y %f\n\n", game->ray->ray_n, game->ray->distance, game->ray->end.x, game->ray->end.y);
+		printf("2nd: Ray %d: game->ray->distance %f, end.x %f, end.y %f\n\n", game->ray->ray_n, game->ray->distance, game->ray->end.x, game->ray->end.y);
 		//printf(" game->ray->ray_n is %d, angle is %f\n", game->ray->ray_n, game->ray->current_angle / M_PI);
 		//printf ("RAYS: end_x is %f and end_y %f\n wall found? %d\n", game->ray->end.x, game->ray->end.y,game->ray->wall_met );
 		//printf ("end.x %f, end.y %f\n", game->ray->end.x , game->ray->end.y);
@@ -59,7 +59,7 @@ void cast_rays(t_game *game)
 		// 	DDA_ray(game, start, game->ray->end);
 		
 		if (game->is_mmap == true && game->is_debug == false)
-			bresenham_ray(game, start, game->ray->end);
+			bresenham_ray(game, game->camera.pos, game->ray->end);
 		
 		draw_the_thing(game);
 		

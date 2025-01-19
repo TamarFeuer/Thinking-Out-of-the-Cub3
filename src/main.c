@@ -18,7 +18,7 @@ void draw_all(void *param)
 	cast_rays(game);
 	
 	if (game->is_mmap)
-		draw_player_direction(game, (t_pos){game->camera.x, game->camera.y}, game->player.angle);
+		draw_player_direction(game, (t_pos){game->camera.pos.x, game->camera.pos.y}, game->player.angle);
 	
 }
 

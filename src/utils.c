@@ -36,14 +36,25 @@ void determine_quad(double angle, int *quad)
 void	safe_put_pixel(t_game *game, int x, int y, int color)
 {
 	if (x < 0)
+	{
+		printf("out of bounds, x too small\n");
 		return ;
+	}
 	else if (x >= SCREEN_WIDTH)
+	{
+		printf("out of bounds, x too big\n");
 		return ;
+	}
 	if (y < 0)
+	{
+		//printf("out of bounds, y too small\n");
 		return ;
+	}
 	else if (y >= SCREEN_HEIGHT)
+	{
+		printf("out of bounds, y too big\n");
 		return ;
-	
+	}
 	mlx_put_pixel(game->scene, x, y, color);
 }
 

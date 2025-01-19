@@ -60,8 +60,8 @@ void init_game_struct(t_game *game)
 	game->ray->angle_quad = 1;
 	game->ray->inter.x = 0;
 	game->ray->inter.y = 0;
-	game->camera.x = game->player.p_pos.x + CONST /2;
-	game->camera.y = game->player.p_pos.y + CONST /2;
+	game->camera.pos.x = game->player.p_pos.x + CONST /2;
+	game->camera.pos.y = game->player.p_pos.y + CONST /2;
 	game->camera.plane_distance = SCREEN_WIDTH / 2 * (tan(FOV * DEG_TO_RAD/ 2)); //?
 	init_map(game);
 	load_pngs(game);
