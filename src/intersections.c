@@ -215,5 +215,6 @@ void reach_nearest_wall_block2(t_game *game, t_pos start, double angle)
 		game->ray->found_vertical_first = false;
 		game->ray->end.x = game->ray->h_hit_x;
 		game->ray->end.y = game->ray->h_hit_y;
+		game->ray->distance = get_distance(game->camera.pos, game->ray->end);
 	}
 }

@@ -90,7 +90,9 @@ void	manage_wall_slice(t_game *game)
 	int		top_pixel;
 	float	relative_ray_angle;
 
+	printf ("current_angle %f\n", game->ray->current_angle);
 	relative_ray_angle = game->ray->current_angle - game->player.angle;
+	printf ("relative_ray_angle %f\n", relative_ray_angle);
 	normalize_angle_to_2pi(&relative_ray_angle);
 	game->ray->corrected_distance = game->ray->distance * cos(relative_ray_angle);  //fixing fish eye
 	
