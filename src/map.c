@@ -1,51 +1,20 @@
 #include "../inc/game.h"
 
-void init_map(t_game *game)
-{
-    game->mapdata = malloc(ROWS * COLS * sizeof(char));
-    if (!game->mapdata)
-    {
-        exit(EXIT_FAILURE);
-    }
- 
-    int initial_map[ROWS][COLS] = 
-    {
-        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-        {1, 0, 0, 0, 1, 1, 0, 1, 0, 1},
-        {1, 0, 0, 0, 1, 1, 0, 1, 0, 1},
-        {1, 0, 0, 1, 1, 1, 0, 1, 0, 1},
-        {1, 0, 0, 0, 1, 1, 1, 1, 0, 1},
-        {1, 0, 0, 0, 1, 1, 0, 1, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-    };
-    
-    int i = 0;
-    while (i < ROWS)
-    {
-        int j = 0;
-        while (j < COLS)
-        {
-            game->mapdata[i * COLS + j] = initial_map[i][j];
-            j++;
-        }
-        i++;
-    }
-}
+
 
 void fill_grid(t_game *game, int rows, int cols)
 {
 	int col, row;
 	mlx_texture_t	*texture;
 	
-	texture = mlx_load_png("textures/helipad48.png");
+	texture = mlx_load_png("textures/helipad32.png");
 	if (!texture)
 		printf ("error loading texture\n");
 	game->fill = mlx_texture_to_image(game->mlx, texture);
 	if (!game->fill)
 		printf ("error converting texture to image\n");
 	mlx_delete_texture(texture);
-	printf ("rows = %d, cols = %d\n", rows, cols);
+	//printf ("rows = %d, cols = %d\n", rows, cols);
 	if (rows <= 0 || cols <= 0)
 		return;
 	row = 0;
@@ -83,7 +52,7 @@ void draw_grid(t_game *game, int rows, int cols)
 		x = x_start;
 		while (x <= x_end)
 		{
-			mlx_put_pixel(game->screen, x, Y_START + y, 0x777777FF);
+			mlx_put_pixel(game->grid, x, Y_START + y, 0x777777FF);  //safe_put_pixel
 			x++;
 		}
 		y += PIXELS_PER_BLOCK * CONST;
@@ -98,7 +67,7 @@ void draw_grid(t_game *game, int rows, int cols)
 		y = y_start;
 		while (y <= y_end)
 		{
-			mlx_put_pixel(game->screen, X_START + x, y, 0x777777FF);
+			mlx_put_pixel(game->grid, X_START + x, y, 0x777777FF);  //safe put pixel
 			y++;
 		}
 		x += PIXELS_PER_BLOCK * CONST;

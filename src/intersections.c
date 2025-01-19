@@ -49,60 +49,166 @@ void reach_nearest_wall_block(t_game *game, t_pos start, double angle) //start a
 	}
 }
 
-//  bool is_vertical_intersect (t_game *game, t_pos *end, double angle)
-//  {
-// 	// (void)game;
-// 	// (void)angle;
-// 	// (*end).x = game->player.p_pos.x;
-// 	// (*end).y = game->player.p_pos.y;
-// 	// if (game->player.angle_quad == 1 || game->player.angle_quad == 4)
-// 	// {	
-// 	// 	if ((int)round((*end).x) != X_START)
-// 	// 	{
-// 	// 		double dx = PIXELS_PER_BLOCK * CONST - (((int)round((*end).x) - X_START) % (PIXELS_PER_BLOCK * CONST ));
-// 	// 		printf ("dx is %f\n", dx);
-// 	// 		(*end).x += dx;
-// 	// 	}
-// 	// }
-// 	// else
+
+void	inc_and_pixel_vert(t_game *game, float *increase_x, int *delta_x_to_next_vertical, \
+															float *increase_y)
+{
+	if (game->ray->angle_quad == 1 || game->ray->angle_quad == 4) // quad 1 and quad 4
+	{
+		*increase_x = 4 * 8;
+		*delta_x_to_next_vertical = 4 * 8;
+	}
+	else if (game->ray->angle_quad == 2 || game->ray->angle_quad == 3) //quad 2 and quad 3
+	{
+		*increase_x = -4 * 8;
+		*delta_x_to_next_vertical =  -1;
+	}
+	if (game->ray->angle_quad == 1 || game->ray->angle_quad == 4)
+		*increase_y *= -1;
+}
+
+void	inc_and_pixel_horiz(t_game *game, float *increase_y, int *delta_y_to_next_horiz, \
+															float *increase_x)
+{
+	(void)increase_x;
+	if (game->ray->angle_quad == 3 || game->ray->angle_quad == 4)
+	{
+		*increase_y = 4 * 8;
+		*delta_y_to_next_horiz = 4 * 8;
+	}
+	else if (game->ray->angle_quad == 1 || game->ray->angle_quad == 2)
+	{
+		*increase_y = -4 * 8;
+		*delta_y_to_next_horiz = -1; //0
+	}
+	// if (game->ray->angle_quad == 2 || game->ray->angle_quad == 3)
+	if (game->ray->angle_quad == 3 || game->ray->angle_quad == 4)
+		*increase_x *= -1;
 	
-// 	// {
+}
+
+bool is_out_of_bounds(t_pos position)
+{
+	if (position.y < 0 || position.x < 0 || position.y >= ROWS * 4 * 8 || position.x >= COLS * 4 * 8)
+	{
+		//printf ("out of bounds\n");
+		return (true);
+	}
+	return (false);
+}
+
+
+int	is_wall_hit(t_game *game, t_pos inter)
+				//inter is not end													int flag)
+{
+	if (game->mapdata[get_block_index(&inter)] == 1)
+	{	
+		//printf ("game->ray->end.x %f, game->ray->end.y %f\n", game->ray->end.x, game->ray->end.y);
+		//printf ("hit wall\n");
+		return (true);
+	}
+	return (false);
+}
+
+float	horiz_intersect(t_game *game, float angle)
+{
+	float	increase_x;
+	float	increase_y;
+	int		delta_y_to_next_horiz;
+	
+	//printf ("\nHORIZONTAL:\n");
+	delta_y_to_next_horiz = 0;
+	increase_x = 4 * 8 / tan(angle);
+	inc_and_pixel_horiz(game, &increase_y, &delta_y_to_next_horiz, &increase_x);
+	//printf ("increase_x is %f\n", increase_x);
+	//printf ("increase_y is %f, delta_y_to_next_horiz is %d, \n", increase_y, delta_y_to_next_horiz);
+	
+	
+	game->ray->inter.y = floor((game->camera.y- Y_START) / (4 * 8)) * (4 * 8) + delta_y_to_next_horiz;
+	//printf ("game->ray->inter.y %f\n", game->ray->inter.y);
+	//printf ("game->camera.x %d\n", game->camera.x);
+	//printf ("game->camera.y %d, floor(game->camera.y / (4.0*8.0)) %f\n", game->camera.y, floor(game->camera.y / (4.0*8.0)));
+	game->ray->inter.x = (game->camera.x - X_START) - (game->ray->inter.y - game->camera.y) / tan(angle);
+	//printf ("game->ray->inter.x %f\n", game->ray->inter.x);
+	while (!is_out_of_bounds(game->ray->inter) && !is_wall_hit(game, game->ray->inter))
+	{
+		//mlx_put_pixel(game->rays, (int)round(game->ray->inter.x) - X_START, (int)round(game->ray->inter.y) - Y_START, 0xFFBBBBFF);
+		//printf ("horiz intersect: did not hit wall yet\n");
+		game->ray->inter.y += increase_y;
+		game->ray->inter.x += increase_x;
+	}
+	if (is_out_of_bounds(game->ray->inter))
+		return (OUT_OF_BOUNDS);
+	game->ray->h_hit_x = game->ray->inter.x;
+	game->ray->h_hit_y = game->ray->inter.y;
+	//printf ("horiz intersect: end.x is %f and end.y is %f\n", game->ray->h_hit_x, game->ray->h_hit_y = game->ray->h_hit_x);
+	return (sqrt(pow(game->ray->inter.x - game->camera.x, 2) + \
+				pow(game->ray->inter.y - game->camera.y, 2)));
+}
+// when x increase by 8 * 4, y increases by
+float	vertical_intersect(t_game *game, float angle)
+{
+	float	increase_x;
+	float	increase_y;
+	int		delta_x_to_next_vertical;
+
+	printf ("\nVERTICAL:\n");
+	delta_x_to_next_vertical = 0;
+	if (angle == M_PI / 2 || angle == 3 * M_PI / 2)
+		angle += 0.0001;
+	//increase_x = 4 * 8;
+	increase_y = 4 * 8 * tan(angle); //how much y changes when x changes by 1 (or -1) block_size
+	
+	inc_and_pixel_vert(game, &increase_x, &delta_x_to_next_vertical, &increase_y);
+	//printf ("increase_y is %f\n", increase_y);
+	//printf ("increase_x is %f, delta_x_to_next_vertical is %d, \n", increase_x, delta_x_to_next_vertical);
+	
+	game->ray->inter.x = floor(game->camera.x / (4 * 8)) * 4 * 8 + delta_x_to_next_vertical;
+	//printf ("game->ray->inter.x %f\n", game->ray->inter.x);
+	//printf ("game->camera.x %d, floor(game->camera.x / (4.0*8.0)) %f\n", game->camera.x, floor(game->camera.x / (4.0*8.0)));
+	game->ray->inter.y = game->camera.y - (game->ray->inter.x - game->camera.x) * tan(angle);
+	
+	//printf ("game->ray->inter.y %f\n", game->ray->inter.y);
+	while (!is_out_of_bounds(game->ray->inter) && !is_wall_hit(game, game->ray->inter))
+	{
+		//printf ("vertical intersect. did not hit wall yet\n");
+		//mlx_put_pixel(game->rays, (int)round(game->ray->inter.x) - X_START,  (int)round(game->ray->inter.y) - Y_START, 0x008000FF);
+		game->ray->inter.y += increase_y; //the sign was already dealt with
+		game->ray->inter.x += increase_x;
+		//printf ("inter_x is %f, inter_y is %f\n", game->ray->inter.x, game->ray->inter.y);
+		
+	}
+	if (is_out_of_bounds(game->ray->inter))
+		return (OUT_OF_BOUNDS);
+	game->ray->v_hit_x = game->ray->inter.x;
+	game->ray->v_hit_y = game->ray->inter.y;
+	//printf ("vertical intersect, end.x is %f and end.y is %f\n", game->ray->v_hit_x = inter_x, game->ray->v_hit_y = inter_y);
+	return (sqrt(pow(game->ray->inter.x - game->camera.x, 2) + \
+				pow(game->ray->inter.y - game->camera.y, 2)));
+}
+
+
+void reach_nearest_wall_block2(t_game *game, t_pos start, double angle)
+{
+	(void)start;
+	
+
+	//printf ("quad is %d\n\n", game->ray->angle_quad);
+	if (horiz_intersect(game, angle) > vertical_intersect(game, angle))
+	{	
+		//printf ("I met vertical first\n");
+		game->ray->found_vertical_first = true;
+		game->ray->end.x = game->ray->v_hit_x;
+		game->ray->end.y = game->ray->v_hit_y;
+
+	}
+	else
+	{
+		//printf ("I met horizontal first\n");
+		game->ray->found_vertical_first = false;
+		game->ray->end.x = game->ray->h_hit_x;
+		game->ray->end.y = game->ray->h_hit_y;
 		
 		
-// 	// }
-// 	// return 1;
-	
-// 	float	x_inc;
-// 	float	y_inc;
-// 	float	inter_x;
-// 	float	inter_y;
-// 	int		x_add_pixel;
-
-// 	x_add_pixel = 0;
-// 	if (angle == M_PI / 2 || angle == 3 * M_PI / 2)
-// 		angle += 0.0001;
-// 	y_inc = PIXELS_PER_BLOCK * CONST * tan(angle);
-// 	inc_and_pixel_vert(angle, &x_inc, &x_add_pixel, &y_inc);
-// 	inter_x = floor(game->camera.x / PIXELS_PER_BLOCK * CONST) * PIXELS_PER_BLOCK * CONST + 
-// 															x_add_pixel;
-// 	inter_y = game->camera.float_y + 
-// 						(inter_x - game->camera.float_x) * tan(angle);
-// 	while (!wall_hit_or_out_bounds(game, inter_y, inter_x, 1))
-// 	{
-// 		inter_y += y_inc;
-// 		inter_x += x_inc;
-// 	}
-// 	game->ray->end_vert.x = inter_x;
-// 	game->ray->end_vert.y = inter_y;
-// 	return (sqrt(pow(inter_x - game->camera.float_x, 2) + 
-// 				pow(inter_y - game->camera.float_y, 2)));
-//  }
-
-// void reach_nearest_wall_block2(t_game *game, double angle)
-// {
-// 	(void)game;
-// 	t_pos end;
-// 	game->ray->end.x = game->camera.float_x;
-// 	game->ray->end.y = game->camera.float_y;
-// 	is_vertical_intersect(game, &end, angle);
-// }
+	}
+}

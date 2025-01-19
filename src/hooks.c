@@ -73,10 +73,9 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 			game->player.p_pos.y = round(new.y);
 			game->camera.x = game->player.p_pos.x + CONST /2;
 			game->camera.y = game->player.p_pos.y + CONST /2;
-			printf ("drawing player");
-			draw_player(game);
-			cast_rays(game);
+			mlx_delete_image(game->mlx, game->stats);
 			print_stats(game);
+
 		}
 	}
 
@@ -90,23 +89,11 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 			new_angle += 2 * M_PI;
 	if (new_angle != game->player.angle)
 	{
-		if (cos(new_angle) < 1 && cos(new_angle) >= 0 )
-		{
-			if (sin(new_angle) < 1 && sin(new_angle) >= 0)
-				game->player.angle_quad = 1;
-			else
-				game->player.angle_quad = 4;
-		}
-		else
-		{
-			if (sin(new_angle) < 1 && sin(new_angle) >= 0)
-				game->player.angle_quad = 2;
-			else
-				game->player.angle_quad = 3;
-		}
+		determine_quad(new_angle, &game->player.angle_quad);
 		game->player.angle = new_angle;
-		cast_rays(game);
+		mlx_delete_image(game->mlx, game->stats);
 		print_stats(game);
+
 	}
 }
 

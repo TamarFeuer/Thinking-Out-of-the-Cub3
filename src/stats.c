@@ -1,46 +1,44 @@
 #include "../inc/game.h"
 
+char *ft_strjoin_free(char *left, char *right, int free_flag)
+{
+	char *result = ft_strjoin(left, right);  // Assume ft_strjoin() works as expected
+	if (!result)
+		return NULL;
+
+	if (free_flag == 1 || free_flag == 3)
+	{
+		free(left);
+		left = NULL;
+	}
+	if (free_flag == 2 || free_flag == 3)
+	{
+		free(right);
+		right = NULL;
+	}
+	return result;
+}
+
 void print_stats(t_game *game)
 {
-	if (game->stats)
-		mlx_delete_image(game->mlx, game->stats);
-
+	char *str;
+	
 	char *temp = ft_ftoa(game->player.angle / M_PI, 6);
 	if (!temp)
-		printf("error converting float to string\n");
-	char *str = ft_strjoin ("Angle: ", temp);
-	free (temp);
-	if (!str)
-		printf("error allocation dynamic memory\n");	
-	str = ft_strjoin (str, "PI");
-	if (!str)
-		printf("error allocation dynamic memory\n");
-	str = ft_strjoin (str, " X: ");
-	if (!str)
-		printf("error allocation dynamic memory\n");
-	// temp = ft_itoa((game->player.x - X_START)/CONST);
-	temp = ft_itoa(((game->player.p_pos.x) - X_START) /CONST);
-	if (!temp)
-		printf("error converting float to string\n");
-	str = ft_strjoin (str, temp);
+		return;
+	str = ft_strjoin("Angle: ", temp);
 	free(temp);
 	if (!str)
-		printf("error allocation dynamic memory\n");
-	str = ft_strjoin (str, " Y: ");
-	if (!str)
-		printf("error allocation dynamic memory\n");
-	
-	//temp = ft_itoa((game->player.y - Y_START)/CONST);
-	temp = ft_itoa(((game->player.p_pos.y) - Y_START)/CONST);
-	if (!temp)
-		printf("error converting float to string\n");
-	str = ft_strjoin (str, temp);
-	free(temp);
-	if (!str)
-		printf("error allocation dynamic memory\n");
-	game->stats = mlx_put_string(game->mlx, str, X_START, Y_START - 25);
+		return;
+	str = ft_strjoin_free(str, " PI X: ", 1);
+	temp = ft_itoa(((game->player.p_pos.x) - X_START) / CONST);  //if fails free stuff
+	if (temp)
+		str = ft_strjoin_free(str, temp, 1);
+	str = ft_strjoin_free(str, " Y: ", 1);
+	temp = ft_itoa(((game->player.p_pos.y) - Y_START) / CONST);  //if fails, free stuff
+	if (temp)
+		str = ft_strjoin_free(str, temp, 1);
+	game->stats = mlx_put_string(game->mlx, str, 0, 0);
+	free(str);
 
-	free (str);
-	if (!game->stats)
-		printf("error putting string on screen\n");
 }
