@@ -1,7 +1,7 @@
 #ifndef GAME_H
 # define GAME_H
 
-#include "MLX42.h"
+// #include "MLX42.h"
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -82,10 +82,18 @@ typedef struct s_mapdata
 	int		width;
 }	t_mapdata;
 
+typedef	enum e_gnl_ecode
+{
+	SUCCESS,
+	ERR_INIT,
+	ERR_MALLOC,
+}	t_gnl_ecode;
+
 typedef struct s_data
 {
 	t_mapdata	map_data;
 	t_textures	textures;
+	t_gnl_ecode	err_no;
 }	t_data;
 
 
