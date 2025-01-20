@@ -36,7 +36,7 @@
 
 //rays
 #define FOV 60.0 // Field of View in degrees
-#define NUMBER_OF_RAYS 640
+#define NUMBER_OF_RAYS 1
 #define MAX_RAY_LENGTH 400
 #define MAX_RAY_DISTANCE 300
 #define DISTANCE_PER_TURN 1 * CONST
@@ -48,6 +48,14 @@
 #define SCENE_HEIGHT 1080
 #define PROJECTION_DISTANCE 1108
 #define FLOOR_COLOR 0xFF00cc40
+
+typedef enum e_direction 
+{
+	EAST,
+	NORTH,
+	WEST,
+	SOUTH,
+} t_direction;
 
 typedef struct s_pos
 {
@@ -74,8 +82,8 @@ typedef struct s_point
 
 typedef struct s_player
 {
-    t_pos		p_pos;
-    double		angle;  // in radians
+	t_pos		p_pos;
+	double		angle;  // in radians
 	int			angle_quad;
 	mlx_image_t	*player_img;
 } t_player;
@@ -110,10 +118,12 @@ typedef struct s_ray
 	float		corrected_distance;
 	t_pos		end_vert;
 	t_pos		end_horiz;
-	float		v_hit_x;
-	float		v_hit_y;
-	float		h_hit_x;
-	float		h_hit_y;
+	t_pos		v_hit;
+	t_pos		h_hit;
+	// float		v_hit_x;
+	// float		v_hit_y;
+	// float		h_hit_x;
+	// float		h_hit_y;
 }	t_ray;
 
 typedef struct s_game
@@ -146,13 +156,15 @@ void	key_hook(mlx_key_data_t keydata, void *param);
 void	print_stats(t_game *game);
 void	clean_nicely(t_game *game);
 int		distance_to_color(int distance);
-void	DDA_ray(t_game *game, t_pos start, t_pos end);
+// void	DDA_ray(t_game *game, t_pos start, t_pos end);
+void	DDA_ray(t_game *game, t_pos start, t_pos end, int color);
+const char *get_direction(t_game *game);
 void	bresenham_ray(t_game *game, t_pos start, t_pos end);
 double	get_distance(t_pos start, t_pos end);
 int		get_block_index(t_pos *grid_pos);
 void	init_map(t_game *game);
-void	reach_nearest_wall_block(t_game *game, t_pos start, double angle);
-void 	reach_nearest_wall_block2(t_game *game, t_pos start, double angle);
+void	reach_nearest_wall_by_plotting(t_game *game, float angle);
+void 	reach_nearest_wall_by_intersections(t_game *game, float angle);
 void 	draw_player_direction(t_game *game, t_pos start, double angle);
 void 	draw_the_thing(t_game *game);
 void	normalize_angle_to_2pi(float *angle);
@@ -162,6 +174,7 @@ void 	determine_quad(double angle, int *quad);
 void	absolute(int *d, int *i);
 void	init_game_struct(t_game *game);
 void	draw_all(void *param);
+
 
 // LIBFT
 char	*ft_itoa(int n);

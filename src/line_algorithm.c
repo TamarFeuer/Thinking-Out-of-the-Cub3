@@ -85,7 +85,7 @@ void bresenham_ray(t_game *game, t_pos start, t_pos end)
 		return;
 }
 
-void DDA_ray(t_game *game, t_pos start, t_pos end)
+void DDA_ray(t_game *game, t_pos start, t_pos end, int color)
 {
     double dx = end.x - start.x;
     double dy = end.y - start.y;
@@ -105,12 +105,14 @@ void DDA_ray(t_game *game, t_pos start, t_pos end)
     {
         (void)game;
         
-        double distance = get_distance(start, (t_pos){x, y});
+        //double distance = get_distance(start, (t_pos){x, y});
         
         //printf("Distance at step %d: %f\n", step_count, distance);
         //mlx_put_pixel(game->scene, (int)round(x), (int)round(y), distance_to_color(distance));
-        mlx_put_pixel(game->scene, (int)round(x) - X_START,  (int)round(y) - Y_START, 
-			convert_to_mlx42_endian(distance_to_color(distance)));
+        // mlx_put_pixel(game->scene, (int)round(x) - X_START,  (int)round(y) - Y_START, 
+		// 	convert_to_mlx42_endian(distance_to_color(distance)));
+		mlx_put_pixel(game->scene, (int)round(x) - X_START,  (int)round(y) - Y_START, 
+			convert_to_mlx42_endian(color));
     
         x += x_increment;
         y += y_increment;

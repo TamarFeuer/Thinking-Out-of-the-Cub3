@@ -30,7 +30,7 @@ void print_stats(t_game *game)
 	free(temp);
 	if (!str)
 		return;
-	str = ft_strjoin_free(str, " PI X: ", 1);
+	str = ft_strjoin_free(str, "PI X: ", 1);
 	temp = ft_itoa(((game->player.p_pos.x) - X_START) / CONST);  //if fails free stuff
 	if (temp)
 		str = ft_strjoin_free(str, temp, 1);

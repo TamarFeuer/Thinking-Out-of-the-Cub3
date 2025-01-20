@@ -42,7 +42,7 @@ int	main(int argc, char *argv[])
 	(void)argv;
 	int width, height;
 	
-	//mlx_set_setting(MLX_STRETCH_IMAGE, true);
+	// mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	t_game *game = (t_game *)ft_calloc(1, sizeof(t_game));
 	if (!game)
 		return (EXIT_FAILURE);
@@ -55,7 +55,7 @@ int	main(int argc, char *argv[])
 	}
 	else
 		game->is_debug = false;
-	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Ray caster", true);
+	game->mlx = mlx_init(SCREEN_WIDTH/4, SCREEN_HEIGHT, "Ray caster", true);
 	if (!game->mlx)
 		return (EXIT_FAILURE);
 	mlx_get_monitor_size(0, &width, &height);

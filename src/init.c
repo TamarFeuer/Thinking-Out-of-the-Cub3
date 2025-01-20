@@ -18,6 +18,15 @@ void init_map(t_game *game)
 		{1, 0, 0, 0, 1, 1, 0, 1, 0, 1},
 		{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+		
+		// {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+		// {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		// {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		// {1, 0, 0, 0, 1, 0, 0, 0, 0, 1},
+		// {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		// {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		// {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		// {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 	};
 	
 	int i = 0;
@@ -36,7 +45,7 @@ void init_map(t_game *game)
 void	load_pngs(t_game *game)
 {
 	
-	game->east = mlx_load_png("textures/east.png");  //add err
+	game->east = mlx_load_png("textures/east.png");  //add err check
 	game->north = mlx_load_png("textures/north.png");
 	game->west = mlx_load_png("textures/west.png");
 	game->south = mlx_load_png("textures/south.png");

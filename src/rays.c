@@ -33,7 +33,6 @@ void cast_rays(t_game *game)
 	//printf ("cast rays: angle is %f\n", game->ray->current_angle);
 	
 	
-	
 	game->ray->ray_n = 0;
 	if (game->is_debug == false)
 		game->ray->number_of_rays = NUMBER_OF_RAYS;
@@ -41,23 +40,27 @@ void cast_rays(t_game *game)
 		game->ray->number_of_rays = 1;
 		
 	while (game->ray->ray_n < game->ray->number_of_rays)
-	{
-		//printf ("cast rays: angle is %f\n", game->ray->current_angle);
-		reach_nearest_wall_block(game, game->camera.pos, game->ray->current_angle);
-		
-		DDA_ray(game, game->camera.pos, game->ray->end);
-		//printf("1st: Ray %d: game->ray->distance %f, end.x %f, end.y %f\n\n", game->ray->ray_n, game->ray->distance, game->ray->end.x, game->ray->end.y);
-		
-		//reach_nearest_wall_block2(game, game->camera.pos, game->ray->current_angle);
-		
-		//printf("2nd: Ray %d: game->ray->distance %f, end.x %f, end.y %f\n\n", game->ray->ray_n, game->ray->distance, game->ray->end.x, game->ray->end.y);
-		//printf(" game->ray->ray_n is %d, angle is %f\n", game->ray->ray_n, game->ray->current_angle / M_PI);
-		//printf ("RAYS: end_x is %f and end_y %f\n wall found? %d\n", game->ray->end.x, game->ray->end.y,game->ray->wall_met );
-		//printf ("end.x %f, end.y %f\n", game->ray->end.x , game->ray->end.y);
+	{	
+		// printf("by_plotting: \n");
+		 reach_nearest_wall_by_plotting(game, game->ray->current_angle);
+		// printf("Ray %d: angle %f, distance %f, camera.x %f, camera.y %f\n", game->ray->ray_n, game->ray->current_angle, game->ray->distance, game->camera.pos.x, game->camera.pos.y);
+		// printf ("facing %s wall, end.x %f, end.y %f\n", get_direction(game), game->ray->end.x, game->ray->end.y);
+		// printf ("found vertical first? %d\n\n", game->ray->found_vertical_first);
 		
 		// if (game->is_mmap == true && game->is_debug == false)
-		//DDA_ray(game, game->camera.pos, game->ray->end);
+		//DDA_ray(game, game->camera.pos, game->ray->end, 0xFFFF00FF);
+																		//or
+		// if (game->is_mmap == true && game->is_debug == false)
+		// 	bresenham_ray(game, game->camera.pos, game->ray->end);
 		
+		// printf("by_intersections: \n");
+		reach_nearest_wall_by_intersections(game, game->ray->current_angle);
+		printf("Ray %d: angle %f, distance %f, camera.x %f, camera.y %f\n", game->ray->ray_n, game->ray->current_angle, game->ray->distance, game->camera.pos.x, game->camera.pos.y);
+		printf ("facing %s wall, end.x %f, end.y %f\n", get_direction(game), game->ray->end.x, game->ray->end.y);
+		printf ("found vertical first? %d\n\n", game->ray->found_vertical_first);
+		// if (game->is_mmap == true && game->is_debug == false)
+		DDA_ray(game, game->camera.pos, game->ray->end, 0xFF00FFFF);
+																		//or
 		// if (game->is_mmap == true && game->is_debug == false)
 		// 	bresenham_ray(game, game->camera.pos, game->ray->end);
 		
