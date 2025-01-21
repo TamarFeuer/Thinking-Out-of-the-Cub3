@@ -36,7 +36,7 @@
 
 //rays
 #define FOV 60.0 // Field of View in degrees
-#define NUMBER_OF_RAYS 1
+#define NUMBER_OF_RAYS 640
 #define MAX_RAY_LENGTH 400
 #define MAX_RAY_DISTANCE 300
 #define DISTANCE_PER_TURN 1 * CONST
@@ -161,7 +161,8 @@ void	DDA_ray(t_game *game, t_pos start, t_pos end, int color);
 const char *get_direction(t_game *game);
 void	bresenham_ray(t_game *game, t_pos start, t_pos end);
 double	get_distance(t_pos start, t_pos end);
-int		get_block_index(t_pos *grid_pos);
+int 	get_block_index(t_pos *grid_pos);
+int 	get_block_index2(t_game *game, t_pos *grid_pos, int flag);
 void	init_map(t_game *game);
 void	reach_nearest_wall_by_plotting(t_game *game, float angle);
 void 	reach_nearest_wall_by_intersections(t_game *game, float angle);
@@ -174,6 +175,10 @@ void 	determine_quad(double angle, int *quad);
 void	absolute(int *d, int *i);
 void	init_game_struct(t_game *game);
 void	draw_all(void *param);
+float	horiz_intersect(t_game *game, float angle);
+float	vertical_intersect(t_game *game, float angle);
+bool	is_out_of_bounds(t_pos position);
+int	is_wall_hit(t_game *game, t_pos inter, int flag);
 
 
 // LIBFT

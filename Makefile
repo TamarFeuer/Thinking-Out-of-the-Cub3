@@ -8,7 +8,7 @@ NAME = cub3D
 
 SRC =	src/main.c src/line_algorithm.c src/map.c src/player.c src/hooks.c src/clean.c \
 		src/stats.c src/libft.c src/color.c src/rays.c src/intersections.c src/draw_scene.c \
-		 src/utils.c src/init.c
+		 src/utils.c src/init.c src/horizontal.c src/vertical.c
 		
 
 OBJ_DIR = obj
