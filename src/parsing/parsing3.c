@@ -11,8 +11,7 @@ void parse_identifiers(t_data *data, int *i, int *j)
 	map = data->map_data.file_data;
 	while (map[*i] && map[*i][*j]) //Skips empty lines and whitespaces
 	{
-		while (map[*i][*j] == ' ' || map[*i][*j] == '\t') //Skip spaces function?
-			*j += 1;
+		skip_whitespaces(map, *i, j);
 		if (map[*i][*j] != '\n')
 			get_identifier(data, i, j);
 		*j = 0;
@@ -21,6 +20,8 @@ void parse_identifiers(t_data *data, int *i, int *j)
 			&& data->textures.west && data->textures.ceiling && data->textures.floor)
 			break ;
 	}
+
+	//Could iterate this with an enum.
 	check_file_format(data->textures.north);
 	check_file_format(data->textures.south);
 	check_file_format(data->textures.east);
@@ -86,8 +87,7 @@ static void	get_texture_path(t_data *data, char **texture, int *i, int *j)
 
 	map = data->map_data.file_data;
 	*j += 2;
-	while (map[*i][*j] && (map[*i][*j] == ' ' || map[*i][*j] == '\t'))
-		*j += 1;
+	skip_whitespaces(map, *i, j);
 	if (map[*i][*j] == '\0' || map[*i][*j] == '\n')
 		printf("%s\n", ERR_TXT_PATH);
 	else
