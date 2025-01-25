@@ -54,10 +54,19 @@ bool	is_surrounded_by_walls(t_data *data, char **map)
 			}
 			if (row != 0 && map[row][col] == '0')
 			{
-				// if (!check_col_above(map, row, col))
-				// 	return (false);
+				if (!check_col_above(map, row, col))
+					return (false);
 				if (!check_col_below(data, map, row, col))
 					return (false);
+				//Check left
+				//Check right
+			}
+			else if (map[row][col] == ' ')
+			{
+				//if there's only spaces above, below, to the right or left that's okay.
+				//if there's a 0 at some point, then we do need to check for a 1.
+				//if there's a 1 then that's good.
+				//if the space is within the map, then it should be surrounded by walls. Suddenly only spaces to whichever side are not okay anymore.
 			}
 			col++;
 		}
