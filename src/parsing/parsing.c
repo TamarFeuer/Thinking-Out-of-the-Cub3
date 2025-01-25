@@ -26,9 +26,12 @@ void	parse_file(t_data *data, char *file_path)
 	copy_file_contents(data, file_path);
 	parse_identifiers(data, &i, &j); //I should pass i and j values here, so that parse_map can also use them.
 	parse_map(data, &i, &j);
-	ft_print_arr(data->map_data.map);
-	(void) data;
-	printf("PARSING OK!\n");
+	if (!check_map_validity(data))
+		printf("PARSING NOT OK!\n");
+	else
+		printf("PARSING OK!\n");
+	// ft_print_arr(data->map_data.map);
+	
 }
 
 static bool	check_file_extension(char *file_path)
@@ -59,7 +62,7 @@ bool	check_file_format(char *file_path)
 	fd = open(file_path, O_RDONLY);
 	if (fd < 0)
 	{
-		printf("%s\n", ERR_OPEN);
+		printf("check_file_format - %s\n", ERR_OPEN);
 		exit(EXIT_FAILURE);
 	}
 	close(fd);

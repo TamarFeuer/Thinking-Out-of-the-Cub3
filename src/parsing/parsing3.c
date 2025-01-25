@@ -22,10 +22,10 @@ void parse_identifiers(t_data *data, int *i, int *j)
 	}
 
 	//Could iterate this with an enum.
-	check_file_format(data->textures.north);
-	check_file_format(data->textures.south);
-	check_file_format(data->textures.east);
-	check_file_format(data->textures.west);
+	// check_file_format(data->textures.north);
+	// check_file_format(data->textures.south);
+	// check_file_format(data->textures.east);
+	// check_file_format(data->textures.west);
 	check_colour_texture(data->textures.floor);
 	check_colour_texture(data->textures.ceiling);
 	//check that it's a valid texture?
