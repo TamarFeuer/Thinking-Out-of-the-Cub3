@@ -71,9 +71,9 @@ bool	check_file_format(char *file_path)
 
 static void	copy_file_contents(t_data *data, char *file_path)
 {
-	data->map_data.nbr_of_lines = count_lines(file_path);
+	data->map_data.total_lines = count_lines(file_path);
 	data->map_data.path = file_path;
-	data->map_data.file_data = (char **) ft_calloc(data->map_data.nbr_of_lines + 1, sizeof(char *));
+	data->map_data.file_data = (char **) ft_calloc(data->map_data.total_lines + 1, sizeof(char *));
 	if (!data->map_data.file_data)
 	{
 		perror("copy_file_contents");

@@ -9,7 +9,7 @@ void parse_map(t_data *data, int *i, int *j)
 	int		m;
 
 	//Allocate memory for the map array.
-	data->map_data.map = (char **) malloc(sizeof(char *) * (data->map_data.nbr_of_lines - *i + 1));
+	data->map_data.map = (char **) malloc(sizeof(char *) * (data->map_data.total_lines - *i + 1));
 	if (!data->map_data.map)
 		printf("%s\n", ERR_MEM_ALL);
 

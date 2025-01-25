@@ -3,7 +3,7 @@
 int	count_lines(char *file_path)
 {
 	int		fd;
-	int		nbr_of_lines;
+	int		total_lines;
 	char	*line;
 
 	fd = open(file_path, O_RDONLY);
@@ -12,16 +12,16 @@ int	count_lines(char *file_path)
 		perror("count_lines");
 		exit(EXIT_FAILURE);
 	}
-	nbr_of_lines = 0;
+	total_lines = 0;
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
-		nbr_of_lines++;
+		total_lines++;
 		free(line);
 		line = get_next_line(fd);
 	}
 	close(fd);
-	return (nbr_of_lines);
+	return (total_lines);
 }
 
 void	copy_line_by_line(t_mapdata *mapdata, char *file_path)

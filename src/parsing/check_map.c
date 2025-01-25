@@ -19,6 +19,9 @@ bool	check_map_validity(t_data *data)
 		printf("%s\n", ERR_NULL_MAP);
 		return (false);
 	}
+	data->map_data.map_rows = 0;
+	while (data->map_data.map[data->map_data.map_rows] != NULL)
+		data->map_data.map_rows++;
 	is_surrounded_by_walls(data, data->map_data.map);
 	//Check for invalid elements
 	//Check for repeated cardinal elements
@@ -51,8 +54,8 @@ bool	is_surrounded_by_walls(t_data *data, char **map)
 			}
 			if (row != 0 && map[row][col] == '0')
 			{
-				if (!check_col_above(map, row, col))
-					return (false);
+				// if (!check_col_above(map, row, col))
+				// 	return (false);
 				if (!check_col_below(data, map, row, col))
 					return (false);
 			}
@@ -92,14 +95,14 @@ bool	check_col_below(t_data *data, char **map, int row, int col)
 		printf("NULL MAP!\n");
 		return (false);
 	}
-	if (row + 1 >= data->map_data.nbr_of_lines)
+	if (row + 1 >= data->map_data.map_rows)
 	{
 		printf("The map didn't have a wall where it should, and it ran out of lines.\n");
 		return (false);
 	}
-	else if (row + 1 < data->map_data.nbr_of_lines && (map[row + 1][col] == '0' || map[row + 1][col] == ' '))
+	else if (row + 1 < data->map_data.map_rows && (map[row + 1][col] == '0' || map[row + 1][col] == ' '))
 		return (check_col_below(data, map, row + 1, col));
-	else if (row + 1 < data->map_data.nbr_of_lines && map[row + 1][col] == '1')
+	else if (row + 1 < data->map_data.map_rows && map[row + 1][col] == '1')
 		return (true);
 	return (false);
 }

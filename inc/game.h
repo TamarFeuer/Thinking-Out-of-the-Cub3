@@ -75,9 +75,10 @@ typedef struct s_textures
 typedef struct s_mapdata
 {
 	char	*path;
-	int		nbr_of_lines;
+	int		total_lines;
 	char	**file_data;
 	char	**map;
+	int		map_rows;
 	int		height;
 	int		width;
 }	t_mapdata;
