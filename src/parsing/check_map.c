@@ -142,6 +142,7 @@ bool	check_right_col(char **map, int row, int col)
 		printf("NULL MAP!\n");
 		return (false);
 	}
+
 	//Checks if the last column of the row is a walkable space
 	len = ft_strlen(map[row]);
 	if (map[row][len - 1] && map[row][len - 1] == '0')
@@ -149,28 +150,39 @@ bool	check_right_col(char **map, int row, int col)
 		printf("The column ends with a 0.\n");
 		return (false);
 	}
-	//If we encounter a 0 or space, then we check to the right if
-	if (map[row][col] && (map[row][col] == '0' || map[row][col] == ' '))
+
+	//Checks if there's a wall somewhere to the right of a walkable space
+	if (map[row][col] && (map[row][col] == '0'))
 	{
 		i = 0;
 		while (map[row][col + i] != '\0' && map[row][col + i] != '\n')
 		{
+			//If there's a space right after a 0, that 0 and that space are not surrounded by walls.
 			if (map[row][col + i] == ' ')
 			{
-				printf("There was a space before a wall, to the right\n");
+				printf("There's a space after a 0 in check_right_col\n");
 				return (false);
 			}
 			else if (map[row][col + i] == '1')
-			{
-				// printf("For row %i, returning true at iteration: %i\n", row, i);
 				return (true);
-			}
 			i++;
 		}
-		if (map[row][col + i] == '0' || map[row][col + i] == '\0' || map[row][col + i] == '\n')
+	}
+
+	//Checks if there's a wall somewhere to the right of a empty space
+	else if (map[row][col] && (map[row][col] == ' ')) //Where does it make a difference if we add an extra parentheses? Memory? What happens during compilation?
+	{
+		i = 0;
+		while (map[row][col + i] != '\0' && map[row][col + i] != '\n')
 		{
-			printf("REACHED END OF COL WITHOUT WALL\n");
-			return (false);
+			if (map[row][col + i] == '0')
+			{
+				printf("There's a 0 after a space in check_right_col\n");
+				return (false);
+			}
+			else if (map[row][col + i] == '1')
+				return (true);
+			i++;
 		}
 	}
 	return (false);
