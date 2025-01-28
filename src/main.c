@@ -12,28 +12,36 @@ void draw_all(void *param)
 		if (!game->scene|| (mlx_image_to_window(game->mlx, game->scene, 0, 0 ) < 0))
 			return; //error msg
 	}
-	if (game->is_mmap)
-		draw_player(game);
-
+	
+	mlx_delete_image(game->mlx, game->stats);
 	cast_rays(game);
-	
-	if (game->is_mmap)
-		draw_player_direction(game, (t_pos){game->camera.pos.x, game->camera.pos.y}, game->player.angle);
-	
-}
-
-int draw_static_components(t_game *game)
-{
 	if (game->is_mmap)
 	{
-		printf ("drawing static\n");
-		game->grid = mlx_new_image(game->mlx, MMAP_WIDTH, MMAP_HEIGHT);
-		if (!game->grid|| (mlx_image_to_window(game->mlx, game->grid, X_START, Y_START ) < 0))
-			return (EXIT_FAILURE);
 		draw_grid(game, ROWS, COLS);
+		
+		int i =0;
+		if (game->is_debug == false)
+			game->ray->number_of_rays = NUMBER_OF_RAYS;
+		else
+			game->ray->number_of_rays = 1;
+			
+		while (i < game->ray->number_of_rays)
+		{
+			bresenham_ray(game, game->camera.pos, game->ray->ray_end[i]);
+			i++;
+		}
+		
+		draw_player(game);
+		draw_player_direction(game, (t_pos){game->camera.pos.x, game->camera.pos.y}, game->player.angle);
+		if (game->stats)
+		{
+			mlx_delete_image(game->mlx, game->stats);
+			print_stats(game);
+		}
 	}
-	return (0);
 }
+
+
 
 int	main(int argc, char *argv[])
 {
@@ -64,12 +72,10 @@ int	main(int argc, char *argv[])
 	if (!game->scene|| (mlx_image_to_window(game->mlx, game->scene, X_START, Y_START ) < 0))
 		return (EXIT_FAILURE);
 		
-	draw_static_components(game);
-	
 	mlx_loop_hook(game->mlx, draw_all, game);
 	mlx_key_hook(game->mlx, key_hook, game);
-	if (game->is_mmap)
-		print_stats(game);
+
 	mlx_loop(game->mlx);
-	mlx_terminate(game->mlx);
+	clean_nicely(game);
+	return(EXIT_SUCCESS);
 }

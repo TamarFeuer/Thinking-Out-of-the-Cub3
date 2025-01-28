@@ -1,13 +1,11 @@
 #include "../inc/game.h"
 
-void	delete_static_images(t_game *game)
+void	delete_images(t_game *game)
 {
 	if (game->stats)
 		mlx_delete_image(game->mlx, game->stats);
 	if (game->scene)
 		mlx_delete_image(game->mlx, game->scene);
-	if (game->grid)
-		mlx_delete_image(game->mlx, game->grid);
 }
 
 void	clean_nicely(t_game *game)  //use ft_free as in minishell
@@ -17,20 +15,15 @@ void	clean_nicely(t_game *game)  //use ft_free as in minishell
 	{
 		// if (game->fd != -1)
 		// 	close(game->fd);
-		delete_static_images(game);
-		printf ("amount of fill is %ld\n", game->fill->count);  //check why there are still instances
+		delete_images(game);
 		
 		if (game->mapdata)
 		{
 			free(game->mapdata);
 			game->mapdata = NULL;
 		}
-		if (game->ray)
-		{
-			free(game->ray);
-			game->ray = NULL;
-		}
-			mlx_terminate(game->mlx);
+		// if (game->mlx)
+		// 	mlx_terminate(game->mlx); //causes seg fault??
 		free(game);
 	}
 }

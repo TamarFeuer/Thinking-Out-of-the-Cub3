@@ -50,7 +50,7 @@ void fill_grid(t_game *game, int cur_row, int cur_col)
 		{
 			{	
 				// printf ("col is %d, row is %d\n", col, row);
-				mlx_put_pixel(game->grid, col, row, 0x777777FF);
+				mlx_put_pixel(game->scene, col, row, 0x777777FF);
 			}
 			col++;
 		}
@@ -75,7 +75,7 @@ void draw_grid(t_game *game, int rows, int cols)
 		x = x_start;
 		while (x <= x_end)
 		{
-			mlx_put_pixel(game->grid, x, Y_START + y, 0x777777FF);  //safe_put_pixel
+			mlx_put_pixel(game->scene, x, Y_START + y, 0x777777FF);  //safe_put_pixel
 			x++;
 		}
 		y += PIXELS_PER_BLOCK * CONST;
@@ -90,7 +90,7 @@ void draw_grid(t_game *game, int rows, int cols)
 		y = y_start;
 		while (y <= y_end)
 		{
-			mlx_put_pixel(game->grid, X_START + x, y, 0x777777FF);  //safe put pixel
+			mlx_put_pixel(game->scene, X_START + x, y, 0x777777FF);  //safe put pixel
 			y++;
 		}
 		x += PIXELS_PER_BLOCK * CONST;

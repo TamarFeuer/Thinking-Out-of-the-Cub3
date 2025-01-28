@@ -2,7 +2,7 @@
 
 char *ft_strjoin_free(char *left, char *right, int free_flag)
 {
-	char *result = ft_strjoin(left, right);  // Assume ft_strjoin() works as expected
+	char *result = ft_strjoin(left, right);
 	if (!result)
 		return NULL;
 
@@ -22,6 +22,7 @@ char *ft_strjoin_free(char *left, char *right, int free_flag)
 void print_stats(t_game *game)
 {
 	char *str;
+	
 	
 	char *temp = ft_ftoa(game->player.angle / M_PI, 6);
 	if (!temp)

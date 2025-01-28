@@ -79,6 +79,11 @@ typedef struct s_point
 // 	enum e_side	wall_face;
 // }	t_wall_slice;
 
+typedef struct s_bersenham
+{
+	t_pos		start[SCREEN_WIDTH];
+	t_pos		end[SCREEN_WIDTH];
+}	t_bresenham;
 
 typedef struct s_player
 {
@@ -108,8 +113,8 @@ typedef struct s_ray
 	t_pos		end;
 	t_pos		inter;
 	int			number_of_rays;
-	int			ray_n;
-	float		unit_angle;
+	int			ray_num;
+	//float		unit_angle;
 	float		current_angle;
 	int			angle_quad;
 	bool		wall_met;
@@ -120,10 +125,8 @@ typedef struct s_ray
 	t_pos		end_horiz;
 	t_pos		v_hit;
 	t_pos		h_hit;
-	// float		v_hit_x;
-	// float		v_hit_y;
-	// float		h_hit_x;
-	// float		h_hit_y;
+	t_pos		ray_start[NUMBER_OF_RAYS];
+	t_pos		ray_end[NUMBER_OF_RAYS];
 }	t_ray;
 
 typedef struct s_game

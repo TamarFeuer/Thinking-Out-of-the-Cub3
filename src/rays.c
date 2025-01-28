@@ -52,13 +52,13 @@ void cast_rays(t_game *game)
 	//printf ("cast rays: angle is %f\n", game->ray->current_angle);
 	
 	
-	game->ray->ray_n = 0;
+	game->ray->ray_num = 0;
 	if (game->is_debug == false)
 		game->ray->number_of_rays = NUMBER_OF_RAYS;
 	else
 		game->ray->number_of_rays = 1;
 		
-	while (game->ray->ray_n < game->ray->number_of_rays)
+	while (game->ray->ray_num < game->ray->number_of_rays)
 	{	
 		// printf("by_plotting: \n");
 		 //reach_nearest_wall_by_plotting(game, game->ray->current_angle);
@@ -81,7 +81,13 @@ void cast_rays(t_game *game)
 		//DDA_ray(game, game->camera.pos, game->ray->end, 0xFF00FFFF);
 																		//or
 		// if (game->is_mmap == true && game->is_debug == false)
-		bresenham_ray(game, game->camera.pos, game->ray->end);
+
+		game->ray->ray_start[game->ray->ray_num] = game->camera.pos;
+		game->ray->ray_start[game->ray->ray_num] = game->camera.pos;
+		game->ray->ray_end[game->ray->ray_num] = game->ray->end;
+		game->ray->ray_end[game->ray->ray_num] = game->ray->end;
+
+		//bresenham_ray(game, game->camera.pos, game->ray->end);
 		
 		draw_the_thing(game);
 		
@@ -90,7 +96,7 @@ void cast_rays(t_game *game)
 		game->ray->current_angle -= step;
 		normalize_angle_to_2pi(&game->ray->current_angle);
 		determine_quad(game->ray->current_angle, &game->ray->angle_quad);
-		game->ray->ray_n++;
+		game->ray->ray_num++;
 	}
 }
 
