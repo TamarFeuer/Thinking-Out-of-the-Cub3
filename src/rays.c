@@ -21,7 +21,7 @@ int get_block_index2(t_game *game, t_pos *grid_pos, int flag)
 	int block_index_x = (int)((floor(grid_pos->x) - X_START) / (PIXELS_PER_BLOCK * CONST));
 	int block_index_y = (int)((floor(grid_pos->y) - Y_START) / (PIXELS_PER_BLOCK * CONST));
 	//printf("on grid_x %d, on grid Y %d\n", block_index_x, block_index_y);
-	if (flag && (game->ray->angle_quad == 2 || game->ray->angle_quad == 3))  
+	if (flag && (game->ray->angle_quad == 1 || game->ray->angle_quad == 2))
 		block_index_y = (int)(ceil(grid_pos->y) - Y_START) / (PIXELS_PER_BLOCK * CONST);
 	else if (!flag && (game->ray->angle_quad == 2 || game->ray->angle_quad == 3))
 		block_index_x = (int)(ceil(grid_pos->x) - Y_START) / (PIXELS_PER_BLOCK * CONST);
@@ -61,7 +61,7 @@ void cast_rays(t_game *game)
 	while (game->ray->ray_n < game->ray->number_of_rays)
 	{	
 		// printf("by_plotting: \n");
-		 reach_nearest_wall_by_plotting(game, game->ray->current_angle);
+		 //reach_nearest_wall_by_plotting(game, game->ray->current_angle);
 		// printf("Ray %d: angle %f, distance %f, camera.x %f, camera.y %f\n", game->ray->ray_n, game->ray->current_angle, game->ray->distance, game->camera.pos.x, game->camera.pos.y);
 		// printf ("facing %s wall, end.x %f, end.y %f\n", get_direction(game), game->ray->end.x, game->ray->end.y);
 		// printf ("found vertical first? %d\n\n", game->ray->found_vertical_first);
@@ -78,10 +78,10 @@ void cast_rays(t_game *game)
 		//printf ("facing %s wall, end.x %f, end.y %f\n", get_direction(game), game->ray->end.x, game->ray->end.y);
 		//printf ("found vertical first? %d\n\n", game->ray->found_vertical_first);
 		// if (game->is_mmap == true && game->is_debug == false)
-		DDA_ray(game, game->camera.pos, game->ray->end, 0xFF00FFFF);
+		//DDA_ray(game, game->camera.pos, game->ray->end, 0xFF00FFFF);
 																		//or
 		// if (game->is_mmap == true && game->is_debug == false)
-		// 	bresenham_ray(game, game->camera.pos, game->ray->end);
+		bresenham_ray(game, game->camera.pos, game->ray->end);
 		
 		draw_the_thing(game);
 		

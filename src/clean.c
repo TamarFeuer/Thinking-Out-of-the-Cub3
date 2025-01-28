@@ -4,8 +4,6 @@ void	delete_static_images(t_game *game)
 {
 	if (game->stats)
 		mlx_delete_image(game->mlx, game->stats);
-	if (game->fill)
-		mlx_delete_image(game->mlx, game->fill);
 	if (game->scene)
 		mlx_delete_image(game->mlx, game->scene);
 	if (game->grid)

@@ -178,7 +178,8 @@ void	draw_all(void *param);
 float	horiz_intersect(t_game *game, float angle);
 float	vertical_intersect(t_game *game, float angle);
 bool	is_out_of_bounds(t_pos position);
-int	is_wall_hit(t_game *game, t_pos inter, int flag);
+int		is_wall_hit(t_game *game, t_pos inter, int flag);
+int		draw_static_components(t_game *game);
 
 
 // LIBFT

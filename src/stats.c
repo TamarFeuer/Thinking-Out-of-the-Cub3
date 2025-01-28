@@ -38,7 +38,7 @@ void print_stats(t_game *game)
 	temp = ft_itoa(((game->player.p_pos.y) - Y_START) / CONST);  //if fails, free stuff
 	if (temp)
 		str = ft_strjoin_free(str, temp, 1);
-	game->stats = mlx_put_string(game->mlx, str, 0, 0);
+	game->stats = mlx_put_string(game->mlx, str, 0, MMAP_HEIGHT);
 	free(str);
 
 }

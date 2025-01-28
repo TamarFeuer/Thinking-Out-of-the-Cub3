@@ -27,11 +27,10 @@ int draw_static_components(t_game *game)
 	if (game->is_mmap)
 	{
 		printf ("drawing static\n");
-		game->grid = mlx_new_image(game->mlx, MMAP_WIDTH, MMAP_HEIGHT);  //!! + 100????
+		game->grid = mlx_new_image(game->mlx, MMAP_WIDTH, MMAP_HEIGHT);
 		if (!game->grid|| (mlx_image_to_window(game->mlx, game->grid, X_START, Y_START ) < 0))
 			return (EXIT_FAILURE);
 		draw_grid(game, ROWS, COLS);
-		printf ("count of fill %ld\n", game->fill->count);
 	}
 	return (0);
 }
@@ -61,7 +60,7 @@ int	main(int argc, char *argv[])
 	mlx_get_monitor_size(0, &width, &height);
 	//printf ("width is %d, height is %d\n", width, height);
 	
-	game->scene = mlx_new_image(game->mlx, MMAP_WIDTH, MMAP_HEIGHT);
+	game->scene = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	if (!game->scene|| (mlx_image_to_window(game->mlx, game->scene, X_START, Y_START ) < 0))
 		return (EXIT_FAILURE);
 		
