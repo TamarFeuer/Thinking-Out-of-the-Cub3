@@ -121,6 +121,7 @@ void 	parse_identifiers(t_data *data, int *i, int *j);
 bool	check_file_format(char *file_path);
 void 	parse_map(t_data *data, int *i, int *j);
 bool	check_map_validity(t_data *data);
+bool	is_surrounded_by_walls(t_data *data, char **map);
 
 //PARSING UTILS
 void	skip_whitespaces(char **arr, int i, int *j);

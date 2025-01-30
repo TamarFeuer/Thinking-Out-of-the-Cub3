@@ -10,6 +10,7 @@ SRC =	src/main.c src/bresenham.c src/map.c src/player.c src/hooks.c src/clean.c 
 		src/stats.c src/libft.c	\
 		src/parsing/parsing.c src/parsing/parsing2.c src/parsing/parsing3.c \
 		src/parsing/parsing4.c src/parsing/parsing_utils.c src/parsing/check_map.c \
+		src/parsing/has_surrounding_walls.c \
 		src/gnl/gnl.c src/gnl/gnl_utils.c \
 		
 
