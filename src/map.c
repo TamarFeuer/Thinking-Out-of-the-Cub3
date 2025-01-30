@@ -106,7 +106,7 @@ void draw_grid(t_game *game, int rows, int cols)
 		{
 			if (game->mapdata[y * cols + x] == WALL)
 			{
-				printf ("x is %d and y is %d\n",x, y);
+				//printf ("x is %d and y is %d\n",x, y);
 				fill_grid (game, y * PIXELS_PER_BLOCK * CONST, x * PIXELS_PER_BLOCK * CONST);
 			}
 			x++;

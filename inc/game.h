@@ -14,8 +14,8 @@
 #define SCREEN_HEIGHT 1080
 
 //map
-#define ROWS 8
-#define COLS 10
+#define ROWS 6 //8
+#define COLS 15 //10
 #define EMPTY 0
 #define WALL 1
 

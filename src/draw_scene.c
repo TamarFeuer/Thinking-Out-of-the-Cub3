@@ -44,8 +44,8 @@ mlx_texture_t	*get_texture(t_game *game)
 		return (game->west);
 	else if (ft_strncmp(direction, "north", 4) == 0)
 		return (game->north);
-	else if (ft_strncmp(direction, "west", 4) == 0)
-		return (game->west);
+	else if (ft_strncmp(direction, "east", 4) == 0)
+		return (game->east);
 	else
 		return (game->south);
 }
