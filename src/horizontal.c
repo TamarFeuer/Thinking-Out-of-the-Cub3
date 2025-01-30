@@ -5,12 +5,12 @@ void	set_inc_horiz(t_game *game, float *increase_y, int *delta_y_to_next_horiz, 
 	(void)increase_x;
 	if (game->ray->angle_quad == 3 || game->ray->angle_quad == 4) //ray facing down
 	{
-		*increase_y = 4 * 8;
-		*delta_y_to_next_horiz = 4 * 8; //proceed to the first location on the new block
+		*increase_y = CONST * PIXELS_PER_BLOCK;
+		*delta_y_to_next_horiz = CONST * PIXELS_PER_BLOCK; //proceed to the first location on the new block
 	}
 	else if (game->ray->angle_quad == 1 || game->ray->angle_quad == 2) //ray facing up
 	{
-		*increase_y = -4 * 8;
+		*increase_y = -CONST * PIXELS_PER_BLOCK;
 		*delta_y_to_next_horiz =  -1; //proceed to the last location on the new block
 	}
 	if (game->ray->angle_quad == 3 || game->ray->angle_quad == 4)
@@ -26,15 +26,15 @@ float	horiz_intersect(t_game *game, float angle)
 	
 	//printf ("\nHORIZONTAL:\n");
 	delta_y_to_next_horiz = 0;
-	increase_x = 4 * 8 / tan(angle);
+	increase_x = CONST * PIXELS_PER_BLOCK / tan(angle);
 	set_inc_horiz(game, &increase_y, &delta_y_to_next_horiz, &increase_x);
 	//printf ("increase_x is %f\n", increase_x);
 	//printf ("increase_y is %f, delta_y_to_next_horiz is %d, \n", increase_y, delta_y_to_next_horiz);
 	
-	game->ray->inter.y = floor((game->camera.pos.y - Y_START) / (4 * 8)) * (4 * 8) + delta_y_to_next_horiz;
+	game->ray->inter.y = floor((game->camera.pos.y - Y_START) / (CONST * PIXELS_PER_BLOCK)) * (CONST * PIXELS_PER_BLOCK) + delta_y_to_next_horiz;
 	//printf ("game->ray->inter.y %f\n", game->ray->inter.y);
 	//printf ("game->camera.x %d\n", game->camera.x);
-	//printf ("game->camera.y %d, floor(game->camera.y / (4.0*8.0)) %f\n", game->camera.y, floor(game->camera.y / (4.0*8.0)));
+	//printf ("game->camera.y %d, floor(game->camera.y / (CONST * PIXELS_PER_BLOCK)) %f\n", game->camera.y, floor(game->camera.y / (CONST * PIXELS_PER_BLOCK)));
 	game->ray->inter.x = (game->camera.pos.x - X_START) - (game->ray->inter.y - game->camera.pos.y) / tan(angle);
 	//printf ("game->ray->inter.x %f\n", game->ray->inter.x);
 	

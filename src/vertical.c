@@ -4,12 +4,12 @@ void	set_inc_vert(t_game *game, float *increase_x, int *delta_x_to_next_vertical
 {
 	if (game->ray->angle_quad == 1 || game->ray->angle_quad == 4) // ray facing right
 	{
-		*increase_x = 4 * 8;
-		*delta_x_to_next_vertical = 4 * 8; //proceed to the first location on the new block
+		*increase_x = CONST * PIXELS_PER_BLOCK;
+		*delta_x_to_next_vertical = CONST * PIXELS_PER_BLOCK; //proceed to the first location on the new block
 	}
 	else if (game->ray->angle_quad == 2 || game->ray->angle_quad == 3) // ray facing left
 	{
-		*increase_x = -4 * 8;
+		*increase_x = -CONST * PIXELS_PER_BLOCK;
 		*delta_x_to_next_vertical = -1; //proceed to the last location on the new block
 	}
 	if (game->ray->angle_quad == 1 || game->ray->angle_quad == 4)
@@ -26,16 +26,16 @@ float	vertical_intersect(t_game *game, float angle)
 	delta_x_to_next_vertical = 0;
 	if (angle == M_PI / 2 || angle == 3 * M_PI / 2)
 		angle += 0.0001;
-	//increase_x = 4 * 8;
-	increase_y = 4 * 8 * tan(angle); //how much y changes when x changes by 1 (or -1) block_size
+	//increase_x = CONST * PIXELS_PER_BLOCK;
+	increase_y = CONST * PIXELS_PER_BLOCK * tan(angle); //how much y changes when x changes by 1 (or -1) block_size
 	
 	set_inc_vert(game, &increase_x, &delta_x_to_next_vertical, &increase_y);
 	//printf ("increase_y is %f\n", increase_y);
 	//printf ("increase_x is %f, delta_x_to_next_vertical is %d, \n", increase_x, delta_x_to_next_vertical);
 	
-	game->ray->inter.x = floor(game->camera.pos.x / (4 * 8)) * 4 * 8 + delta_x_to_next_vertical;
+	game->ray->inter.x = floor(game->camera.pos.x / (CONST * PIXELS_PER_BLOCK)) * CONST * PIXELS_PER_BLOCK + delta_x_to_next_vertical;
 	//printf ("game->ray->inter.x %f\n", game->ray->inter.x);
-	//printf ("game->camera.x %d, floor(game->camera.x / (4.0*8.0)) %f\n", game->camera.x, floor(game->camera.x / (4.0*8.0)));
+	//printf ("game->camera.x %d, floor(game->camera.x / (CONST * PIXELS_PER_BLOCK)) %f\n", game->camera.x, floor(game->camera.x / (CONST * PIXELS_PER_BLOCK)));
 	game->ray->inter.y = game->camera.pos.y - (game->ray->inter.x - game->camera.pos.x) * tan(angle);
 	
 	//printf ("game->ray->inter.y %f\n", game->ray->inter.y);

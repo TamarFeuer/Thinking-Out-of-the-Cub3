@@ -2,17 +2,17 @@
 
 // //block starts at n * PIXELS_PER_CLOCK * CONST
 // //block ends at n * PIXELS_PER_CLOCK * CONST + PIXELS_PER_CLOCK * CONST - 1 = (n + 1) *  PIXELS_PER_CLOCK * CONST - 1
-int get_block_index(t_pos *grid_pos)
-{
-	int result = -1;
-	int block_index_x = (int)((floor(grid_pos->x) - X_START) / (PIXELS_PER_BLOCK * CONST));
-	int block_index_y = (int)((floor(grid_pos->y) - Y_START) / (PIXELS_PER_BLOCK * CONST));
-	//printf("on grid_x %d, on grid Y %d\n", block_index_x, block_index_y);
-	result = (block_index_y) * COLS + (block_index_x);
-	//printf ("result is %d\n", result);
-	//printf ("game->ray->end.x %f, game->ray->end.y %f\n", game->ray->end.x, game->ray->end.y);
-	return result;
-}
+// int get_block_index(t_pos *grid_pos)
+// {
+// 	int result = -1;
+// 	int block_index_x = (int)((floor(grid_pos->x) - X_START) / (PIXELS_PER_BLOCK * CONST));
+// 	int block_index_y = (int)((floor(grid_pos->y) - Y_START) / (PIXELS_PER_BLOCK * CONST));
+// 	//printf("on grid_x %d, on grid Y %d\n", block_index_x, block_index_y);
+// 	result = (block_index_y) * COLS + (block_index_x);
+// 	//printf ("result is %d\n", result);
+// 	//printf ("game->ray->end.x %f, game->ray->end.y %f\n", game->ray->end.x, game->ray->end.y);
+// 	return result;
+// }
 
 //flag: 1 vertical, horizontal 0
 int get_block_index2(t_game *game, t_pos *grid_pos, int flag)
@@ -59,9 +59,10 @@ void cast_rays(t_game *game)
 		game->ray->number_of_rays = 1;
 		
 	while (game->ray->ray_num < game->ray->number_of_rays)
+	// while (game->ray->ray_num < 1)
 	{	
 		// printf("by_plotting: \n");
-		 //reach_nearest_wall_by_plotting(game, game->ray->current_angle);
+		//reach_nearest_wall_by_plotting(game, game->ray->current_angle);
 		// printf("Ray %d: angle %f, distance %f, camera.x %f, camera.y %f\n", game->ray->ray_n, game->ray->current_angle, game->ray->distance, game->camera.pos.x, game->camera.pos.y);
 		// printf ("facing %s wall, end.x %f, end.y %f\n", get_direction(game), game->ray->end.x, game->ray->end.y);
 		// printf ("found vertical first? %d\n\n", game->ray->found_vertical_first);
@@ -74,7 +75,7 @@ void cast_rays(t_game *game)
 		
 		// printf("by_intersections: \n");
 		reach_nearest_wall_by_intersections(game, game->ray->current_angle);
-		//printf("Ray %d: angle %f, distance %f, camera.x %f, camera.y %f\n", game->ray->ray_n, game->ray->current_angle, game->ray->distance, game->camera.pos.x, game->camera.pos.y);
+		//printf("Ray %d: angle %f, distance %f, camera.x %f, camera.y %f\n", game->ray->ray_num, game->ray->current_angle, game->ray->distance, game->camera.pos.x, game->camera.pos.y);
 		//printf ("facing %s wall, end.x %f, end.y %f\n", get_direction(game), game->ray->end.x, game->ray->end.y);
 		//printf ("found vertical first? %d\n\n", game->ray->found_vertical_first);
 		// if (game->is_mmap == true && game->is_debug == false)

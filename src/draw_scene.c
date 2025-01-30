@@ -6,10 +6,10 @@ float	get_x_offset(mlx_texture_t *texture, t_game *game)
 	
 	if (!game->ray->found_vertical_first)
 		x_offset = (int)fmodf((game->ray->end.x *
-				(texture->width / SCENE_BLOCK_SIZE)), texture->width);
+				(texture->width / (PIXELS_PER_BLOCK * CONST))), texture->width);
 	else
 	 	x_offset = (int)fmodf((game->ray->end.y * 
-				(texture->width /SCENE_BLOCK_SIZE)), texture->width);
+				(texture->width / (PIXELS_PER_BLOCK * CONST))), texture->width);
 	return (x_offset);
 }
 
@@ -97,7 +97,7 @@ void	manage_wall_slice(t_game *game)
 	normalize_angle_to_2pi(&relative_ray_angle);
 	game->ray->corrected_distance = game->ray->distance * cos(relative_ray_angle);  //fixing fish eye
 	
-	slice_height = SCENE_BLOCK_SIZE / game->ray->corrected_distance * game->camera.plane_distance;
+	slice_height = PIXELS_PER_BLOCK * CONST / game->ray->corrected_distance * game->camera.plane_distance;
 	//printf ("slice_height is %f\n", slice_height);
 	//printf ("game->camera.plane_distance is %f\n", game->camera.plane_distance);
 	//printf ("game->ray->corrected_distance is %f\n", game->ray->corrected_distance);

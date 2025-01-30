@@ -25,7 +25,9 @@ void draw_all(void *param)
 			game->ray->number_of_rays = 1;
 			
 		while (i < game->ray->number_of_rays)
+		// while (i < 1)
 		{
+			//printf ("i is %d\n", i);
 			bresenham_ray(game, game->camera.pos, game->ray->ray_end[i]);
 			i++;
 		}
@@ -35,7 +37,7 @@ void draw_all(void *param)
 		if (game->stats)
 		{
 			mlx_delete_image(game->mlx, game->stats);
-			print_stats(game);
+			print_stats(game);   ///??????
 		}
 	}
 }

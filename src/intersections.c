@@ -20,7 +20,8 @@ void reach_nearest_wall_by_plotting(t_game *game, float angle) //start and end i
 
 		//check map limits
 		{
-			if (game->mapdata[get_block_index(&game->ray->end)] == '1')
+			//if (game->mapdata[get_block_index(&game->ray->end)] == '1')
+			if (game->mapdata[get_block_index2(game, &game->ray->end, 99)] == '1')
 			{
 				
 				//printf ("Intersection found\n");
@@ -106,4 +107,5 @@ void reach_nearest_wall_by_intersections(t_game *game, float angle)
 		game->ray->end.y = game->ray->h_hit.y;
 		game->ray->distance = get_distance(game->camera.pos, game->ray->end);
 	}
+	
 }

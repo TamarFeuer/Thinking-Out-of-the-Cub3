@@ -25,7 +25,7 @@
 #define WALL '1'
 
 //mini map
-#define CONST 4
+#define CONST 3
 #define PIXELS_PER_BLOCK 8
 
 #define MMAP_WIDTH COLS * PIXELS_PER_BLOCK * CONST //10*8*6= 480
@@ -48,7 +48,7 @@
 #define OUT_OF_BOUNDS 1000000000
 
 //scene
-#define SCENE_BLOCK_SIZE 32
+//#define SCENE_BLOCK_SIZE 32
 #define SCENE_WIDTH  1920
 #define SCENE_HEIGHT 1080
 #define PROJECTION_DISTANCE 1108
