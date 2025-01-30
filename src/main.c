@@ -1,4 +1,3 @@
-
 #include "../inc/game.h"
 
 void draw_all(void *param)
@@ -45,6 +44,9 @@ void draw_all(void *param)
 
 int	main(int argc, char *argv[])
 {
+	t_game	*game;
+	t_data	*data;
+	
 	(void)argc;
 	(void)argv;
 	int width, height;

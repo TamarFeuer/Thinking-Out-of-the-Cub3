@@ -6,6 +6,11 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <math.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include "errors.h"
+#include "gnl.h"
 
 
 #define M_PI 3.14159265358979323846
@@ -91,7 +96,7 @@ typedef struct s_player
 	double		angle;  // in radians
 	int			angle_quad;
 	mlx_image_t	*player_img;
-} t_player;
+}	t_player;
 
 typedef struct s_camera
 {
@@ -152,6 +157,35 @@ typedef struct s_game
 }	t_game;
 
 
+typedef struct s_textures
+{
+	char	*north;
+	char	*south;
+	char	*west;
+	char	*east;
+	char	*floor;
+	char	*ceiling;
+}	t_textures;
+
+typedef struct s_mapdata
+{
+	char	*path;
+	int		total_lines;
+	char	**file_data;
+	char	**map;
+	int		map_rows;
+	int		height;
+	int		width;
+}	t_mapdata;
+
+typedef struct s_data
+{
+	t_mapdata	map_data;
+	t_textures	textures;
+}	t_data;
+
+
+void	bresenham_line(t_game *game, int start[2], int end[2]);
 void	draw_grid(t_game *game, int rows, int cols);
 void	draw_player(t_game *game);
 void	cast_rays(t_game *game);
@@ -186,11 +220,36 @@ int		draw_static_components(t_game *game);
 
 
 // LIBFT
+bool	ft_is_pos_identifier(char c);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+void	*ft_calloc(size_t nmemb, size_t size);
+char	*ft_strdup(char const *str);
+void	*ft_memset(void *s, int c, size_t n);
+size_t	ft_strlen(const char *s);
 char	*ft_itoa(int n);
 char	*ft_ftoa(float n, int precision);
 char	*ft_strjoin(char const *s1, char const *s2);
 void	*ft_calloc(size_t nmemb, size_t size);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
+float	limit_decimal_places(float number, int decimal_places);
+int		ft_isdigit(char c);
+
+// PARSING
+char	*get_next_line(int fd);
+void	init_data_struct(t_data **data);
+void	parse_file(t_data *data, char *file_path);
+int		count_lines(char *file_path);
+void	copy_line_by_line(t_mapdata *mapinfo, char *file_path);
+void 	parse_identifiers(t_data *data, int *i, int *j);
+bool	check_file_format(char *file_path);
+void 	parse_map(t_data *data, int *i, int *j);
+bool	check_map_validity(t_data *data);
+bool	is_surrounded_by_walls(t_data *data, char **map);
+
+//PARSING UTILS
+void	skip_whitespaces(char **arr, int i, int *j);
+void	skip_nl_and_whitespaces(char **arr, int *i, int *j);
+void	ft_print_arr(char **arr);
 
 #endif
