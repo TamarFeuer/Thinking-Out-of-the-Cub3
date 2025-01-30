@@ -21,8 +21,8 @@
 //map
 #define ROWS 6 //8 ---> !
 #define COLS 15 //10 ---> !
-#define EMPTY 0
-#define WALL 1
+#define EMPTY '0'
+#define WALL '1'
 
 //mini map
 #define CONST 4
