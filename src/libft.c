@@ -14,52 +14,6 @@ int	ft_isdigit(char c)
 	return (false);
 }
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	size_t			i;
-	unsigned char	*c1;
-	unsigned char	*c2;
-
-	c1 = (unsigned char *)s1;
-	c2 = (unsigned char *)s2;
-	i = 0;
-	if (n == 0)
-		return (0);
-	while (c1[i] && c2[i] && n > i)
-	{
-		if (c1[i] != c2[i])
-			return (c1[i] - c2[i]);
-		i++;
-	}
-	if (i >= n)
-		return (c1[i - 1] - c2[i - 1]);
-	return (c1[i] - c2[i]);
-}
-
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	void	*ptr;
-	size_t	i;
-
-	if (nmemb == 0 || size == 0)
-		return (NULL);
-	if ((nmemb * size) / nmemb != size)
-		return (NULL);
-	ptr = malloc(nmemb * size);
-	if (!ptr)
-	{
-		perror("ft_calloc");
-		return (NULL);
-	}
-	i = 0;
-	while (i < (nmemb * size))
-	{
-		((char *)ptr)[i] = '\0';
-		i++;
-	}
-	return (ptr);
-}
-
 char	*ft_strdup(char const *str)
 {
 	char	*new;
@@ -78,19 +32,6 @@ char	*ft_strdup(char const *str)
 	}
 	new[i] = '\0';
 	return (new);
-}
-
-void	*ft_memset(void *s, int c, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < n)
-	{
-		*(char *)(s + i) = c;
-		i++;
-	}
-	return (s);
 }
 
 size_t	ft_strlen(const char *s)

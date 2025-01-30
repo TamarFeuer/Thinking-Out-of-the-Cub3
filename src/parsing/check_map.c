@@ -1,4 +1,4 @@
-#include "../inc/game.h"
+#include "../../inc/game.h"
 
 bool	check_map_validity(t_data *data);
 bool	has_repeated_elements(t_data *data);

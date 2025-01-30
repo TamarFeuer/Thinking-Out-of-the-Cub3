@@ -1,4 +1,4 @@
-#include "../inc/game.h"
+#include "../../inc/game.h"
 
 void	ft_print_arr(char **arr)
 {

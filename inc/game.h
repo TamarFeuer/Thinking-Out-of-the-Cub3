@@ -19,8 +19,8 @@
 #define SCREEN_HEIGHT 1080
 
 //map
-#define ROWS 6 //8
-#define COLS 15 //10
+#define ROWS 6 //8 ---> !
+#define COLS 15 //10 ---> !
 #define EMPTY 0
 #define WALL 1
 
@@ -52,7 +52,7 @@
 #define SCENE_WIDTH  1920
 #define SCENE_HEIGHT 1080
 #define PROJECTION_DISTANCE 1108
-#define FLOOR_COLOR 0xFF00cc40
+#define FLOOR_COLOR 0xFF00cc40  //---> !
 
 typedef enum e_direction 
 {
@@ -92,10 +92,9 @@ typedef struct s_bersenham
 
 typedef struct s_player
 {
-	t_pos		p_pos;
-	double		angle;  // in radians
+	t_pos		p_pos;  // ---> !
+	double		angle;  // in radians ---> !
 	int			angle_quad;
-	mlx_image_t	*player_img;
 }	t_player;
 
 typedef struct s_camera
@@ -151,9 +150,6 @@ typedef struct s_game
 	mlx_texture_t	*south;
 	mlx_texture_t	*west;
 	mlx_texture_t	*east;
-
-	char		**map;
-
 }	t_game;
 
 

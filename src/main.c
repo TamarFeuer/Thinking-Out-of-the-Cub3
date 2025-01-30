@@ -45,14 +45,14 @@ void draw_all(void *param)
 int	main(int argc, char *argv[])
 {
 	t_game	*game;
-	t_data	*data;
+	// t_data	*data;
 	
 	(void)argc;
 	(void)argv;
 	int width, height;
 	
 	// mlx_set_setting(MLX_STRETCH_IMAGE, true);
-	t_game *game = (t_game *)ft_calloc(1, sizeof(t_game));
+	game = (t_game *)ft_calloc(1, sizeof(t_game));
 	if (!game)
 		return (EXIT_FAILURE);
 	

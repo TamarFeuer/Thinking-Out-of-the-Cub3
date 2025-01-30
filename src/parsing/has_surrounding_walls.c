@@ -1,4 +1,4 @@
-#include "../inc/game.h"
+#include "../../inc/game.h"
 
 bool	check_col_above(char **map, int row, int col);
 bool	check_col_below(t_data *data, char **map, int row, int col);

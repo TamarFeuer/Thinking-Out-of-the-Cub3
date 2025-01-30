@@ -1,4 +1,4 @@
-#include "../inc/game.h"
+#include "../../inc/game.h"
 
 static void	get_identifier(t_data *data, int *i, int *j);
 static void	get_texture_path(t_data *data, char **texture, int *i, int *j);

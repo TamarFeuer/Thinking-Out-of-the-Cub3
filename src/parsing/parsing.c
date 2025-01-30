@@ -1,4 +1,4 @@
-#include "../inc/game.h"
+#include "../../inc/game.h"
 
 void		init_data_struct(t_data **data);
 void		parse_file(t_data *data, char *file_path);
