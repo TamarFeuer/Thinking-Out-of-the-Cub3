@@ -13,7 +13,6 @@ void	init_data_struct(t_data **data)
 		exit(EXIT_FAILURE);
 	ft_memset(*data, 0, sizeof(t_data));
 }
-
 void	parse_file(t_data *data, char *file_path)
 {
 	int	i;

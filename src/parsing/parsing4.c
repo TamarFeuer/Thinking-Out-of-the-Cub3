@@ -15,6 +15,8 @@ void parse_map(t_data *data, int *i, int *j)
 
 	//Assign the array with the file contents to a shorter variable.
 	map = data->map_data.file_data;
+	if (!map)
+		return ;
 
 	//At the position given by i and j, skips empty lines and whitespaces.
 	while (map[*i] && map[*i][*j])
@@ -32,7 +34,7 @@ void parse_map(t_data *data, int *i, int *j)
 	}
 
 	//We're at the map portion. If it does not begin with a digit, in particular a 1, it's an invalid map.
-	if (!ft_isdigit(map[*i][*j]))
+	if (map[*i] && map[*i][*j] && !ft_isdigit(map[*i][*j]))
 		printf("The map does not begin with a digit.\n");
 	
 	*j -= len;

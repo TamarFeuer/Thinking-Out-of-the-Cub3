@@ -53,28 +53,29 @@ bool	is_surrounded_by_walls(t_data *data, char **map)
 			if (row == 0 && map[row][col] == '0')
 			{
 				printf("ROW #%i doesn't have a wall where it should.\n", row);
+				printf("is_surrounded_by_walls\n");
 				return (false);
 			}
 			//Checks for when the tile is a walkable space
-			if (row != 0 && map[row][col] == '0')
+			if (row != 0 && (map[row][col] == '0' || map[row][col] == ' '))
 			{
 				// if (!check_col_above(map, row, col))
 				// 	return (false);
 				// if (!check_col_below(data, map, row, col))
 				// 	return (false);
-				if (!check_right_col(map, row, col))
-					return (false);
-				// if (!check_left_col(map, row, col))
+				// if (!check_right_col(map, row, col))
 				// 	return (false);
+				if (!check_left_col(map, row, col))
+					return (false);
 			}
 			//Checks for when the tile is an empty space - The checks for the surrounding spaces are different.
-			else if (map[row][col] == ' ')
-			{
+			// else if ()
+			// {
 				//if there's only spaces above, below, to the right or left that's okay.
 				//if there's a 0 at some point, then we do need to check for a 1.
 				//if there's a 1 then that's good.
 				//if the space is within the map, then it should be surrounded by walls. Suddenly only spaces to whichever side are not okay anymore.
-			}
+			// }
 			col++;
 		}
 		row++;
@@ -170,7 +171,7 @@ bool	check_right_col(char **map, int row, int col)
 	}
 
 	//Checks if there's a wall somewhere to the right of a empty space
-	else if (map[row][col] && (map[row][col] == ' ')) //Where does it make a difference if we add an extra parentheses? Memory? What happens during compilation?
+	else if (map[row][col] && (map[row][col] == ' '))
 	{
 		i = 0;
 		while (map[row][col + i] != '\0' && map[row][col + i] != '\n')
@@ -192,39 +193,57 @@ bool	check_left_col(char **map, int row, int col)
 {
 	int	i;
 
+	//Checks for the map's nullity
 	if (!map || !*map || row < 0 || col < 0)
 	{
 		printf("NULL MAP!\n");
 		return (false);
 	}
-	if (map[row][col] && map[row][0] == '0')
+
+	//Checks if the row begins with a 0.
+	i = 0;
+	while (map[row][col] && map[row][i] == ' ')
+		i++;
+	if (map[row][col] && map[row][i] == '0')
 	{
 		printf("The column begins with a 0\n");
 		return (false);
 	}
-	if (map[row][col] && (map[row][col] == '0' || map[row][col] == ' '))
+
+
+	if (map[row][col] && (map[row][col] == '0'))
 	{
 		i = 0;
 		while (col - i >= 0 && map[row][col - i] != '\0')
 		{
+			//If there's a space right before a 0, that 0 and that space are not surrounded by walls.
 			if (map[row][col - i] == ' ')
 			{
 				printf("There was a space before a wall, to the left\n");
 				return (false);
 			}
 			else if (map[row][col - i] == '1')
-			{
-				// printf("For row %i, returning true at iteration: %i\n", row, i);
 				return (true);
-			}
 			i++;
 		}
-		if (col - i >= 0 && (map[row][col - i] == '0' || map[row][col - i] == '\0' || map[row][col - i] == ' '))
+	}
+
+	else if (map[row][col] && map[row][col] == ' ')
+	{
+		i = 0;
+		while (col - i >= 0 && map[row][col - i] != '\0')
 		{
-			printf("REACHED END OF COL WITHOUT WALL\n");
-			return (false);
+			if (map[row][col - i] == '0')
+			{
+				printf("There's a 0 before a space in check_left_col\n");
+				return (false);
+			}
+			else if (map[row][col + i] == '1')
+				return (true);
+			i++;
 		}
 	}
+
 	return (false);
 }
 
