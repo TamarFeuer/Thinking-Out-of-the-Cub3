@@ -57,10 +57,8 @@ void	count_map_cols(t_data *data, int row)
 void parse_map(t_data *data, int *i, int *j)
 {
 	char	**map;
-	int		len = 0;
-	int		k;
-	int		l;
-	int		m;
+	int		row;
+	int		col;
 
 	count_map_rows(data, *i);
 	count_map_cols(data, *i);
@@ -81,57 +79,58 @@ void parse_map(t_data *data, int *i, int *j)
 	if (map[*i] && map[*i][*j] && !ft_isdigit(map[*i][*j]))
 		printf("The map does not begin with a digit.\n");
 
-	//Allocate memory for each line,
-	//Fill the remaining spaces of the line with empty spaces
-	//Check if there's content after an empty line -> that means invalid map.
-
-
-
-	*j = 0;
-	k = 0;
-	while (map[*i] && map[*i][*j])
+	row = 0;
+	while (map[*i])
 	{
-		l = *j;
-		len = 0;
-		while (map[*i][l] != '\0' && map[*i][l] != '\n')
-		{
-			if (!ft_isdigit(map[*i][l]) && !ft_is_pos_identifier(map[*i][l]) && map[*i][l] != ' ' && map[*i][l] != '\t') //later check that the pos identifier is not repeated?
-				printf("There's an element in the map that's not valid.\n");
-			else if (map[*i][l] == '\t')
-				len += 4;
-			else
-				len++;
-			l++;
-		}
-
-		//Allocated memory for the line.
-		data->map_data.map[k] = (char *) malloc(len + 1);
-		if (!data->map_data.map[k])
+		data->map_data.map[row] = (char *) malloc(data->map_data.cols + 1);
+		if (!data->map_data.map[row])
 			printf("%s\n", ERR_MEM_ALL);
 
-		//Copies the line contents into the new map variable (in the data structure)
-		l = 0;
+		//Checks that there's no empty line somewhere in between the map.
+		*j = 0;
+		while (map[*i][*j] != '\0' && (map[*i][*j] == '\t' || map[*i][*j] == ' '))
+			*j += 1;
+		if (map[*i][*j] == '\n')
+			break ;
+
+		*j = 0;
+		col = 0;
 		while (map[*i][*j] != '\0' && map[*i][*j] != '\n')
 		{
-			if (!ft_isdigit(map[*i][*j]) && !ft_is_pos_identifier(map[*i][*j]) && map[*i][*j] != ' ' && map[*i][*j] != '\t')
-				printf("There's an element in the map that's not a digit: %c.\n", map[k][*j]);
-			else if (map[*i][*j] != '\t')
-				data->map_data.map[k][l] = map[*i][*j];
-			else if (map[*i][*j] == '\t')
+			//Converts tabs into 4 spaces.
+			if (map[*i][*j] == '\t')
 			{
-				m = -1;
-				while (m < 4)
-					data->map_data.map[k][l + ++m] = ' ';
-				l += m - 1;
+				data->map_data.map[row][col] = ' ';
+				data->map_data.map[row][col + 1] = ' ';
+				data->map_data.map[row][col + 2] = ' ';
+				data->map_data.map[row][col + 3] = ' ';
+				col += 4;
+			}
+			else //Copies the contents of the map
+			{
+				data->map_data.map[row][col] = map[*i][*j];
+				col++;
 			}
 			*j += 1;
-			l++;
 		}
-		data->map_data.map[k][l] = '\0';
-		k++;
+
+		//Fills the rest of the line with empty spaces
+		while (col < data->map_data.cols - 1)
+			data->map_data.map[row][col++] = ' ';
+		data->map_data.map[row][col] = '\0';
 		*i += 1;
-		*j = 0;
+		row++;
 	}
-	data->map_data.map[k] = NULL;
+	data->map_data.map[row] = NULL;
+
+	skip_nl_and_whitespaces(map, i, j);
+	skip_whitespaces(map, *i, j);
+
 	// ft_print_arr(data->map_data.map);
+
+	if (map[*i] && map[*i][*j] && map[*i][*j] != '\n')
+	{
+		printf("There's an empty line splitting the map.\n");
+		return ;
+	}
 }
