@@ -20,15 +20,17 @@ bool	is_surrounded_by_walls(t_data *data, char **map)
 		while (map[row][col])
 		{
 			//The first row should be full of 1s or spaces
-			if (row == 0 && map[row][col] == '0')
-			{
-				printf("ROW #%i doesn't have a wall where it should.\n", row);
-				printf("is_surrounded_by_walls\n");
-				return (false);
-			}
+			// if (row == 0 && map[row][col] == '0')
+			// {
+			// 	printf("ROW #%i doesn't have a wall where it should.\n", row);
+			// 	printf("is_surrounded_by_walls\n");
+			// 	return (false);
+			// }
 			//Checks for when the tile is a walkable space
-			if (row != 0 && (map[row][col] == '0' || map[row][col] == ' '))
+			if (row >= 0 && (map[row][col] == '0' || map[row][col] == ' '))
 			{
+				// ft_print_arr(map);
+				printf("ROW: %d, COL: %d, |%c|\n", row, col, map[row][col]);
 				if (!check_col_above(map, row, col))
 					return (false);
 				if (!check_col_below(data, map, row, col))
@@ -54,24 +56,43 @@ bool	check_col_above(char **map, int row, int col)
 	//Checks the map's NULLITY
 	if (!map || !*map)
 	{
-		printf("NULL MAP!\n");
+		printf("NULL MAP! check_col_above\n");
 		return (false);
 	}
 	//This is also for map's nullity, but with a different error message
 	if (row - 1 < 0)
 	{
-		printf("The map is not surrounded by walls...\n");
+		printf("The map is not surrounded by walls... check_col_above\n");
 		return (false);
 	}
-	//
-	else if (row - 1 >= 0 && (map[row - 1][col] == '0' || map[row - 1][col] == ' '))
+	
+	if (map[row][col] == '0' && row - 1 >= 0)
 	{
-		// printf("Checking the row above line #%i\n", row);
-		return (check_col_above(map, row - 1, col));
+		if (map[row - 1][col] == '1')
+		{
+			// printf("Check_col_Above\n");
+			return (true);
+		}
+		if (map[row - 1][col] == '0' || ft_is_pos_identifier(map[row - 1][col]))
+			return (check_col_above(map, row - 1, col));
+		else if (map[row - 1][col] == ' ')
+		{
+			printf("There's a space where there should be a wall. check_col_above\n");
+			return (false);
+		}
 	}
-
-	else if (row - 1 >= 0 && map[row - 1][col] == '1')
-		return (true);
+	else if (map[row][col] == ' ' && row - 1 >= 0)
+	{
+		if (map[row - 1][col] == '1')
+			return (true);
+		if (map[row - 1][col] == ' ')
+			return (check_col_above(map, row - 1, col));
+		else if (map[row - 1][col] == '0' || ft_is_pos_identifier(map[row - 1][col]))
+		{
+			printf("There's a 0 or N/E/W/S where there should be a wall. check_col_above\n");
+			return (false);
+		}
+	}
 	return (false);
 }
 
@@ -79,12 +100,12 @@ bool	check_col_below(t_data *data, char **map, int row, int col)
 {
 	if (!map || !*map)
 	{
-		printf("NULL MAP!\n");
+		printf("NULL MAP! check_col_below\n");
 		return (false);
 	}
 	if (row + 1 >= data->map_data.rows)
 	{
-		printf("The map didn't have a wall where it should, and it ran out of lines.\n");
+		printf("The map didn't have a wall where it should, and it ran out of lines. check_col_below\n");
 		return (false);
 	}
 	else if (row + 1 < data->map_data.rows && (map[row + 1][col] == '0' || map[row + 1][col] == ' '))
@@ -110,7 +131,7 @@ bool	check_right_col(char **map, int row, int col)
 	len = ft_strlen(map[row]);
 	if (map[row][len - 1] && map[row][len - 1] == '0')
 	{
-		printf("The column ends with a 0.\n");
+		printf("The column ends with a 0. check_right_col\n");
 		return (false);
 	}
 
@@ -168,7 +189,7 @@ bool	check_left_col(char **map, int row, int col)
 		i++;
 	if (map[row][col] && map[row][i] == '0')
 	{
-		printf("The column begins with a 0\n");
+		printf("The column begins with a 0. check_left_col\n");
 		return (false);
 	}
 
@@ -181,7 +202,7 @@ bool	check_left_col(char **map, int row, int col)
 			//If there's a space right before a 0, that 0 and that space are not surrounded by walls.
 			if (map[row][col - i] == ' ')
 			{
-				printf("There was a space before a wall, to the left\n");
+				printf("There was a space before a wall, to the left. check_left_col\n");
 				return (false);
 			}
 			else if (map[row][col - i] == '1')
