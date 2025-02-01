@@ -116,24 +116,3 @@ static void check_colour_texture(char *texture)
 {
 	printf("The colour texture is: %s\n", texture);
 }
-
-
-
-
-
-
-
-
-
-// static void parse_map(t_data *data)
-// {
-// 	//skip empty lines
-// 	//check at what line the map starts?
-// 	//Count the number of lines in the map
-// 	//Look for the longest line
-// 	//Allocate memory for the map
-// 	//Every space is an empty tile? Every tab is 4 empty tiles?
-// 	//The order of the spaces should be preserved, but a line can be filled with spaces at the end
-// 	//Apart from the spaces, the map has 3 characters: 0, 1 and N/E/W/S, with having a unique cardinal identifier.
-// 	//It has to be surrounded by walls
-// }

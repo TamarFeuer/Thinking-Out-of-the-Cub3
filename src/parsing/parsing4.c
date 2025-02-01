@@ -1,15 +1,72 @@
 #include "../../inc/game.h"
 
+void	count_map_rows(t_data *data, int row)
+{
+	char	**file;
+	int		col;
+
+	file = data->map_data.file_data;
+	if (!file)
+		return ;
+	col = 0;
+	skip_nl_and_whitespaces(file, &row, &col);
+
+	//Start counting the number of rows
+	data->map_data.rows = 0;
+	while (file[row])
+	{
+		col = 0;
+		while (file[row][col] == ' ' || file[row][col] == '\t')
+			col++;
+		if (file[row][col] == '\n')
+			break ;
+		row++;
+		data->map_data.rows++;
+	}
+	printf("count_map_rows: %d\n", data->map_data.rows);
+}
+
+void	count_map_cols(t_data *data, int row)
+{
+	char	**file;
+	int		col;
+
+	file = data->map_data.file_data;
+	if (!file)
+		return ;
+	col = 0;
+	skip_nl_and_whitespaces(file, &row, &col);
+	data->map_data.cols = 0;
+	while (file[row])
+	{
+		col = 0;
+		while (file[row][col])
+		{
+			if (file[row][col] == '\t')
+				col += 4;
+			else
+				col++;
+		}
+		if (col > data->map_data.cols)
+			data->map_data.cols = col;
+		row++;
+	}
+	printf("count_map_cols: %d\n", data->map_data.cols);
+}
+
 void parse_map(t_data *data, int *i, int *j)
 {
 	char	**map;
-	int		len;
+	int		len = 0;
 	int		k;
 	int		l;
 	int		m;
 
+	count_map_rows(data, *i);
+	count_map_cols(data, *i);
+
 	//Allocate memory for the map array.
-	data->map_data.map = (char **) malloc(sizeof(char *) * (data->map_data.total_lines - *i + 1));
+	data->map_data.map = (char **) malloc(sizeof(char *) * (data->map_data.rows + 1));
 	if (!data->map_data.map)
 		printf("%s\n", ERR_MEM_ALL);
 
@@ -18,26 +75,13 @@ void parse_map(t_data *data, int *i, int *j)
 	if (!map)
 		return ;
 
-	//At the position given by i and j, skips empty lines and whitespaces.
-	while (map[*i] && map[*i][*j])
-	{
-		len = 0;
-		while (map[*i][*j] == ' ' || map[*i][*j] == '\t')
-		{
-			*j += 1;
-			len++;
-		}
-		if (map[*i][*j] != '\n')
-			break ;
-		*j = 0;
-		*i += 1;
-	}
+	skip_nl_and_whitespaces(map, i, j);
 
 	//We're at the map portion. If it does not begin with a digit, in particular a 1, it's an invalid map.
 	if (map[*i] && map[*i][*j] && !ft_isdigit(map[*i][*j]))
 		printf("The map does not begin with a digit.\n");
-	
-	*j -= len;
+
+	*j = 0;
 	k = 0;
 	while (map[*i] && map[*i][*j])
 	{
@@ -83,4 +127,5 @@ void parse_map(t_data *data, int *i, int *j)
 		*j = 0;
 	}
 	data->map_data.map[k] = NULL;
+	// ft_print_arr(data->map_data.map);
 }

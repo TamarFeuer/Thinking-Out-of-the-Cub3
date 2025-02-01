@@ -169,9 +169,8 @@ typedef struct s_mapdata
 	int		total_lines;
 	char	**file_data;
 	char	**map;
-	int		map_rows;
-	int		height;
-	int		width;
+	int		rows;
+	int		cols;
 }	t_mapdata;
 
 typedef struct s_data
