@@ -81,6 +81,12 @@ void parse_map(t_data *data, int *i, int *j)
 	if (map[*i] && map[*i][*j] && !ft_isdigit(map[*i][*j]))
 		printf("The map does not begin with a digit.\n");
 
+	//Allocate memory for each line,
+	//Fill the remaining spaces of the line with empty spaces
+	//Check if there's content after an empty line -> that means invalid map.
+
+
+
 	*j = 0;
 	k = 0;
 	while (map[*i] && map[*i][*j])
