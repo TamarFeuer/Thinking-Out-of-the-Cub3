@@ -31,8 +31,8 @@ bool	is_surrounded_by_walls(t_data *data, char **map)
 			{
 				// ft_print_arr(map);
 				printf("ROW: %d, COL: %d, |%c|\n", row, col, map[row][col]);
-				if (!check_col_above(map, row, col))
-					return (false);
+				// if (!check_col_above(map, row, col))
+				// 	return (false);
 				if (!check_col_below(data, map, row, col))
 					return (false);
 				if (!check_right_col(map, row, col))
@@ -108,10 +108,40 @@ bool	check_col_below(t_data *data, char **map, int row, int col)
 		printf("The map didn't have a wall where it should, and it ran out of lines. check_col_below\n");
 		return (false);
 	}
-	else if (row + 1 < data->map_data.rows && (map[row + 1][col] == '0' || map[row + 1][col] == ' '))
-		return (check_col_below(data, map, row + 1, col));
-	else if (row + 1 < data->map_data.rows && map[row + 1][col] == '1')
-		return (true);
+
+	if (map[row][col] == '0' && row + 1 < data->map_data.rows)
+	{
+		if (map[row + 1][col] == '1')
+		{
+			// printf("Check_col_below\n");
+			return (true);
+		}
+		if (map[row + 1][col] == '0' || ft_is_pos_identifier(map[row + 1][col]))
+			return (check_col_below(data, map, row + 1, col));
+		else if (map[row + 1][col] == ' ')
+		{
+			printf("There's a space where there should be a wall. check_col_below\n");
+			return (false);
+		}
+	}
+	else if (map[row][col] == ' ' && row + 1 < data->map_data.rows)
+	{
+		if (map[row + 1][col] == '1')
+			return (true);
+		if (map[row + 1][col] == ' ')
+			return (check_col_below(data, map, row + 1, col));
+		else if (map[row + 1][col] == '0' || ft_is_pos_identifier(map[row + 1][col]))
+		{
+			printf("There's a 0 or N/E/W/S where there should be a wall. check_col_below\n");
+			return (false);
+		}
+	}
+
+
+	// else if (row + 1 < data->map_data.rows && (map[row + 1][col] == '0' || map[row + 1][col] == ' '))
+	// 	return (check_col_below(data, map, row + 1, col));
+	// else if (row + 1 < data->map_data.rows && map[row + 1][col] == '1')
+	// 	return (true);
 	return (false);
 }
 
