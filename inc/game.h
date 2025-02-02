@@ -84,7 +84,7 @@ typedef struct s_point
 // 	enum e_side	wall_face;
 // }	t_wall_slice;
 
-typedef struct s_bersenham
+typedef struct s_bresenham
 {
 	t_pos		start[SCREEN_WIDTH];
 	t_pos		end[SCREEN_WIDTH];
@@ -171,6 +171,8 @@ typedef struct s_mapdata
 	char	**map;
 	int		rows;
 	int		cols;
+	int8_t	floor_colour;
+	int8_t	ceiling_colour;
 }	t_mapdata;
 
 typedef struct s_data
@@ -226,9 +228,10 @@ char	*ft_ftoa(float n, int precision);
 char	*ft_strjoin(char const *s1, char const *s2);
 void	*ft_calloc(size_t nmemb, size_t size);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
-
+char	*ft_substr(char const *s, unsigned int start, size_t len);
 float	limit_decimal_places(float number, int decimal_places);
 int		ft_isdigit(char c);
+char	**ft_split(char const *s, char c);
 
 // PARSING
 char	*get_next_line(int fd);

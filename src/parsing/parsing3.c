@@ -2,13 +2,15 @@
 
 static void	get_identifier(t_data *data, int *i, int *j);
 static void	get_texture_path(t_data *data, char **texture, int *i, int *j);
-static void check_colour_texture(char *texture);
+static void parse_colour_identifiers(t_data *data);
+int8_t	get_colour(char *colour);
 
 void parse_identifiers(t_data *data, int *i, int *j)
 {
 	char	**map;
 
 	map = data->map_data.file_data;
+	ft_memset(&data->textures, 0, sizeof(t_textures));
 	while (map[*i] && map[*i][*j]) //Skips empty lines and whitespaces
 	{
 		skip_whitespaces(map, *i, j);
@@ -16,18 +18,18 @@ void parse_identifiers(t_data *data, int *i, int *j)
 			get_identifier(data, i, j);
 		*j = 0;
 		*i += 1;
-		if (data->textures.north && data->textures.south && data->textures.east \
+		if (data->textures.north && data->textures.south && data->textures.east 
 			&& data->textures.west && data->textures.ceiling && data->textures.floor)
 			break ;
 	}
-
+	printf("PARSE IDENTIFIERS %s\n", &map[*i][*j]);
 	//Could iterate this with an enum.
 	// check_file_format(data->textures.north);
 	// check_file_format(data->textures.south);
 	// check_file_format(data->textures.east);
 	// check_file_format(data->textures.west);
-	check_colour_texture(data->textures.floor);
-	check_colour_texture(data->textures.ceiling);
+	parse_colour_identifiers(data);
+	// parse_colour_texture(data->textures.ceiling);
 	//check that it's a valid texture?
 }
 
@@ -66,10 +68,11 @@ static void	get_identifier(t_data *data, int *i, int *j)
 	{
 		printf("F\n");
 		get_texture_path(data, &data->textures.floor, i, j);
+		// printf("FLOOR: %s\n", data->textures.floor);
 	}
 	else if (ft_strncmp(&map[*i][*j], "C", 1) == 0 && !data->textures.ceiling) //&& check there's nothing random right after the string
 	{
-		printf("C\n");
+		printf("C: \n");
 		get_texture_path(data, &data->textures.ceiling, i, j);
 	}
 	else
@@ -88,18 +91,20 @@ static void	get_texture_path(t_data *data, char **texture, int *i, int *j)
 	map = data->map_data.file_data;
 	*j += 2;
 	skip_whitespaces(map, *i, j);
+	// printf("In get_texture_path, we're left with %s\n", &map[*i][*j]);
 	if (map[*i][*j] == '\0' || map[*i][*j] == '\n')
 		printf("%s\n", ERR_TXT_PATH);
 	else
 	{
-		len = *j;
-		while (map[*i][len] && map[*i][len] != ' ' && map[*i][len] != '\t' && map[*i][len] != '\n')
-			len++;
-		*texture = (char *) malloc(len - *j + 1);
+		// printf("Row: %s\n", &map[*i][*j]);
+		// while (map[*i][*j] && map[*i][*j] != ' ' && map[*i][*j] != '\t' && map[*i][*j] != '\n')
+		// 	*j += 1;
+		len = ft_strlen(&map[*i][*j]);
+		*texture = (char *) malloc(len + 1);
 		if (!*texture)
 			printf("%s\n", ERR_MEM_ALL);
 		k = 0;
-		while (*j < len)
+		while (k < len)
 		{
 			(*texture)[k++] = map[*i][*j];
 			*j += 1;
@@ -110,9 +115,33 @@ static void	get_texture_path(t_data *data, char **texture, int *i, int *j)
 		*j += 1;
 	if (map[*i][*j] != '\n' && map[*i][*j] != '\0') //After the filepath and spaces there can only be a newline or a null terminator 
 		printf("%s\n", ERR_IDE_OVL);
+	printf("Texture: %s\n", *texture);
 }
 
-static void check_colour_texture(char *texture)
+static void parse_colour_identifiers(t_data *data)
 {
-	printf("The colour texture is: %s\n", texture);
+	char	*floor;
+	char	*ceiling;
+
+	floor = data->textures.floor;
+	ceiling = data->textures.ceiling;
+
+	printf("FLOOR: %s\n", floor);
+	printf("CEILING: %s\n", ceiling);
+
+	data->map_data.floor_colour = get_colour(floor);
+	data->map_data.ceiling_colour = get_colour(ceiling);
+}
+
+int8_t	get_colour(char *colour)
+{
+	// int8_t	rgba;
+	char	**arr;
+	// (void) colour;
+	printf("%s\n", colour);
+
+	arr = ft_split(colour, ',');
+	printf("printing array now\n");
+	ft_print_arr(arr);
+	return 0;
 }

@@ -23,7 +23,7 @@ void	parse_file(t_data *data, char *file_path)
 	check_file_extension(file_path);
 	check_file_format(file_path);
 	copy_file_contents(data, file_path);
-	parse_identifiers(data, &i, &j); //I should pass i and j values here, so that parse_map can also use them.
+	parse_identifiers(data, &i, &j);
 	parse_map(data, &i, &j);
 	if (!check_map_validity(data))
 		printf("PARSING NOT OK!\n");
