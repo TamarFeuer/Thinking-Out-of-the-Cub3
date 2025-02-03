@@ -1,39 +1,26 @@
 #include "../inc/game.h"
 
 
-
-// void fill_grid(t_game *game, int rows, int cols)
+// t_mmap	get_blocksize(t_game *game)
 // {
-// 	int col, row;
-// 	mlx_texture_t	*texture;
-	
-// 	texture = mlx_load_png("textures/helipad32.png");
-// 	if (!texture)
-// 		printf ("error loading texture\n");
-// 	game->fill = mlx_texture_to_image(game->mlx, texture);
-// 	if (!game->fill)
-// 		printf ("error converting texture to image\n");
-// 	mlx_delete_texture(texture);
-// 	//printf ("rows = %d, cols = %d\n", rows, cols);
-// 	if (rows <= 0 || cols <= 0)
-// 		return;
-// 	row = 0;
-// 	while (row < rows)
-// 	{
-// 		col = 0;
-// 		while (col < cols)
-// 		{
-// 			if (game->mapdata[row * cols + col] == WALL)
-// 			{	
-// 				mlx_image_to_window(game->mlx, game->fill, 
-// 					X_START + col * PIXELS_PER_BLOCK * CONST,
-// 					Y_START + row * PIXELS_PER_BLOCK * CONST);
-// 			}
-// 			col++;
-// 		}
-// 		row++;
-// 	}	
+// 	int block_size;
+// 	int height;
+// 	int width;
+// 	t_mmap map;
+
+// 	map = game->mmap;
+// 	block_size = map.height;
+// 	if (map.width > map.height)
+// 		block_size = map.width;
+// 	while (block_size * map.height < MINIMAP_MAX_HEIGHT && block_size * map.width < MINIMAP_MAX_WIDTH)
+// 		block_size++;
+// 	while (block_size * map.height > MINIMAP_MAX_HEIGHT || block_size * map.width > MINIMAP_MAX_WIDTH)
+// 		block_size--;
+// 	height = block_size * map.height;
+// 	width = block_size * map.width;
+// 	return ((t_mmap) {block_size, height, width});
 // }
+
 
 void fill_grid(t_game *game, int cur_row, int cur_col)
 {
@@ -50,7 +37,7 @@ void fill_grid(t_game *game, int cur_row, int cur_col)
 		{
 			{	
 				// printf ("col is %d, row is %d\n", col, row);
-				mlx_put_pixel(game->scene, col, row, 0x777777FF);
+				mlx_put_pixel(game->scene, col, row, 0x00F77650);
 			}
 			col++;
 		}
@@ -68,12 +55,12 @@ void draw_grid(t_game *game, int rows, int cols)
 
 	// Drawing horizontal lines
 	y = 0;
-	while (y <= (rows - 1) * PIXELS_PER_BLOCK * CONST)
+	while (y <= (rows - 1) * PIXELS_PER_BLOCK * CONST )
 	{
 		int x_start = X_START;
 		int x_end = X_START + cols * PIXELS_PER_BLOCK * CONST;
 		x = x_start;
-		while (x <= x_end)
+		while (x < x_end)
 		{
 			mlx_put_pixel(game->scene, x, Y_START + y, 0x777777FF);  //safe_put_pixel
 			x++;
@@ -83,12 +70,12 @@ void draw_grid(t_game *game, int rows, int cols)
 
 	// Drawing vertical lines
 	x = 0;
-	while(x <= (cols - 1) * PIXELS_PER_BLOCK * CONST)
+	while(x < (cols - 1) * PIXELS_PER_BLOCK * CONST )
 	{
 		int y_start = Y_START;
 		int y_end = Y_START + rows * PIXELS_PER_BLOCK * CONST;
 		y = y_start;
-		while (y <= y_end)
+		while (y < y_end)
 		{
 			mlx_put_pixel(game->scene, X_START + x, y, 0x777777FF);  //safe put pixel
 			y++;

@@ -33,29 +33,29 @@ float	vertical_intersect(t_game *game, float angle)
 	//printf ("increase_y is %f\n", increase_y);
 	//printf ("increase_x is %f, delta_x_to_next_vertical is %d, \n", increase_x, delta_x_to_next_vertical);
 	
-	game->ray->inter.x = floor(game->camera.pos.x / (CONST * PIXELS_PER_BLOCK)) * CONST * PIXELS_PER_BLOCK + delta_x_to_next_vertical;
-	//printf ("game->ray->inter.x %f\n", game->ray->inter.x);
+	game->ray->intersect.x = floor(game->camera.pos.x / (CONST * PIXELS_PER_BLOCK)) * CONST * PIXELS_PER_BLOCK + delta_x_to_next_vertical;
+	//printf ("game->ray->intersect.x %f\n", game->ray->intersect.x);
 	//printf ("game->camera.x %d, floor(game->camera.x / (CONST * PIXELS_PER_BLOCK)) %f\n", game->camera.x, floor(game->camera.x / (CONST * PIXELS_PER_BLOCK)));
-	game->ray->inter.y = game->camera.pos.y - (game->ray->inter.x - game->camera.pos.x) * tan(angle);
+	game->ray->intersect.y = game->camera.pos.y - (game->ray->intersect.x - game->camera.pos.x) * tan(angle);
 	
-	//printf ("game->ray->inter.y %f\n", game->ray->inter.y);
-	while (!is_out_of_bounds(game->ray->inter) && !is_wall_hit(game, game->ray->inter, 1))
+	//printf ("game->ray->intersect.y %f\n", game->ray->intersect.y);
+	while (!is_out_of_bounds(game->ray->intersect) && !is_wall_hit(game, game->ray->intersect, 1))
 	{
 		if (game->is_debug)
-			safe_put_pixel(game, (int)game->ray->inter.x, (int)game->ray->inter.y, 0xFFFF00FF);
+			safe_put_pixel(game, (int)game->ray->intersect.x, (int)game->ray->intersect.y, 0xFFFF00FF);
 		//printf ("vertical intersect. did not hit wall yet\n");
-		//mlx_put_pixel(game->scene, (int)round(game->ray->inter.x) - X_START,  (int)round(game->ray->inter.y) - Y_START, 0xFFFF00FF);
-		game->ray->inter.y += increase_y; //the sign was already dealt with
-		game->ray->inter.x += increase_x;
-		//printf ("inter_x is %f, inter_y is %f\n", game->ray->inter.x, game->ray->inter.y);
+		//mlx_put_pixel(game->scene, (int)round(game->ray->intersect.x) - X_START,  (int)round(game->ray->intersect.y) - Y_START, 0xFFFF00FF);
+		game->ray->intersect.y += increase_y; //the sign was already dealt with
+		game->ray->intersect.x += increase_x;
+		//printf ("intersect_x is %f, intersect_y is %f\n", game->ray->intersect.x, game->ray->intersect.y);
 	}
-	if (is_out_of_bounds(game->ray->inter))
+	if (is_out_of_bounds(game->ray->intersect))
 		return (OUT_OF_BOUNDS);
-	//printf ("	in the function, game->ray->inter.x is %f and game->ray->inter.y is %f\n", game->ray->inter.x, game->ray->inter.y);
+	//printf ("	in the function, game->ray->intersect.x is %f and game->ray->intersect.y is %f\n", game->ray->intersect.x, game->ray->intersect.y);
 	if (game->is_debug )
-		safe_put_pixel(game, (int)game->ray->inter.x, (int)game->ray->inter.y, 0xFFFF00FF);
-	game->ray->v_hit.x = game->ray->inter.x;
-	game->ray->v_hit.y = game->ray->inter.y;
+		safe_put_pixel(game, (int)game->ray->intersect.x, (int)game->ray->intersect.y, 0xFFFF00FF);
+	game->ray->v_hit.x = game->ray->intersect.x;
+	game->ray->v_hit.y = game->ray->intersect.y;
 	//printf ("vertical intersect, end.x is %f and end.y is %f\n", game->ray->v_hit_x = inter_x, game->ray->v_hit_y = inter_y);
 	// return (sqrt(pow(game->ray->inter.x - game->camera.pos.x, 2) + 
 	// 			pow(game->ray->inter.y - game->camera.pos.y, 2)));

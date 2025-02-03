@@ -29,17 +29,7 @@ void draw_player(t_game *game)
 	int size = PLAYER_SIZE * CONST; // Player is PLAYER_SIZE x PLAYER_SIZE pixels
 	int x = round(game->player.p_pos.x);
 	int y = round(game->player.p_pos.y);
-	//printf ("y is %d\n", y);
 
-	// if (game->scene)
-	// 	mlx_delete_image(game->mlx, game->tays);
-
-	// game->scene = mlx_new_image(game->mlx, MMAP_WIDTH, MMAP_HEIGHT);
-	// if (!game->scene)
-	// {
-	// 	printf("Failed to create player image.\n");
-	// 	return;
-	// }
 	mlx_image_to_window(game->mlx, game->scene, X_START, Y_START);
 	int i = 0;
 	while (i < size)
@@ -47,7 +37,7 @@ void draw_player(t_game *game)
 		int j = 0;
 		while (j < size)
 		{
-			mlx_put_pixel(game->scene, (x - X_START) + i, (y - Y_START) + j, 0xC8A2C8FF);
+			mlx_put_pixel(game->scene, (x - X_START) + i, (y - Y_START) + j, 0xFFFFFFFF);
 			j++;
 		}
 		i++;

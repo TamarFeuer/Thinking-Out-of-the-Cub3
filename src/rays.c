@@ -44,7 +44,7 @@ void cast_rays(t_game *game)
 {
 	// t_pos start = {game->camera.pos.x, game->camera.pos.y};
 
-	float step = FOV * DEG_TO_RAD / NUMBER_OF_RAYS;
+	float step = FOV * DEG_TO_RAD / SCREEN_WIDTH;
 	// printf ("step is %f\n", step);
 	game->ray->current_angle = game->player.angle + (FOV / 2) * DEG_TO_RAD;
 	normalize_angle_to_2pi(&game->ray->current_angle);
@@ -54,7 +54,7 @@ void cast_rays(t_game *game)
 	
 	game->ray->ray_num = 0;
 	if (game->is_debug == false)
-		game->ray->number_of_rays = NUMBER_OF_RAYS;
+		game->ray->number_of_rays = SCREEN_WIDTH;
 	else
 		game->ray->number_of_rays = 1;
 		
@@ -88,16 +88,17 @@ void cast_rays(t_game *game)
 		game->ray->ray_end[game->ray->ray_num] = game->ray->end;
 		game->ray->ray_end[game->ray->ray_num] = game->ray->end;
 
-		//bresenham_ray(game, game->camera.pos, game->ray->end);
+		//draw_ray(game, game->camera.pos, game->ray->end);
 		
-		draw_the_thing(game);
+		draw_vertical_slice(game);
 		
-		game->ray->inter.x = 0;
-		game->ray->inter.y = 0;
+		game->ray->intersect.x = 0;
+		game->ray->intersect.y = 0;
 		game->ray->current_angle -= step;
 		normalize_angle_to_2pi(&game->ray->current_angle);
 		determine_quad(game->ray->current_angle, &game->ray->angle_quad);
 		game->ray->ray_num++;
+		
 	}
 }
 

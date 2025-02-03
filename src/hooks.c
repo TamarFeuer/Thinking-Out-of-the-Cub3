@@ -74,9 +74,9 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 			game->player.p_pos.y = round(new.y);
 			game->camera.pos.x = game->player.p_pos.x + CONST /2;
 			game->camera.pos.y = game->player.p_pos.y + CONST /2;
-			// mlx_delete_image(game->mlx, game->stats);
-			// if (game->is_mmap)
-			// 	print_stats(game);
+			mlx_delete_image(game->mlx, game->stats);
+			if (game->is_mmap)
+				print_stats(game);
 
 		}
 	}
@@ -93,9 +93,9 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 	{
 		determine_quad(new_angle, &game->player.angle_quad);
 		game->player.angle = new_angle;
-		// mlx_delete_image(game->mlx, game->stats);
-		// if (game->is_mmap)
-		// 	print_stats(game);
+		mlx_delete_image(game->mlx, game->stats);
+		if (game->is_mmap)
+			print_stats(game);
 
 	}
 }

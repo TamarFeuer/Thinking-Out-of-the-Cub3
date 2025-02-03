@@ -1,6 +1,6 @@
 #include "../inc/game.h"
 
-void bresenham_ray(t_game *game, t_pos start, t_pos end)
+void draw_bresenham_ray(t_game *game, t_pos start, t_pos end)
 {
 	int x = (int)round(start.x);
 	int y = (int)round(start.y);

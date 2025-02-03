@@ -19,24 +19,26 @@
 #define SCREEN_HEIGHT 1080
 
 //map
-#define ROWS 6 //8 ---> !
-#define COLS 15 //10 ---> !
+#define ROWS 8 //---> !
+#define COLS 10 //---> !
 #define EMPTY '0'
 #define WALL '1'
 
 //mini map
-#define CONST 3
+#define CONST 4
 #define PIXELS_PER_BLOCK 8
 
-#define MMAP_WIDTH COLS * PIXELS_PER_BLOCK * CONST //10*8*6= 480
-#define MMAP_HEIGHT ROWS * PIXELS_PER_BLOCK * CONST //8*8*6 = 384
-#define X_START 0 // untill 1920 - 860 = 1440??
-#define Y_START 0 // ?
+#define MMAP_WIDTH COLS * PIXELS_PER_BLOCK * CONST
+#define MMAP_HEIGHT ROWS * PIXELS_PER_BLOCK * CONST
+#define X_START 0
+#define Y_START 0
 #define X_END (X_START + MMAP_WIDTH)
 #define Y_END (Y_START + MMAP_HEIGHT)
+#define MMAP_MAX_HEIGHT SCREEN_HEIGHT/4
+#define MMAP_MAX_WIDTH SCREEN_WIDTH/4
 
 //player
-#define PLAYER_SIZE 1
+#define PLAYER_SIZE 2
 #define PLAYER_DIRECTION_SIZE 50
 
 //rays
@@ -44,15 +46,16 @@
 #define NUMBER_OF_RAYS 640
 #define MAX_RAY_LENGTH 400
 #define MAX_RAY_DISTANCE 300
-#define DISTANCE_PER_TURN 1 * CONST
+#define DISTANCE_PER_TURN 0.5 * CONST
 #define OUT_OF_BOUNDS 1000000000
 
 //scene
-//#define SCENE_BLOCK_SIZE 32
+#define SCENE_BLOCK_SIZE 64
 #define SCENE_WIDTH  1920
 #define SCENE_HEIGHT 1080
-#define PROJECTION_DISTANCE 1108
-#define FLOOR_COLOR 0xFF00cc40  //---> !
+#define BASE_FRUSTUM_DISTANCE 300.0f
+#define MIN_RAY_DISTANCE 5.0f
+#define FLOOR_COLOR 0xFF8000FF  //---> !
 
 typedef enum e_direction 
 {
@@ -74,22 +77,6 @@ typedef struct s_point
 	int	y;
 }	t_point;
 
-// typedef struct s_wall_slice
-// {
-// 	t_point		point;
-// 	float		distance;
-// 	double		angle;
-// 	float		height;
-// 	int			axis;
-// 	enum e_side	wall_face;
-// }	t_wall_slice;
-
-typedef struct s_bersenham
-{
-	t_pos		start[SCREEN_WIDTH];
-	t_pos		end[SCREEN_WIDTH];
-}	t_bresenham;
-
 typedef struct s_player
 {
 	t_pos		p_pos;  // ---> !
@@ -99,50 +86,46 @@ typedef struct s_player
 
 typedef struct s_camera
 {
-	// int		x;
-	// int		y;
 	t_pos		pos;
-	float		pdx;
-	float		pdy;
 	float		angle;
-	float		fov_radi;
-	float		plane_distance;
-	char		cardinal_point;
-	int			direction_flags;
+	float		frustum_plane_distance;
 }	t_camera;
 
+
+typedef struct s_mmap
+{
+	int block_size;
+	int height;
+	int width;
+} t_mmap;
 
 typedef struct s_ray
 {
 	t_pos		end;
-	t_pos		inter;
+	t_pos		intersect;
 	int			number_of_rays;
 	int			ray_num;
-	//float		unit_angle;
 	float		current_angle;
 	int			angle_quad;
 	bool		wall_met;
-	int			found_vertical_first;
+	int			is_vertical_first;
 	float		distance;
 	float		corrected_distance;
-	t_pos		end_vert;
-	t_pos		end_horiz;
 	t_pos		v_hit;
 	t_pos		h_hit;
-	t_pos		ray_start[NUMBER_OF_RAYS];
-	t_pos		ray_end[NUMBER_OF_RAYS];
+	t_pos		ray_start[SCREEN_WIDTH];
+	t_pos		ray_end[SCREEN_WIDTH];
 }	t_ray;
 
 typedef struct s_game
 {
 	bool			is_debug;
 	bool			is_mmap;
+	t_mmap			mmap;
 	mlx_t			*mlx;
 	char			*mapdata;
-	mlx_image_t 	*fill;
-	mlx_image_t 	*scene; //including player
+	mlx_image_t 	*scene;
 	t_ray			*ray;
-	mlx_image_t 	*grid;
 	mlx_image_t 	*stats;
 	t_player		player;
 	t_camera		camera;
@@ -181,7 +164,6 @@ typedef struct s_data
 }	t_data;
 
 
-void	bresenham_line(t_game *game, int start[2], int end[2]);
 void	draw_grid(t_game *game, int rows, int cols);
 void	draw_player(t_game *game);
 void	cast_rays(t_game *game);
@@ -192,7 +174,7 @@ int		distance_to_color(int distance);
 // void	DDA_ray(t_game *game, t_pos start, t_pos end);
 void	DDA_ray(t_game *game, t_pos start, t_pos end, int color);
 const char *get_direction(t_game *game);
-void	bresenham_ray(t_game *game, t_pos start, t_pos end);
+void	draw_bresenham_ray(t_game *game, t_pos start, t_pos end);
 double	get_distance(t_pos start, t_pos end);
 int 	get_block_index(t_pos *grid_pos);
 int 	get_block_index2(t_game *game, t_pos *grid_pos, int flag);
@@ -200,7 +182,7 @@ void	init_map(t_game *game);
 void	reach_nearest_wall_by_plotting(t_game *game, float angle);
 void 	reach_nearest_wall_by_intersections(t_game *game, float angle);
 void 	draw_player_direction(t_game *game, t_pos start, double angle);
-void 	draw_the_thing(t_game *game);
+void 	draw_vertical_slice(t_game *game);
 void	normalize_angle_to_2pi(float *angle);
 void	safe_put_pixel(t_game *game, int x, int y, int color);
 int		convert_to_mlx42_endian(int c);
@@ -211,7 +193,7 @@ void	draw_all(void *param);
 float	horiz_intersect(t_game *game, float angle);
 float	vertical_intersect(t_game *game, float angle);
 bool	is_out_of_bounds(t_pos position);
-int		is_wall_hit(t_game *game, t_pos inter, int flag);
+int		is_wall_hit(t_game *game, t_pos intersect, int flag);
 int		draw_static_components(t_game *game);
 
 

@@ -255,3 +255,12 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		return (c1[i - 1] - c2[i - 1]);
 	return (c1[i] - c2[i]);
 }
+
+void	ft_swap_ptrs(void **ptr1, void **ptr2)
+{
+	void	*temp;
+
+	temp = *ptr1;
+	*ptr1 = *ptr2;
+	*ptr2 = temp;
+}
