@@ -44,31 +44,35 @@ void draw_all(void *param)
 
 int	main(int argc, char *argv[])
 {
-	t_game	*game;
-	// t_data	*data;
+	// t_game	*game;
+	t_data	*data;
 	
 	(void)argc;
 	(void)argv;
-	int width, height;
-	
+	// int width, height;
+
+	data = NULL;
+	init_data_struct(&data);
+	parse_file(data, argv[1]);
+
 	// mlx_set_setting(MLX_STRETCH_IMAGE, true);
-	game = (t_game *)ft_calloc(1, sizeof(t_game));
-	if (!game)
-		return (EXIT_FAILURE);
+	// game = (t_game *)ft_calloc(1, sizeof(t_game));
+	// if (!game)
+	// 	return (EXIT_FAILURE);
 	
-	init_game_struct(game);
-	if (argc == 2 && ft_strncmp(argv[1], "-d", 3) == 0)
-	{
-		game->is_debug = true;
-		game->is_mmap = true;
-	}
-	else
-		game->is_debug = false;
-	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Ray caster", true);
-	if (!game->mlx)
-		return (EXIT_FAILURE);
-	mlx_get_monitor_size(0, &width, &height);
-	//printf ("width is %d, height is %d\n", width, height);
+	// init_game_struct(game);
+	// if (argc == 2 && ft_strncmp(argv[1], "-d", 3) == 0)
+	// {
+	// 	game->is_debug = true;
+	// 	game->is_mmap = true;
+	// }
+	// else
+	// 	game->is_debug = false;
+	// game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Ray caster", true);
+	// if (!game->mlx)
+	// 	return (EXIT_FAILURE);
+	// mlx_get_monitor_size(0, &width, &height);
+	// //printf ("width is %d, height is %d\n", width, height);
 	
 	game->scene = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	if (!game->scene|| (mlx_image_to_window(game->mlx, game->scene, X_START, Y_START ) < 0))

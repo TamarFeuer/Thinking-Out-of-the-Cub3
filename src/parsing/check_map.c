@@ -2,6 +2,7 @@
 
 bool	check_map_validity(t_data *data);
 bool	has_repeated_elements(t_data *data);
+bool	has_invalid_elements(t_data *data);
 
 
 /**
@@ -18,28 +19,50 @@ bool	check_map_validity(t_data *data)
 		printf("%s\n", ERR_NULL_MAP);
 		return (false);
 	}
-	data->map_data.map_rows = 0;
-	while (data->map_data.map[data->map_data.map_rows] != NULL)
-		data->map_data.map_rows++;
+	data->map_data.rows = 0;
+	while (data->map_data.map[data->map_data.rows] != NULL)
+		data->map_data.rows++;
 	is_surrounded_by_walls(data, data->map_data.map);
 	if (has_repeated_elements(data)) {
 		printf("Has repeated elements\n");
 		return (false);
 	}
-	//Check for invalid elements
-	//Check for repeated cardinal elements
-	
+	if (has_invalid_elements(data)) {
+		printf("Has invalid elements\n");
+		return (false);
+	}	
 	return (true);
 }
 
-// bool	has_invalid_elements(t_data *data)
-// {
-// 	char	**map;
-// 	int		row;
-// 	int		col;
-// 	bool	has_pos;
-// }
+bool	has_invalid_elements(t_data *data)
+{
+	char	**map;
+	int		row;
+	int		col;
 
+	map = data->map_data.map;
+	if (!map || !map[0])
+		return (true);
+	
+	row = 0;
+	while (map[row])
+	{
+		col = 0;
+		while (map[row][col])
+		{
+			if (map[row][col] != '0' && map[row][col] != '1'
+				&& map[row][col] != ' ' && map[row][col] != 'W'
+				&& map[row][col] != 'N' && map[row][col] != 'S'
+				&& map[row][col] != 'E')
+				return (true);
+			col++;
+		}
+		row++;
+	}
+	return (false);
+}
+
+//Checks for repeated cardinal positions, but also if there's no cardinal pos too.
 bool	has_repeated_elements(t_data *data)
 {
 	char	**map;
@@ -50,7 +73,7 @@ bool	has_repeated_elements(t_data *data)
 	//Checks for map's NULLITY
 	map = data->map_data.map;
 	if (!map || !map[0])
-		return (true);
+		return (true); //Doesn't have repeated elements, but it would segfault.
 
 	row = 0;
 	while (map[row])
@@ -66,5 +89,7 @@ bool	has_repeated_elements(t_data *data)
 		}
 		row++;
 	}
+	if (has_pos == false)
+		return (true);
 	return (false);
 }

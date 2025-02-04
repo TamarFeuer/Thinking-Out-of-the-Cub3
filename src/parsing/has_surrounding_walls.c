@@ -27,8 +27,10 @@ bool	is_surrounded_by_walls(t_data *data, char **map)
 				return (false);
 			}
 			//Checks for when the tile is a walkable space
-			if (row != 0 && (map[row][col] == '0' || map[row][col] == ' '))
+			else if (row > 0 && (map[row][col] == '0' || map[row][col] == ' '))
 			{
+				// ft_print_arr(map);
+				printf("ROW: %d, COL: %d, |%c|\n", row, col, map[row][col]);
 				if (!check_col_above(map, row, col))
 					return (false);
 				if (!check_col_below(data, map, row, col))
@@ -38,14 +40,6 @@ bool	is_surrounded_by_walls(t_data *data, char **map)
 				if (!check_left_col(map, row, col))
 					return (false);
 			}
-			//Checks for when the tile is an empty space - The checks for the surrounding spaces are different.
-			// else if ()
-			// {
-				//if there's only spaces above, below, to the right or left that's okay.
-				//if there's a 0 at some point, then we do need to check for a 1.
-				//if there's a 1 then that's good.
-				//if the space is within the map, then it should be surrounded by walls. Suddenly only spaces to whichever side are not okay anymore.
-			// }
 			col++;
 		}
 		row++;
@@ -62,24 +56,43 @@ bool	check_col_above(char **map, int row, int col)
 	//Checks the map's NULLITY
 	if (!map || !*map)
 	{
-		printf("NULL MAP!\n");
+		printf("NULL MAP! check_col_above\n");
 		return (false);
 	}
 	//This is also for map's nullity, but with a different error message
 	if (row - 1 < 0)
 	{
-		printf("The map is not surrounded by walls.\n");
+		printf("The map is not surrounded by walls... check_col_above\n");
 		return (false);
 	}
-	//
-	else if (row - 1 >= 0 && (map[row - 1][col] == '0' || map[row - 1][col] == ' '))
+	
+	if (map[row][col] == '0' && row - 1 >= 0)
 	{
-		// printf("Checking the row above line #%i\n", row);
-		return (check_col_above(map, row - 1, col));
+		if (map[row - 1][col] == '1')
+		{
+			// printf("Check_col_Above\n");
+			return (true);
+		}
+		if (map[row - 1][col] == '0' || ft_is_pos_identifier(map[row - 1][col]))
+			return (check_col_above(map, row - 1, col));
+		else if (map[row - 1][col] == ' ')
+		{
+			printf("There's a space where there should be a wall. check_col_above\n");
+			return (false);
+		}
 	}
-
-	else if (row - 1 >= 0 && map[row - 1][col] == '1')
-		return (true);
+	else if (map[row][col] == ' ' && row - 1 >= 0)
+	{
+		if (map[row - 1][col] == '1' || (row == 1 && map[row - 1][col] == ' ')) //This is hardcoded...
+			return (true);
+		if (map[row - 1][col] == ' ')
+			return (check_col_above(map, row - 1, col));
+		else if (map[row - 1][col] == '0' || ft_is_pos_identifier(map[row - 1][col]))
+		{
+			printf("There's a 0 or N/E/W/S where there should be a wall. check_col_above\n");
+			return (false);
+		}
+	}
 	return (false);
 }
 
@@ -87,18 +100,48 @@ bool	check_col_below(t_data *data, char **map, int row, int col)
 {
 	if (!map || !*map)
 	{
-		printf("NULL MAP!\n");
+		printf("NULL MAP! check_col_below\n");
 		return (false);
 	}
-	if (row + 1 >= data->map_data.map_rows)
+	if (row + 1 >= data->map_data.rows)
 	{
-		printf("The map didn't have a wall where it should, and it ran out of lines.\n");
+		printf("The map didn't have a wall where it should, and it ran out of lines. check_col_below\n");
 		return (false);
 	}
-	else if (row + 1 < data->map_data.map_rows && (map[row + 1][col] == '0' || map[row + 1][col] == ' '))
-		return (check_col_below(data, map, row + 1, col));
-	else if (row + 1 < data->map_data.map_rows && map[row + 1][col] == '1')
-		return (true);
+
+	if (map[row][col] == '0' && row + 1 < data->map_data.rows)
+	{
+		if (map[row + 1][col] == '1')
+		{
+			// printf("Check_col_below\n");
+			return (true);
+		}
+		if (map[row + 1][col] == '0' || ft_is_pos_identifier(map[row + 1][col]))
+			return (check_col_below(data, map, row + 1, col));
+		else if (map[row + 1][col] == ' ')
+		{
+			printf("There's a space where there should be a wall. check_col_below\n");
+			return (false);
+		}
+	}
+	else if (map[row][col] == ' ' && row + 1 < data->map_data.rows)
+	{
+		if (map[row + 1][col] == '1')
+			return (true);
+		if (map[row + 1][col] == ' ')
+			return (check_col_below(data, map, row + 1, col));
+		else if (map[row + 1][col] == '0' || ft_is_pos_identifier(map[row + 1][col]))
+		{
+			printf("There's a 0 or N/E/W/S where there should be a wall. check_col_below\n");
+			return (false);
+		}
+	}
+
+
+	// else if (row + 1 < data->map_data.rows && (map[row + 1][col] == '0' || map[row + 1][col] == ' '))
+	// 	return (check_col_below(data, map, row + 1, col));
+	// else if (row + 1 < data->map_data.rows && map[row + 1][col] == '1')
+	// 	return (true);
 	return (false);
 }
 
@@ -118,7 +161,7 @@ bool	check_right_col(char **map, int row, int col)
 	len = ft_strlen(map[row]);
 	if (map[row][len - 1] && map[row][len - 1] == '0')
 	{
-		printf("The column ends with a 0.\n");
+		printf("The column ends with a 0. check_right_col\n");
 		return (false);
 	}
 
@@ -176,7 +219,7 @@ bool	check_left_col(char **map, int row, int col)
 		i++;
 	if (map[row][col] && map[row][i] == '0')
 	{
-		printf("The column begins with a 0\n");
+		printf("The column begins with a 0. check_left_col\n");
 		return (false);
 	}
 
@@ -189,7 +232,7 @@ bool	check_left_col(char **map, int row, int col)
 			//If there's a space right before a 0, that 0 and that space are not surrounded by walls.
 			if (map[row][col - i] == ' ')
 			{
-				printf("There was a space before a wall, to the left\n");
+				printf("There was a space before a wall, to the left. check_left_col\n");
 				return (false);
 			}
 			else if (map[row][col - i] == '1')
@@ -216,29 +259,3 @@ bool	check_left_col(char **map, int row, int col)
 
 	return (false);
 }
-
-
-
-
-/** SKETCH Y
- * First and last lines, apart from spaces, have to contain '1's only.
- * 
- * 
- */
-
-
-/** SKETCH Z
- * Create a helper function that checks the character below
- * 
- * If the character in question is ON THE EDGE (yet another helper function)
- * If it is a space, the character below can be either a space or a 1.
- * If it is a 0 it's invalid.
- * If it is a 1, it's surrounded by walls.
- * 
- * If it is NOT ON THE EDGE
- * If it is a 1, then it's a wall inside the map.
- * If it is a 0, then it surely must be surrounded by valid characters.
- * If that 0 is surrounded by spaces, then how do I determine that it's surrounded by walls?
- * 
- * //Create another that checks the character above?
- */

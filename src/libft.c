@@ -1,5 +1,49 @@
 #include "../inc/game.h"
 
+void	ft_free_2d(void ***arr)
+{
+	int	i;
+
+	if (!arr || !*arr)
+		return ;
+	i = 0;
+	while ((*arr)[i] != NULL)
+	{
+		free((*arr)[i]);
+		i++;
+	}
+	free(*arr);
+	*arr = NULL;
+	return ;
+}
+
+int	ft_atoi(const char *nptr)
+{
+	int			i;
+	long long	nbr;
+	int			is_negative;
+
+	i = 0;
+	nbr = 0;
+	is_negative = 0;
+	while ((nptr[i] >= '\t' && nptr[i] <= '\r') || nptr[i] == ' ')
+		i++;
+	if (nptr[i] == '-' || nptr[i] == '+')
+	{
+		if (nptr[i] == '-')
+			is_negative = 1;
+		i++;
+	}
+	while (nptr[i] && (nptr[i] >= '0' && nptr[i] <= '9'))
+	{
+		nbr = nbr * 10 + nptr[i] - '0';
+		i++;
+	}
+	if (is_negative)
+		return ((int) -nbr);
+	return (nbr);
+}
+
 bool	ft_is_pos_identifier(char c)
 {
 	if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
@@ -263,4 +307,126 @@ void	ft_swap_ptrs(void **ptr1, void **ptr2)
 	temp = *ptr1;
 	*ptr1 = *ptr2;
 	*ptr2 = temp;
+}
+
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+{
+	size_t	ret_value;
+	char	*src_ptr;
+
+	ret_value = ft_strlen(src);
+	src_ptr = (char *)src;
+	if (size == 0)
+		return (ret_value);
+	while (*src_ptr && (size - 1) > 0)
+	{
+		*dst = *src_ptr;
+		dst++;
+		src_ptr++;
+		size--;
+	}
+	*dst = '\0';
+	return (ret_value);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*str;
+	size_t	s_len;
+
+	s_len = ft_strlen(s);
+	if (start > s_len)
+	{
+		start = s_len;
+		len = 0;
+	}
+	if (len + start > s_len)
+		len = s_len - start;
+	str = (char *) malloc (len + 1);
+	if (str == NULL)
+		return (NULL);
+	ft_strlcpy(str, &s[start], len + 1);
+	return (str);
+}
+
+static size_t	ft_count_words(char const *s, char c)
+{
+	int	i;
+	int	counter;
+	int	len;
+
+	if (!s)
+		return (0);
+	i = 0;
+	counter = 0;
+	len = ft_strlen(s);
+	while (s && i < len && s[i])
+	{
+		if (s[i] != c)
+		{
+			counter++;
+			while (s[i] && s[i] != c)
+				i++;
+		}
+		else
+			i++;
+	}
+	return (counter);
+}
+
+static void	ft_free_arr(char ***arr)
+{
+	int	i;
+
+	i = 0;
+	while ((*arr)[i])
+	{
+		free((*arr)[i]);
+		(*arr)[i] = NULL;
+		i++;
+	}
+	free(*arr);
+	*arr = NULL;
+}
+
+static void	ft_split_words(char **arr, const char *s, char c, int wordcount)
+{
+	int		i;
+	int		j;
+	int		k;
+
+	i = 0;
+	j = 0;
+	k = 0;
+	while (i < wordcount)
+	{
+		k = 0;
+		while (s[j] && s[j] == c)
+			j++;
+		while (s[j] && s[j] != c)
+		{
+			j++;
+			k++;
+		}
+		arr[i] = ft_substr(s, (j - k), k);
+		if (!arr[i])
+			return (ft_free_arr(&arr));
+		i++;
+	}
+	arr[i] = NULL;
+}
+
+char	**ft_split(char const *s, char c)
+{
+	char	**arr;
+	size_t	wordcount;
+
+	if (!s)
+		return (NULL);
+	wordcount = ft_count_words(s, c);
+	arr = (char **) malloc ((wordcount + 1) * sizeof(char *));
+	if (!arr)
+		return (NULL);
+	ft_split_words(arr, s, c, wordcount);
+	return (arr);
 }
