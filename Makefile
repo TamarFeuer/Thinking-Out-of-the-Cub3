@@ -10,7 +10,7 @@ NAME = cub3D
 SRC =	src/main.c src/line_algorithm.c src/map.c src/player.c src/hooks.c src/clean.c \
 		src/stats.c src/libft.c src/color.c src/rays.c src/intersections.c src/draw_scene.c \
 		src/utils.c src/init.c src/horizontal.c src/vertical.c \
-		src/parsing/parsing.c src/parsing/parsing2.c src/parsing/parsing3.c \
+		src/parsing/parsing.c src/parsing/parsing3.c \
 		src/parsing/parsing4.c src/parsing/parsing_utils.c src/parsing/check_map.c \
 		src/parsing/has_surrounding_walls.c \
 		src/gnl/gnl.c src/gnl/gnl_utils.c \

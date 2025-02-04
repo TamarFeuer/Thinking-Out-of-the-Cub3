@@ -20,19 +20,19 @@ bool	is_surrounded_by_walls(t_data *data, char **map)
 		while (map[row][col])
 		{
 			//The first row should be full of 1s or spaces
-			// if (row == 0 && map[row][col] == '0')
-			// {
-			// 	printf("ROW #%i doesn't have a wall where it should.\n", row);
-			// 	printf("is_surrounded_by_walls\n");
-			// 	return (false);
-			// }
+			if (row == 0 && map[row][col] == '0')
+			{
+				printf("ROW #%i doesn't have a wall where it should.\n", row);
+				printf("is_surrounded_by_walls\n");
+				return (false);
+			}
 			//Checks for when the tile is a walkable space
-			if (row >= 0 && (map[row][col] == '0' || map[row][col] == ' '))
+			else if (row > 0 && (map[row][col] == '0' || map[row][col] == ' '))
 			{
 				// ft_print_arr(map);
 				printf("ROW: %d, COL: %d, |%c|\n", row, col, map[row][col]);
-				// if (!check_col_above(map, row, col))
-				// 	return (false);
+				if (!check_col_above(map, row, col))
+					return (false);
 				if (!check_col_below(data, map, row, col))
 					return (false);
 				if (!check_right_col(map, row, col))
@@ -83,7 +83,7 @@ bool	check_col_above(char **map, int row, int col)
 	}
 	else if (map[row][col] == ' ' && row - 1 >= 0)
 	{
-		if (map[row - 1][col] == '1')
+		if (map[row - 1][col] == '1' || (row == 1 && map[row - 1][col] == ' ')) //This is hardcoded...
 			return (true);
 		if (map[row - 1][col] == ' ')
 			return (check_col_above(map, row - 1, col));

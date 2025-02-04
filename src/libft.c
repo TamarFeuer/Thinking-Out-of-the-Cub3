@@ -1,6 +1,48 @@
 #include "../inc/game.h"
 
+void	ft_free_2d(void ***arr)
+{
+	int	i;
 
+	if (!arr || !*arr)
+		return ;
+	i = 0;
+	while ((*arr)[i] != NULL)
+	{
+		free((*arr)[i]);
+		i++;
+	}
+	free(*arr);
+	*arr = NULL;
+	return ;
+}
+
+int	ft_atoi(const char *nptr)
+{
+	int			i;
+	long long	nbr;
+	int			is_negative;
+
+	i = 0;
+	nbr = 0;
+	is_negative = 0;
+	while ((nptr[i] >= '\t' && nptr[i] <= '\r') || nptr[i] == ' ')
+		i++;
+	if (nptr[i] == '-' || nptr[i] == '+')
+	{
+		if (nptr[i] == '-')
+			is_negative = 1;
+		i++;
+	}
+	while (nptr[i] && (nptr[i] >= '0' && nptr[i] <= '9'))
+	{
+		nbr = nbr * 10 + nptr[i] - '0';
+		i++;
+	}
+	if (is_negative)
+		return ((int) -nbr);
+	return (nbr);
+}
 
 bool	ft_is_pos_identifier(char c)
 {

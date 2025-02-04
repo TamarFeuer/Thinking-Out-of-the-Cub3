@@ -165,20 +165,21 @@ typedef struct s_textures
 
 typedef struct s_mapdata
 {
-	char	*path;
-	int		total_lines;
-	char	**file_data;
-	char	**map;
-	int		rows;
-	int		cols;
-	int8_t	floor_colour;
-	int8_t	ceiling_colour;
+	char		*path;
+	int			total_lines;
+	char		**file_data;
+	char		**map;
+	int			rows;
+	int			cols;
+	u_int32_t	floor_color;
+	u_int32_t	ceiling_color;
 }	t_mapdata;
 
 typedef struct s_data
 {
 	t_mapdata	map_data;
 	t_textures	textures;
+	t_player	player;
 }	t_data;
 
 
@@ -217,6 +218,8 @@ int		draw_static_components(t_game *game);
 
 
 // LIBFT
+void	ft_free_2d(void ***arr);
+int		ft_atoi(const char *nptr);
 bool	ft_is_pos_identifier(char c);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);

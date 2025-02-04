@@ -23,7 +23,7 @@ void	count_map_rows(t_data *data, int row)
 		row++;
 		data->map_data.rows++;
 	}
-	printf("count_map_rows: %d\n", data->map_data.rows);
+	// printf("count_map_rows: %d\n", data->map_data.rows);
 }
 
 void	count_map_cols(t_data *data, int row)
@@ -51,7 +51,7 @@ void	count_map_cols(t_data *data, int row)
 			data->map_data.cols = col;
 		row++;
 	}
-	printf("count_map_cols: %d\n", data->map_data.cols);
+	// printf("count_map_cols: %d\n", data->map_data.cols);
 }
 
 void parse_map(t_data *data, int *i, int *j)
@@ -108,6 +108,19 @@ void parse_map(t_data *data, int *i, int *j)
 			}
 			else //Copies the contents of the map
 			{
+				if (ft_is_pos_identifier(map[*i][*j]))
+				{
+					data->player.p_pos.x = (double) col;
+					data->player.p_pos.y = (double) row;
+					if (map[*i][*j] == 'N')
+						data->player.angle = 1/2 * M_PI;
+					else if (map[*i][*j] == 'W')
+						data->player.angle = M_PI;
+					else if (map[*i][*j] == 'S')
+						data->player.angle = 3/2 * M_PI;
+					else if (map[*i][*j] == 'E')
+						data->player.angle = 2 * M_PI;
+				}
 				data->map_data.map[row][col] = map[*i][*j];
 				col++;
 			}

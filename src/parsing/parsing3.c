@@ -1,9 +1,14 @@
 #include "../../inc/game.h"
 
+# define RED 0
+# define GREEN 1
+# define BLUE 2
+# define ALPHA 255
+
 static void	get_identifier(t_data *data, int *i, int *j);
 static void	get_texture_path(t_data *data, char **texture, int *i, int *j);
-static void parse_colour_identifiers(t_data *data);
-int8_t	get_colour(char *colour);
+static void parse_color_identifiers(t_data *data);
+u_int32_t	get_color(char *color);
 
 void parse_identifiers(t_data *data, int *i, int *j)
 {
@@ -22,13 +27,13 @@ void parse_identifiers(t_data *data, int *i, int *j)
 			&& data->textures.west && data->textures.ceiling && data->textures.floor)
 			break ;
 	}
-	printf("PARSE IDENTIFIERS %s\n", &map[*i][*j]);
+	// printf("PARSE IDENTIFIERS %s\n", &map[*i][*j]);
 	//Could iterate this with an enum.
 	// check_file_format(data->textures.north);
 	// check_file_format(data->textures.south);
 	// check_file_format(data->textures.east);
 	// check_file_format(data->textures.west);
-	parse_colour_identifiers(data);
+	parse_color_identifiers(data);
 	// parse_colour_texture(data->textures.ceiling);
 	//check that it's a valid texture?
 }
@@ -46,33 +51,33 @@ static void	get_identifier(t_data *data, int *i, int *j)
 	// if (map[*i][*j] == 'N' && map[*i][*j + 1] == 'O' && !data->textures.north)
 	if (ft_strncmp(&map[*i][*j], "NO", 2) == 0 && !data->textures.north)
 	{
-		printf("NO\n");
+		// printf("NO\n");
 		get_texture_path(data, &data->textures.north, i, j);
 	}
 	else if (ft_strncmp(&map[*i][*j], "SO", 2) == 0 && !data->textures.south)
 	{
-		printf("SO\n");
+		// printf("SO\n");
 		get_texture_path(data, &data->textures.south, i, j);
 	}
 	else if (ft_strncmp(&map[*i][*j], "WE", 2) == 0 && !data->textures.west)
 	{
-		printf("WE\n");
+		// printf("WE\n");
 		get_texture_path(data, &data->textures.west, i, j);
 	}
 	else if (ft_strncmp(&map[*i][*j], "EA", 2) == 0 && !data->textures.east)
 	{
-		printf("EA\n");
+		// printf("EA\n");
 		get_texture_path(data, &data->textures.east, i, j);
 	}
 	else if (ft_strncmp(&map[*i][*j], "F", 1) == 0 && !data->textures.floor)
 	{
-		printf("F\n");
+		// printf("F\n");
 		get_texture_path(data, &data->textures.floor, i, j);
 		// printf("FLOOR: %s\n", data->textures.floor);
 	}
 	else if (ft_strncmp(&map[*i][*j], "C", 1) == 0 && !data->textures.ceiling) //&& check there's nothing random right after the string
 	{
-		printf("C: \n");
+		// printf("C\n");
 		get_texture_path(data, &data->textures.ceiling, i, j);
 	}
 	else
@@ -115,33 +120,38 @@ static void	get_texture_path(t_data *data, char **texture, int *i, int *j)
 		*j += 1;
 	if (map[*i][*j] != '\n' && map[*i][*j] != '\0') //After the filepath and spaces there can only be a newline or a null terminator 
 		printf("%s\n", ERR_IDE_OVL);
-	printf("Texture: %s\n", *texture);
+	// printf("Texture: %s\n", *texture);
 }
 
-static void parse_colour_identifiers(t_data *data)
+static void parse_color_identifiers(t_data *data)
 {
 	char	*floor;
 	char	*ceiling;
 
 	floor = data->textures.floor;
 	ceiling = data->textures.ceiling;
-
-	printf("FLOOR: %s\n", floor);
-	printf("CEILING: %s\n", ceiling);
-
-	data->map_data.floor_colour = get_colour(floor);
-	data->map_data.ceiling_colour = get_colour(ceiling);
+	data->map_data.floor_color = get_color(floor);
+	data->map_data.ceiling_color = get_color(ceiling);
 }
 
-int8_t	get_colour(char *colour)
+u_int32_t	get_color(char *color)
 {
-	// int8_t	rgba;
-	char	**arr;
-	// (void) colour;
-	printf("%s\n", colour);
+	u_int32_t	rgba = 0;
+	char		**arr;
+	u_int8_t	rgb[3];
 
-	arr = ft_split(colour, ',');
-	printf("printing array now\n");
-	ft_print_arr(arr);
-	return 0;
+	arr = ft_split(color, ',');
+	rgb[RED] = ft_atoi(arr[RED]);
+	rgb[GREEN] = ft_atoi(arr[GREEN]);
+	rgb[BLUE] = ft_atoi(arr[BLUE]);
+	ft_free_2d((void ***) &arr);
+	if (rgb[RED] > 255 || rgb[RED] < 0
+		|| rgb[GREEN] > 255 || rgb[GREEN] < 0
+		|| rgb[BLUE] > 255 || rgb[BLUE] < 0)
+	{
+		printf("Invalid colour values. get_colour\n");
+		return (0);
+	}
+	rgba = (rgb[RED] << 24) | (rgb[GREEN] << 16) | (rgb[BLUE] << 8) | ALPHA;
+	return (rgba);
 }
