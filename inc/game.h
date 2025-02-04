@@ -117,25 +117,6 @@ typedef struct s_ray
 	t_pos		ray_end[SCREEN_WIDTH];
 }	t_ray;
 
-typedef struct s_game
-{
-	bool			is_debug;
-	bool			is_mmap;
-	t_mmap			mmap;
-	mlx_t			*mlx;
-	char			*mapdata;
-	mlx_image_t 	*scene;
-	t_ray			*ray;
-	mlx_image_t 	*stats;
-	t_player		player;
-	t_camera		camera;
-	mlx_texture_t	*north;
-	mlx_texture_t	*south;
-	mlx_texture_t	*west;
-	mlx_texture_t	*east;
-}	t_game;
-
-
 typedef struct s_textures
 {
 	char	*north;
@@ -165,6 +146,26 @@ typedef struct s_data
 	t_player	player;
 }	t_data;
 
+typedef struct s_game
+{
+	t_data			*data;
+	bool			is_debug;
+	bool			is_mmap;
+	t_mmap			mmap;
+	mlx_t			*mlx;
+	char			*mapdata;
+	mlx_image_t 	*scene;
+	t_ray			*ray;
+	mlx_image_t 	*stats;
+	t_player		player;
+	t_camera		camera;
+	mlx_texture_t	*north;
+	mlx_texture_t	*south;
+	mlx_texture_t	*west;
+	mlx_texture_t	*east;
+}	t_game;
+
+
 
 void	draw_grid(t_game *game, int rows, int cols);
 void	draw_player(t_game *game);
@@ -186,11 +187,11 @@ void 	reach_nearest_wall_by_intersections(t_game *game, float angle);
 void 	draw_player_direction(t_game *game, t_pos start, double angle);
 void 	draw_vertical_slice(t_game *game);
 void	normalize_angle_to_2pi(float *angle);
-void	safe_put_pixel(t_game *game, int x, int y, int color);
+void	safe_put_pixel(t_game *game, int x, int y, u_int32_t color);
 int		convert_to_mlx42_endian(int c);
 void 	determine_quad(double angle, int *quad);
 void	absolute(int *d, int *i);
-void	init_game_struct(t_game *game);
+void init_game_struct(t_game *game, t_data *data);
 void	draw_all(void *param);
 float	horiz_intersect(t_game *game, float angle);
 float	vertical_intersect(t_game *game, float angle);

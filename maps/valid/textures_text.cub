@@ -5,8 +5,8 @@ EA textures/parsing/ea.txt
 	WE textures/parsing/we.txt	
 	  SO textures/parsing/so.txt
 
-F 220,100,0
-C 225,30,0
+F 87,ce,eb
+C 87,ce,eb
 
 
 		     

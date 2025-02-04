@@ -3,7 +3,7 @@
 # define RED 0
 # define GREEN 1
 # define BLUE 2
-# define ALPHA 255
+# define ALPHA 250
 
 static void	get_identifier(t_data *data, int *i, int *j);
 static void	get_texture_path(t_data *data, char **texture, int *i, int *j);
@@ -132,6 +132,8 @@ static void parse_color_identifiers(t_data *data)
 	ceiling = data->textures.ceiling;
 	data->map_data.floor_color = get_color(floor);
 	data->map_data.ceiling_color = get_color(ceiling);
+	printf("FLOOR COLOUR, parse_color_identifiers: %d\n", data->map_data.floor_color);
+	printf("CEILING COLOUR, parse_color_identifiers: %d\n", data->map_data.ceiling_color);
 }
 
 u_int32_t	get_color(char *color)
@@ -141,10 +143,15 @@ u_int32_t	get_color(char *color)
 	u_int8_t	rgb[3];
 
 	arr = ft_split(color, ',');
+	if (!arr)
+		return (0);
 	rgb[RED] = ft_atoi(arr[RED]);
 	rgb[GREEN] = ft_atoi(arr[GREEN]);
 	rgb[BLUE] = ft_atoi(arr[BLUE]);
 	ft_free_2d((void ***) &arr);
+	printf("RED: %d\n", rgb[RED]);
+	printf("GREEN: %d\n", rgb[GREEN]);
+	printf("BLUE: %d\n", rgb[BLUE]);
 	if (rgb[RED] > 255 || rgb[RED] < 0
 		|| rgb[GREEN] > 255 || rgb[GREEN] < 0
 		|| rgb[BLUE] > 255 || rgb[BLUE] < 0)
@@ -153,5 +160,6 @@ u_int32_t	get_color(char *color)
 		return (0);
 	}
 	rgba = (rgb[RED] << 24) | (rgb[GREEN] << 16) | (rgb[BLUE] << 8) | ALPHA;
+
 	return (rgba);
 }

@@ -33,7 +33,7 @@ void determine_quad(double angle, int *quad)
 }
 
 
-void	safe_put_pixel(t_game *game, int x, int y, int color)
+void	safe_put_pixel(t_game *game, int x, int y, u_int32_t color)
 {
 	if (x < 0)
 	{

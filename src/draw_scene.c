@@ -119,8 +119,8 @@ void	draw_vertical_slice(t_game *game)
 	draw_wall_slice(game, slice_height, top_pixel, bottom_pixel);
 	
 	while (bottom_pixel < SCREEN_HEIGHT)
-		safe_put_pixel(game, game->ray->ray_num, bottom_pixel++, FLOOR_COLOR);
+		safe_put_pixel(game, game->ray->ray_num, bottom_pixel++, game->data->map_data.floor_color);
 	while (top_pixel > 0) 
-		safe_put_pixel(game, game->ray->ray_num, --top_pixel, 0x87CEEBFF);
+		safe_put_pixel(game, game->ray->ray_num, --top_pixel, game->data->map_data.ceiling_color);
 
 }

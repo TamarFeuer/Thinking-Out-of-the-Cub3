@@ -61,8 +61,9 @@ void	load_pngs(t_game *game)
 	game->south = mlx_load_png("textures/stone_64x64.png");
 }
 
-void init_game_struct(t_game *game)
+void init_game_struct(t_game *game, t_data *data)
 {
+	game->data = data;
 	game->is_mmap = true;
 	game->ray = ft_calloc(1, sizeof(t_ray));
 	if (!game->ray) //error
