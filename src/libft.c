@@ -89,9 +89,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (str);
 }
 
-#include <stdlib.h>
-#include <stdio.h>
-
 char *ft_ftoa(float n, int precision)
 {
     int int_part = (int)n;  // Extract the integer part
@@ -186,28 +183,6 @@ void	*ft_calloc(size_t nmemb, size_t size)
 		ft_bzero(p1, nmemb * size);
 		return (p1);
 	}
-}
-
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	size_t			i;
-	unsigned char	*c1;
-	unsigned char	*c2;
-
-	c1 = (unsigned char *)s1;
-	c2 = (unsigned char *)s2;
-	i = 0;
-	if (n == 0)
-		return (0);
-	while (c1[i] && c2[i] && n > i)
-	{
-		if (c1[i] != c2[i])
-			return (c1[i] - c2[i]);
-		i++;
-	}
-	if (i >= n)
-		return (c1[i - 1] - c2[i - 1]);
-	return (c1[i] - c2[i]);
 }
 
 void	ft_swap_ptrs(void **ptr1, void **ptr2)

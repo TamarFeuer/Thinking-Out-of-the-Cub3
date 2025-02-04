@@ -149,13 +149,13 @@ u_int32_t	get_color(char *color)
 	rgb[GREEN] = ft_atoi_b16(arr[GREEN]);
 	rgb[BLUE] = ft_atoi_b16(arr[BLUE]);
 	ft_free_2d((void ***) &arr);
-	if (rgb[RED] > 255 || rgb[RED] < 0
-		|| rgb[GREEN] > 255 || rgb[GREEN] < 0
-		|| rgb[BLUE] > 255 || rgb[BLUE] < 0)
-	{
-		printf("Invalid colour values. get_colour\n");
-		return (0);
-	}
+	// if ((rgb[RED] > 255 || rgb[RED] < 0)
+	// 	|| (rgb[GREEN] > 255 || rgb[GREEN] < 0)
+	// 	|| (rgb[BLUE] > 255 || rgb[BLUE] < 0))
+	// {
+	// 	printf("Invalid colour values. get_colour\n");
+	// 	return (0);
+	// }
 	rgba = (rgb[RED] << 24) | (rgb[GREEN] << 16) | (rgb[BLUE] << 8) | ALPHA;
 	return (rgba);
 }
