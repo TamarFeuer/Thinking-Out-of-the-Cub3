@@ -1,5 +1,12 @@
 #include "../../inc/game.h"
 
+bool	ft_is_pos_identifier(char c)
+{
+	if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
+		return (true);
+	return (false);
+}
+
 void	ft_print_arr(char **arr)
 {
 	int	i;

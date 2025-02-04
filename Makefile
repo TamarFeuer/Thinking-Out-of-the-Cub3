@@ -19,20 +19,20 @@ SRC =	src/main.c src/line_algorithm.c src/mmap.c src/player.c src/hooks.c src/cl
 OBJ_DIR = obj
 OBJ = $(SRC:src/%.c=$(OBJ_DIR)/%.o)
 
-# LIBFT_DIR = libs/libft
+LIBFT_DIR = libs/libft
 MLX_DIR = libs/MLX42
 LIB_MLX = $(MLX_DIR)/build/libmlx42.a
-# LIBFT = $(LIBFT_DIR)/libft.a 
+LIBFT = $(LIBFT_DIR)/libft.a
 
 .PHONY: all clean fclean re
 
 all: $(NAME)
 
 
-# $(NAME): $(OBJ) $(LIBFT) $(LIB_MLX)
-$(NAME): $(OBJ) $(LIB_MLX)
-#	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(LIB_MLX) $(LDFLAGS)
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIB_MLX) $(LDFLAGS)
+#(NAME): $(OBJ) $(LIBFT) $(LIB_MLX)
+$(NAME): $(LIB_MLX) $(LIBFT) $(OBJ)
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(LIB_MLX) $(LDFLAGS)
+#	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIB_MLX) $(LDFLAGS)
 	@echo "$(DGREEN)Finished building $@!$(RESET)"
 
 $(OBJ_DIR)/%.o: src/%.c
@@ -40,18 +40,20 @@ $(OBJ_DIR)/%.o: src/%.c
 	@echo "$(TEAL)Compiling $@ from $^...$(RESET)"
 	@$(CC) $(CFLAGS) -c -o $@ $^
 
-# $(LIBFT):
-# 	@make -C $(LIBFT_DIR)
+ $(LIBFT):
+	@make -C $(LIBFT_DIR)
 
 $(LIB_MLX):
 	@cmake $(MLX_DIR) -B $(MLX_DIR)/build
 	@make -C $(MLX_DIR)/build -j4
 	
 clean:
+	@make -C $(LIBFT_DIR) clean >/dev/null
 	@echo "$(PINK)Cleaning $(OBJ)!$(RESET)"
 	@rm -rf $(OBJ_DIR)
 
 fclean: clean
+	@make -C $(LIBFT_DIR) fclean >/dev/null
 	@echo "$(CYAN)Cleaning $(NAME)!$(RESET)"
 	@rm -f $(NAME)
 
