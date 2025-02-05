@@ -54,7 +54,7 @@ void	count_map_cols(t_data *data, int row)
 	// printf("count_map_cols: %d\n", data->map_data.cols);
 }
 
-void parse_map(t_data *data, int *i, int *j)
+void parse_map(t_game *game, t_data *data, int *i, int *j)
 {
 	char	**map;
 	int		row;
@@ -113,20 +113,33 @@ void parse_map(t_data *data, int *i, int *j)
 					data->player.p_pos.x = (double) col;
 					data->player.p_pos.y = (double) row;
 					if (map[*i][*j] == 'N')
-						data->player.angle = 1/2 * M_PI;
+					{
+
+						game->player.angle = M_PI / 2;
+						game->player.angle_quad = 2;
+					}
 					else if (map[*i][*j] == 'W')
-						data->player.angle = M_PI;
+					{
+						game->player.angle = M_PI;
+						game->player.angle_quad = 3;
+					}
 					else if (map[*i][*j] == 'S')
-						data->player.angle = 3/2 * M_PI;
+					{
+						game->player.angle = 3 * M_PI / 2;
+						game->player.angle_quad = 4;
+					}
 					else if (map[*i][*j] == 'E')
-						data->player.angle = 2 * M_PI;
+					{
+						game->player.angle = 0;
+						game->player.angle_quad = 1;
+					}
 				}
 				data->map_data.map[row][col] = map[*i][*j];
 				col++;
 			}
 			*j += 1;
 		}
-
+		printf ("player angle is %f\n", data->player.angle);
 		//Fills the rest of the line with empty spaces
 		while (col < data->map_data.cols - 1)
 			data->map_data.map[row][col++] = ' ';

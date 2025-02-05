@@ -75,8 +75,8 @@ void init_game_struct(t_game *game, t_data *data)
 	game->player.p_pos.x = X_START + 1.5 *PIXELS_PER_BLOCK * CONST - CONST/2;
 	game->player.p_pos.y = Y_START + 1.5 * PIXELS_PER_BLOCK * CONST - CONST/2;
 	//printf ("player  is %f %f\n", game->player.p_pos.x, game->player.p_pos.y);
-	game->player.angle = 0;
-	game->player.angle_quad = 1;
+	// game->player.angle = 0;
+	// game->player.angle_quad = 1;
 	game->ray->angle_quad = 1;
 	game->ray->intersect.x = 0;
 	game->ray->intersect.y = 0;

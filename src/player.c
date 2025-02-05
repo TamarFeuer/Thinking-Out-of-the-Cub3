@@ -2,12 +2,7 @@
 
 void draw_player_direction(t_game *game, t_pos start, double angle)
 {
-	// if (game->scene)
-	// 	mlx_delete_image(game->mlx, game->scene);
-
-	// game->scene = mlx_new_image(game->mlx, MMAP_WIDTH, MMAP_HEIGHT);  //+ 100
-	// if (!game->scene|| (mlx_image_to_window(game->mlx, game->scene ,X_START, Y_START) < 0))
-	// 	return; //error msg
+	
 	double end_x = start.x;
 	double end_y = start.y;
 	double step_size = .1;

@@ -32,6 +32,7 @@ void draw_all(void *param)
 			i++;
 		}
 		draw_player(game);
+		//printf ("player angle %f\n", game->player.angle);
 		draw_player_direction(game, (t_pos){game->camera.pos.x, game->camera.pos.y}, game->player.angle);
 
 
@@ -53,13 +54,15 @@ int	main(int argc, char *argv[])
 
 	data = NULL;
 	init_data_struct(&data);
-	parse_file(data, argv[1]);
+	
 
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	game = (t_game *)ft_calloc(1, sizeof(t_game));
 	if (!game)
 		return (EXIT_FAILURE);
 	
+	parse_file(game, data, argv[1]);	
+
 	init_game_struct(game, data);
 	if (argc == 2 && ft_strncmp(argv[1], "-d", 3) == 0)
 	{
@@ -68,6 +71,7 @@ int	main(int argc, char *argv[])
 	}
 	else
 		game->is_debug = false;
+	printf ("main: player angle is %f\n", data->player.angle);
 	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Ray caster", true);
 	if (!game->mlx)
 		return (EXIT_FAILURE);

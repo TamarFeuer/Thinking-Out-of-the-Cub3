@@ -1,7 +1,7 @@
 #include "../../inc/game.h"
 
 void		init_data_struct(t_data **data);
-void		parse_file(t_data *data, char *file_path);
+void		parse_file(t_game *game, t_data *data, char *file_path);
 static bool	check_file_extension(char *file_path);
 bool		check_file_format(char *file_path);
 static void	copy_file_contents(t_data *data, char *file_path);
@@ -15,7 +15,7 @@ void	init_data_struct(t_data **data)
 		exit(EXIT_FAILURE);
 	ft_memset(*data, 0, sizeof(t_data));
 }
-void	parse_file(t_data *data, char *file_path)
+void	parse_file(t_game *game, t_data *data, char *file_path)
 {
 	int	i;
 	int	j;
@@ -26,7 +26,7 @@ void	parse_file(t_data *data, char *file_path)
 	check_file_format(file_path);
 	copy_file_contents(data, file_path);
 	parse_identifiers(data, &i, &j);
-	parse_map(data, &i, &j);
+	parse_map(game, data, &i, &j);
 	if (!check_map_validity(data))
 		printf("PARSING NOT OK!\n");
 	else
