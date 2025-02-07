@@ -56,10 +56,10 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 			new.x = X_START;
 		if (new.y < Y_START)
 			new.y = Y_START;
-		if (new.x > X_START + MMAP_WIDTH - CONST)
-			new.x = X_START + MMAP_WIDTH - CONST;
-		if (new.y > Y_START + MMAP_HEIGHT - CONST)
-			new.y = Y_START + MMAP_HEIGHT - CONST;
+		if (new.x > X_START + game->data->minimap_data.width - CONST)
+			new.x = X_START + game->data->minimap_data.width - CONST;
+		if (new.y > Y_START + game->data->minimap_data.height - CONST)
+			new.y = Y_START + game->data->minimap_data.height - CONST;
 		int x_offset = 0;
 		int y_offset = 0;
 

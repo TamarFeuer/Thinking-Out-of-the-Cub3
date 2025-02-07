@@ -17,7 +17,7 @@ void draw_all(void *param)
 	cast_rays(game);
 	if (game->is_mmap)
 	{
-		draw_grid(game, ROWS, COLS);
+		draw_grid(game, game->data->map_data.rows, game->data->map_data.cols);
 		
 		int i =0;
 		if (game->is_debug == false)

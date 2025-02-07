@@ -133,6 +133,7 @@ void parse_map(t_game *game, t_data *data, int *i, int *j)
 						game->player.angle = 0;
 						game->player.angle_quad = 1;
 					}
+					map[*i][*j] = '0';
 				}
 				data->map_data.map[row][col] = map[*i][*j];
 				col++;

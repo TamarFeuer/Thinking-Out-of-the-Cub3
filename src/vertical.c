@@ -39,7 +39,7 @@ float	vertical_intersect(t_game *game, float angle)
 	game->ray->intersect.y = game->camera.pos.y - (game->ray->intersect.x - game->camera.pos.x) * tan(angle);
 	
 	//printf ("game->ray->intersect.y %f\n", game->ray->intersect.y);
-	while (!is_out_of_bounds(game->ray->intersect) && !is_wall_hit(game, game->ray->intersect, 1))
+	while (!is_out_of_bounds(game, game->ray->intersect) && !is_wall_hit(game, game->ray->intersect, 1))
 	{
 		if (game->is_debug)
 			safe_put_pixel(game, (int)game->ray->intersect.x, (int)game->ray->intersect.y, 0xFFFF00FF);
@@ -49,7 +49,7 @@ float	vertical_intersect(t_game *game, float angle)
 		game->ray->intersect.x += increase_x;
 		//printf ("intersect_x is %f, intersect_y is %f\n", game->ray->intersect.x, game->ray->intersect.y);
 	}
-	if (is_out_of_bounds(game->ray->intersect))
+	if (is_out_of_bounds(game, game->ray->intersect))
 		return (OUT_OF_BOUNDS);
 	//printf ("	in the function, game->ray->intersect.x is %f and game->ray->intersect.y is %f\n", game->ray->intersect.x, game->ray->intersect.y);
 	if (game->is_debug )

@@ -140,11 +140,24 @@ typedef struct s_mapdata
 	u_int32_t	ceiling_color;
 }	t_mapdata;
 
+typedef struct s_minimap
+{
+	int width;
+	int	height;
+	int	x_start;
+	int	x_end;
+	int	y_start;
+	int	y_end;
+	int max_height;
+	int	max_width;
+}	t_minimap;
+
 typedef struct s_data
 {
 	t_mapdata	map_data;
 	t_textures	textures;
 	t_player	player;
+	t_minimap	minimap_data;
 }	t_data;
 
 typedef struct s_game
@@ -196,7 +209,7 @@ void init_game_struct(t_game *game, t_data *data);
 void	draw_all(void *param);
 float	horiz_intersect(t_game *game, float angle);
 float	vertical_intersect(t_game *game, float angle);
-bool	is_out_of_bounds(t_pos position);
+bool	is_out_of_bounds(t_game *game, t_pos position);
 int		is_wall_hit(t_game *game, t_pos intersect, int flag);
 int		draw_static_components(t_game *game);
 

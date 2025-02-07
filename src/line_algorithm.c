@@ -30,7 +30,7 @@ void draw_bresenham_ray(t_game *game, t_pos start, t_pos end)
 		while (1)
 		{
 
-			if ((x == end_x && y == end_y) || x < X_START || x >= X_END || y < Y_START || y >= Y_END)
+			if ((x == end_x && y == end_y) || x < X_START || x >= game->data->minimap_data.x_end || y < Y_START || y >= game->data->minimap_data.y_end)
             {
                 distance =  sqrt((x - start.x) * (x - start.x) + (y - start.y) * (y - start.y));
                 //printf ("positive slope, distance is %d\n", distance);
@@ -59,7 +59,7 @@ void draw_bresenham_ray(t_game *game, t_pos start, t_pos end)
 		while (1)
 		{
 
-			if ((x == end_x && y == end_y) || x < X_START || x >= X_END || y < Y_START || y >= Y_END)
+			if ((x == end_x && y == end_y) || x < X_START || x >= game->data->minimap_data.x_end || y < Y_START || y >= game->data->minimap_data.y_end)
             {
                 // || (game->ray->found_vertical_first == 1 &&  x > X_END)
                 // || (game->ray->found_vertical_first == 0 &&  y > Y_END))

@@ -38,7 +38,7 @@ float	horiz_intersect(t_game *game, float angle)
 	game->ray->intersect.x = (game->camera.pos.x - X_START) - (game->ray->intersect.y - game->camera.pos.y) / tan(angle);
 	//printf ("game->ray->inter.x %f\n", game->ray->inter.x);
 	
-	while (!is_out_of_bounds(game->ray->intersect) && !is_wall_hit(game, game->ray->intersect, 0))
+	while (!is_out_of_bounds(game, game->ray->intersect) && !is_wall_hit(game, game->ray->intersect, 0))
 	{
 		if (game->is_debug )
 			safe_put_pixel(game, (int)game->ray->intersect.x, (int)game->ray->intersect.y, 0xFF00FFFF);
@@ -47,7 +47,7 @@ float	horiz_intersect(t_game *game, float angle)
 		game->ray->intersect.y += increase_y;
 		game->ray->intersect.x += increase_x;
 	}
-	if (is_out_of_bounds(game->ray->intersect))
+	if (is_out_of_bounds(game, game->ray->intersect))
 		return (OUT_OF_BOUNDS);
 	if (game->is_debug )
 		safe_put_pixel(game, (int)game->ray->intersect.x, (int)game->ray->intersect.y, 0xFF00FFFF);

@@ -50,9 +50,9 @@ void reach_nearest_wall_by_plotting(t_game *game, float angle) //start and end i
 	}
 }
 
-bool is_out_of_bounds(t_pos position)
+bool is_out_of_bounds(t_game *game, t_pos position)
 {
-	if (position.y < 0 || position.x < 0 || position.y >= ROWS * CONST * PIXELS_PER_BLOCK || position.x >= COLS * CONST * PIXELS_PER_BLOCK)
+	if (position.y < 0 || position.x < 0 || position.y >= game->data->map_data.rows * CONST * PIXELS_PER_BLOCK || position.x >= game->data->map_data.cols * CONST * PIXELS_PER_BLOCK)
 	{
 		//printf ("out of bounds\n");
 		return (true);
