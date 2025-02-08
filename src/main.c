@@ -12,8 +12,6 @@ void draw_all(void *param)
 			return; //error msg
 	}
 	
-
-	
 	cast_rays(game);
 	if (game->is_mmap)
 	{
@@ -36,7 +34,7 @@ void draw_all(void *param)
 		draw_player_direction(game, (t_pos){game->camera.pos.x, game->camera.pos.y}, game->player.angle);
 
 
-		//print_stats(game);
+		// print_stats(game);
 		
 	}
 }
