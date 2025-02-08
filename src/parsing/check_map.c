@@ -51,9 +51,9 @@ bool	has_invalid_elements(t_data *data)
 		while (map[row][col])
 		{
 			if (map[row][col] != '0' && map[row][col] != '1'
-				&& map[row][col] != ' ' && map[row][col] != 'W'
+				&& map[row][col] != 'E' && map[row][col] != 'W'
 				&& map[row][col] != 'N' && map[row][col] != 'S'
-				&& map[row][col] != 'E')
+				&& map[row][col] != ' ')
 				return (true);
 			col++;
 		}
@@ -73,7 +73,7 @@ bool	has_repeated_elements(t_data *data)
 	//Checks for map's NULLITY
 	map = data->map_data.map;
 	if (!map || !map[0])
-		return (true); //Doesn't have repeated elements, but it would segfault.
+		return (true); //Doesn't have repeated elements, but it would segfault if not checked. So maybe throw a different error message.
 
 	row = 0;
 	while (map[row])

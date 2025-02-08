@@ -17,7 +17,7 @@ void draw_all(void *param)
 	{
 		draw_grid(game, game->data->map_data.rows, game->data->map_data.cols);
 		
-		int i =0;
+		int i = 0;
 		if (game->is_debug == false)
 			game->ray->number_of_rays = SCREEN_WIDTH;
 		else
@@ -52,7 +52,6 @@ int	main(int argc, char *argv[])
 
 	data = NULL;
 	init_data_struct(&data);
-	
 
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	game = (t_game *)ft_calloc(1, sizeof(t_game));

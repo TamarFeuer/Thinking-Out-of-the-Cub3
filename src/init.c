@@ -74,7 +74,7 @@ void init_game_struct(t_game *game, t_data *data)
 	game->ray->wall_met= false;
 	game->scene = NULL;
 	game->stats = NULL;
-	game->player.p_pos.x = X_START + (game->data->player.p_pos.x + .5)  *PIXELS_PER_BLOCK * CONST - CONST/2;
+	game->player.p_pos.x = X_START + (game->data->player.p_pos.x + .5) * PIXELS_PER_BLOCK * CONST - CONST/2;
 	game->player.p_pos.y = Y_START + (game->data->player.p_pos.y + .5) * PIXELS_PER_BLOCK * CONST - CONST/2;
 	//printf ("player  is %f %f\n", game->player.p_pos.x, game->player.p_pos.y);
 	game->player.angle = game->data->player.angle;

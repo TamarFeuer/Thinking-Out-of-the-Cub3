@@ -81,12 +81,6 @@ static void	copy_file_contents(t_data *data, char *file_path)
 {
 	int	fd;
 
-	fd = open(file_path, O_RDONLY); //Don't forget to close. Also pass the fd to the function, instead of the path.
-	if (fd < 0)
-	{
-		perror("copy_line_by_line");
-		exit(EXIT_FAILURE);
-	}
 	data->map_data.total_lines = count_lines(file_path);
 	data->map_data.path = file_path;
 	data->map_data.file_data = (char **) ft_calloc(data->map_data.total_lines + 1, sizeof(char *));
@@ -95,7 +89,14 @@ static void	copy_file_contents(t_data *data, char *file_path)
 		perror("copy_file_contents");
 		exit(EXIT_FAILURE);
 	}
+	fd = open(file_path, O_RDONLY);
+	if (fd < 0)
+	{
+		perror("copy_file_contents");
+		exit(EXIT_FAILURE);
+	}
 	copy_line_by_line(&data->map_data, fd);
+	close (fd); //Check if it fails
 }
 
 int	count_lines(char *file_path)
