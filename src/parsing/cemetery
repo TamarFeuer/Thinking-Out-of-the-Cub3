@@ -1,0 +1,69 @@
+//Old version
+// void parse_identifiers(t_data *data, int *i, int *j)
+// {
+// 	char	**map;
+
+// 	map = data->map_data.file_data;
+// 	ft_memset(&data->textures, 0, sizeof(t_identifiers));
+// 	while (map[*i] && map[*i][*j]) //Skips empty lines and whitespaces
+// 	{
+// 		skip_whitespaces(map, *i, j);
+// 		if (map[*i][*j] != '\n')
+// 			get_identifier(data, i, j);
+// 		*j = 0;
+// 		*i += 1;
+// 		if (data->textures.north && data->textures.south && data->textures.east 
+// 			&& data->textures.west && data->textures.ceiling && data->textures.floor)
+// 			break ;
+// 	}
+// 	parse_color_identifiers(data);
+// 	//check that it's a valid texture?
+// }
+
+	//skip empty lines
+	//skip spaces
+	//look for a valid identifier
+	//look that it is not repeated
+	//check that there's no data after the path (only spaces or a new line character)
+// static void	get_identifier(t_data *data, int *i, int *j)
+// {
+// 	char	**map;
+
+// 	map = data->map_data.file_data;
+// 	// if (map[*i][*j] == 'N' && map[*i][*j + 1] == 'O' && !data->textures.north)
+// 	if (ft_strncmp(&map[*i][*j], "NO", 2) == 0 && !data->textures.north)
+// 	{
+// 		// printf("NO\n");
+// 		get_texture_path(data, &data->textures.north, i, j);
+// 	}
+// 	else if (ft_strncmp(&map[*i][*j], "SO", 2) == 0 && !data->textures.south)
+// 	{
+// 		// printf("SO\n");
+// 		get_texture_path(data, &data->textures.south, i, j);
+// 	}
+// 	else if (ft_strncmp(&map[*i][*j], "WE", 2) == 0 && !data->textures.west)
+// 	{
+// 		// printf("WE\n");
+// 		get_texture_path(data, &data->textures.west, i, j);
+// 	}
+// 	else if (ft_strncmp(&map[*i][*j], "EA", 2) == 0 && !data->textures.east)
+// 	{
+// 		// printf("EA\n");
+// 		get_texture_path(data, &data->textures.east, i, j);
+// 	}
+// 	else if (ft_strncmp(&map[*i][*j], "F", 1) == 0 && !data->textures.floor)
+// 	{
+// 		// printf("F\n");
+// 		get_texture_path(data, &data->textures.floor, i, j);
+// 	}
+// 	else if (ft_strncmp(&map[*i][*j], "C", 1) == 0 && !data->textures.ceiling) //&& check there's nothing random right after the string
+// 	{
+// 		// printf("C\n");
+// 		get_texture_path(data, &data->textures.ceiling, i, j);
+// 	}
+// 	else
+// 	{
+// 		printf("%s\n", ERR_INV_TXT); // & exit
+// 		printf("The string is: %s.\n", &map[*i][*j]);
+// 	}
+// }

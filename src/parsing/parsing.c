@@ -31,6 +31,8 @@ void	parse_file(t_game *game, t_data *data, char *file_path)
 		printf("PARSING NOT OK!\n");
 	else
 		printf("PARSING OK!\n");
+
+	//MINIMAP struct init
 	data->minimap_data.width = data->map_data.cols * PIXELS_PER_BLOCK * CONST;
 	data->minimap_data.height = data->map_data.rows * PIXELS_PER_BLOCK * CONST;
 	data->minimap_data.x_start = 0;
@@ -39,6 +41,7 @@ void	parse_file(t_game *game, t_data *data, char *file_path)
 	data->minimap_data.y_end = data->minimap_data.y_start + data->minimap_data.height;
 	data->minimap_data.max_height = SCREEN_HEIGHT/4;
 	data->minimap_data.max_width = SCREEN_WIDTH/4;
+	
 	// ft_print_arr(data->map_data.map);
 }
 

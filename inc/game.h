@@ -118,7 +118,7 @@ typedef struct s_ray
 	t_pos		ray_end[SCREEN_WIDTH];
 }	t_ray;
 
-typedef struct s_textures
+typedef struct s_identifiers
 {
 	char	*north;
 	char	*south;
@@ -126,7 +126,7 @@ typedef struct s_textures
 	char	*east;
 	char	*floor;
 	char	*ceiling;
-}	t_textures;
+}	t_identifiers;
 
 typedef struct s_mapdata
 {
@@ -154,10 +154,10 @@ typedef struct s_minimap
 
 typedef struct s_data
 {
-	t_mapdata	map_data;
-	t_textures	textures;
-	t_player	player;
-	t_minimap	minimap_data;
+	t_mapdata		map_data;
+	t_identifiers	textures;
+	t_player		player;
+	t_minimap		minimap_data;
 }	t_data;
 
 typedef struct s_game
