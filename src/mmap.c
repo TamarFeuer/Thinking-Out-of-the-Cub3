@@ -55,7 +55,7 @@ void draw_grid(t_game *game, int rows, int cols)
 
 	// Drawing horizontal lines
 	y = 0;
-	while (y <= (rows - 1) * PIXELS_PER_BLOCK * CONST )
+	while (y <= rows * PIXELS_PER_BLOCK * CONST )
 	{
 		int x_start = X_START;
 		int x_end = X_START + cols * PIXELS_PER_BLOCK * CONST;
@@ -70,7 +70,7 @@ void draw_grid(t_game *game, int rows, int cols)
 
 	// Drawing vertical lines
 	x = 0;
-	while(x < (cols - 1) * PIXELS_PER_BLOCK * CONST )
+	while(x < (cols +1) * PIXELS_PER_BLOCK * CONST )
 	{
 		int y_start = Y_START;
 		int y_end = Y_START + rows * PIXELS_PER_BLOCK * CONST;
