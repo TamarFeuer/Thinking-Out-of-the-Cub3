@@ -238,7 +238,7 @@ char	*get_next_line(int fd);
 void	init_data_struct(t_data **data);
 void	parse_file(t_game *game, t_data *data, char *file_path);
 int		count_lines(char *file_path);
-void	copy_line_by_line(t_mapdata *mapinfo, char *file_path);
+void	copy_line_by_line(t_mapdata *mapinfo, int fd);
 void 	parse_identifiers(t_data *data, int *i, int *j);
 bool	check_file_format(char *file_path);
 void 	parse_map(t_game *game, t_data *data, int *i, int *j);

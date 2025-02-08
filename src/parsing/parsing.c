@@ -6,7 +6,7 @@ static bool	check_file_extension(char *file_path);
 bool		check_file_format(char *file_path);
 static void	copy_file_contents(t_data *data, char *file_path);
 int			count_lines(char *file_path);
-void		copy_line_by_line(t_mapdata *mapdata, char *file_path);
+void		copy_line_by_line(t_mapdata *mapdata, int fd);
 
 void	init_data_struct(t_data **data)
 {
@@ -79,6 +79,14 @@ bool	check_file_format(char *file_path)
 
 static void	copy_file_contents(t_data *data, char *file_path)
 {
+	int	fd;
+
+	fd = open(file_path, O_RDONLY); //Don't forget to close. Also pass the fd to the function, instead of the path.
+	if (fd < 0)
+	{
+		perror("copy_line_by_line");
+		exit(EXIT_FAILURE);
+	}
 	data->map_data.total_lines = count_lines(file_path);
 	data->map_data.path = file_path;
 	data->map_data.file_data = (char **) ft_calloc(data->map_data.total_lines + 1, sizeof(char *));
@@ -87,7 +95,7 @@ static void	copy_file_contents(t_data *data, char *file_path)
 		perror("copy_file_contents");
 		exit(EXIT_FAILURE);
 	}
-	copy_line_by_line(&data->map_data, file_path);
+	copy_line_by_line(&data->map_data, fd);
 }
 
 int	count_lines(char *file_path)
@@ -114,21 +122,14 @@ int	count_lines(char *file_path)
 	return (total_lines);
 }
 
-void	copy_line_by_line(t_mapdata *mapdata, char *file_path)
+void	copy_line_by_line(t_mapdata *mapdata, int fd)
 {
-	int		fd;
 	char	*curr_line;
 	size_t	line_len;
 	int		row;
 	int		col;
 	int		i;
 
-	fd = open(file_path, O_RDONLY); //Don't forget to close. Also pass the fd to the function, instead of the path.
-	if (fd < 0)
-	{
-		perror("copy_line_by_line");
-		exit(EXIT_FAILURE);
-	}
 	curr_line = get_next_line(fd);
 	row = 0;
 	while (curr_line)

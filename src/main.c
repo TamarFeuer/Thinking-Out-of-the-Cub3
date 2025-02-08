@@ -12,8 +12,6 @@ void draw_all(void *param)
 			return; //error msg
 	}
 	
-
-	
 	cast_rays(game);
 	if (game->is_mmap)
 	{
