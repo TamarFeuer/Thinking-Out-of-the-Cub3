@@ -40,7 +40,7 @@ void	count_map_cols(t_data *data, int row)
 	while (file[row])
 	{
 		col = 0;
-		while (file[row][++col])
+		while (file[row][col])
 		{
 			if (file[row][col] == '\t')
 				col += 4;
