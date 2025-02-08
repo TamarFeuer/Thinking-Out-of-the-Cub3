@@ -40,18 +40,18 @@ void	count_map_cols(t_data *data, int row)
 	while (file[row])
 	{
 		col = 0;
-		while (file[row][col])
+		while (file[row][++col])
 		{
 			if (file[row][col] == '\t')
 				col += 4;
 			else
 				col++;
 		}
-		if (col > data->map_data.cols)
+		if (--col > data->map_data.cols)
 			data->map_data.cols = col;
 		row++;
 	}
-	// printf("count_map_cols: %d\n", data->map_data.cols);
+	printf("count_map_cols: %d\n", data->map_data.cols);
 }
 
 void parse_map(t_game *game, t_data *data, int *i, int *j)
