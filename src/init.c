@@ -18,7 +18,7 @@ void init_map(t_game *game)
 		col = 0;
 		while (col < game->data->map_data.cols)
 		{
-			if (game->data->map_data.map[row][col] != '\0' && game->data->map_data.map[row][col] != '\n' && game->data->map_data.map[row][col] != ' ')
+			if (game->data->map_data.map[row][col] != '\0' && game->data->map_data.map[row][col] != '\n')
 				game->mapdata[index++] = game->data->map_data.map[row][col];
 			col++;
 		}

@@ -51,7 +51,7 @@ void	count_map_cols(t_data *data, int row)
 			data->map_data.cols = col;
 		row++;
 	}
-	printf("count_map_cols: %d\n", data->map_data.cols);
+	// printf("count_map_cols: %d\n", data->map_data.cols);
 }
 
 void parse_map(t_game *game, t_data *data, int *i, int *j)
@@ -142,7 +142,7 @@ void parse_map(t_game *game, t_data *data, int *i, int *j)
 		}
 		printf ("player angle is %f\n", data->player.angle);
 		//Fills the rest of the line with empty spaces
-		while (col < data->map_data.cols - 1)
+		while (col < data->map_data.cols)
 		{
 			data->map_data.map[row][col++] = ' ';
 		}

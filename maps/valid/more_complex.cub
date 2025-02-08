@@ -1,0 +1,12 @@
+NO textures/Brick_Wall_64x64.png
+EA textures/Dirt_Road_64x64.png
+WE textures/Brick_Wall_Cracked_64x64.png	
+SO textures/stone_64x64.png
+
+F 87,FF,AA
+C 87,ce,eb
+
+   111111 
+11110N001
+11 100001
+111111111
