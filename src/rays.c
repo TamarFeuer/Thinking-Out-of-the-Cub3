@@ -26,7 +26,7 @@ int get_block_index2(t_game *game, t_pos *grid_pos, int flag)
 	else if (!flag && (game->ray->angle_quad == 2 || game->ray->angle_quad == 3))
 		block_index_x = (int)(ceil(grid_pos->x) - Y_START) / (PIXELS_PER_BLOCK * CONST);
 	
-	result = (block_index_y) * COLS + (block_index_x);
+	result = (block_index_y) * game->data->map_data.cols + (block_index_x);
 	//printf ("result is %d\n", result);
 	//printf ("game->ray->end.x %f, game->ray->end.y %f\n", game->ray->end.x, game->ray->end.y);
 	return result;
