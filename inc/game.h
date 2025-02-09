@@ -24,6 +24,7 @@
 #define COLS 10 //---> !
 #define EMPTY '0'
 #define WALL '1'
+#define SPACE ' '
 
 //mini map
 #define CONST 4

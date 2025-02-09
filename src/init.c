@@ -2,61 +2,34 @@
 
 void init_map(t_game *game)
 {
-	int	j;
+	int	index;
+	int	row;
+	int	col;
+
 	game->mapdata = malloc(game->data->map_data.rows * game->data->map_data.cols * sizeof(char) + 1);
 	if (!game->mapdata)
 	{
 		exit(EXIT_FAILURE);
 	}
- 
-	// char initial_map[game->data->map_data.rows][game->data->map_data.cols] = 
-	// {
-	// 	//10 x 8
-	// 	{"1111111111"},
-	// 	{"1000110101"},
-	// 	{"1000110101"},
-	// 	{"1001110101"},
-	// 	{"1000111101"},
-	// 	{"1000110101"},
-	// 	{"1000000001"},
-	// 	{"1111111111"}
-		
-	// 	//10 x 8
-	// 	// {"1111111111"},
-	// 	// {"1000000001"},
-	// 	// {"1000000001"},
-	// 	// {"1000100001"},
-	// 	// {"1000000001"},
-	// 	// {"1000000001"},
-	// 	// {"1000000001"},
-	// 	// {"1111111111"}
-	
-	// //6 x 15
-	// // {"111111111111111"},
-	// // {"100000100010001"},
-	// // {"100000100010001"},
-	// // {"100000100010001"},
-	// // {"100000111100001"},
-	// // {"111111111111111"}
-	// };
-	
-	int i = 0;
-	while (i < game->data->map_data.rows)
+	index = 0;
+	row = 0;
+	while (row < game->data->map_data.rows)
 	{
-		j = 0;
-		while (j < game->data->map_data.cols)
+		col = 0;
+		while (col < game->data->map_data.cols)
 		{
-			game->mapdata[i * game->data->map_data.cols + j] = game->data->map_data.map[i][j];
-			j++;
+			if (game->data->map_data.map[row][col] != '\0' && game->data->map_data.map[row][col] != '\n')
+				game->mapdata[index++] = game->data->map_data.map[row][col];
+			col++;
 		}
-		i++;
+		row++;
 	}
-	game->mapdata[i * game->data->map_data.cols + j] = '\0';
+	game->mapdata[index] = '\0';
+	printf("%s\n", game->mapdata);
 }
 
 void	load_pngs(t_game *game)
 {
-	
 	game->east = mlx_load_png("textures/Dirt_Road_64x64.png");  //add err check
 	game->north = mlx_load_png("textures/Brick_Wall_64x64.png");
 	game->west = mlx_load_png("textures/Brick_Wall_Cracked_64x64.png");
