@@ -1,37 +1,29 @@
 #include "../../inc/game.h"
 
-# define RED 0
-# define GREEN 1
-# define BLUE 2
-# define ALPHA 3
-
 typedef enum e_pos_id
 {
 	INVAL_ID = 0,
 	NORTH_ID,
 	SOUTH_ID,
 	EAST_ID,
-	WEST_ID
+	WEST_ID,
+	FLOOR_ID,
+	CEILING_ID
 } t_pos_id;
 
 static void	get_identifier(t_data *data, int *i, int *j);
 char		*get_identifier_path(t_data *data, int *i, int *j);
+t_pos_id	 identify_identifier(char *identifier);
 static void	get_texture_path(t_data *data, char **texture, int *i, int *j);
 static void parse_color_identifiers(t_data *data);
 u_int32_t	get_color(char *color);
 
-t_pos_id identify_identifier(char *identifier)
-{
-	if (!ft_strncmp(identifier, "NO", 3))
-		return (NORTH_ID);
-	else if (!ft_strncmp(identifier, "SO", 3))
-		return (SOUTH_ID);
-	else if (!ft_strncmp(identifier, "EA", 3))
-		return (EAST_ID);
-	else if (!ft_strncmp(identifier, "WE", 3))
-		return (WEST_ID);
-	return (INVAL_ID);
-}
+# define RED 0
+# define GREEN 1
+# define BLUE 2
+# define ALPHA 3
+
+// Definitions
 
 //New version
 void parse_identifiers(t_data *data, int *i, int *j)
@@ -39,16 +31,17 @@ void parse_identifiers(t_data *data, int *i, int *j)
 	char	**map;
 
 	map = data->map_data.file_data;
-	ft_memset(&data->textures, 0, sizeof(t_identifiers));
-	while (map[*i] && map[*i][*j]) //Skips empty lines and whitespaces
+	if (!map || !*map)
+		return ;
+	ft_memset(&data->identifiers, 0, sizeof(t_identifiers));
+	while (map && map[*i] && map[*i][*j]) //Skips empty lines and whitespaces
 	{
 		skip_whitespaces(map, *i, j);
-		if (map[*i][*j] != '\n')
+		if (map[*i][*j] && map[*i][*j] != '\n')
 			get_identifier(data, i, j);
 		*j = 0;
 		*i += 1;
-		if (data->textures.north && data->textures.south && data->textures.east 
-			&& data->textures.west && data->textures.ceiling && data->textures.floor)
+		if (map[*i][*j] == '1')
 			break ;
 	}
 	parse_color_identifiers(data);
@@ -61,31 +54,39 @@ static void	get_identifier(t_data *data, int *i, int *j)
 	char	*identifier;
 
 	file = data->map_data.file_data;
-	ft_memset(&data->textures, 0, sizeof(t_identifiers));
-	while (file[*i] && file[*i][*j]) //Skips empty lines and whitespaces
-	{
-		skip_whitespaces(file, *i, j);
-		identifier = ft_strdup(&file[*i][*j]);
-		if (!identifier)
-		{
-			printf("Malloc error in get_identifier\n");
-			return ;
-		}
-		if (identify_identifier(identifier) == NORTH_ID)
-			get_texture_path(data, &data->textures.north, i, j);
-		else if (identify_identifier(identifier) == SOUTH_ID)
-			data->textures.south = get_identifier_path(data, i, j);
-		else if (identify_identifier(identifier) == EAST_ID)
-			data->textures.east = get_identifier_path(data, i, j);
-		else if (identify_identifier(identifier) == WEST_ID)
-			data->textures.west = get_identifier_path(data, i, j);
-		*j = 0;
-		*i += 1;
-		if (data->textures.north && data->textures.south && data->textures.east 
-			&& data->textures.west && data->textures.ceiling && data->textures.floor)
-			break ;
-	}
-	parse_color_identifiers(data);
+	ft_memset(&data->identifiers, 0, sizeof(t_identifiers));
+	skip_whitespaces(file, *i, j);
+	identifier = &file[*i][*j];
+	printf("get_identifier: %s\n", &file[*i][*j]);
+	if (identify_identifier(identifier) == NORTH_ID) // If there are so many if conditions here, is there a need for a function that identifies the identifiers?
+		get_texture_path(data, &data->identifiers.north, i, j);
+	else if (identify_identifier(identifier) == SOUTH_ID)
+		get_texture_path(data, &data->identifiers.south, i, j);
+	else if (identify_identifier(identifier) == EAST_ID)
+		get_texture_path(data, &data->identifiers.east, i, j);
+	else if (identify_identifier(identifier) == WEST_ID)
+		get_texture_path(data, &data->identifiers.west, i, j);
+	else if (identify_identifier(identifier) == FLOOR_ID)
+		get_texture_path(data, &data->identifiers.floor, i, j);
+	else if (identify_identifier(identifier) == CEILING_ID)
+		get_texture_path(data, &data->identifiers.ceiling, i, j);
+}
+
+t_pos_id identify_identifier(char *identifier)
+{
+	if (!ft_strncmp(identifier, "NO", 2)) //Check the 3rd character. It can be a space, it shouldn't be any other character. The bug would get caught anyways while parsing the path, but it's better to anticipate.
+		return (NORTH_ID);
+	else if (!ft_strncmp(identifier, "SO", 2))
+		return (SOUTH_ID);
+	else if (!ft_strncmp(identifier, "EA", 2))
+		return (EAST_ID);
+	else if (!ft_strncmp(identifier, "WE", 2))
+		return (WEST_ID);
+	else if (!ft_strncmp(identifier, "F", 1))
+		return (FLOOR_ID);
+	else if (!ft_strncmp(identifier, "C", 1))
+		return (CEILING_ID);
+	return (INVAL_ID);
 }
 
 
@@ -130,6 +131,7 @@ static void	get_texture_path(t_data *data, char **texture, int *i, int *j)
 		*j += 1;
 	if (map[*i][*j] != '\n' && map[*i][*j] != '\0') //After the filepath and spaces there can only be a newline or a null terminator 
 		printf("%s\n", ERR_IDE_OVL);
+	printf("in get_texture_path: %s\n", *texture);
 }
 
 static void parse_color_identifiers(t_data *data)
@@ -137,8 +139,8 @@ static void parse_color_identifiers(t_data *data)
 	char	*floor;
 	char	*ceiling;
 
-	floor = data->textures.floor;
-	ceiling = data->textures.ceiling;
+	floor = data->identifiers.floor;
+	ceiling = data->identifiers.ceiling;
 	data->map_data.floor_color = get_color(floor);
 	data->map_data.ceiling_color = get_color(ceiling);
 }

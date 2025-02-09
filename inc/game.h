@@ -155,7 +155,7 @@ typedef struct s_minimap
 typedef struct s_data
 {
 	t_mapdata		map_data;
-	t_identifiers	textures;
+	t_identifiers	identifiers;
 	t_player		player;
 	t_minimap		minimap_data;
 }	t_data;

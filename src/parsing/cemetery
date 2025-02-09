@@ -4,7 +4,7 @@
 // 	char	**map;
 
 // 	map = data->map_data.file_data;
-// 	ft_memset(&data->textures, 0, sizeof(t_identifiers));
+// 	ft_memset(&data->identifiers, 0, sizeof(t_identifiers));
 // 	while (map[*i] && map[*i][*j]) //Skips empty lines and whitespaces
 // 	{
 // 		skip_whitespaces(map, *i, j);
@@ -12,8 +12,8 @@
 // 			get_identifier(data, i, j);
 // 		*j = 0;
 // 		*i += 1;
-// 		if (data->textures.north && data->textures.south && data->textures.east 
-// 			&& data->textures.west && data->textures.ceiling && data->textures.floor)
+// 		if (data->identifiers.north && data->identifiers.south && data->identifiers.east 
+// 			&& data->identifiers.west && data->identifiers.ceiling && data->identifiers.floor)
 // 			break ;
 // 	}
 // 	parse_color_identifiers(data);
@@ -30,36 +30,36 @@
 // 	char	**map;
 
 // 	map = data->map_data.file_data;
-// 	// if (map[*i][*j] == 'N' && map[*i][*j + 1] == 'O' && !data->textures.north)
-// 	if (ft_strncmp(&map[*i][*j], "NO", 2) == 0 && !data->textures.north)
+// 	// if (map[*i][*j] == 'N' && map[*i][*j + 1] == 'O' && !data->identifiers.north)
+// 	if (ft_strncmp(&map[*i][*j], "NO", 2) == 0 && !data->identifiers.north)
 // 	{
 // 		// printf("NO\n");
-// 		get_texture_path(data, &data->textures.north, i, j);
+// 		get_texture_path(data, &data->identifiers.north, i, j);
 // 	}
-// 	else if (ft_strncmp(&map[*i][*j], "SO", 2) == 0 && !data->textures.south)
+// 	else if (ft_strncmp(&map[*i][*j], "SO", 2) == 0 && !data->identifiers.south)
 // 	{
 // 		// printf("SO\n");
-// 		get_texture_path(data, &data->textures.south, i, j);
+// 		get_texture_path(data, &data->identifiers.south, i, j);
 // 	}
-// 	else if (ft_strncmp(&map[*i][*j], "WE", 2) == 0 && !data->textures.west)
+// 	else if (ft_strncmp(&map[*i][*j], "WE", 2) == 0 && !data->identifiers.west)
 // 	{
 // 		// printf("WE\n");
-// 		get_texture_path(data, &data->textures.west, i, j);
+// 		get_texture_path(data, &data->identifiers.west, i, j);
 // 	}
-// 	else if (ft_strncmp(&map[*i][*j], "EA", 2) == 0 && !data->textures.east)
+// 	else if (ft_strncmp(&map[*i][*j], "EA", 2) == 0 && !data->identifiers.east)
 // 	{
 // 		// printf("EA\n");
-// 		get_texture_path(data, &data->textures.east, i, j);
+// 		get_texture_path(data, &data->identifiers.east, i, j);
 // 	}
-// 	else if (ft_strncmp(&map[*i][*j], "F", 1) == 0 && !data->textures.floor)
+// 	else if (ft_strncmp(&map[*i][*j], "F", 1) == 0 && !data->identifiers.floor)
 // 	{
 // 		// printf("F\n");
-// 		get_texture_path(data, &data->textures.floor, i, j);
+// 		get_texture_path(data, &data->identifiers.floor, i, j);
 // 	}
-// 	else if (ft_strncmp(&map[*i][*j], "C", 1) == 0 && !data->textures.ceiling) //&& check there's nothing random right after the string
+// 	else if (ft_strncmp(&map[*i][*j], "C", 1) == 0 && !data->identifiers.ceiling) //&& check there's nothing random right after the string
 // 	{
 // 		// printf("C\n");
-// 		get_texture_path(data, &data->textures.ceiling, i, j);
+// 		get_texture_path(data, &data->identifiers.ceiling, i, j);
 // 	}
 // 	else
 // 	{
