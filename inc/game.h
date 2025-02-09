@@ -66,6 +66,17 @@ typedef enum e_direction
 	SOUTH,
 } t_direction;
 
+typedef enum e_pos_id
+{
+	INVAL_ID = -1,
+	NORTH_ID,
+	SOUTH_ID,
+	EAST_ID,
+	WEST_ID,
+	FLOOR_ID,
+	CEILING_ID
+} t_pos_id;
+
 typedef struct s_pos
 {
 	double	x;
@@ -118,16 +129,6 @@ typedef struct s_ray
 	t_pos		ray_end[SCREEN_WIDTH];
 }	t_ray;
 
-typedef struct s_identifiers
-{
-	char	*north;
-	char	*south;
-	char	*west;
-	char	*east;
-	char	*floor;
-	char	*ceiling;
-}	t_identifiers;
-
 typedef struct s_mapdata
 {
 	char		*path;
@@ -155,7 +156,7 @@ typedef struct s_minimap
 typedef struct s_data
 {
 	t_mapdata		map_data;
-	t_identifiers	identifiers;
+	char			**identifiers;
 	t_player		player;
 	t_minimap		minimap_data;
 }	t_data;
