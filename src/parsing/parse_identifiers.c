@@ -5,7 +5,7 @@ char		*get_identifier_path(t_data *data, int *i, int *j);
 static void	get_texture_path(t_data *data, t_pos_id id, int *i, int *j);
 static void parse_color_identifiers(t_data *data);
 u_int32_t	get_color(char *color);
-bool	verify_identifiers(t_data *data);
+bool		verify_identifiers(t_data *data);
 
 # define RED 0
 # define GREEN 1
