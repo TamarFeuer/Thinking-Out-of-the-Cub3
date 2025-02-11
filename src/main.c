@@ -43,47 +43,35 @@ void draw_all(void *param)
 
 int	main(int argc, char *argv[])
 {
-	t_game	*game;
 	t_data	*data;
+	t_game	*game;
 	
 	(void)argc;
 	(void)argv;
 	int width, height;
 
 	data = NULL;
-	init_data_struct(&data);
-
+	init_parsed_data_struct(&data, argc, argv);
+	parse_file(data, argv[1]);
+	game = data->game;
+	init_game_struct(data, game);
+	// printf ("main: player angle is %f\n", data->player.angle);
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
-	game = (t_game *)ft_calloc(1, sizeof(t_game));
-	if (!game)
-		return (EXIT_FAILURE);
-	
-	parse_file(game, data, argv[1]);	
-
-	init_game_struct(game, data);
-	if (argc == 2 && ft_strncmp(argv[1], "-d", 3) == 0)
-	{
-		game->is_debug = true;
-		game->is_mmap = true;
-	}
-	else
-		game->is_debug = false;
-	printf ("main: player angle is %f\n", data->player.angle);
-	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Ray caster", true);
-	if (!game->mlx)
+	data->game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Ray caster", true);
+	if (!data->game->mlx)
 		return (EXIT_FAILURE);
 	mlx_get_monitor_size(0, &width, &height);
 	//printf ("width is %d, height is %d\n", width, height);
 	
-	game->scene = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-	if (!game->scene || (mlx_image_to_window(game->mlx, game->scene, X_START, Y_START ) < 0))
+	data->game->scene = mlx_new_image(data->game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	if (!data->game->scene || (mlx_image_to_window(data->game->mlx, data->game->scene, X_START, Y_START ) < 0))
 		return (EXIT_FAILURE);
-	if(game->is_mmap)
-		print_stats(game);
-	mlx_loop_hook(game->mlx, draw_all, game);
-	mlx_key_hook(game->mlx, key_hook, game);
+	if(data->game->is_mmap)
+		print_stats(data->game);
+	mlx_loop_hook(data->game->mlx, draw_all, data->game);
+	mlx_key_hook(data->game->mlx, key_hook, data->game);
 	
-	mlx_loop(game->mlx);
-	clean_nicely(game);
+	mlx_loop(data->game->mlx);
+	clean_nicely(data->game);
 	return(EXIT_SUCCESS);
 }

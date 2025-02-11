@@ -59,6 +59,8 @@
 #define MIN_RAY_DISTANCE 5.0f
 #define FLOOR_COLOR 0xFF8000FF  //---> !
 
+typedef struct s_game t_game;
+
 typedef enum e_direction 
 {
 	EAST,
@@ -154,12 +156,14 @@ typedef struct s_minimap
 	int	max_width;
 }	t_minimap;
 
-typedef struct s_data
+typedef struct s_parsed_data
 {
 	t_mapdata		map_data;
 	char			**identifiers;
 	t_player		player;
 	t_minimap		minimap_data;
+	t_game			*game;
+	t_ecode			err_no;
 }	t_data;
 
 typedef struct s_game
@@ -181,7 +185,8 @@ typedef struct s_game
 	mlx_texture_t	*east;
 }	t_game;
 
-
+void	clean_and_exit(t_data *data, t_ecode ecode);
+t_ecode	init_minimap_struct(t_data *data);
 
 void	draw_grid(t_game *game, int rows, int cols);
 void	draw_player(t_game *game);
@@ -207,7 +212,7 @@ void	safe_put_pixel(t_game *game, int x, int y, u_int32_t color);
 int		convert_to_mlx42_endian(int c);
 void 	determine_quad(double angle, int *quad);
 void	absolute(int *d, int *i);
-void init_game_struct(t_game *game, t_data *data);
+void	init_game_struct(t_data *data, t_game *game);
 void	draw_all(void *param);
 float	horiz_intersect(t_game *game, float angle);
 float	vertical_intersect(t_game *game, float angle);
@@ -219,7 +224,7 @@ int		draw_static_components(t_game *game);
 // LIBFT
 void	ft_free_2d(void ***arr);
 int		ft_atoi(const char *nptr);
-bool	ft_is_pos_identifier(char c);
+bool	is_pos_identifier(char c);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
 char	*ft_strdup(char const *str);
@@ -237,14 +242,14 @@ char	**ft_split(char const *s, char c);
 
 // PARSING
 char	*get_next_line(int fd);
-void	init_data_struct(t_data **data);
-void	parse_file(t_game *game, t_data *data, char *file_path);
+void	init_parsed_data_struct(t_data **data, int argc, char **argv);
+void	parse_file(t_data *data, char *file_path);
 int		count_lines(char *file_path);
-void	copy_line_by_line(t_mapdata *mapinfo, int fd);
-void 	parse_identifiers(t_data *data, int *i, int *j);
-bool	check_file_format(char *file_path);
-void 	parse_map(t_game *game, t_data *data, int *i, int *j);
-bool	check_map_validity(t_data *data);
+t_ecode	copy_line_by_line(t_mapdata *mapinfo, int fd);
+t_ecode parse_identifiers(t_data *data, int *i, int *j);
+t_ecode	check_file_format(char *file_path, t_ecode *err_no);
+t_ecode parse_map(t_data *data, t_game *game, int *i, int *j);
+t_ecode	check_map_validity(t_data *data);
 bool	is_surrounded_by_walls(t_data *data, char **map);
 
 //PARSING UTILS

@@ -5,7 +5,6 @@ bool	check_col_below(t_data *data, char **map, int row, int col);
 bool	check_right_col(char **map, int row, int col);
 bool	check_left_col(char **map, int row, int col);
 
-
 bool	is_surrounded_by_walls(t_data *data, char **map)
 {
 	int	row;
@@ -16,13 +15,14 @@ bool	is_surrounded_by_walls(t_data *data, char **map)
 	row = 0;
 	while (map[row])
 	{
+		printf("Row: %s\n", map[row]);
 		col = 0;
-		while (map[row][col])
+		while (map[row] && map[row][col])
 		{
 			//The first row should be full of 1s or spaces
 			if (row == 0 && map[row][col] == '0')
 			{
-				printf("ROW #%i doesn't have a wall where it should.\n", row);
+				printf("ROW #%i doesn't have a wall where it should. ", row);
 				printf("is_surrounded_by_walls\n");
 				return (false);
 			}
@@ -48,8 +48,13 @@ bool	is_surrounded_by_walls(t_data *data, char **map)
 }
 
 /**
- * This function checks the column above for a wall, recursively.
- * If the original column is a 0, the one directly above cannot be a space.
+ * @brief This function checks the column above for a wall, recursively.
+ * The function is passed the position where there is a 0 or a space.
+ * 
+ * @return True if the column above is a wall.
+ * False if the column above is a space or if it doesn't reach a wall.
+ * 
+ * @note If the original column is a 0, the one directly above cannot be a space.
  */
 bool	check_col_above(char **map, int row, int col)
 {
@@ -65,15 +70,11 @@ bool	check_col_above(char **map, int row, int col)
 		printf("The map is not surrounded by walls... check_col_above\n");
 		return (false);
 	}
-	
-	if (map[row][col] == '0' && row - 1 >= 0)
+	if ((map[row][col] == '0' || is_pos_identifier(map[row][col])) && row - 1 >= 0)
 	{
 		if (map[row - 1][col] == '1')
-		{
-			// printf("Check_col_Above\n");
 			return (true);
-		}
-		if (map[row - 1][col] == '0' || ft_is_pos_identifier(map[row - 1][col]))
+		if (map[row - 1][col] == '0' || is_pos_identifier(map[row - 1][col]))
 			return (check_col_above(map, row - 1, col));
 		else if (map[row - 1][col] == ' ')
 		{
@@ -81,13 +82,11 @@ bool	check_col_above(char **map, int row, int col)
 			return (false);
 		}
 	}
-	else if (map[row][col] == ' ' && row - 1 >= 0)
+	else if (map[row][col] == ' ' && (row - 1 >= 0 || row == 0))
 	{
-		if (map[row - 1][col] == '1' || (row == 1 && map[row - 1][col] == ' ')) //This is hardcoded...
+		if (map[row - 1][col] == '1' || (map[row - 1][col] == ' '))
 			return (true);
-		if (map[row - 1][col] == ' ')
-			return (check_col_above(map, row - 1, col));
-		else if (map[row - 1][col] == '0' || ft_is_pos_identifier(map[row - 1][col]))
+		else if (map[row - 1][col] == '0' || is_pos_identifier(map[row - 1][col]))
 		{
 			printf("There's a 0 or N/E/W/S where there should be a wall. check_col_above\n");
 			return (false);
@@ -116,7 +115,7 @@ bool	check_col_below(t_data *data, char **map, int row, int col)
 			// printf("Check_col_below\n");
 			return (true);
 		}
-		if (map[row + 1][col] == '0' || ft_is_pos_identifier(map[row + 1][col]))
+		if (map[row + 1][col] == '0' || is_pos_identifier(map[row + 1][col]))
 			return (check_col_below(data, map, row + 1, col));
 		else if (map[row + 1][col] == ' ')
 		{
@@ -130,7 +129,7 @@ bool	check_col_below(t_data *data, char **map, int row, int col)
 			return (true);
 		if (map[row + 1][col] == ' ')
 			return (check_col_below(data, map, row + 1, col));
-		else if (map[row + 1][col] == '0' || ft_is_pos_identifier(map[row + 1][col]))
+		else if (map[row + 1][col] == '0' || is_pos_identifier(map[row + 1][col]))
 		{
 			printf("There's a 0 or N/E/W/S where there should be a wall. check_col_below\n");
 			return (false);

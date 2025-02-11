@@ -1,5 +1,39 @@
 #include "../inc/game.h"
 
+void	init_parsed_data_struct(t_data **data, int argc, char **argv)
+{
+	*data = (t_data *) ft_calloc(1, sizeof(t_data));
+	if (!*data)
+		clean_and_exit(*data, ECODE_FAILURE);
+	(*data)->game = (t_game *) ft_calloc(1, sizeof(t_game));
+	if (!(*data)->game)
+		clean_and_exit(*data, ECODE_FAILURE);
+	if (argc == 2 && ft_strncmp(argv[1], "-d", 3) == 0)
+	{
+		(*data)->game->is_debug = true;
+		(*data)->game->is_mmap = true;
+	}
+	else
+		(*data)->game->is_debug = false;
+}
+
+t_ecode	init_minimap_struct(t_data *data)
+{
+	if (!data || !data->map_data.map)
+		return (ECODE_FAILURE);
+	if (data->map_data.rows == 0 || data->map_data.cols == 0)
+		return (ECODE_FAILURE);
+	data->minimap_data.width = data->map_data.cols * PIXELS_PER_BLOCK * CONST;
+	data->minimap_data.height = data->map_data.rows * PIXELS_PER_BLOCK * CONST;
+	data->minimap_data.x_start = 0;
+	data->minimap_data.x_end = data->minimap_data.x_start + data->minimap_data.width;
+	data->minimap_data.y_start = 0;
+	data->minimap_data.y_end = data->minimap_data.y_start + data->minimap_data.height;
+	data->minimap_data.max_height = SCREEN_HEIGHT/4;
+	data->minimap_data.max_width = SCREEN_WIDTH/4;
+	return (ECODE_SUCCESS);
+}
+
 void init_map(t_game *game)
 {
 	int	index;
@@ -36,7 +70,7 @@ void	load_pngs(t_game *game)
 	game->south = mlx_load_png("textures/stone_64x64.png");
 }
 
-void init_game_struct(t_game *game, t_data *data)
+void init_game_struct(t_data *data, t_game *game)
 {
 	game->data = data;
 	game->is_mmap = true;
@@ -61,5 +95,4 @@ void init_game_struct(t_game *game, t_data *data)
 	//game->camera.frustum_plane_distance = SCREEN_WIDTH / 2 / tan(FOV * DEG_TO_RAD / 2);
 	init_map(game);
 	load_pngs(game);
-	
 }

@@ -54,7 +54,7 @@ void	count_map_cols(t_data *data, int row)
 	// printf("count_map_cols: %d\n", data->map_data.cols);
 }
 
-void parse_map(t_game *game, t_data *data, int *i, int *j)
+t_ecode parse_map(t_data *data, t_game *game, int *i, int *j)
 {
 	char	**map;
 	int		row;
@@ -71,7 +71,7 @@ void parse_map(t_game *game, t_data *data, int *i, int *j)
 	//Assign the array with the file contents to a shorter variable.
 	map = data->map_data.file_data;
 	if (!map)
-		return ;
+		return (ECODE_NULL_MAP);
 
 	skip_nl_and_whitespaces(map, i, j);
 
@@ -108,7 +108,7 @@ void parse_map(t_game *game, t_data *data, int *i, int *j)
 			}
 			else //Copies the contents of the map
 			{
-				if (ft_is_pos_identifier(map[*i][*j]))
+				if (is_pos_identifier(map[*i][*j]))
 				{
 					data->player.p_pos.x = (double) col;
 					data->player.p_pos.y = (double) row;
@@ -140,7 +140,7 @@ void parse_map(t_game *game, t_data *data, int *i, int *j)
 			}
 			*j += 1;
 		}
-		printf ("player angle is %f\n", data->player.angle);
+		// printf ("player angle is %f\n", data->player.angle);
 		//Fills the rest of the line with empty spaces
 		while (col < data->map_data.cols)
 		{
@@ -153,13 +153,14 @@ void parse_map(t_game *game, t_data *data, int *i, int *j)
 	data->map_data.map[row] = NULL;
 
 	skip_nl_and_whitespaces(map, i, j);
-	skip_whitespaces(map, *i, j);
+	// skip_whitespaces(map, *i, j);
 
 	// ft_print_arr(data->map_data.map);
 
 	if (map[*i] && map[*i][*j] && map[*i][*j] != '\n')
 	{
 		printf("There's an empty line splitting the map.\n");
-		return ;
+		return (ECODE_NL_MAP);
 	}
+	return (ECODE_SUCCESS);
 }

@@ -1,66 +1,50 @@
 #include "../../inc/game.h"
 
-void		init_data_struct(t_data **data);
-void		parse_file(t_game *game, t_data *data, char *file_path);
-static bool	check_file_extension(char *file_path);
-bool		check_file_format(char *file_path);
-static void	copy_file_contents(t_data *data, char *file_path);
-int			count_lines(char *file_path);
-void		copy_line_by_line(t_mapdata *mapdata, int fd);
+void			parse_file(t_data *data, char *file_path);
+static t_ecode	check_file_extension(char *file_path, t_ecode *err_no);
+t_ecode 		check_file_format(char *file_path, t_ecode *err_no);
+static void		copy_file_contents(t_data *data, char *file_path);
+t_ecode			copy_line_by_line(t_mapdata *mapdata, int fd);
 
-void	init_data_struct(t_data **data)
-{
-	*data = (t_data *) malloc(sizeof(t_data));
-	if (!*data)
-		exit(EXIT_FAILURE);
-	ft_memset(*data, 0, sizeof(t_data));
-}
-void	parse_file(t_game *game, t_data *data, char *file_path)
+void	parse_file(t_data *data, char *file_path)
 {
 	int	i;
 	int	j;
 
 	i = 0;
 	j = 0;
-	check_file_extension(file_path);
-	check_file_format(file_path);
+	if (check_file_extension(file_path, &data->err_no))
+		clean_and_exit(data, ECODE_CHECK_FILE_EXTENSION);
+	if (check_file_format(file_path, &data->err_no))
+		clean_and_exit(data, ECODE_CHECK_FILE_FORMAT);
 	copy_file_contents(data, file_path);
-	parse_identifiers(data, &i, &j);
-	parse_map(game, data, &i, &j);
+	if (parse_identifiers(data, &i, &j))
+		clean_and_exit(data, ECODE_PARSE_IDENTIFIERS);
+	if (parse_map(data, data->game, &i, &j))
+		clean_and_exit(data, ECODE_PARSE_MAP);
 	if (!check_map_validity(data))
-		printf("PARSING NOT OK!\n");
-	else
-		printf("PARSING OK!\n");
-
-	//MINIMAP struct init
-	data->minimap_data.width = data->map_data.cols * PIXELS_PER_BLOCK * CONST;
-	data->minimap_data.height = data->map_data.rows * PIXELS_PER_BLOCK * CONST;
-	data->minimap_data.x_start = 0;
-	data->minimap_data.x_end = data->minimap_data.x_start + data->minimap_data.width;
-	data->minimap_data.y_start = 0;
-	data->minimap_data.y_end = data->minimap_data.y_start + data->minimap_data.height;
-	data->minimap_data.max_height = SCREEN_HEIGHT/4;
-	data->minimap_data.max_width = SCREEN_WIDTH/4;
-	
+		clean_and_exit(data, ECODE_CHECK_MAP_VALIDITY);
+	if (init_minimap_struct(data))
+		clean_and_exit(data, ECODE_INIT_MINIMAP_STRUCT);
 	// ft_print_arr(data->map_data.map);
 }
 
-static bool	check_file_extension(char *file_path)
+static t_ecode	check_file_extension(char *file_path, t_ecode *err_no)
 {
 	size_t	path_len;
 
 	path_len = ft_strlen(file_path);
-	if (path_len < 4)
-		return (false);
+	if (path_len < 5)
+		return (*err_no = ECODE_INV_LEN, ECODE_INV_LEN);
 	if (file_path[path_len - 4] != '.'
 		|| file_path[path_len - 3] != 'c'
 		|| file_path[path_len - 2] != 'u'
 		|| file_path[path_len - 1] != 'b')
-		return (false);
-	return (true);
+		return (*err_no = ECODE_INV_LEN, ECODE_INV_LEN);
+	return (ECODE_SUCCESS);
 }
 
-bool	check_file_format(char *file_path)
+t_ecode	check_file_format(char *file_path, t_ecode *err_no)
 {
 	int	fd;
 
@@ -68,16 +52,18 @@ bool	check_file_format(char *file_path)
 	if (fd >= 3)
 	{
 		close(fd);
-		printf("%s\n", ERR_IS_DIR);
+		*err_no = ECODE_IS_DIR;
+		return (ECODE_IS_DIR);
 	}
 	fd = open(file_path, O_RDONLY);
 	if (fd < 0)
 	{
-		printf("check_file_format - %s\n", ERR_OPEN);
-		exit(EXIT_FAILURE);
+		close(fd);
+		*err_no = ECODE_OPEN;
+		return (ECODE_OPEN);
 	}
 	close(fd);
-	return (true);
+	return (ECODE_SUCCESS);
 }
 
 static void	copy_file_contents(t_data *data, char *file_path)
@@ -88,45 +74,16 @@ static void	copy_file_contents(t_data *data, char *file_path)
 	data->map_data.path = file_path;
 	data->map_data.file_data = (char **) ft_calloc(data->map_data.total_lines + 1, sizeof(char *));
 	if (!data->map_data.file_data)
-	{
-		perror("copy_file_contents");
-		exit(EXIT_FAILURE);
-	}
+		clean_and_exit(data, ECODE_COPY_FILE_CONTENTS);
 	fd = open(file_path, O_RDONLY);
 	if (fd < 0)
-	{
-		perror("copy_file_contents");
-		exit(EXIT_FAILURE);
-	}
-	copy_line_by_line(&data->map_data, fd);
+		clean_and_exit(data, ECODE_COPY_FILE_CONTENTS);
+	if (copy_line_by_line(&data->map_data, fd))
+		clean_and_exit(data, ECODE_COPY_LINE_BY_LINE);
 	close (fd); //Check if it fails
 }
 
-int	count_lines(char *file_path)
-{
-	int		fd;
-	int		total_lines;
-	char	*line;
-
-	fd = open(file_path, O_RDONLY);
-	if (fd < 0)
-	{
-		perror("count_lines");
-		exit(EXIT_FAILURE);
-	}
-	total_lines = 0;
-	line = get_next_line(fd);
-	while (line != NULL)
-	{
-		total_lines++;
-		free(line);
-		line = get_next_line(fd);
-	}
-	close(fd);
-	return (total_lines);
-}
-
-void	copy_line_by_line(t_mapdata *mapdata, int fd)
+t_ecode	copy_line_by_line(t_mapdata *mapdata, int fd)
 {
 	char	*curr_line;
 	size_t	line_len;
@@ -141,10 +98,7 @@ void	copy_line_by_line(t_mapdata *mapdata, int fd)
 		line_len = ft_strlen(curr_line);
 		mapdata->file_data[row] = (char *) ft_calloc(line_len + 1, sizeof(char));
 		if (!mapdata->file_data[row])
-		{
-			perror("copy_line_by_line");
-			exit(EXIT_FAILURE);
-		}
+			return (ECODE_COPY_LINE_BY_LINE);
 		i = 0;
 		col = 0;
 		while(curr_line[i] != '\0')
@@ -154,4 +108,5 @@ void	copy_line_by_line(t_mapdata *mapdata, int fd)
 		curr_line = get_next_line(fd);
 	}
 	mapdata->file_data[row] = NULL;
+	return (ECODE_SUCCESS);
 }

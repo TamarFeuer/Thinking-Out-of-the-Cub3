@@ -1,6 +1,6 @@
 #include "../../inc/game.h"
 
-bool	check_map_validity(t_data *data);
+t_ecode	check_map_validity(t_data *data);
 bool	has_repeated_elements(t_data *data);
 bool	has_invalid_elements(t_data *data);
 
@@ -12,7 +12,7 @@ bool	has_invalid_elements(t_data *data);
  * And if the spaces are within the map, those too have to be surrounded by walls.
  */
 
-bool	check_map_validity(t_data *data)
+ t_ecode	check_map_validity(t_data *data)
 {
 	if (!data->map_data.map)
 	{

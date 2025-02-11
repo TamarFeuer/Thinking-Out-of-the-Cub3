@@ -12,7 +12,7 @@ SRC =	src/main.c src/line_algorithm.c src/mmap.c src/player.c src/hooks.c src/cl
 		src/utils.c src/init.c src/horizontal.c src/vertical.c \
 		src/parsing/parsing.c src/parsing/parse_identifiers.c \
 		src/parsing/parse_map.c src/parsing/parsing_utils.c src/parsing/check_map.c \
-		src/parsing/has_surrounding_walls.c \
+		src/parsing/has_surrounding_walls.c src/parsing/clean_and_exit.c \
 		src/gnl/gnl.c src/gnl/gnl_utils.c \
 		
 

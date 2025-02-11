@@ -5,7 +5,7 @@ char		*get_identifier_path(t_data *data, int *i, int *j);
 static void	get_texture_path(t_data *data, t_pos_id id, int *i, int *j);
 static void parse_color_identifiers(t_data *data);
 u_int32_t	get_color(char *color);
-bool	verify_identifiers(t_data *data);
+bool		verify_identifiers(t_data *data);
 
 # define RED 0
 # define GREEN 1
@@ -15,19 +15,16 @@ bool	verify_identifiers(t_data *data);
 // Definitions
 
 //New version
-void parse_identifiers(t_data *data, int *i, int *j)
+t_ecode parse_identifiers(t_data *data, int *i, int *j)
 {
 	char	**map;
 
 	map = data->map_data.file_data;
 	if (!map || !*map)
-		return ;
+		return (data->err_no = ECODE_NULL_MAP, ECODE_PARSE_IDENTIFIERS);
 	data->identifiers = (char **) ft_calloc(7, sizeof(char *)); // 6 identifiers + 1 NULL
 	if (!data->identifiers)
-	{
-		printf("Malloc error at parse_identifiers\n");
-		return ;
-	}
+		return (data->err_no = ECODE_MALLOC, ECODE_PARSE_IDENTIFIERS);
 	while (map && map[*i] && map[*i][*j]) //Skips empty lines and whitespaces
 	{
 		skip_whitespaces(map, *i, j);
@@ -39,7 +36,7 @@ void parse_identifiers(t_data *data, int *i, int *j)
 			break ;
 	}
 	parse_color_identifiers(data);
-	//check that it's a valid texture?
+	return (ECODE_SUCCESS);
 }
 
 bool	verify_identifiers(t_data *data)
@@ -47,10 +44,10 @@ bool	verify_identifiers(t_data *data)
 	int	i;
 
 	i = 0;
-	printf("verify_identifiers: %s\n", data->identifiers[i]);
+	// printf("verify_identifiers: %s\n", data->identifiers[i]);
 	while (data->identifiers[i] != NULL)
 	{
-		printf("verify_identifiers %i\n", i);
+		// printf("verify_identifiers %i\n", i);
 		if (i == 5)
 			return (true);
 		i++;
@@ -66,7 +63,7 @@ static void	get_identifier(t_data *data, int *i, int *j)
 	file = data->map_data.file_data;
 	skip_whitespaces(file, *i, j);
 	identifier = &file[*i][*j];
-	printf("get_identifier: %s\n", &file[*i][*j]);
+	// printf("get_identifier: %s\n", &file[*i][*j]);
 	if (!ft_strncmp(identifier, "NO", 2)) // If there are so many if conditions here, is there a need for a function that identifies the identifiers?
 		get_texture_path(data, NORTH_ID, i, j);
 	else if (!ft_strncmp(identifier, "SO", 2))
@@ -110,7 +107,7 @@ static void	get_texture_path(t_data *data, t_pos_id id, int *i, int *j)
 		*j += 1;
 	if (map[*i][*j] != '\n' && map[*i][*j] != '\0') //After the filepath and spaces there can only be a newline or a null terminator 
 		printf("%s\n", ERR_IDE_OVL);
-	printf("in get_texture_path: %s\n", data->identifiers[id]);
+	// printf("in get_texture_path: %s\n", data->identifiers[id]);
 }
 
 static void parse_color_identifiers(t_data *data)
