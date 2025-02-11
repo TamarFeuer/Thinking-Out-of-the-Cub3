@@ -163,13 +163,13 @@ typedef struct s_parsed_data
 	t_player		player;
 	t_minimap		minimap_data;
 	t_game			*game;
+	bool			is_debug;
 	t_ecode			err_no;
 }	t_data;
 
 typedef struct s_game
 {
 	t_data			*data;
-	bool			is_debug;
 	bool			is_mmap;
 	t_mmap			mmap;
 	mlx_t			*mlx;

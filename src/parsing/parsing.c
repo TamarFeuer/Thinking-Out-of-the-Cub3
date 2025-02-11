@@ -13,18 +13,18 @@ void	parse_file(t_data *data, char *file_path)
 
 	i = 0;
 	j = 0;
-	if (check_file_extension(file_path, &data->err_no))
+	if (check_file_extension(file_path, &data->err_no) && !data->is_debug)
 		clean_and_exit(data, ECODE_CHECK_FILE_EXTENSION);
-	if (check_file_format(file_path, &data->err_no))
+	if (check_file_format(file_path, &data->err_no) && !data->is_debug)
 		clean_and_exit(data, ECODE_CHECK_FILE_FORMAT);
 	copy_file_contents(data, file_path);
-	if (parse_identifiers(data, &i, &j))
+	if (parse_identifiers(data, &i, &j) && !data->is_debug)
 		clean_and_exit(data, ECODE_PARSE_IDENTIFIERS);
-	if (parse_map(data, data->game, &i, &j))
+	if (parse_map(data, data->game, &i, &j) && !data->is_debug)
 		clean_and_exit(data, ECODE_PARSE_MAP);
-	if (!check_map_validity(data))
+	if (!check_map_validity(data) && !data->is_debug)
 		clean_and_exit(data, ECODE_CHECK_MAP_VALIDITY);
-	if (init_minimap_struct(data))
+	if (init_minimap_struct(data) && !data->is_debug)
 		clean_and_exit(data, ECODE_INIT_MINIMAP_STRUCT);
 	// ft_print_arr(data->map_data.map);
 }

@@ -41,7 +41,7 @@ float	vertical_intersect(t_game *game, float angle)
 	//printf ("game->ray->intersect.y %f\n", game->ray->intersect.y);
 	while (!is_out_of_bounds(game, game->ray->intersect) && !is_wall_hit(game, game->ray->intersect, 1))
 	{
-		if (game->is_debug)
+		if (game->data->is_debug)
 			safe_put_pixel(game, (int)game->ray->intersect.x, (int)game->ray->intersect.y, 0xFFFF00FF);
 		//printf ("vertical intersect. did not hit wall yet\n");
 		//mlx_put_pixel(game->scene, (int)round(game->ray->intersect.x) - X_START,  (int)round(game->ray->intersect.y) - Y_START, 0xFFFF00FF);
@@ -52,7 +52,7 @@ float	vertical_intersect(t_game *game, float angle)
 	if (is_out_of_bounds(game, game->ray->intersect))
 		return (OUT_OF_BOUNDS);
 	//printf ("	in the function, game->ray->intersect.x is %f and game->ray->intersect.y is %f\n", game->ray->intersect.x, game->ray->intersect.y);
-	if (game->is_debug )
+	if (game->data->is_debug )
 		safe_put_pixel(game, (int)game->ray->intersect.x, (int)game->ray->intersect.y, 0xFFFF00FF);
 	game->ray->v_hit.x = game->ray->intersect.x;
 	game->ray->v_hit.y = game->ray->intersect.y;

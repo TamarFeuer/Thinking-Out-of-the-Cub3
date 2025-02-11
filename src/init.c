@@ -8,13 +8,14 @@ void	init_parsed_data_struct(t_data **data, int argc, char **argv)
 	(*data)->game = (t_game *) ft_calloc(1, sizeof(t_game));
 	if (!(*data)->game)
 		clean_and_exit(*data, ECODE_FAILURE);
+	(*data)->game->data = *data;
 	if (argc == 2 && ft_strncmp(argv[1], "-d", 3) == 0)
 	{
-		(*data)->game->is_debug = true;
+		(*data)->game->data->is_debug = true;
 		(*data)->game->is_mmap = true;
 	}
 	else
-		(*data)->game->is_debug = false;
+		(*data)->game->data->is_debug = false;
 }
 
 t_ecode	init_minimap_struct(t_data *data)

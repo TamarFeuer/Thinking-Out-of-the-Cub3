@@ -18,7 +18,7 @@ void draw_all(void *param)
 		draw_grid(game, game->data->map_data.rows, game->data->map_data.cols);
 		
 		int i = 0;
-		if (game->is_debug == false)
+		if (game->data->is_debug == false)
 			game->ray->number_of_rays = SCREEN_WIDTH;
 		else
 			game->ray->number_of_rays = 1;

@@ -53,7 +53,7 @@ void cast_rays(t_game *game)
 	
 	
 	game->ray->ray_num = 0;
-	if (game->is_debug == false)
+	if (game->data->is_debug == false)
 		game->ray->number_of_rays = SCREEN_WIDTH;
 	else
 		game->ray->number_of_rays = 1;
@@ -67,10 +67,10 @@ void cast_rays(t_game *game)
 		// printf ("facing %s wall, end.x %f, end.y %f\n", get_direction(game), game->ray->end.x, game->ray->end.y);
 		// printf ("found vertical first? %d\n\n", game->ray->found_vertical_first);
 		
-		// if (game->is_mmap == true && game->is_debug == false)
+		// if (game->is_mmap == true && game->data->is_debug == false)
 		//DDA_ray(game, game->camera.pos, game->ray->end, 0xFFFF00FF);
 																		//or
-		// if (game->is_mmap == true && game->is_debug == false)
+		// if (game->is_mmap == true && game->data->is_debug == false)
 		// 	bresenham_ray(game, game->camera.pos, game->ray->end);
 		
 		// printf("by_intersections: \n");
@@ -78,10 +78,10 @@ void cast_rays(t_game *game)
 		//printf("Ray %d: angle %f, distance %f, camera.x %f, camera.y %f\n", game->ray->ray_num, game->ray->current_angle, game->ray->distance, game->camera.pos.x, game->camera.pos.y);
 		//printf ("facing %s wall, end.x %f, end.y %f\n", get_direction(game), game->ray->end.x, game->ray->end.y);
 		//printf ("found vertical first? %d\n\n", game->ray->found_vertical_first);
-		// if (game->is_mmap == true && game->is_debug == false)
+		// if (game->is_mmap == true && game->data->is_debug == false)
 		//DDA_ray(game, game->camera.pos, game->ray->end, 0xFF00FFFF);
 																		//or
-		// if (game->is_mmap == true && game->is_debug == false)
+		// if (game->is_mmap == true && game->data->is_debug == false)
 
 		game->ray->ray_start[game->ray->ray_num] = game->camera.pos;
 		game->ray->ray_start[game->ray->ray_num] = game->camera.pos;

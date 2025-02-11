@@ -40,7 +40,7 @@ float	horiz_intersect(t_game *game, float angle)
 	
 	while (!is_out_of_bounds(game, game->ray->intersect) && !is_wall_hit(game, game->ray->intersect, 0))
 	{
-		if (game->is_debug )
+		if (game->data->is_debug )
 			safe_put_pixel(game, (int)game->ray->intersect.x, (int)game->ray->intersect.y, 0xFF00FFFF);
 		//mlx_put_pixel(game->scene, (int)round(game->ray->inter.x) - X_START, (int)round(game->ray->inter.y) - Y_START, 0xFF0000FF);
 		//printf ("horiz intersect: did not hit wall yet\n");
@@ -49,7 +49,7 @@ float	horiz_intersect(t_game *game, float angle)
 	}
 	if (is_out_of_bounds(game, game->ray->intersect))
 		return (OUT_OF_BOUNDS);
-	if (game->is_debug )
+	if (game->data->is_debug )
 		safe_put_pixel(game, (int)game->ray->intersect.x, (int)game->ray->intersect.y, 0xFF00FFFF);
 	game->ray->h_hit.x = game->ray->intersect.x;
 	game->ray->h_hit.y = game->ray->intersect.y;
