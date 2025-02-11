@@ -1,7 +1,7 @@
 #include "../../inc/game.h"
 
 t_ecode	check_map_validity(t_data *data);
-bool	has_repeated_elements(t_data *data);
+t_ecode	has_repeated_elements(t_data *data);
 bool	has_invalid_elements(t_data *data);
 
 
@@ -17,21 +17,21 @@ bool	has_invalid_elements(t_data *data);
 	if (!data->map_data.map)
 	{
 		printf("%s\n", ERR_NULL_MAP);
-		return (false);
+		return (data->err_no = ECODE_NULL_MAP, ECODE_FAILURE);
 	}
 	data->map_data.rows = 0;
 	while (data->map_data.map[data->map_data.rows] != NULL)
 		data->map_data.rows++;
 	is_surrounded_by_walls(data, data->map_data.map);
-	if (has_repeated_elements(data)) {
-		printf("Has repeated elements\n");
-		return (false);
-	}
-	if (has_invalid_elements(data)) {
-		printf("Has invalid elements\n");
-		return (false);
-	}	
-	return (true);
+	// if (has_repeated_elements(data)) {
+	// 	printf("Has repeated elements\n");
+	// 	return (data->err_no = ECODE_REP_IDE, ECODE_FAILURE);
+	// }
+	// if (has_invalid_elements(data)) {
+	// 	printf("Has invalid elements\n");
+	// 	return (data->err_no = ECODE_INV_IDE, ECODE_FAILURE);
+	// }	
+	return (ECODE_SUCCESS);
 }
 
 bool	has_invalid_elements(t_data *data)
@@ -63,7 +63,7 @@ bool	has_invalid_elements(t_data *data)
 }
 
 //Checks for repeated cardinal positions, but also if there's no cardinal pos too.
-bool	has_repeated_elements(t_data *data)
+t_ecode	has_repeated_elements(t_data *data)
 {
 	char	**map;
 	int		row;
@@ -73,23 +73,35 @@ bool	has_repeated_elements(t_data *data)
 	//Checks for map's NULLITY
 	map = data->map_data.map;
 	if (!map || !map[0])
-		return (true); //Doesn't have repeated elements, but it would segfault if not checked. So maybe throw a different error message.
-
+	{
+		printf("The map is null\n");
+		return (data->err_no = ECODE_NULL_MAP, ECODE_FAILURE);
+	}
 	row = 0;
 	while (map[row])
 	{
 		col = 0;
 		while (map[row][col])
 		{
-			if ((map[row][col] == 'N' || map[row][col] == 'E' || map[row][col] == 'W' || map[row][col] == 'S') && has_pos == true) //How to refactor this?
-				return (true);
-			else if ((map[row][col] == 'N' || map[row][col] == 'E' || map[row][col] == 'W' || map[row][col] == 'S') && has_pos == false)
+			if ((map[row][col] == 'N' || map[row][col] == 'E'
+				|| map[row][col] == 'W' || map[row][col] == 'S')
+				&& has_pos == true)
+				{
+					printf("There are repeated cardinal positions\n");
+					return (data->err_no = ECODE_REP_IDE, ECODE_FAILURE);
+				}
+			else if ((map[row][col] == 'N' || map[row][col] == 'E'
+					|| map[row][col] == 'W' || map[row][col] == 'S')
+					&& has_pos == false)
 				has_pos = true;
 			col++;
 		}
 		row++;
 	}
 	if (has_pos == false)
-		return (true);
-	return (false);
+	{
+		printf("There's no position\n");
+		return (data->err_no = ECODE_NULL_MAP, ECODE_FAILURE);
+	}
+	return (ECODE_SUCCESS);
 }

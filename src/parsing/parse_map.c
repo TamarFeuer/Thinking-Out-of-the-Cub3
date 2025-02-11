@@ -133,7 +133,7 @@ t_ecode parse_map(t_data *data, t_game *game, int *i, int *j)
 						game->player.angle = 0;
 						game->player.angle_quad = 1;
 					}
-					map[*i][*j] = '0';
+					map[*i][*j] = '0'; //Has repeated elements, and has invalid elements fail because of this. So check for this here.
 				}
 				data->map_data.map[row][col] = map[*i][*j];
 				col++;

@@ -15,12 +15,12 @@ bool	is_surrounded_by_walls(t_data *data, char **map)
 	row = 0;
 	while (map[row])
 	{
-		printf("Row: %s\n", map[row]);
+		// printf("Row: %s\n", map[row]);
 		col = 0;
 		while (map[row] && map[row][col])
 		{
 			//The first row should be full of 1s or spaces
-			if (row == 0 && map[row][col] == '0')
+			if (row == 0 && map[row][col] == '0' && !data->is_debug)
 			{
 				printf("ROW #%i doesn't have a wall where it should. ", row);
 				printf("is_surrounded_by_walls\n");
@@ -30,14 +30,14 @@ bool	is_surrounded_by_walls(t_data *data, char **map)
 			else if (row > 0 && (map[row][col] == '0' || map[row][col] == ' '))
 			{
 				// ft_print_arr(map);
-				printf("ROW: %d, COL: %d, |%c|\n", row, col, map[row][col]);
-				if (!check_col_above(map, row, col))
+				// printf("ROW: %d, COL: %d, |%c|\n", row, col, map[row][col]);
+				if (!check_col_above(map, row, col) && !data->is_debug)
 					return (false);
-				if (!check_col_below(data, map, row, col))
+				if (!check_col_below(data, map, row, col) && !data->is_debug)
 					return (false);
-				if (!check_right_col(map, row, col))
+				if (!check_right_col(map, row, col) && !data->is_debug)
 					return (false);
-				if (!check_left_col(map, row, col))
+				if (!check_left_col(map, row, col) && !data->is_debug)
 					return (false);
 			}
 			col++;

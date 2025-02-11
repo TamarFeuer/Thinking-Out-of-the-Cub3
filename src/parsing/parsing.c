@@ -22,7 +22,7 @@ void	parse_file(t_data *data, char *file_path)
 		clean_and_exit(data, ECODE_PARSE_IDENTIFIERS);
 	if (parse_map(data, data->game, &i, &j) && !data->is_debug)
 		clean_and_exit(data, ECODE_PARSE_MAP);
-	if (!check_map_validity(data) && !data->is_debug)
+	if (check_map_validity(data) && !data->is_debug)
 		clean_and_exit(data, ECODE_CHECK_MAP_VALIDITY);
 	if (init_minimap_struct(data) && !data->is_debug)
 		clean_and_exit(data, ECODE_INIT_MINIMAP_STRUCT);
@@ -73,12 +73,12 @@ static void	copy_file_contents(t_data *data, char *file_path)
 	data->map_data.total_lines = count_lines(file_path);
 	data->map_data.path = file_path;
 	data->map_data.file_data = (char **) ft_calloc(data->map_data.total_lines + 1, sizeof(char *));
-	if (!data->map_data.file_data)
+	if (!data->map_data.file_data && !data->is_debug)
 		clean_and_exit(data, ECODE_COPY_FILE_CONTENTS);
 	fd = open(file_path, O_RDONLY);
-	if (fd < 0)
+	if (fd < 0 && !data->is_debug)
 		clean_and_exit(data, ECODE_COPY_FILE_CONTENTS);
-	if (copy_line_by_line(&data->map_data, fd))
+	if (copy_line_by_line(&data->map_data, fd) && !data->is_debug)
 		clean_and_exit(data, ECODE_COPY_LINE_BY_LINE);
 	close (fd); //Check if it fails
 }
