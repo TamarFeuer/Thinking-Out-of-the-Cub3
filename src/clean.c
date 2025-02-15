@@ -31,7 +31,7 @@ void	clean_nicely(t_game *game, char *error_message)
 	}
 	if (error_message)
 	{
-		printf("cube3D: %s\n", error_message);
+		printf("Error\ncube3D: %s\n", error_message);
 		exit(EXIT_FAILURE);
 	}
 	exit(EXIT_SUCCESS);

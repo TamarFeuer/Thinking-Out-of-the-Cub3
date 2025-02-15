@@ -2,7 +2,6 @@
 
 void		init_data_struct(t_data **data);
 void		parse_file(t_game *game, t_data *data, char *file_path);
-static bool	check_file_extension(char *file_path);
 bool		check_file_format(char *file_path);
 static void	copy_file_contents(t_data *data, char *file_path);
 int			count_lines(char *file_path);
@@ -22,7 +21,6 @@ void	parse_file(t_game *game, t_data *data, char *file_path)
 
 	i = 0;
 	j = 0;
-	check_file_extension(file_path);
 	check_file_format(file_path);
 	copy_file_contents(data, file_path);
 	parse_identifiers(data, &i, &j);
@@ -43,21 +41,6 @@ void	parse_file(t_game *game, t_data *data, char *file_path)
 	data->minimap_data.max_width = SCREEN_WIDTH/4;
 	
 	// ft_print_arr(data->map_data.map);
-}
-
-static bool	check_file_extension(char *file_path)
-{
-	size_t	path_len;
-
-	path_len = ft_strlen(file_path);
-	if (path_len < 4)
-		return (false);
-	if (file_path[path_len - 4] != '.'
-		|| file_path[path_len - 3] != 'c'
-		|| file_path[path_len - 2] != 'u'
-		|| file_path[path_len - 1] != 'b')
-		return (false);
-	return (true);
 }
 
 bool	check_file_format(char *file_path)
