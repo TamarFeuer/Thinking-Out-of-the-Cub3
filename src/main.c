@@ -39,36 +39,52 @@ void draw_all(void *param)
 	}
 }
 
+static void allocate_structures(t_game **pgame)
+{
+	*pgame = malloc(sizeof(t_game));
 
+	if (*pgame)
+	{
+		(*pgame)->data = malloc(sizeof(t_data));
+		(*pgame)->ray = ft_calloc(1, sizeof(t_ray));
+		(*pgame)->mlx = NULL;
+		(*pgame)->stats = NULL;
+		(*pgame)->scene = NULL;
+		if ((*pgame)->data && (*pgame)->ray)
+			return ;
+	}
+	clean_nicely(*pgame, "Out of memory");
+}
+
+static void check_arguments(t_game *game, int argc, char *argv[])
+{
+	if (argc >= 2)
+		game->is_debug = !ft_strncmp(argv[1], "-d", 3);
+	if (game->is_debug)
+	{
+		argc--;
+		argv++;
+	}
+	if (argc < 2)
+		clean_nicely(game, "Missing scene description file");
+	if (argc > 2)
+		clean_nicely(game, "Too many arguments");
+	game->data->scene_description_file = argv[1];
+}
 
 int	main(int argc, char *argv[])
 {
 	t_game	*game;
-	t_data	*data;
-	
-	(void)argc;
-	(void)argv;
 	int width, height;
 
-	data = NULL;
-	init_data_struct(&data);
-
-	mlx_set_setting(MLX_STRETCH_IMAGE, true);
-	game = (t_game *)ft_calloc(1, sizeof(t_game));
-	if (!game)
-		return (EXIT_FAILURE);
+	allocate_structures(&game);
+	check_arguments(game, argc, argv);
 	
-	parse_file(game, data, argv[1]);	
+	parse_file(game, game->data, game->data->scene_description_file);
 
-	init_game_struct(game, data);
-	if (argc == 2 && ft_strncmp(argv[1], "-d", 3) == 0)
-	{
-		game->is_debug = true;
-		game->is_mmap = true;
-	}
-	else
-		game->is_debug = false;
-	printf ("main: player angle is %f\n", data->player.angle);
+	init_game_struct(game);
+	mlx_set_setting(MLX_STRETCH_IMAGE, true);
+	//printf ("main: player angle is %f\n", data->player.angle);
 	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Ray caster", true);
 	if (!game->mlx)
 		return (EXIT_FAILURE);
@@ -84,6 +100,5 @@ int	main(int argc, char *argv[])
 	mlx_key_hook(game->mlx, key_hook, game);
 	
 	mlx_loop(game->mlx);
-	clean_nicely(game);
-	return(EXIT_SUCCESS);
+	clean_nicely(game, NULL);
 }

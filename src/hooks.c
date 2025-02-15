@@ -108,8 +108,7 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 	{
 		printf("Player pressed ESC. Closing the game...\n");
 		mlx_close_window(game->mlx);
-		clean_nicely(game);
-		exit (EXIT_SUCCESS);
+		clean_nicely(game, NULL);
 	}
 	check_keys_for_movement(game, keydata);
 }

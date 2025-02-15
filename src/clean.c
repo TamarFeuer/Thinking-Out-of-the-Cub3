@@ -8,7 +8,8 @@ void	delete_images(t_game *game)
 		mlx_delete_image(game->mlx, game->scene);
 }
 
-void	clean_nicely(t_game *game)  //use ft_free as in minishell
+//use ft_free as in minishell
+void	clean_nicely(t_game *game, char *error_message)
 {
 	//free_map_grid
 	if (game)
@@ -22,9 +23,17 @@ void	clean_nicely(t_game *game)  //use ft_free as in minishell
 			free(game->mapdata);
 			game->mapdata = NULL;
 		}
-		// if (game->mlx)
-		// 	mlx_terminate(game->mlx); //causes seg fault??
+		if (game->mlx)
+		 	mlx_terminate(game->mlx); //causes seg fault??
+		free(game->data);
+		free(game->ray);
 		free(game);
 	}
+	if (error_message)
+	{
+		printf("cube3D: %s\n", error_message);
+		exit(EXIT_FAILURE);
+	}
+	exit(EXIT_SUCCESS);
 }
  //add cleaning the wall textures
