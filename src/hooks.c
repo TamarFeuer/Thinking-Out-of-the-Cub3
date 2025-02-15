@@ -85,10 +85,11 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 		new_angle -= angle_size; // Rotate clockwise (right)
 	if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 		new_angle += angle_size; // Rotate counterclockwise (left)
-	if (new_angle >= 2 * M_PI)
-			new_angle -= 2 * M_PI;
-	if (new_angle < 0)
-			new_angle += 2 * M_PI;
+	// if (new_angle >= 2 * M_PI)
+	// 		new_angle -= 2 * M_PI;
+	// if (new_angle < 0)
+	// 		new_angle += 2 * M_PI;
+	normalize_angle_to_2pi(&new_angle);
 	if (new_angle != game->player.angle)
 	{
 		determine_quad(new_angle, &game->player.angle_quad);

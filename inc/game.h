@@ -203,7 +203,7 @@ void	reach_nearest_wall_by_plotting(t_game *game, float angle);
 void 	reach_nearest_wall_by_intersections(t_game *game, float angle);
 void 	draw_player_direction(t_game *game, t_pos start, double angle);
 void 	draw_vertical_slice(t_game *game);
-void	normalize_angle_to_2pi(float *angle);
+void	normalize_angle_to_2pi(double *angle);
 void	safe_put_pixel(t_game *game, int x, int y, u_int32_t color);
 int		convert_to_mlx42_endian(int c);
 void 	determine_quad(double angle, int *quad);
@@ -251,4 +251,6 @@ void	skip_whitespaces(char **arr, int i, int *j);
 void	skip_nl_and_whitespaces(char **arr, int *i, int *j);
 void	ft_print_arr(char **arr);
 
+
+void mouse_hook(double xpos, double ypos, void* param);
 #endif

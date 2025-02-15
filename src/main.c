@@ -90,12 +90,12 @@ int	main(int argc, char *argv[])
 	init_game_struct(game);
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	//printf ("main: player angle is %f\n", data->player.angle);
-	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Ray caster", true);
+	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Ray cast3r", true);
 	if (!game->mlx)
 		return (EXIT_FAILURE);
 	mlx_get_monitor_size(0, &width, &height);
 	//printf ("width is %d, height is %d\n", width, height);
-	
+
 	game->scene = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	if (!game->scene || (mlx_image_to_window(game->mlx, game->scene, X_START, Y_START ) < 0))
 		return (EXIT_FAILURE);
@@ -103,7 +103,7 @@ int	main(int argc, char *argv[])
 		print_stats(game);
 	mlx_loop_hook(game->mlx, draw_all, game);
 	mlx_key_hook(game->mlx, key_hook, game);
-	
+	mlx_cursor_hook(game->mlx, mouse_hook, game);
 	mlx_loop(game->mlx);
 	clean_nicely(game, NULL);
 }
