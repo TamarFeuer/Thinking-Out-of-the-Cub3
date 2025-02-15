@@ -156,6 +156,7 @@ typedef struct s_minimap
 
 typedef struct s_data
 {
+	char			*scene_description_file;
 	t_mapdata		map_data;
 	char			**identifiers;
 	t_player		player;
@@ -188,7 +189,7 @@ void	draw_player(t_game *game);
 void	cast_rays(t_game *game);
 void	key_hook(mlx_key_data_t keydata, void *param);
 void	print_stats(t_game *game);
-void	clean_nicely(t_game *game);
+void	clean_nicely(t_game *game, char *error_message);
 int		distance_to_color(int distance);
 // void	DDA_ray(t_game *game, t_pos start, t_pos end);
 void	DDA_ray(t_game *game, t_pos start, t_pos end, int color);
@@ -207,14 +208,13 @@ void	safe_put_pixel(t_game *game, int x, int y, u_int32_t color);
 int		convert_to_mlx42_endian(int c);
 void 	determine_quad(double angle, int *quad);
 void	absolute(int *d, int *i);
-void init_game_struct(t_game *game, t_data *data);
+void	init_game_struct(t_game *game);
 void	draw_all(void *param);
 float	horiz_intersect(t_game *game, float angle);
 float	vertical_intersect(t_game *game, float angle);
 bool	is_out_of_bounds(t_game *game, t_pos position);
 int		is_wall_hit(t_game *game, t_pos intersect, int flag);
 int		draw_static_components(t_game *game);
-
 
 // LIBFT
 void	ft_free_2d(void ***arr);
@@ -242,7 +242,6 @@ void	parse_file(t_game *game, t_data *data, char *file_path);
 int		count_lines(char *file_path);
 void	copy_line_by_line(t_mapdata *mapinfo, int fd);
 void 	parse_identifiers(t_data *data, int *i, int *j);
-bool	check_file_format(char *file_path);
 void 	parse_map(t_game *game, t_data *data, int *i, int *j);
 bool	check_map_validity(t_data *data);
 bool	is_surrounded_by_walls(t_data *data, char **map);
