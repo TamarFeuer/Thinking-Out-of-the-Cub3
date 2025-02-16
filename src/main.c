@@ -13,6 +13,9 @@ void draw_all(void *param)
 	}
 	
 	cast_rays(game);
+	
+	//mlx_set_cursor_mode(game->mlx, MLX_MOUSE_HIDDEN);
+	
 	if (game->is_mmap)
 	{
 		draw_grid(game, game->data->map_data.rows, game->data->map_data.cols);
@@ -32,9 +35,8 @@ void draw_all(void *param)
 		draw_player(game);
 		//printf ("player angle %f\n", game->player.angle);
 		draw_player_direction(game, (t_pos){game->camera.pos.x, game->camera.pos.y}, game->player.angle);
-
-
-		// print_stats(game);
+		
+		
 		
 	}
 }
@@ -82,6 +84,7 @@ int	main(int argc, char *argv[])
 	t_game	*game;
 	int width, height;
 
+	
 	allocate_structures(&game);
 	check_arguments(game, argc, argv);
 	
@@ -93,6 +96,7 @@ int	main(int argc, char *argv[])
 	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Ray cast3r", true);
 	if (!game->mlx)
 		return (EXIT_FAILURE);
+
 	mlx_get_monitor_size(0, &width, &height);
 	//printf ("width is %d, height is %d\n", width, height);
 
@@ -101,9 +105,11 @@ int	main(int argc, char *argv[])
 		return (EXIT_FAILURE);
 	if(game->is_mmap)
 		print_stats(game);
+	
 	mlx_loop_hook(game->mlx, draw_all, game);
 	mlx_key_hook(game->mlx, key_hook, game);
-	mlx_cursor_hook(game->mlx, mouse_hook, game);
+	mlx_cursor_hook(game->mlx, cursor_hook, game);
+	mlx_mouse_hook(game->mlx, mouse_action, game);
 	mlx_loop(game->mlx);
 	clean_nicely(game, NULL);
 }

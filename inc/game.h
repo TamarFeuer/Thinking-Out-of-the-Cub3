@@ -18,6 +18,7 @@
 #define DEG_TO_RAD (M_PI / 180.0)
 #define SCREEN_WIDTH 1920
 #define SCREEN_HEIGHT 1080
+#define MOUSE_SENSITIVITY 0.1f
 
 //map
 #define ROWS 8 //---> !
@@ -168,6 +169,7 @@ typedef struct s_game
 	t_data			*data;
 	bool			is_debug;
 	bool			is_mmap;
+	bool			is_mouse_active;
 	t_mmap			mmap;
 	mlx_t			*mlx;
 	char			*mapdata;
@@ -252,5 +254,6 @@ void	skip_nl_and_whitespaces(char **arr, int *i, int *j);
 void	ft_print_arr(char **arr);
 
 
-void mouse_hook(double xpos, double ypos, void* param);
+void 	cursor_hook(double xpos, double ypos, void* param);
+void mouse_action (mouse_key_t button, action_t action, modifier_key_t mods, void* param);
 #endif
