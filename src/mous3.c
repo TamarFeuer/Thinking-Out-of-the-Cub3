@@ -21,7 +21,7 @@ void cursor_hook(double xpos, double ypos, void* param)
 
 	new_angle = game->player.angle;
 	
-	if (last_x != -1  && last_x != xpos)
+	if (last_x != -1  && last_x != xpos && game->is_mouse_active == true)
 	{
 		//mlx_get_mouse_pos(game->mlx, x, y);
 		// mlx_set_mouse_pos(game->mlx, x, y);
@@ -38,7 +38,7 @@ void cursor_hook(double xpos, double ypos, void* param)
 			if (game->is_mmap)
 				print_stats(game);
 		}
-		mlx_set_mouse_pos(game->mlx, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);  //to do: handle resize window
+		//mlx_set_mouse_pos(game->mlx, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);  //to do: handle resize window
 	}
 	last_x = xpos;
 }
