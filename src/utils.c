@@ -58,7 +58,7 @@ void	safe_put_pixel(t_game *game, int x, int y, u_int32_t color)
 	mlx_put_pixel(game->scene, x, y, color);
 }
 
-void	normalize_angle_to_2pi(float *angle)
+void	normalize_angle_to_2pi(double *angle)
 {
 	if (*angle < 0)
 		*angle += (2 * M_PI);

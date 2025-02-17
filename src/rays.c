@@ -47,7 +47,7 @@ void cast_rays(t_game *game)
 	float step = FOV * DEG_TO_RAD / SCREEN_WIDTH;
 	// printf ("step is %f\n", step);
 	game->ray->current_angle = game->player.angle + (FOV / 2) * DEG_TO_RAD;
-	normalize_angle_to_2pi(&game->ray->current_angle);
+	normalize_angle_to_2pi((double *)&game->ray->current_angle);
 	determine_quad(game->ray->current_angle, &game->ray->angle_quad);
 	//printf ("cast rays: angle is %f\n", game->ray->current_angle);
 	
@@ -95,7 +95,7 @@ void cast_rays(t_game *game)
 		game->ray->intersect.x = 0;
 		game->ray->intersect.y = 0;
 		game->ray->current_angle -= step;
-		normalize_angle_to_2pi(&game->ray->current_angle);
+		normalize_angle_to_2pi((double *)&game->ray->current_angle);
 		determine_quad(game->ray->current_angle, &game->ray->angle_quad);
 		game->ray->ray_num++;
 		
