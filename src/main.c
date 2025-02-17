@@ -14,8 +14,8 @@ void draw_all(void *param)
 	
 	cast_rays(game);
 	
-	//mlx_set_cursor_mode(game->mlx, MLX_MOUSE_HIDDEN);
-	
+
+
 	if (game->is_mmap)
 	{
 		draw_grid(game, game->data->map_data.rows, game->data->map_data.cols);
@@ -25,7 +25,7 @@ void draw_all(void *param)
 			game->ray->number_of_rays = SCREEN_WIDTH;
 		else
 			game->ray->number_of_rays = 1;
-			
+		
 		while (i < game->ray->number_of_rays)
 		// while (i < 1)
 		{
