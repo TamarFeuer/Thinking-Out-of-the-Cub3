@@ -8,9 +8,7 @@ void init_map(t_game *game)
 
 	game->mapdata = malloc(game->data->map_data.rows * game->data->map_data.cols * sizeof(char) + 1);
 	if (!game->mapdata)
-	{
-		exit(EXIT_FAILURE);
-	}
+		clean_nicely(game, "Out of memory");
 	index = 0;
 	row = 0;
 	while (row < game->data->map_data.rows)
