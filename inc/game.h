@@ -206,7 +206,7 @@ void 	draw_vertical_slice(t_game *game);
 void	normalize_angle_to_2pi(float *angle);
 void	safe_put_pixel(t_game *game, int x, int y, u_int32_t color);
 int		convert_to_mlx42_endian(int c);
-void 	determine_quad(double angle, int *quad);
+void	determine_quad(double angle, int *quad);
 void	absolute(int *d, int *i);
 void	init_game_struct(t_game *game);
 void	draw_all(void *param);
@@ -215,6 +215,8 @@ float	vertical_intersect(t_game *game, float angle);
 bool	is_out_of_bounds(t_game *game, t_pos position);
 int		is_wall_hit(t_game *game, t_pos intersect, int flag);
 int		draw_static_components(t_game *game);
+
+void	check_keys_for_movement(t_game *game);
 
 // LIBFT
 void	ft_free_2d(void ***arr);

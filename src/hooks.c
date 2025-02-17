@@ -21,29 +21,29 @@ bool is_collision(t_game *game, t_pos new, int *x_offset, int *y_offset)
 	return false;
 }
 
-static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
+void check_keys_for_movement(t_game *game)
 {
 	t_pos new;
 	new.x = game->player.p_pos.x;
 	new.y = game->player.p_pos.y;
 	double new_angle = game->player.angle;
 	double angle_size = 2 * M_PI / 100;
-	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+	if (mlx_is_key_down(game->mlx, MLX_KEY_W))
 	{
 		new.x += cos(game->player.angle) * DISTANCE_PER_TURN;
 		new.y -= sin(game->player.angle) * DISTANCE_PER_TURN;
 	}
-	else if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+	else if (mlx_is_key_down(game->mlx, MLX_KEY_S))
 	{
 		new.x -= cos(game->player.angle) * DISTANCE_PER_TURN;
 		new.y += sin(game->player.angle) * DISTANCE_PER_TURN;
 	}
-	else if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+	else if (mlx_is_key_down(game->mlx, MLX_KEY_A))
 	{
 		new.x -= sin(game->player.angle) * DISTANCE_PER_TURN;
 		new.y -= cos(game->player.angle) * DISTANCE_PER_TURN;
 	}
-	else if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+	else if (mlx_is_key_down(game->mlx, MLX_KEY_D))
 	{
 		new.x += sin(game->player.angle) * DISTANCE_PER_TURN;
 		new.y += cos(game->player.angle) * DISTANCE_PER_TURN;
@@ -81,9 +81,9 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 		}
 	}
 
-	if (keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
 		new_angle -= angle_size; // Rotate clockwise (right)
-	if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+	else if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
 		new_angle += angle_size; // Rotate counterclockwise (left)
 	if (new_angle >= 2 * M_PI)
 			new_angle -= 2 * M_PI;
@@ -100,15 +100,15 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 	}
 }
 
-void	key_hook(mlx_key_data_t keydata, void *param)
-{
-	t_game	*game;
-	game = param;
-	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
-	{
-		printf("Player pressed ESC. Closing the game...\n");
-		mlx_close_window(game->mlx);
-		clean_nicely(game, NULL);
-	}
-	check_keys_for_movement(game, keydata);
-}
+// void	key_hook(mlx_key_data_t keydata, void *param)
+// {
+// 	t_game	*game;
+// 	game = param;
+// 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
+// 	{
+// 		printf("Player pressed ESC. Closing the game...\n");
+// 		mlx_close_window(game->mlx);
+// 		clean_nicely(game, NULL);
+// 	}
+// 	check_keys_for_movement(game, keydata);
+// }

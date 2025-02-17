@@ -4,6 +4,9 @@ void draw_all(void *param)
 {
 	t_game *game;
 	game = (t_game *)param;
+	
+	check_keys_for_movement(game);
+	
 	if (game->scene)
 	{
 		mlx_delete_image(game->mlx, game->scene);
@@ -32,9 +35,6 @@ void draw_all(void *param)
 		draw_player(game);
 		//printf ("player angle %f\n", game->player.angle);
 		draw_player_direction(game, (t_pos){game->camera.pos.x, game->camera.pos.y}, game->player.angle);
-
-
-		// print_stats(game);
 		
 	}
 }
@@ -102,7 +102,7 @@ int	main(int argc, char *argv[])
 	if(game->is_mmap)
 		print_stats(game);
 	mlx_loop_hook(game->mlx, draw_all, game);
-	mlx_key_hook(game->mlx, key_hook, game);
+	//mlx_key_hook(game->mlx, key_hook, game);
 	
 	mlx_loop(game->mlx);
 	clean_nicely(game, NULL);
