@@ -60,6 +60,7 @@ static void allocate_structures(t_game **pgame)
 static void check_arguments(t_game *game, int argc, char *argv[])
 {
 	char	*extension;
+	char	log[64];
 
 	if (argc >= 2)
 		game->is_debug = !ft_strncmp(*++argv, "-d", 3);
@@ -73,9 +74,14 @@ static void check_arguments(t_game *game, int argc, char *argv[])
 	if (argc > 2)
 		clean_nicely(game, "Too many arguments");
 	extension = ft_strrchr(*argv, '.');
-	if (!extension || ft_strncmp(extension, ".cub", 5))
+	if (!extension)
 		clean_nicely(game, "Expected `.cub\' extension");
-	game->data->scene_description_file = *argv;
+	if (ft_strncmp(extension, ".cub", 5))
+	{
+		ft_snprintf(log, 64, "Unknown format `.%s\'. Expected `.cub\' extension", extension);
+		clean_nicely(game, log);
+	}
+	game->data->scene_file = *argv;
 }
 
 int	main(int argc, char *argv[])
