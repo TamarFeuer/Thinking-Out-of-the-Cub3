@@ -15,7 +15,7 @@ float	calculate_texture_x_offset(mlx_texture_t *texture, t_game *game)
 
 const char *get_direction(t_game *game)
 {
-	normalize_angle_to_2pi(&game->ray->current_angle);
+	normalize_angle_to_2pi((double *)&game->ray->current_angle);
 	determine_quad(game->ray->current_angle, &game->ray->angle_quad);
 
 	if (game->ray->is_vertical_first == true)
@@ -96,7 +96,7 @@ void	draw_vertical_slice(t_game *game)
 	//printf ("current_angle %f\n", game->ray->current_angle);
 	relative_ray_angle = game->ray->current_angle - game->player.angle;
 	//printf ("relative_ray_angle %f\n", relative_ray_angle);
-	normalize_angle_to_2pi(&relative_ray_angle);
+	normalize_angle_to_2pi((double *)&relative_ray_angle);
 	game->ray->corrected_distance = game->ray->distance * cos(relative_ray_angle);  //fixing fish eye
 	if (game->ray->corrected_distance < MIN_RAY_DISTANCE)
 	game->ray->corrected_distance = MIN_RAY_DISTANCE;

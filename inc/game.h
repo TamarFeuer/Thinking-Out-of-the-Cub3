@@ -18,6 +18,7 @@
 #define DEG_TO_RAD (M_PI / 180.0)
 #define SCREEN_WIDTH 1920
 #define SCREEN_HEIGHT 1080
+#define MOUSE_SENSITIVITY 0.1f
 
 //map
 #define ROWS 8 //---> !
@@ -168,6 +169,7 @@ typedef struct s_game
 	t_data			*data;
 	bool			is_debug;
 	bool			is_mmap;
+	bool			is_mouse_active;
 	t_mmap			mmap;
 	mlx_t			*mlx;
 	char			*mapdata;
@@ -203,7 +205,7 @@ void	reach_nearest_wall_by_plotting(t_game *game, float angle);
 void 	reach_nearest_wall_by_intersections(t_game *game, float angle);
 void 	draw_player_direction(t_game *game, t_pos start, double angle);
 void 	draw_vertical_slice(t_game *game);
-void	normalize_angle_to_2pi(float *angle);
+void	normalize_angle_to_2pi(double *angle);
 void	safe_put_pixel(t_game *game, int x, int y, u_int32_t color);
 int		convert_to_mlx42_endian(int c);
 void 	determine_quad(double angle, int *quad);
@@ -251,4 +253,7 @@ void	skip_whitespaces(char **arr, int i, int *j);
 void	skip_nl_and_whitespaces(char **arr, int *i, int *j);
 void	ft_print_arr(char **arr);
 
+
+void 	cursor_hook(double xpos, double ypos, void* param);
+void mouse_action (mouse_key_t button, action_t action, modifier_key_t mods, void* param);
 #endif

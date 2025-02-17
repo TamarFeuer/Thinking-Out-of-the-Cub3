@@ -13,6 +13,9 @@ void draw_all(void *param)
 	}
 	
 	cast_rays(game);
+	
+	//mlx_set_cursor_mode(game->mlx, MLX_MOUSE_HIDDEN);
+	
 	if (game->is_mmap)
 	{
 		draw_grid(game, game->data->map_data.rows, game->data->map_data.cols);
@@ -32,9 +35,8 @@ void draw_all(void *param)
 		draw_player(game);
 		//printf ("player angle %f\n", game->player.angle);
 		draw_player_direction(game, (t_pos){game->camera.pos.x, game->camera.pos.y}, game->player.angle);
-
-
-		// print_stats(game);
+		
+		
 		
 	}
 }
@@ -83,6 +85,7 @@ int	main(int argc, char *argv[])
 	t_game	*game;
 	int width, height;
 
+	
 	allocate_structures(&game);
 	check_arguments(game, argc, argv);
 	
@@ -91,20 +94,22 @@ int	main(int argc, char *argv[])
 	init_game_struct(game);
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	//printf ("main: player angle is %f\n", data->player.angle);
-	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Ray caster", true);
+	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Ray cast3r", true);
 	if (!game->mlx)
 		clean_nicely(game, "Failed to initialize MLX42");
 	mlx_get_monitor_size(0, &width, &height);
 	//printf ("width is %d, height is %d\n", width, height);
-	
+
 	game->scene = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	if (!game->scene || (mlx_image_to_window(game->mlx, game->scene, X_START, Y_START ) < 0))
 		clean_nicely(game, "Failed to create/copy an MLX42 image");
 	if(game->is_mmap)
 		print_stats(game);
+	
 	mlx_loop_hook(game->mlx, draw_all, game);
 	mlx_key_hook(game->mlx, key_hook, game);
-	
+	mlx_cursor_hook(game->mlx, cursor_hook, game);
+	mlx_mouse_hook(game->mlx, mouse_action, game);
 	mlx_loop(game->mlx);
 	clean_nicely(game, NULL);
 }

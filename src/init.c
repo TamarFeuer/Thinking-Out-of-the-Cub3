@@ -37,6 +37,7 @@ void	load_pngs(t_game *game)
 void init_game_struct(t_game *game)
 {
 	game->is_mmap = true;
+	game->is_mouse_active = true;
 	game->ray->is_vertical_first = -1;
 	game->ray->wall_met= false;
 	game->scene = NULL;
