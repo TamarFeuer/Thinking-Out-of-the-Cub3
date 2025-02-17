@@ -49,6 +49,7 @@ static void allocate_structures(t_game **pgame)
 	{
 		(*pgame)->data = malloc(sizeof(t_data));
 		(*pgame)->ray = ft_calloc(1, sizeof(t_ray));
+		(*pgame)->mapdata = NULL;
 		(*pgame)->mlx = NULL;
 		(*pgame)->stats = NULL;
 		(*pgame)->scene = NULL;
@@ -95,14 +96,13 @@ int	main(int argc, char *argv[])
 	//printf ("main: player angle is %f\n", data->player.angle);
 	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Ray cast3r", true);
 	if (!game->mlx)
-		return (EXIT_FAILURE);
-
+		clean_nicely(game, "Failed to initialize MLX42");
 	mlx_get_monitor_size(0, &width, &height);
 	//printf ("width is %d, height is %d\n", width, height);
 
 	game->scene = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	if (!game->scene || (mlx_image_to_window(game->mlx, game->scene, X_START, Y_START ) < 0))
-		return (EXIT_FAILURE);
+		clean_nicely(game, "Failed to create/copy an MLX42 image");
 	if(game->is_mmap)
 		print_stats(game);
 	

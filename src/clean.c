@@ -18,14 +18,10 @@ void	clean_nicely(t_game *game, char *error_message)
 		// 	close(game->fd);
 		delete_images(game);
 		
-		if (game->mapdata)
-		{
-			free(game->mapdata);
-			game->mapdata = NULL;
-		}
 		if (game->mlx)
 		 	mlx_terminate(game->mlx); //causes seg fault??
 		free(game->data);
+		free(game->mapdata);
 		free(game->ray);
 		free(game);
 	}
