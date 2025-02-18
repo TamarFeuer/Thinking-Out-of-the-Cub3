@@ -6,11 +6,11 @@
 /*   By: rtorrent <rtorrent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 10:52:33 by rtorrent          #+#    #+#             */
-/*   Updated: 2025/02/17 17:14:54 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/02/18 15:08:42 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 #include "ft_printf.h"
 
 static ssize_t	pad(void *dst, int (*pf)(void *, const char *, size_t),

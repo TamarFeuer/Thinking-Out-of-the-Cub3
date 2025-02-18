@@ -1,35 +1,66 @@
-NAME = libft.a
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                            :+:    :+:            #
+#                                                     +:+ +:+         +:+      #
+#    By: rtorrent <rtorrent@student.42barcel>       +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/05/09 20:52:16 by rtorrent          #+#    #+#              #
+#    Updated: 2025/02/18 15:32:56 by rtorrent       ########   odam.nl         #
+#                                                                              #
+# **************************************************************************** #
 
-FLAGS = -Wall -Wextra -Werror
+# Tools and options:
 
-INCLUDE_DIR = ./includes
-HEADER = $(INCLUDE_DIR)/libft.h
+CFLAGS += -Werror -Wextra -Wall
 
-SRC = $(shell find $(SRC_DIR) -iname "*.c")
+AR     := ar rcsv
+RM     := rm -f
 
-SRC_DIR = sources
-OBJ_DIR = objects
+# **************************************************************************** #
 
-OBJECTS	:= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
+# Filenames:
 
-# ==================== RULES ====================
+NAME   := libft.a
+
+HEADER := libft.h
+
+SRC    := ft_getnextline_fd.c\
+	ft_snprintf.c\
+	ft_strchr.c\
+	ft_strrchr.c\
+	ft_strncmp.c
+
+OBJ    := $(SRC:.c=.o)
+
+MKFILE := $(lastword $(MAKEFILE_LIST))
+
+# **************************************************************************** #
+
+# Primary targets:
 
 all: $(NAME)
 
-$(NAME): $(OBJECTS) $(HEADER)
-	ar rcs $(NAME) $(OBJECTS)
+$(NAME):: $(MKFILE)
+	@if [ -f "$@" ]; then $(MAKE) fclean; fi
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(@D)
-	@printf "Building $@\n"
-	@$(CC) $(FLAGS) -c $< -o $@
+$(NAME):: $(OBJ)
+	$(AR) $@ $?
 
 clean:
-	rm -rf $(OBJ_DIR)
+	$(RM) $(OBJ)
 
 fclean: clean
-	rm -f $(NAME)
+	$(RM) $(NAME)
 
 re: fclean all
 
 .PHONY: all clean fclean re
+
+# **************************************************************************** #
+
+# Build prerequisites:
+
+$(OBJ): $(HEADER)
+
+ft_printf.o ft_getnextline_fd.o: %.o: %.h

@@ -6,11 +6,11 @@
 /*   By: rtorrent <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 12:36:33 by rtorrent          #+#    #+#             */
-/*   Updated: 2025/02/17 17:15:19 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/02/18 15:08:59 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 #include "ft_printf.h"
 
 static void	ntoa(t_specf *const psp, const char c, const char *hex, const int b)
