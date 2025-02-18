@@ -6,11 +6,11 @@
 /*   By: rtorrent <rtorrent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 00:04:47 by rtorrent          #+#    #+#             */
-/*   Updated: 2025/02/17 17:15:57 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/02/18 15:48:52 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 #include "ft_printf.h"
 
 static int	putfn(void *dst, const char *buf, size_t nbytes)

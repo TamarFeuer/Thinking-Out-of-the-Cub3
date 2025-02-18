@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_getnextline_fd.c                                :+:      :+:    :+:   */
+/*   ft_getnextline_fd.c                                 :+:    :+:           */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rtorrent <rtorrent@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 11:22:56 by rtorrent          #+#    #+#             */
-/*   Updated: 2024/01/30 19:50:15 by rtorrent         ###   ########.fr       */
+/*   Updated: 2025/02/18 19:30:47 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,14 +115,19 @@ static bool	read_blocks(int fd, t_blocks *plist, char **line)
 	return ((*plist)->len);
 }
 
-char	*ft_getnextline_fd(int fd)
+char	*ft_getnextline_fd(char **line, int fd)
 {
-	char			*line;
 	static t_blocks	listed_lines[MAX_FILES];
 
-	line = NULL;
-	if (fd >= 0 && fd < MAX_FILES && BUFFER_SIZE > 0 && DEFAULT_BATCH_SZE > 0
-		&& !read_blocks(fd, &listed_lines[fd], &line))
+	if (fd < 0 || fd >= MAX_FILES || BUFFER_SIZE <= 0 || DEFAULT_BATCH_SZE <= 0)
+		return (NULL);
+	if (!line)
+	{
 		clear_blocks(&listed_lines[fd], false);
-	return (line);
+		return (NULL);
+	}
+	*line = NULL;
+	if (!read_blocks(fd, &listed_lines[fd], line))
+		clear_blocks(&listed_lines[fd], false);
+	return (*line);
 }

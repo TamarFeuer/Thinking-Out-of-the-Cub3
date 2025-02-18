@@ -91,11 +91,9 @@ int	main(int argc, char *argv[])
 	t_game	*game;
 	int width, height;
 
-	
 	allocate_structures(&game);
 	check_arguments(game, argc, argv);
-	
-	parse_file(game, game->data, game->data->scene_description_file);
+	tokenizer(game);
 
 	init_game_struct(game);
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);

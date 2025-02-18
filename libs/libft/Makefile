@@ -6,7 +6,7 @@
 #    By: rtorrent <rtorrent@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/09 20:52:16 by rtorrent          #+#    #+#              #
-#    Updated: 2025/02/18 15:32:56 by rtorrent       ########   odam.nl         #
+#    Updated: 2025/02/18 19:28:35 by rtorrent       ########   odam.nl         #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,13 @@ NAME   := libft.a
 HEADER := libft.h
 
 SRC    := ft_getnextline_fd.c\
+	ft_lstadd_back.c\
+	ft_lstclear.c\
+	ft_lstdelone.c\
+	ft_lstlast.c\
+	ft_lstnew.c\
+	ft_memchr.c\
+	ft_memcpy.c\
 	ft_snprintf.c\
 	ft_strchr.c\
 	ft_strrchr.c\
