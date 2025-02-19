@@ -10,7 +10,7 @@ NAME = cub3D
 SRC =	src/main.c src/line.c src/mmap.c src/player.c src/hooks.c src/clean.c \
 		src/stats.c src/libft.c src/color.c src/rays.c src/intersections.c src/scene.c \
 		src/utils.c src/init.c src/horizontal.c src/vertical.c src/mous3.c \
-		src/tokenizer.c
+		src/lexer.c
 
 OBJ_DIR = obj
 OBJ = $(SRC:src/%.c=$(OBJ_DIR)/%.o)

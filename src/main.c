@@ -83,7 +83,7 @@ static void check_arguments(t_game *game, int argc, char *argv[])
 		ft_snprintf(log, 64, "Unknown format `.%s\'. Expected `.cub\' extension", extension);
 		clean_nicely(game, log);
 	}
-	game->data->scene_file = *argv;
+	game->data->cub_file = *argv;
 }
 
 int	main(int argc, char *argv[])
@@ -93,7 +93,7 @@ int	main(int argc, char *argv[])
 
 	allocate_structures(&game);
 	check_arguments(game, argc, argv);
-	tokenizer(game);
+	lexer(game);
 
 	init_game_struct(game);
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);

@@ -6,7 +6,7 @@
 /*   By: rtorrent <rtorrent@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 14:19:33 by rtorrent          #+#    #+#             */
-/*   Updated: 2025/02/18 19:29:25 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/02/19 16:53:29 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,15 @@ void	*ft_memchr(const void *s, int c, size_t n);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 int		ft_snprintf(char *str, size_t size, const char *format, ...);
 char	*ft_strchr(const char *s, int c);
+size_t	ft_strlcpy(char *dst, const char *src, size_t size);
+size_t	ft_strcspn(const char *s, const char *reject);
+char	*ft_strdup(const char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strrchr(const char *s, int c);
+size_t	ft_strspn(const char *s, const char *accept);
+char	*ft_strtok(char *s, const char *delim);
+char	*ft_strtok_r(char *s, const char *delim, char **saveptr);
+char	*ft_substr(const char *s, size_t start, size_t len);
 
 /* ************************************************************************** */
 

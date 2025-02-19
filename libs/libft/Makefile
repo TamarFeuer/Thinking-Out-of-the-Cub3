@@ -6,7 +6,7 @@
 #    By: rtorrent <rtorrent@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/09 20:52:16 by rtorrent          #+#    #+#              #
-#    Updated: 2025/02/18 19:28:35 by rtorrent       ########   odam.nl         #
+#    Updated: 2025/02/19 16:50:41 by rtorrent       ########   odam.nl         #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,8 +35,15 @@ SRC    := ft_getnextline_fd.c\
 	ft_memcpy.c\
 	ft_snprintf.c\
 	ft_strchr.c\
+	ft_strcspn.c\
+	ft_strdup.c\
+	ft_strlcpy.c\
 	ft_strrchr.c\
-	ft_strncmp.c
+	ft_strncmp.c\
+	ft_strspn.c\
+	ft_strtok.c\
+	ft_strtok_r.c\
+	ft_substr.c
 
 OBJ    := $(SRC:.c=.o)
 

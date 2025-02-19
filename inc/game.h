@@ -155,7 +155,8 @@ typedef struct s_minimap
 
 typedef struct s_data
 {
-	char			*scene_file;
+	char			*cub_file;
+	t_list			*tokens;
 	t_mapdata		map_data;
 	char			**identifiers;
 	t_player		player;
@@ -235,23 +236,10 @@ float	limit_decimal_places(float number, int decimal_places);
 int		ft_isdigit(char c);
 char	**ft_split(char const *s, char c);
 
-// PARSING
-char	*get_next_line(int fd);
-void	init_data_struct(t_data **data);
-void	parse_file(t_game *game, t_data *data, char *file_path);
-int		count_lines(char *file_path);
-void	copy_line_by_line(t_mapdata *mapinfo, int fd);
-void 	parse_identifiers(t_data *data, int *i, int *j);
-void 	parse_map(t_game *game, t_data *data, int *i, int *j);
-bool	check_map_validity(t_data *data);
-bool	is_surrounded_by_walls(t_data *data, char **map);
-
-//PARSING UTILS
-void	skip_whitespaces(char **arr, int i, int *j);
-void	skip_nl_and_whitespaces(char **arr, int *i, int *j);
-void	ft_print_arr(char **arr);
-
-
 void 	cursor_hook(double xpos, double ypos, void* param);
 void mouse_action (mouse_key_t button, action_t action, modifier_key_t mods, void* param);
+
+void	del_token(void *token);
+void	lexer(t_game *game);
+
 #endif
