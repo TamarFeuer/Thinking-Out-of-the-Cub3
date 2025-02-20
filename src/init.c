@@ -28,10 +28,10 @@ void init_map(t_game *game)
 
 void	load_pngs(t_game *game)
 {
-	game->east = mlx_load_png("textures/Dirt_Road_64x64.png");  //add err check
-	game->north = mlx_load_png("textures/Brick_Wall_64x64.png");
-	game->west = mlx_load_png("textures/Brick_Wall_Cracked_64x64.png");
-	game->south = mlx_load_png("textures/stone_64x64.png");
+	game->east = mlx_load_png("textures/Tile/Tile_11-128x128.png");  //add err check
+	game->north = mlx_load_png("textures/Tile/Tile_16-128x128.png");
+	game->west = mlx_load_png("textures/Wood/Wood_17-128x128.png");
+	game->south = mlx_load_png("textures/Bricks/Bricks_05-128x128.png");
 }
 
 void init_game_struct(t_game *game)
