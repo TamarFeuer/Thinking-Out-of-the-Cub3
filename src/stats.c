@@ -23,6 +23,7 @@ void print_stats(t_game *game)
 {
 	char *str;
 	
+	
 	char *temp = ft_ftoa(game->player.angle / M_PI, 6);
 	if (!temp)
 		return;

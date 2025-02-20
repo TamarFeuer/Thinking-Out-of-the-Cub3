@@ -170,6 +170,7 @@ typedef struct s_game
 	bool			is_mmap;
 	bool			is_mouse_active;
 	t_mmap			mmap;
+	int				tile_size;
 	mlx_t			*mlx;
 	char			*mapdata;
 	mlx_image_t 	*scene;

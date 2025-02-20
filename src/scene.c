@@ -65,6 +65,7 @@ void	draw_wall_slice(t_game *game, float slice_height, int top_pixel, int low_pi
 		printf("Error: Texture not found.\n");
 		return;
 	}
+	// printf ("texture->width is %d\n", texture->width);
 	pixel_array = (uint32_t *)texture->pixels;
 	scale_ratio = (double)texture->height / slice_height;
 	horizontal_offset = calculate_texture_x_offset(texture, game);
@@ -74,13 +75,16 @@ void	draw_wall_slice(t_game *game, float slice_height, int top_pixel, int low_pi
 		vertical_offset = 0;
 	while (top_pixel < low_pixel)
 	{
+		
 		if ((int)vertical_offset >= 0 && (int)vertical_offset < (int)texture->height
 			&& (int)horizontal_offset >= 0 && (int)horizontal_offset < (int)texture->width)
 			safe_put_pixel(game, game->ray->ray_num, top_pixel, 
 				convert_to_mlx42_endian(pixel_array[(int)vertical_offset * texture->width + (int)horizontal_offset]));
+		
 		//safe_put_pixel(game, game->ray->ray_num, top_pixel, 0xFF8342FC);
 		else
 			safe_put_pixel(game, game->ray->ray_num, top_pixel, 0x000000FF);
+		
 		vertical_offset += scale_ratio;
 		top_pixel++;
 	}
@@ -120,6 +124,7 @@ void	draw_vertical_slice(t_game *game)
 	
 	while (bottom_pixel < SCREEN_HEIGHT)
 		safe_put_pixel(game, game->ray->ray_num, bottom_pixel++, game->data->map_data.floor_color);
+	
 	while (top_pixel > 0) 
 		safe_put_pixel(game, game->ray->ray_num, --top_pixel, game->data->map_data.ceiling_color);
 

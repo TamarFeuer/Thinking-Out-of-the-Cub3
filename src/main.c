@@ -11,7 +11,7 @@ void draw_all(void *param)
 		if (!game->scene|| (mlx_image_to_window(game->mlx, game->scene, 0, 0 ) < 0))
 			return; //error msg
 	}
-	
+
 	cast_rays(game);
 	
 	//mlx_set_cursor_mode(game->mlx, MLX_MOUSE_HIDDEN);
@@ -90,12 +90,20 @@ int	main(int argc, char *argv[])
 {
 	t_game	*game;
 	int width, height;
+	int temp_width, temp_height;
 
 	allocate_structures(&game);
 	check_arguments(game, argc, argv);
 	lexer(game);
 
 	init_game_struct(game);
+	temp_width = (SCREEN_WIDTH / 2) / game->data->map_data.cols;
+	temp_height = (SCREEN_HEIGHT / 2) / game->data->map_data.rows;
+	if (temp_width > temp_height)
+		game->tile_size = temp_height;
+	else
+		game->tile_size = temp_width;
+	printf ("tile size is %d\n", game->tile_size);
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	//printf ("main: player angle is %f\n", data->player.angle);
 	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Ray cast3r", true);
