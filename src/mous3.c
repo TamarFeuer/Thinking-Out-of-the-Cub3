@@ -9,7 +9,6 @@ void cursor_hook(double xpos, double ypos, void* param)
 	
 	(void)ypos;
 	static float last_x = -1;
-	// static float last_y = -1;
 	double new_angle;
 	double angle_size = 2 * M_PI / 100;
 	double delta_x = fabs(xpos - last_x);
@@ -23,12 +22,10 @@ void cursor_hook(double xpos, double ypos, void* param)
 	
 	if (last_x != -1  && last_x != xpos && game->is_mouse_active == true)
 	{
-		//mlx_get_mouse_pos(game->mlx, x, y);
-		// mlx_set_mouse_pos(game->mlx, x, y);
 		if ((xpos - last_x) > 0)
 			new_angle -= angle_size * speed_factor;   //radians per frame
 		else
-		new_angle += angle_size * speed_factor; 
+			new_angle += angle_size * speed_factor; 
 		normalize_angle_to_2pi(&new_angle);
 		if (new_angle != game->player.angle)
 		{

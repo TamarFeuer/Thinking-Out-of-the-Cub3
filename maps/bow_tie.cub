@@ -1,10 +1,10 @@
-NO ./textures_ids/nord.png
-SO ./textures_ids/south.png
-WE ./textures_ids/west.png
-EA ./textures_ids/east.png
+NO textures/Dirt_road_64x64.png
+SO textures/Green_wall_Rocks_64x64.png
+WE textures/Water_64x64.png
+EA textures/Rocky_road_64x64.png
 
-F 184,113,243
-C 51,12,227
+F 6B,4F,3A
+C 87,CE,FA
 
 1                           1
 11                         11
