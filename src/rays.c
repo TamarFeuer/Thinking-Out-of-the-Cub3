@@ -82,7 +82,7 @@ void cast_rays(t_game *game)
 		//DDA_ray(game, game->camera.pos, game->ray->end, 0xFF00FFFF);
 																		//or
 		// if (game->is_mmap == true && game->is_debug == false)
-
+		
 		game->ray->ray_start[game->ray->ray_num] = game->camera.pos;
 		game->ray->ray_start[game->ray->ray_num] = game->camera.pos;
 		game->ray->ray_end[game->ray->ray_num] = game->ray->end;
@@ -98,6 +98,7 @@ void cast_rays(t_game *game)
 		normalize_angle_to_2pi((double *)&game->ray->current_angle);
 		determine_quad(game->ray->current_angle, &game->ray->angle_quad);
 		game->ray->ray_num++;
+		
 		
 	}
 }
