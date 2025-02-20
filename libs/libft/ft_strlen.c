@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rtorrent <rtorrent@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/13 17:43:41 by rtorrent          #+#    #+#             */
-/*   Updated: 2023/05/07 19:28:58 by rtorrent         ###   ########.fr       */
+/*   Created: 2023/04/06 16:52:20 by rtorrent          #+#    #+#             */
+/*   Updated: 2023/05/17 19:42:06 by rtorrent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+size_t	ft_strlen(const char *s)
 {
-	while (n--)
-	{
-		if (!*s1 || *s1 != *s2)
-			return ((unsigned char)*s1 - (unsigned char)*s2);
-		s1++;
-		s2++;
-	}
-	return (0);
+	return (ft_strchr(s, '\0') - s);
 }

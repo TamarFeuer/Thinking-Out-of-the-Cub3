@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtorrent <rtorrent@student.42barcel>       +#+  +:+       +#+        */
+/*   By: rtorrent <rtorrent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/13 17:43:41 by rtorrent          #+#    #+#             */
-/*   Updated: 2023/05/07 19:28:58 by rtorrent         ###   ########.fr       */
+/*   Created: 2023/05/07 11:52:02 by rtorrent          #+#    #+#             */
+/*   Updated: 2023/05/09 12:32:58 by rtorrent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+void	ft_bzero(void *s, size_t n)
 {
-	while (n--)
-	{
-		if (!*s1 || *s1 != *s2)
-			return ((unsigned char)*s1 - (unsigned char)*s2);
-		s1++;
-		s2++;
-	}
-	return (0);
+	ft_memset(s, 0, n);
 }

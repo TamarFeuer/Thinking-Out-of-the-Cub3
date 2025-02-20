@@ -6,11 +6,11 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/02/17 16:28:59 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/02/19 17:11:58 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/02/20 18:01:01 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/game.h"
+//#include "../inc/game.h"
 #include "lexer.h"
 
 void	del_token(void *token)
@@ -19,63 +19,69 @@ void	del_token(void *token)
 	free(token);
 }
 
-static struct s_token	create_token(enum e_category category, char *lexeme,
-		int line, char *log)
+static int	create_token(char *log, t_list **ptokens, unsigned int line,
+		unsigned int pos)
 {
 	struct s_token *const	new_token = malloc(sizeof(struct s_token));
-	char *const				value = ft_strdup(lexeme);
+	list_t *const			new_link = ft_lstnew(new_token);
 
-	if (new_token && value)
+	if (new_token && new_link)
 	{
-		new_token->name = category;
-		new_token->value = value;
 		new_token->line = line;
+		new_token->pos = pos;
+		ft_lstadd_back(ptokens, new_link);
+		return (0);
 	}
-	else
-	{
-		free(new_token);
-		free(value);
-		new_token = NULL;
-		ft_strlcpy(log, "Out of memory", 64);
-	}
-	return (new_token);
+	free(new_token);
+	free(new_link);
+	ft_strlcpy(log, "Out of memory", 64);
+	return (1);
 }
 
-static struct s_token	*evaluator(char *lexeme, int line, char *log)
+static void	evaluator(char *log, struct s_token *token, char *lexeme,
+		size_t len)
 {
-	if (!ft_strncmp(lexeme, ",", 2))
-		return (create_token(SEPARATOR, lexeme, line, log));
-	if (!ft_strncmp(lexeme, "NO", 3) || !ft_strncmp(lexeme, "SO", 3)
-		|| !ft_strncmp(lexeme, "WE", 3) || !ft_strncmp(lexeme, "EA", 3)
-		|| !ft_strncmp(lexeme, "F", 2) || !ft_strncmp(lexeme, "C", 2))
-		return (create_token(IDENTIFIER, lexeme, line, log));
-	return (create_token(LITERAL, lexeme, line, log));
+	token->value = ft_substr(lexeme, 0, len);
+	if (!token->value)
+		return ((void)ft_strlcpy(log, "Out of memory", 64));
+	if (!ft_strncmp(token->value, ",", -1))
+		token->name = SEPARATOR;
+	else if (!ft_strncmp(token->value, "NO", -1)
+		|| !ft_strncmp(token->value, "SO", -1)
+		|| !ft_strncmp(token->value, "WE", -1)
+		|| !ft_strncmp(token->value, "EA", -1)
+		|| !ft_strncmp(token->value, "F", -1)
+		|| !ft_strncmp(token->value, "C", -1))
+		token->name = IDENTIFIER;
+	else
+		token->name = LITERAL;
 }
 
 static void	scanner(int fd, char *log, t_list **ptokens)
 {
-	char			*line;
-	struct s_token	*new_token;
-	list_t			*new_link;
-	int				nlines;
+	char	*line;
+	char	*lexemes;
+	int		nlines;
+	size_t	token_length;
 
 	nlines = 0;
 	while (!*log && ft_getnextline_fd(&line, fd))
 	{
-		new_token = evaluator(ft_strtok(line, " \n"), nlines, log);
-		while (new_token)
+		lexemes = ft_strtok(line, " \t\n");
+		while (lexemes && !*log && !create_token(log, ptokens, nlines,
+				lexemes - line))
 		{
-			new_link = ft_lstnew(new_token);
-			if (!new_link)
-			{
-				del_token(new_token);
-				ft_strlcpy(log, "Out of memory", 64);
-				return ;
-			}
-			ft_lstadd_back(tokens, new_link);
-			new_token = evaluator(ft_strtok(NULL, " \n"), nlines, log);
+			if (*lexemes == ',')
+				token_length = 1;
+			else
+				token_length = ft_strcspn(lexemes, ",");
+			evaluator(log, *ptokens, lexemes, token_length);
+			lexemes += token_length;
+			if (!*lexemes)
+				lexemes = ft_strtok(NULL, " \t\n");
 		}
 		nlines++;
+		free(line);
 	}
 }
 
