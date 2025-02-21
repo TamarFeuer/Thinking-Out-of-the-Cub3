@@ -20,8 +20,8 @@ void	clean_nicely(t_game *game, char *error_message)
 		
 		if (game->mlx)
 		 	mlx_terminate(game->mlx); //causes seg fault??
+		free(game->data->mapdata);
 		free(game->data);
-		free(game->mapdata);
 		free(game->ray);
 		free(game);
 	}
