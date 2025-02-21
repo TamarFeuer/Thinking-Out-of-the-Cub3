@@ -60,6 +60,7 @@ void parse_map(t_game *game, t_data *data, int *i, int *j)
 	int		row;
 	int		col;
 
+	(void)game;
 	count_map_rows(data, *i);
 	count_map_cols(data, *i);
 
@@ -115,23 +116,23 @@ void parse_map(t_game *game, t_data *data, int *i, int *j)
 					if (map[*i][*j] == 'N')
 					{
 
-						game->player.angle = M_PI / 2;
-						game->player.angle_quad = 2;
+						data->player.angle = M_PI / 2;
+						data->player.angle_quad = 2;
 					}
 					else if (map[*i][*j] == 'W')
 					{
-						game->player.angle = M_PI;
-						game->player.angle_quad = 3;
+						data->player.angle = M_PI;
+						data->player.angle_quad = 3;
 					}
 					else if (map[*i][*j] == 'S')
 					{
-						game->player.angle = 3 * M_PI / 2;
-						game->player.angle_quad = 4;
+						data->player.angle = 3 * M_PI / 2;
+						data->player.angle_quad = 4;
 					}
 					else if (map[*i][*j] == 'E')
 					{
-						game->player.angle = 0;
-						game->player.angle_quad = 1;
+						data->player.angle = 0;
+						data->player.angle_quad = 1;
 					}
 					map[*i][*j] = '0';
 				}

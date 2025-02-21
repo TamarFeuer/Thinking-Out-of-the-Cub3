@@ -15,7 +15,7 @@ void draw_all(void *param)
 	cast_rays(game);
 	
 	//mlx_set_cursor_mode(game->mlx, MLX_MOUSE_HIDDEN);
-	
+
 	if (game->is_mmap)
 	{
 		draw_grid(game, game->data->map_data.rows, game->data->map_data.cols);
@@ -32,7 +32,9 @@ void draw_all(void *param)
 			draw_bresenham_ray(game, game->camera.pos, game->ray->ray_end[i]);
 			i++;
 		}
+		
 		draw_player(game);
+	
 		//printf ("player angle %f\n", game->player.angle);
 		draw_player_direction(game, (t_pos){game->camera.pos.x, game->camera.pos.y}, game->player.angle);
 		
@@ -92,7 +94,6 @@ int	main(int argc, char *argv[])
 	
 	parse_file(game, game->data, game->data->scene_description_file);
 
-	init_game_struct(game);
 	temp_width = (SCREEN_WIDTH / 2) / game->data->map_data.cols;
 	temp_height = (SCREEN_HEIGHT / 2) / game->data->map_data.rows;
 	if (temp_width > temp_height)
@@ -100,6 +101,8 @@ int	main(int argc, char *argv[])
 	else
 		game->cell_size = temp_width;
 	printf ("tile size is %d\n", game->cell_size);
+	init_game_struct(game);
+	
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	//printf ("main: player angle is %f\n", data->player.angle);
 	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Ray cast3r", true);

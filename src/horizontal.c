@@ -5,12 +5,12 @@ void	set_inc_horiz(t_game *game, float *increase_y, int *delta_y_to_next_horiz, 
 	(void)increase_x;
 	if (game->ray->angle_quad == 3 || game->ray->angle_quad == 4) //ray facing down
 	{
-		*increase_y = CONST * PIXELS_PER_BLOCK;
-		*delta_y_to_next_horiz = CONST * PIXELS_PER_BLOCK; //proceed to the first location on the new block
+		*increase_y = game->cell_size;
+		*delta_y_to_next_horiz = game->cell_size; //proceed to the first location on the new block
 	}
 	else if (game->ray->angle_quad == 1 || game->ray->angle_quad == 2) //ray facing up
 	{
-		*increase_y = -CONST * PIXELS_PER_BLOCK;
+		*increase_y = -game->cell_size;
 		*delta_y_to_next_horiz =  -1; //proceed to the last location on the new block
 	}
 	if (game->ray->angle_quad == 3 || game->ray->angle_quad == 4)
@@ -26,15 +26,15 @@ float	horiz_intersect(t_game *game, float angle)
 	
 	//printf ("\nHORIZONTAL:\n");
 	delta_y_to_next_horiz = 0;
-	increase_x = CONST * PIXELS_PER_BLOCK / tan(angle);
+	increase_x = game->cell_size / tan(angle);
 	set_inc_horiz(game, &increase_y, &delta_y_to_next_horiz, &increase_x);
 	//printf ("increase_x is %f\n", increase_x);
 	//printf ("increase_y is %f, delta_y_to_next_horiz is %d, \n", increase_y, delta_y_to_next_horiz);
 	
-	game->ray->intersect.y = floor((game->camera.pos.y - Y_START) / (CONST * PIXELS_PER_BLOCK)) * (CONST * PIXELS_PER_BLOCK) + delta_y_to_next_horiz;
+	game->ray->intersect.y = floor((game->camera.pos.y - Y_START) / (game->cell_size)) * (game->cell_size) + delta_y_to_next_horiz;
 	//printf ("game->ray->inter.y %f\n", game->ray->inter.y);
 	//printf ("game->camera.x %d\n", game->camera.x);
-	//printf ("game->camera.y %d, floor(game->camera.y / (CONST * PIXELS_PER_BLOCK)) %f\n", game->camera.y, floor(game->camera.y / (CONST * PIXELS_PER_BLOCK)));
+	//printf ("game->camera.y %d, floor(game->camera.y / (game->cell_size)) %f\n", game->camera.y, floor(game->camera.y / (game->cell_size)));
 	game->ray->intersect.x = (game->camera.pos.x - X_START) - (game->ray->intersect.y - game->camera.pos.y) / tan(angle);
 	//printf ("game->ray->inter.x %f\n", game->ray->inter.x);
 	

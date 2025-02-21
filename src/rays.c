@@ -1,12 +1,12 @@
 #include "../inc/game.h"
 
-// //block starts at n * PIXELS_PER_CLOCK * CONST
-// //block ends at n * PIXELS_PER_CLOCK * CONST + PIXELS_PER_CLOCK * CONST - 1 = (n + 1) *  PIXELS_PER_CLOCK * CONST - 1
+// //block starts at n * game->cell_size
+// //block ends at n * game->cell_size + game->cell_size - 1 = (n + 1) *  game->cell_size - 1
 // int get_block_index(t_pos *grid_pos)
 // {
 // 	int result = -1;
-// 	int block_index_x = (int)((floor(grid_pos->x) - X_START) / (PIXELS_PER_BLOCK * CONST));
-// 	int block_index_y = (int)((floor(grid_pos->y) - Y_START) / (PIXELS_PER_BLOCK * CONST));
+// 	int block_index_x = (int)((floor(grid_pos->x) - X_START) / (game->cell_size));
+// 	int block_index_y = (int)((floor(grid_pos->y) - Y_START) / (game->cell_size));
 // 	//printf("on grid_x %d, on grid Y %d\n", block_index_x, block_index_y);
 // 	result = (block_index_y) * COLS + (block_index_x);
 // 	//printf ("result is %d\n", result);
@@ -18,13 +18,13 @@
 int get_block_index2(t_game *game, t_pos *grid_pos, int flag)
 {
 	int result = -1;
-	int block_index_x = (int)((floor(grid_pos->x) - X_START) / (PIXELS_PER_BLOCK * CONST));
-	int block_index_y = (int)((floor(grid_pos->y) - Y_START) / (PIXELS_PER_BLOCK * CONST));
+	int block_index_x = (int)((floor(grid_pos->x) - X_START) / (game->cell_size));
+	int block_index_y = (int)((floor(grid_pos->y) - Y_START) / (game->cell_size));
 	//printf("on grid_x %d, on grid Y %d\n", block_index_x, block_index_y);
 	if (flag && (game->ray->angle_quad == 1 || game->ray->angle_quad == 2))
-		block_index_y = (int)(ceil(grid_pos->y) - Y_START) / (PIXELS_PER_BLOCK * CONST);
+		block_index_y = (int)(ceil(grid_pos->y) - Y_START) / (game->cell_size);
 	else if (!flag && (game->ray->angle_quad == 2 || game->ray->angle_quad == 3))
-		block_index_x = (int)(ceil(grid_pos->x) - Y_START) / (PIXELS_PER_BLOCK * CONST);
+		block_index_x = (int)(ceil(grid_pos->x) - Y_START) / (game->cell_size);
 	
 	result = (block_index_y) * game->data->map_data.cols + (block_index_x);
 	//printf ("result is %d\n", result);
