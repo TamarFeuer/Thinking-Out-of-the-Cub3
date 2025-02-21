@@ -95,6 +95,7 @@ int	main(int argc, char *argv[])
 	allocate_structures(&game);
 	check_arguments(game, argc, argv);
 	lexer(game);
+	syntax(game);
 
 	init_game_struct(game);
 	temp_width = (SCREEN_WIDTH / 2) / game->data->map_data.cols;

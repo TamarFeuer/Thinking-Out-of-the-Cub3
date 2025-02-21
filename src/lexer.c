@@ -6,12 +6,14 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/02/17 16:28:59 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/02/20 18:01:01 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/02/21 12:09:38 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "../inc/game.h"
-#include "lexer.h"
+#include "../inc/game.h"
+#include "lexer_parser.h"
+
+// https://en.wikipedia.org/wiki/Lexical_analysis
 
 void	del_token(void *token)
 {
