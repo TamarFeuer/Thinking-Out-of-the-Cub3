@@ -44,12 +44,12 @@ void draw_all(void *param)
 static void allocate_structures(t_game **pgame)
 {
 	*pgame = malloc(sizeof(t_game));
-
 	if (*pgame)
 	{
 		(*pgame)->data = malloc(sizeof(t_data));
 		(*pgame)->ray = ft_calloc(1, sizeof(t_ray));
-		(*pgame)->data->mapdata = NULL;
+		if ((*pgame)->data)
+			(*pgame)->data->mapdata = NULL;
 		(*pgame)->mlx = NULL;
 		(*pgame)->stats = NULL;
 		(*pgame)->scene = NULL;

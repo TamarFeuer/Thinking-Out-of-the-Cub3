@@ -14,14 +14,12 @@ void	clean_nicely(t_game *game, char *error_message)
 	//free_map_grid
 	if (game)
 	{
-		// if (game->fd != -1)
-		// 	close(game->fd);
+		if (game->data)
+			free(game->data->mapdata);
+		free(game->data);
 		delete_images(game);
-		
 		if (game->mlx)
 		 	mlx_terminate(game->mlx); //causes seg fault??
-		free(game->data->mapdata);
-		free(game->data);
 		free(game->ray);
 		free(game);
 	}
