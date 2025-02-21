@@ -58,25 +58,6 @@
 #define MIN_RAY_DISTANCE 5.0f
 #define FLOOR_COLOR 0xFF8000FF  //---> !
 
-typedef enum e_direction 
-{
-	EAST,
-	NORTH,
-	WEST,
-	SOUTH,
-} t_direction;
-
-typedef enum e_pos_id
-{
-	INVAL_ID = -1,
-	NORTH_ID,
-	SOUTH_ID,
-	EAST_ID,
-	WEST_ID,
-	FLOOR_ID,
-	CEILING_ID
-} t_pos_id;
-
 typedef struct s_pos
 {
 	double	x;
@@ -156,7 +137,10 @@ typedef struct s_minimap
 typedef struct s_data
 {
 	char			*cub_file;
+	char			*texture_files[4];
 	t_list			*tokens;
+	
+
 	t_mapdata		map_data;
 	char			**identifiers;
 	//t_player		player;

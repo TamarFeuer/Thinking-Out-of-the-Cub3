@@ -6,7 +6,7 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/02/17 16:28:59 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/02/21 12:09:38 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/02/21 17:50:37 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,34 @@
 
 // https://en.wikipedia.org/wiki/Lexical_analysis
 
-void	del_token(void *token)
+static void	evaluator(char *log, struct s_token *token, char *lexeme,
+		size_t len)
 {
-	free(((struct s_token *)token)->value);
-	free(token);
+	token->value = ft_substr(lexeme, 0, len);
+	if (!token->value)
+		return ((void)ft_strlcpy(log, "Out of memory", 64));
+	if (!ft_strncmp(token->value, "NO", -1))
+		token->id = NO;
+	else if (!ft_strncmp(token->value, "SO", -1))
+		token->id = SO;
+	else if (!ft_strncmp(token->value, "WE", -1))
+		token->id = WE;
+	else if (!ft_strncmp(token->value, "EA", -1))
+		token->id = EA;
+	else if (!ft_strncmp(token->value, "F", -1))
+		token->id = F;
+	else if (!ft_strncmp(token->value, "C", -1))
+		token->id = C;
+	else if (!ft_strncmp(token->value, ",", -1))
+		token->name = SEPARATOR;
+	else
+	{
+		token->name = LITERAL;
+		if (ft_strspn(token->value, "0123456789abcdefABCDEF") == len)
+			token->lflags |= TVALID_NUM;
+		if (ft_strspn(token->value, "01NESW") == len)
+			token->lflags |= TVALID_MAP;
+	}
 }
 
 static int	create_token(char *log, t_list **ptokens, unsigned int line,
@@ -29,8 +53,10 @@ static int	create_token(char *log, t_list **ptokens, unsigned int line,
 
 	if (new_token && new_link)
 	{
+		token->name = IDENTIFIER;
 		new_token->line = line;
 		new_token->pos = pos;
+		new_token->lflags = 0;
 		ft_lstadd_back(ptokens, new_link);
 		return (0);
 	}
@@ -38,25 +64,6 @@ static int	create_token(char *log, t_list **ptokens, unsigned int line,
 	free(new_link);
 	ft_strlcpy(log, "Out of memory", 64);
 	return (1);
-}
-
-static void	evaluator(char *log, struct s_token *token, char *lexeme,
-		size_t len)
-{
-	token->value = ft_substr(lexeme, 0, len);
-	if (!token->value)
-		return ((void)ft_strlcpy(log, "Out of memory", 64));
-	if (!ft_strncmp(token->value, ",", -1))
-		token->name = SEPARATOR;
-	else if (!ft_strncmp(token->value, "NO", -1)
-		|| !ft_strncmp(token->value, "SO", -1)
-		|| !ft_strncmp(token->value, "WE", -1)
-		|| !ft_strncmp(token->value, "EA", -1)
-		|| !ft_strncmp(token->value, "F", -1)
-		|| !ft_strncmp(token->value, "C", -1))
-		token->name = IDENTIFIER;
-	else
-		token->name = LITERAL;
 }
 
 static void	scanner(int fd, char *log, t_list **ptokens)
@@ -102,7 +109,6 @@ void	lexer(t_game *game)
 		ft_snprintf(log, 64, "Unable to close `%s\'", data->cub_file);
 	if (*log)
 	{
-		ft_lstclear(data->tokens, del_token);
 		ft_getnextline(NULL, fd);
 		clean_nicely(game, log);
 	}

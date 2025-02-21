@@ -8,20 +8,24 @@ void	delete_images(t_game *game)
 		mlx_delete_image(game->mlx, game->scene);
 }
 
+void	del_token(void *token)
+{
+	free(((struct s_token *)token)->value);
+	free(token);
+}
+
 //use ft_free as in minishell
 void	clean_nicely(t_game *game, char *error_message)
 {
 	//free_map_grid
 	if (game)
 	{
-		// if (game->fd != -1)
-		// 	close(game->fd);
-		delete_images(game);
-		
-		if (game->mlx)
-		 	mlx_terminate(game->mlx); //causes seg fault??
+		ft_lstclear(data->tokens, del_token);
 		free(game->data->mapdata);
 		free(game->data);
+		delete_images(game);
+		if (game->mlx)
+		 	mlx_terminate(game->mlx); //causes seg fault??
 		free(game->ray);
 		free(game);
 	}
