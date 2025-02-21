@@ -162,18 +162,18 @@ typedef struct s_data
 	char			**identifiers;
 	t_player		player;
 	t_minimap		minimap_data;
+	char			*mapdata;
 }	t_data;
 
 typedef struct s_game
 {
-	t_data			*data;
 	bool			is_debug;
 	bool			is_mmap;
 	bool			is_mouse_active;
 	t_mmap			mmap;
-	int				tile_size;
+	int				cell_size;
 	mlx_t			*mlx;
-	char			*mapdata;
+	t_data			*data;
 	mlx_image_t 	*scene;
 	t_ray			*ray;
 	mlx_image_t 	*stats;

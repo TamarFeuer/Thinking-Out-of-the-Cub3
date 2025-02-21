@@ -21,7 +21,7 @@ void reach_nearest_wall_by_plotting(t_game *game, float angle) //start and end i
 		//check map limits
 		{
 			//if (game->mapdata[get_block_index(&game->ray->end)] == '1')
-			if (game->mapdata[get_block_index2(game, &game->ray->end, 99)] == '1')
+			if (game->data->mapdata[get_block_index2(game, &game->ray->end, 99)] == '1')
 			{
 				
 				//printf ("Intersection found\n");
@@ -73,7 +73,7 @@ bool is_out_of_bounds(t_game *game, t_pos position)
 
 int	is_wall_hit(t_game *game, t_pos inter, int flag)
 {
-	if (game->mapdata[get_block_index2(game, &inter, flag)] == '1')
+	if (game->data->mapdata[get_block_index2(game, &inter, flag)] == '1')
 	{	
 		//printf ("game->ray->end.x %f, game->ray->end.y %f\n", game->ray->end.x, game->ray->end.y);
 		//printf ("hit wall\n");

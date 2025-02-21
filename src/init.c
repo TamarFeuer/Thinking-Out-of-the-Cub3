@@ -6,8 +6,8 @@ void init_map(t_game *game)
 	int	row;
 	int	col;
 
-	game->mapdata = malloc(game->data->map_data.rows * game->data->map_data.cols * sizeof(char) + 1);
-	if (!game->mapdata)
+	game->data->mapdata = malloc(game->data->map_data.rows * game->data->map_data.cols * sizeof(char) + 1);
+	if (!game->data->mapdata)
 		clean_nicely(game, "Out of memory");
 	index = 0;
 	row = 0;
@@ -17,13 +17,13 @@ void init_map(t_game *game)
 		while (col < game->data->map_data.cols)
 		{
 			if (game->data->map_data.map[row][col] != '\0' && game->data->map_data.map[row][col] != '\n')
-				game->mapdata[index++] = game->data->map_data.map[row][col];
+				game->data->mapdata[index++] = game->data->map_data.map[row][col];
 			col++;
 		}
 		row++;
 	}
-	game->mapdata[index] = '\0';
-	printf("%s\n", game->mapdata);
+	game->data->mapdata[index] = '\0';
+	printf("%s\n", game->data->mapdata);
 }
 
 void	load_pngs(t_game *game)
@@ -44,7 +44,7 @@ void init_game_struct(t_game *game)
 	game->stats = NULL;
 	game->player.p_pos.x = X_START + (game->data->player.p_pos.x + .5) * PIXELS_PER_BLOCK * CONST - CONST/2;
 	game->player.p_pos.y = Y_START + (game->data->player.p_pos.y + .5) * PIXELS_PER_BLOCK * CONST - CONST/2;
-	//printf ("player  is %f %f\n", game->player.p_pos.x, game->player.p_pos.y);
+	printf ("in init: player  is %f %f\n", game->player.p_pos.x, game->player.p_pos.y);
 	game->player.angle = game->data->player.angle;
 	// game->player.angle_quad = 1;
 	game->ray->angle_quad = game->data->player.angle_quad;

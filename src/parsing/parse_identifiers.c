@@ -47,10 +47,10 @@ bool	verify_identifiers(t_data *data)
 	int	i;
 
 	i = 0;
-	printf("verify_identifiers: %s\n", data->identifiers[i]);
+	//printf("verify_identifiers: %s\n", data->identifiers[i]);
 	while (data->identifiers[i] != NULL)
 	{
-		printf("verify_identifiers %i\n", i);
+		//printf("verify_identifiers %i\n", i);
 		if (i == 5)
 			return (true);
 		i++;

@@ -140,7 +140,7 @@ void parse_map(t_game *game, t_data *data, int *i, int *j)
 			}
 			*j += 1;
 		}
-		printf ("player angle is %f\n", data->player.angle);
+		//printf ("player angle is %f\n", data->player.angle);
 		//Fills the rest of the line with empty spaces
 		while (col < data->map_data.cols)
 		{

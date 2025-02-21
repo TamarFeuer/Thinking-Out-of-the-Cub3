@@ -12,7 +12,7 @@ bool is_collision(t_game *game, t_pos new, int *x_offset, int *y_offset)
 			// Check the position (x + x_offset, y + y_offset)
 			t_pos check_pos = {new.x + *x_offset, new.y + *y_offset};
 			//if (game->mapdata[get_block_index(&check_pos)] == '1')
-			if (game->mapdata[get_block_index2(game, &check_pos, 999)] == '1')  //consider ceiling in the right places
+			if (game->data->mapdata[get_block_index2(game, &check_pos, 999)] == '1')  //consider ceiling in the right places
 				return true;
 			(*x_offset)++;
 		}

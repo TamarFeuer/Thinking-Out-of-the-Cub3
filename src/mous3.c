@@ -14,7 +14,7 @@ void cursor_hook(double xpos, double ypos, void* param)
 	double delta_x = fabs(xpos - last_x);
 	
 	double speed_factor = delta_x * MOUSE_SENSITIVITY;
-	printf ("speed_factor is %f\n", speed_factor);
+	//printf ("speed_factor is %f\n", speed_factor);
 	if (delta_x < 1.0)  // Dead zone threshold, adjust as necessary
     	return;
 

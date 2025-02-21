@@ -49,7 +49,7 @@ static void allocate_structures(t_game **pgame)
 	{
 		(*pgame)->data = malloc(sizeof(t_data));
 		(*pgame)->ray = ft_calloc(1, sizeof(t_ray));
-		(*pgame)->mapdata = NULL;
+		(*pgame)->data->mapdata = NULL;
 		(*pgame)->mlx = NULL;
 		(*pgame)->stats = NULL;
 		(*pgame)->scene = NULL;
@@ -96,10 +96,10 @@ int	main(int argc, char *argv[])
 	temp_width = (SCREEN_WIDTH / 2) / game->data->map_data.cols;
 	temp_height = (SCREEN_HEIGHT / 2) / game->data->map_data.rows;
 	if (temp_width > temp_height)
-		game->tile_size = temp_height;
+		game->cell_size = temp_height;
 	else
-		game->tile_size = temp_width;
-	printf ("tile size is %d\n", game->tile_size);
+		game->cell_size = temp_width;
+	printf ("tile size is %d\n", game->cell_size);
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	//printf ("main: player angle is %f\n", data->player.angle);
 	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Ray cast3r", true);
