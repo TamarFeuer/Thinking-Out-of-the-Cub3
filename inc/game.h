@@ -160,7 +160,7 @@ typedef struct s_data
 	char			*scene_description_file;
 	t_mapdata		map_data;
 	char			**identifiers;
-	t_player		player;
+	//t_player		player;
 	t_minimap		minimap_data;
 	char			*mapdata;
 }	t_data;

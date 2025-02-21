@@ -42,12 +42,12 @@ void init_game_struct(t_game *game)
 	game->ray->wall_met= false;
 	game->scene = NULL;
 	game->stats = NULL;
-	game->player.p_pos.x = X_START + (game->data->player.p_pos.x + .5) * PIXELS_PER_BLOCK * CONST - CONST/2;
-	game->player.p_pos.y = Y_START + (game->data->player.p_pos.y + .5) * PIXELS_PER_BLOCK * CONST - CONST/2;
+	game->player.p_pos.x = X_START + (game->player.p_pos.x + .5) * PIXELS_PER_BLOCK * CONST - CONST/2;
+	game->player.p_pos.y = Y_START + (game->player.p_pos.y + .5) * PIXELS_PER_BLOCK * CONST - CONST/2;
 	printf ("in init: player  is %f %f\n", game->player.p_pos.x, game->player.p_pos.y);
-	game->player.angle = game->data->player.angle;
+	game->player.angle = game->player.angle;
 	// game->player.angle_quad = 1;
-	game->ray->angle_quad = game->data->player.angle_quad;
+	game->ray->angle_quad = game->player.angle_quad;
 	game->ray->intersect.x = 0;
 	game->ray->intersect.y = 0;
 	game->camera.pos.x = game->player.p_pos.x + (PLAYER_SIZE + CONST) /2;
