@@ -104,7 +104,7 @@ int	main(int argc, char *argv[])
 		game->cell_size = temp_height;
 	else
 		game->cell_size = temp_width;
-	printf ("tile size is %d\n", game->cell_size);
+	printf ("cell size is %d\n", game->cell_size);
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	//printf ("main: player angle is %f\n", data->player.angle);
 	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Ray cast3r", true);
