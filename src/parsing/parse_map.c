@@ -1,18 +1,19 @@
 #include "../../inc/game.h"
 
-void	count_map_rows(t_data *data, int row)
+void	count_map_rows(t_game *game, t_data *data, int row)
 {
 	char	**file;
 	int		col;
 
-	file = data->map_data.file_data;
+	(void)data;
+	file = game->data->map_data.file_data;
 	if (!file)
 		return ;
 	col = 0;
 	skip_nl_and_whitespaces(file, &row, &col);
 
 	//Start counting the number of rows
-	data->map_data.rows = 0;
+	game->data->map_data.rows = 0;
 	while (file[row])
 	{
 		col = 0;
@@ -21,22 +22,23 @@ void	count_map_rows(t_data *data, int row)
 		if (file[row][col] == '\n')
 			break ;
 		row++;
-		data->map_data.rows++;
+		game->data->map_data.rows++;
 	}
 	// printf("count_map_rows: %d\n", data->map_data.rows);
 }
 
-void	count_map_cols(t_data *data, int row)
+void	count_map_cols(t_game *game, t_data *data, int row)
 {
 	char	**file;
 	int		col;
 
-	file = data->map_data.file_data;
+	(void)data;
+	file = game->data->map_data.file_data;
 	if (!file)
 		return ;
 	col = 0;
 	skip_nl_and_whitespaces(file, &row, &col);
-	data->map_data.cols = 0;
+	game->data->map_data.cols = 0;
 	while (file[row])
 	{
 		col = 0;
@@ -46,12 +48,13 @@ void	count_map_cols(t_data *data, int row)
 				col += 4;
 			else
 				col++;
+			printf("col is %d\n", col);
 		}
-		if (--col > data->map_data.cols)
-			data->map_data.cols = col;
+		if (--col > game->data->map_data.cols)
+			game->data->map_data.cols = col;
 		row++;
 	}
-	// printf("count_map_cols: %d\n", data->map_data.cols);
+	// printf("count_map_cols: %d\n", game->data->map_data.cols);
 }
 
 void parse_map(t_game *game, t_data *data, int *i, int *j)
@@ -60,17 +63,17 @@ void parse_map(t_game *game, t_data *data, int *i, int *j)
 	int		row;
 	int		col;
 
-	(void)game;
-	count_map_rows(data, *i);
-	count_map_cols(data, *i);
+	(void)data;
+	count_map_rows(game, data, *i);
+	count_map_cols(game, data, *i);
 
 	//Allocate memory for the map array.
-	data->map_data.map = (char **) malloc(sizeof(char *) * (data->map_data.rows + 1));
-	if (!data->map_data.map)
+	game->data->map_data.map = (char **) malloc(sizeof(char *) * (game->data->map_data.rows + 1));
+	if (!game->data->map_data.map)
 		printf("%s\n", ERR_MEM_ALL);
 
 	//Assign the array with the file contents to a shorter variable.
-	map = data->map_data.file_data;
+	map = game->data->map_data.file_data;
 	if (!map)
 		return ;
 
@@ -83,8 +86,8 @@ void parse_map(t_game *game, t_data *data, int *i, int *j)
 	row = 0;
 	while (map[*i])
 	{
-		data->map_data.map[row] = (char *) malloc(data->map_data.cols);
-		if (!data->map_data.map[row])
+		game->data->map_data.map[row] = (char *) malloc(game->data->map_data.cols);
+		if (!game->data->map_data.map[row])
 			printf("%s\n", ERR_MEM_ALL);
 
 		//Checks that there's no empty line somewhere in between the map.
@@ -101,57 +104,57 @@ void parse_map(t_game *game, t_data *data, int *i, int *j)
 			//Converts tabs into 4 spaces.
 			if (map[*i][*j] == '\t')
 			{
-				data->map_data.map[row][col] = ' ';
-				data->map_data.map[row][col + 1] = ' ';
-				data->map_data.map[row][col + 2] = ' ';
-				data->map_data.map[row][col + 3] = ' ';
+				game->data->map_data.map[row][col] = ' ';
+				game->data->map_data.map[row][col + 1] = ' ';
+				game->data->map_data.map[row][col + 2] = ' ';
+				game->data->map_data.map[row][col + 3] = ' ';
 				col += 4;
 			}
 			else //Copies the contents of the map
 			{
 				if (ft_is_pos_identifier(map[*i][*j]))
 				{
-					data->player.p_pos.x = (double) col;
-					data->player.p_pos.y = (double) row;
+					game->data->player.p_pos.x = (double) col;
+					game->data->player.p_pos.y = (double) row;
 					if (map[*i][*j] == 'N')
 					{
 
-						data->player.angle = M_PI / 2;
-						data->player.angle_quad = 2;
+						game->data->player.angle = M_PI / 2;
+						game->data->player.angle_quad = 2;
 					}
 					else if (map[*i][*j] == 'W')
 					{
-						data->player.angle = M_PI;
-						data->player.angle_quad = 3;
+						game->data->player.angle = M_PI;
+						game->data->player.angle_quad = 3;
 					}
 					else if (map[*i][*j] == 'S')
 					{
-						data->player.angle = 3 * M_PI / 2;
-						data->player.angle_quad = 4;
+						game->data->player.angle = 3 * M_PI / 2;
+						game->data->player.angle_quad = 4;
 					}
 					else if (map[*i][*j] == 'E')
 					{
-						data->player.angle = 0;
-						data->player.angle_quad = 1;
+						game->data->player.angle = 0;
+						game->data->player.angle_quad = 1;
 					}
 					map[*i][*j] = '0';
 				}
-				data->map_data.map[row][col] = map[*i][*j];
+				game->data->map_data.map[row][col] = map[*i][*j];
 				col++;
 			}
 			*j += 1;
 		}
-		printf ("player angle is %f\n", data->player.angle);
+		printf ("player angle is %f\n", game->data->player.angle);
 		//Fills the rest of the line with empty spaces
-		while (col < data->map_data.cols)
+		while (col < game->data->map_data.cols)
 		{
-			data->map_data.map[row][col++] = ' ';
+			game->data->map_data.map[row][col++] = ' ';
 		}
-		data->map_data.map[row][col] = '\0';
+		game->data->map_data.map[row][col] = '\0';
 		*i += 1;
 		row++;
 	}
-	data->map_data.map[row] = NULL;
+	game->data->map_data.map[row] = NULL;
 
 	skip_nl_and_whitespaces(map, i, j);
 	skip_whitespaces(map, *i, j);

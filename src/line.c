@@ -11,13 +11,14 @@ void draw_bresenham_ray(t_game *game, t_pos start, t_pos end)
 	int decision_variable;
     int distance;
 
-
+	// printf ("start.x is %f start.y is %f\n", start.x, start.y);
+	// printf ("endx is %f end.y is %f\n", end.x, end.y);
 	// Direction factors to ensure correct increments
 	int step_x = 1;
 	int step_y = 1;
 
 	// Determine direction of x and y
-	if (end_x < start.x)  // Moving left
+	if (end_x < start.x)  // Moving lef
 		step_x = -1;
 	if (end_y < start.y)  // Moving up
 		step_y = -1;
@@ -59,6 +60,7 @@ void draw_bresenham_ray(t_game *game, t_pos start, t_pos end)
 		while (1)
 		{
 
+			//printf ("game->data->minimap_data.y_end is %d\n", game->data->minimap_data.y_end);
 			if ((x == end_x && y == end_y) || x < X_START || x >= game->data->minimap_data.x_end || y < Y_START || y >= game->data->minimap_data.y_end)
             {
                 // || (game->ray->found_vertical_first == 1 &&  x > X_END)

@@ -25,20 +25,21 @@ void	parse_file(t_game *game, t_data *data, char *file_path)
 	copy_file_contents(data, file_path);
 	parse_identifiers(data, &i, &j);
 	parse_map(game, data, &i, &j);
-	if (!check_map_validity(data))
+	if (!check_map_validity(game, data))
 		printf("PARSING NOT OK!\n");
 	else
 		printf("PARSING OK!\n");
 
-	//MINIMAP struct init
-	data->minimap_data.width = data->map_data.cols * game->cell_size;
-	data->minimap_data.height = data->map_data.rows * game->cell_size;
-	data->minimap_data.x_start = 0;
-	data->minimap_data.x_end = data->minimap_data.x_start + data->minimap_data.width;
-	data->minimap_data.y_start = 0;
-	data->minimap_data.y_end = data->minimap_data.y_start + data->minimap_data.height;
-	data->minimap_data.max_height = SCREEN_HEIGHT/4;
-	data->minimap_data.max_width = SCREEN_WIDTH/4;
+	// //MINIMAP struct init
+	// game->data->minimap_data.width = game->data->map_data.cols * game->cell_size;
+	// printf ("in parsing: game->data->minimap_data.width %d\n", game->data->minimap_data.width);
+	// game->data->minimap_data.height = game->data->map_data.rows * game->cell_size;
+	// game->data->minimap_data.x_start = 0;
+	// game->data->minimap_data.x_end = game->data->minimap_data.x_start + game->data->minimap_data.width;
+	// game->data->minimap_data.y_start = 0;
+	// game->data->minimap_data.y_end = game->data->minimap_data.y_start + game->data->minimap_data.height;
+	// game->data->minimap_data.max_height = SCREEN_HEIGHT/4;
+	// game->data->minimap_data.max_width = SCREEN_WIDTH/4;
 	
 	// ft_print_arr(data->map_data.map);
 }

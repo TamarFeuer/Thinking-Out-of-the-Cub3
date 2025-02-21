@@ -75,9 +75,9 @@ void cast_rays(t_game *game)
 		
 		// printf("by_intersections: \n");
 		reach_nearest_wall_by_intersections(game, game->ray->current_angle);
-		//printf("Ray %d: angle %f, distance %f, camera.x %f, camera.y %f\n", game->ray->ray_num, game->ray->current_angle, game->ray->distance, game->camera.pos.x, game->camera.pos.y);
-		//printf ("facing %s wall, end.x %f, end.y %f\n", get_direction(game), game->ray->end.x, game->ray->end.y);
-		//printf ("found vertical first? %d\n\n", game->ray->found_vertical_first);
+		// printf("Ray %d: angle %f, distance %f, camera.x %f, camera.y %f\n", game->ray->ray_num, game->ray->current_angle, game->ray->distance, game->camera.pos.x, game->camera.pos.y);
+		// printf ("facing %s wall, end.x %f, end.y %f\n", get_direction(game), game->ray->end.x, game->ray->end.y);
+		// printf ("is vertical first? %d\n\n", game->ray->is_vertical_first);
 		// if (game->is_mmap == true && game->is_debug == false)
 		//DDA_ray(game, game->camera.pos, game->ray->end, 0xFF00FFFF);
 																		//or

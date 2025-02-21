@@ -93,7 +93,8 @@ int	main(int argc, char *argv[])
 	check_arguments(game, argc, argv);
 	
 	parse_file(game, game->data, game->data->scene_description_file);
-
+	printf ("game->data->map_data.cols is %d\n", game->data->map_data.cols);
+	
 	temp_width = (SCREEN_WIDTH / 2) / game->data->map_data.cols;
 	temp_height = (SCREEN_HEIGHT / 2) / game->data->map_data.rows;
 	if (temp_width > temp_height)

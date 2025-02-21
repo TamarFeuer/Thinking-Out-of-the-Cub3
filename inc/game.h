@@ -246,7 +246,7 @@ int		count_lines(char *file_path);
 void	copy_line_by_line(t_mapdata *mapinfo, int fd);
 void 	parse_identifiers(t_data *data, int *i, int *j);
 void 	parse_map(t_game *game, t_data *data, int *i, int *j);
-bool	check_map_validity(t_data *data);
+bool	check_map_validity(t_game *game, t_data *data);
 bool	is_surrounded_by_walls(t_data *data, char **map);
 
 //PARSING UTILS
