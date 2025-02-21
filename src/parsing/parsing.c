@@ -31,8 +31,8 @@ void	parse_file(t_game *game, t_data *data, char *file_path)
 		printf("PARSING OK!\n");
 
 	//MINIMAP struct init
-	data->minimap_data.width = data->map_data.cols * PIXELS_PER_BLOCK * CONST;
-	data->minimap_data.height = data->map_data.rows * PIXELS_PER_BLOCK * CONST;
+	data->minimap_data.width = data->map_data.cols * game->cell_size;
+	data->minimap_data.height = data->map_data.rows * game->cell_size;
 	data->minimap_data.x_start = 0;
 	data->minimap_data.x_end = data->minimap_data.x_start + data->minimap_data.width;
 	data->minimap_data.y_start = 0;
