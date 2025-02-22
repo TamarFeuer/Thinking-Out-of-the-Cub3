@@ -1,18 +1,5 @@
 #include "../inc/game.h"
 
-// //block starts at n * game->cell_size
-// //block ends at n * game->cell_size + game->cell_size - 1 = (n + 1) *  game->cell_size - 1
-// int get_block_index(t_pos *grid_pos)
-// {
-// 	int result = -1;
-// 	int block_index_x = (int)((floor(grid_pos->x) - X_START) / (game->cell_size));
-// 	int block_index_y = (int)((floor(grid_pos->y) - Y_START) / (game->cell_size));
-// 	//printf("on grid_x %d, on grid Y %d\n", block_index_x, block_index_y);
-// 	result = (block_index_y) * COLS + (block_index_x);
-// 	//printf ("result is %d\n", result);
-// 	//printf ("game->ray->end.x %f, game->ray->end.y %f\n", game->ray->end.x, game->ray->end.y);
-// 	return result;
-// }
 
 //flag: 1 vertical, horizontal 0
 int get_block_index2(t_game *game, t_pos *grid_pos, int flag)
@@ -58,8 +45,8 @@ void cast_rays(t_game *game)
 	else
 		game->ray->number_of_rays = 1;
 		
-	while (game->ray->ray_num < game->ray->number_of_rays)
-	// while (game->ray->ray_num < 1)
+	// while (game->ray->ray_num < game->ray->number_of_rays)
+	while (game->ray->ray_num < 1)
 	{	
 		// printf("by_plotting: \n");
 		//reach_nearest_wall_by_plotting(game, game->ray->current_angle);
@@ -95,7 +82,9 @@ void cast_rays(t_game *game)
 		game->ray->intersect.x = 0;
 		game->ray->intersect.y = 0;
 		game->ray->current_angle -= step;
+		printf ("in cast_rays: angle is %f\n", game->ray->current_angle);
 		normalize_angle_to_2pi((double *)&game->ray->current_angle);
+		
 		determine_quad(game->ray->current_angle, &game->ray->angle_quad);
 		game->ray->ray_num++;
 		

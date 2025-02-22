@@ -89,6 +89,7 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 	// 		new_angle -= 2 * M_PI;
 	// if (new_angle < 0)
 	// 		new_angle += 2 * M_PI;
+	printf ("in check for movement\n");
 	normalize_angle_to_2pi(&new_angle);
 	if (new_angle != game->player.angle)
 	{

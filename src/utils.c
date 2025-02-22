@@ -64,5 +64,4 @@ void	normalize_angle_to_2pi(double *angle)
 		*angle += (2 * M_PI);
 	if (*angle > 2 * M_PI)
 		*angle -= (2 * M_PI);
-	
 }

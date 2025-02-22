@@ -119,7 +119,7 @@ typedef struct s_ray
 	t_pos		intersect;
 	int			number_of_rays;
 	int			ray_num;
-	float		current_angle;
+	double		current_angle;
 	int			angle_quad;
 	bool		wall_met;
 	int			is_vertical_first;

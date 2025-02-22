@@ -26,8 +26,8 @@ void draw_all(void *param)
 		else
 			game->ray->number_of_rays = 1;
 			
-		while (i < game->ray->number_of_rays)
-		// while (i < 1)
+		// while (i < game->ray->number_of_rays)
+		while (i < 1)
 		{
 			draw_bresenham_ray(game, game->camera.pos, game->ray->ray_end[i]);
 			i++;
