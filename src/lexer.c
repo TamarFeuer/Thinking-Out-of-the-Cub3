@@ -6,7 +6,7 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/02/17 16:28:59 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/02/21 17:50:37 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/02/22 18:40:21 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 #include "lexer_parser.h"
 
 // https://en.wikipedia.org/wiki/Lexical_analysis
+
+void	del_token(void *token)
+{
+	free(((struct s_token *)token)->value);
+	free(token);
+}
 
 static void	evaluator(char *log, struct s_token *token, char *lexeme,
 		size_t len)
@@ -38,7 +44,7 @@ static void	evaluator(char *log, struct s_token *token, char *lexeme,
 	else
 	{
 		token->name = LITERAL;
-		if (ft_strspn(token->value, "0123456789abcdefABCDEF") == len)
+		if (ft_strspn(token->value, "0123456789") == len)
 			token->lflags |= TVALID_NUM;
 		if (ft_strspn(token->value, "01NESW") == len)
 			token->lflags |= TVALID_MAP;

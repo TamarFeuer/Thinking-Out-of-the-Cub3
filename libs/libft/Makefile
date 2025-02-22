@@ -6,7 +6,7 @@
 #    By: rtorrent <rtorrent@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/09 20:52:16 by rtorrent          #+#    #+#              #
-#    Updated: 2025/02/21 12:16:52 by rtorrent       ########   odam.nl         #
+#    Updated: 2025/02/22 16:44:41 by rtorrent       ########   odam.nl         #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,6 @@ SRC    := ft_bzero.c\
 	ft_calloc.c\
 	ft_getnextline_fd.c\
 	ft_lstadd_back.c\
-	ft_lstadd_front.c\
 	ft_lstclear.c\
 	ft_lstdelone.c\
 	ft_lstlast.c\

@@ -1,17 +1,11 @@
 #include "../inc/game.h"
 
-void	delete_images(t_game *game)
+static void	delete_images(t_game *game)
 {
 	if (game->stats)
 		mlx_delete_image(game->mlx, game->stats);
 	if (game->scene)
 		mlx_delete_image(game->mlx, game->scene);
-}
-
-void	del_token(void *token)
-{
-	free(((struct s_token *)token)->value);
-	free(token);
 }
 
 void	clean_nicely(t_game *game, char *error_message)

@@ -58,6 +58,27 @@
 #define MIN_RAY_DISTANCE 5.0f
 #define FLOOR_COLOR 0xFF8000FF  //---> !
 
+enum e_dir
+{
+	N,
+	S,
+	E,
+	W
+};
+
+enum e_horizon
+{
+	FL,
+	CE
+};
+
+enum e_rgb
+{
+	RED,
+	GREEN,
+	BLUE
+};
+
 typedef struct s_pos
 {
 	double	x;
@@ -136,9 +157,11 @@ typedef struct s_minimap
 
 typedef struct s_data
 {
-	char			*cub_file;
-	char			*texture_files[4];
-	t_list			*tokens;
+	char	*cub_file;
+	char	*texture_files[4];
+	t_list	*tokens;
+	t_list	*map_tokens;
+	int		colors[2][3];
 	
 
 	t_mapdata		map_data;
@@ -203,22 +226,11 @@ int		is_wall_hit(t_game *game, t_pos intersect, int flag);
 int		draw_static_components(t_game *game);
 
 // LIBFT
-void	ft_free_2d(void ***arr);
-int		ft_atoi(const char *nptr);
 bool	ft_is_pos_identifier(char c);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-void	*ft_calloc(size_t nmemb, size_t size);
-char	*ft_strdup(char const *str);
-void	*ft_memset(void *s, int c, size_t n);
-size_t	ft_strlen(const char *s);
 char	*ft_itoa(int n);
 char	*ft_ftoa(float n, int precision);
 char	*ft_strjoin(char const *s1, char const *s2);
-void	*ft_calloc(size_t nmemb, size_t size);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
 float	limit_decimal_places(float number, int decimal_places);
-int		ft_isdigit(char c);
 char	**ft_split(char const *s, char c);
 
 void 	cursor_hook(double xpos, double ypos, void* param);
@@ -226,5 +238,7 @@ void mouse_action (mouse_key_t button, action_t action, modifier_key_t mods, voi
 
 void	del_token(void *token);
 void	lexer(t_game *game);
+void	parser(t_game *game);
+int		atoi2(int *dst, char *str);
 
 #endif

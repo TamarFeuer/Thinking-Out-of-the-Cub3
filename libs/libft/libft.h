@@ -6,7 +6,7 @@
 /*   By: rtorrent <rtorrent@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 14:19:33 by rtorrent          #+#    #+#             */
-/*   Updated: 2025/02/21 12:16:23 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/02/22 16:45:21 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ typedef struct s_list
 }		t_list;
 
 void	ft_lstadd_back(t_list **plst, t_list *new);
-void	ft_lstadd_front(t_list **plst, t_list *new);
 void	ft_lstclear(t_list **plst, void (*del)(void *));
 void	ft_lstdelone(t_list *lst, void (*del)(void *));
 t_list	*ft_lstlast(t_list *lst);
