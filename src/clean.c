@@ -14,18 +14,19 @@ void	del_token(void *token)
 	free(token);
 }
 
-//use ft_free as in minishell
 void	clean_nicely(t_game *game, char *error_message)
 {
-	//free_map_grid
 	if (game)
 	{
-		ft_lstclear(data->tokens, del_token);
-		free(game->data->mapdata);
+		if (game->data)
+		{
+			ft_lstclear(data->tokens, del_token);
+			free(game->data->mapdata);
+		}
 		free(game->data);
 		delete_images(game);
 		if (game->mlx)
-		 	mlx_terminate(game->mlx); //causes seg fault??
+		 	mlx_terminate(game->mlx);
 		free(game->ray);
 		free(game);
 	}
@@ -36,4 +37,4 @@ void	clean_nicely(t_game *game, char *error_message)
 	}
 	exit(EXIT_SUCCESS);
 }
- //add cleaning the wall textures
+ // TODO add cleaning the wall textures
