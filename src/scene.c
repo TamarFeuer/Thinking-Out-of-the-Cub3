@@ -70,12 +70,11 @@ void	draw_wall_slice(t_game *game, float slice_height, int top_pixel, int low_pi
 	scale_ratio = (double)texture->height / slice_height;
 	horizontal_offset = calculate_texture_x_offset(texture, game);
 	//printf ("horizontal_offset is %f\n", horizontal_offset);
-	vertical_offset = (top_pixel - (SCENE_HEIGHT / 2) + (slice_height / 2)) * scale_ratio;
+	vertical_offset = (top_pixel - (SCREEN_HEIGHT / 2) + (slice_height / 2)) * scale_ratio;
 	if (vertical_offset < 0)
 		vertical_offset = 0;
 	while (top_pixel < low_pixel)
 	{
-		
 		if ((int)vertical_offset >= 0 && (int)vertical_offset < (int)texture->height
 			&& (int)horizontal_offset >= 0 && (int)horizontal_offset < (int)texture->width)
 			safe_put_pixel(game, game->ray->ray_num, top_pixel, 
@@ -107,20 +106,20 @@ void	draw_vertical_slice(t_game *game)
 	if (game->ray->corrected_distance < MIN_RAY_DISTANCE)
 	game->ray->corrected_distance = MIN_RAY_DISTANCE;
 	//printf ("game->camera.frustum_plane_distance is %f\n", game->camera.frustum_plane_distance);
-	float aspect_ratio = (float) SCENE_WIDTH / SCENE_HEIGHT;
+	float aspect_ratio = (float) SCREEN_WIDTH / SCREEN_HEIGHT;
 	
 	game->camera.frustum_plane_distance = BASE_FRUSTUM_DISTANCE * aspect_ratio;
 	slice_height = (SCENE_BLOCK_SIZE * game->camera.frustum_plane_distance) / (game->ray->corrected_distance + .1);
 	//printf ("slice_height is %f\n", slice_height);
 	//printf ("game->camera.plane_distance is %f\n", game->camera.plane_distance);
 	//printf ("game->ray->corrected_distance is %f\n", game->ray->corrected_distance);
-	bottom_pixel = SCENE_HEIGHT / 2 + slice_height / 2;
+	bottom_pixel = SCREEN_HEIGHT / 2 + slice_height / 2;
 	//printf ("bottom pixel is %d\n", bottom_pixel);
-	top_pixel = SCENE_HEIGHT / 2 - slice_height / 2;
+	top_pixel = SCREEN_HEIGHT / 2 - slice_height / 2;
 	if (top_pixel < 0)
 		top_pixel = 0;
-	if (bottom_pixel > SCENE_HEIGHT)
-		bottom_pixel = SCENE_HEIGHT;
+	if (bottom_pixel > SCREEN_HEIGHT)
+		bottom_pixel = SCREEN_HEIGHT;
 	
 	draw_wall_slice(game, slice_height, top_pixel, bottom_pixel);
 	
