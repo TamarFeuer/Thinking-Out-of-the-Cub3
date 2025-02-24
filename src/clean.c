@@ -14,8 +14,8 @@ void	clean_nicely(t_game *game, char *error_message)
 	{
 		if (game->data)
 		{
-			ft_lstclear(data->tokens, del_token);
-			free(game->data->mapdata);
+			ft_lstclear(game->data->tokens, del_token);
+			free(game->data->map);
 		}
 		free(game->data);
 		delete_images(game);

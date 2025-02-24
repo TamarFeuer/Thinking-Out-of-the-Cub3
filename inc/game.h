@@ -131,44 +131,31 @@ typedef struct s_ray
 	t_pos		ray_end[SCREEN_WIDTH];
 }	t_ray;
 
-typedef struct s_mapdata
-{
-	char		*path;
-	int			total_lines;
-	char		**file_data;
-	char		**map;
-	int			rows;
-	int			cols;
-	u_int32_t	floor_color;
-	u_int32_t	ceiling_color;
-}	t_mapdata;
-
-typedef struct s_minimap
-{
-	int width;
-	int	height;
-	int	x_start;
-	int	x_end;
-	int	y_start;
-	int	y_end;
-	int max_height;
-	int	max_width;
-}	t_minimap;
-
 typedef struct s_data
 {
+	char	*map;
 	char	*cub_file;
-	char	*texture_files[4];
 	t_list	*tokens;
 	t_list	*map_tokens;
-	int		colors[2][3];
-	
-
-	t_mapdata		map_data;
-	char			**identifiers;
-	//t_player		player;
-	t_minimap		minimap_data;
-	char			*mapdata;
+	int		parsed[2];
+	struct s_mapdata
+	{
+		int			rows;
+		int			cols;
+		u_int32_t	bgra[2];
+		char		*texture_files[4];
+	}		map_data;
+	struct s_minimap
+	{
+		int width;
+		int	height;
+		int	x_start;
+		int	x_end;
+		int	y_start;
+		int	y_end;
+		int max_height;
+		int	max_width;
+	}		minimap_data;
 }	t_data;
 
 typedef struct s_game
@@ -207,7 +194,6 @@ void	draw_bresenham_ray(t_game *game, t_pos start, t_pos end);
 double	get_distance(t_pos start, t_pos end);
 int 	get_block_index(t_pos *grid_pos);
 int 	get_block_index2(t_game *game, t_pos *grid_pos, int flag);
-void	init_map(t_game *game);
 void	reach_nearest_wall_by_plotting(t_game *game, float angle);
 void 	reach_nearest_wall_by_intersections(t_game *game, float angle);
 void 	draw_player_direction(t_game *game, t_pos start, double angle);
@@ -236,9 +222,10 @@ char	**ft_split(char const *s, char c);
 void 	cursor_hook(double xpos, double ypos, void* param);
 void mouse_action (mouse_key_t button, action_t action, modifier_key_t mods, void* param);
 
+int		atoi2(int *dst, char *str);
+void	build_map(char *log, t_game *game);
 void	del_token(void *token);
 void	lexer(t_game *game);
 void	parser(t_game *game);
-int		atoi2(int *dst, char *str);
 
 #endif

@@ -47,9 +47,9 @@ static void allocate_structures(t_game **pgame)
 	if (*pgame)
 	{
 		(*pgame)->data = malloc(sizeof(t_data));
-		(*pgame)->ray = ft_calloc(1, sizeof(t_ray));
 		if ((*pgame)->data)
-			(*pgame)->data->mapdata = NULL;
+			(*pgame)->data->map = NULL;
+		(*pgame)->ray = ft_calloc(1, sizeof(t_ray));
 		(*pgame)->mlx = NULL;
 		(*pgame)->stats = NULL;
 		(*pgame)->scene = NULL;

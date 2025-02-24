@@ -1,31 +1,5 @@
 #include "../inc/game.h"
 
-void init_map(t_game *game)
-{
-	int	index;
-	int	row;
-	int	col;
-
-	game->data->mapdata = malloc(game->data->map_data.rows * game->data->map_data.cols * sizeof(char) + 1);
-	if (!game->data->mapdata)
-		clean_nicely(game, "Out of memory");
-	index = 0;
-	row = 0;
-	while (row < game->data->map_data.rows)
-	{
-		col = 0;
-		while (col < game->data->map_data.cols)
-		{
-			if (game->data->map_data.map[row][col] != '\0' && game->data->map_data.map[row][col] != '\n')
-				game->data->mapdata[index++] = game->data->map_data.map[row][col];
-			col++;
-		}
-		row++;
-	}
-	game->data->mapdata[index] = '\0';
-	printf("%s\n", game->data->mapdata);
-}
-
 void	load_pngs(t_game *game)
 {
 	game->east = mlx_load_png("textures/Tile/Tile_11-128x128.png");  //add err check
@@ -54,6 +28,5 @@ void init_game_struct(t_game *game)
 	game->camera.pos.y = game->player.p_pos.y + (PLAYER_SIZE + CONST) /2;
 	game->camera.frustum_plane_distance = SCREEN_WIDTH / 2 * (tan(FOV * DEG_TO_RAD/ 2));
 	//game->camera.frustum_plane_distance = SCREEN_WIDTH / 2 / tan(FOV * DEG_TO_RAD / 2);
-	init_map(game);
 	load_pngs(game);
 }
