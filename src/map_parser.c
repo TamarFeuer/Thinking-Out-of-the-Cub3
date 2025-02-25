@@ -6,7 +6,7 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/02/24 13:12:32 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/02/25 16:06:37 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/02/25 17:06:07 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,16 @@ static void	check_for_player(char *log, t_player *player, struct s_token *token,
 	}
 	player->p_pos.x = token->pos + index_not_player - player->p_pos.x;
 	player->p_pos.y = token->line - player->p_pos.y;
-	if (token->value[index_not_player] == 'E')
-		direction = E;
+	direction = E;
 	if (token->value[index_not_player] == 'N')
 		direction = N;
-	if (token->value[index_not_player] == 'W')
+	else if (token->value[index_not_player] == 'W')
 		direction = W;
-	if (token->value[index_not_player] == 'S')
+	else if (token->value[index_not_player] == 'S')
 		direction = S;
 	player->angle = direction * M_PI / 2;
 	player->angle_quad = direction + 1;
+	token->value[index_not_player] = SPACE;
 	check_for_player(log, player, token, index_not_player + 1);
 }
 

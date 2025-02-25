@@ -96,6 +96,7 @@ int	main(int argc, char *argv[])
 	check_arguments(game, argc, argv);
 	lexer(game);
 	parser(game);
+	flood_fill_map(game);
 
 	init_game_struct(game);
 	temp_width = (SCREEN_WIDTH / 2) / game->data->map_data.cols;
