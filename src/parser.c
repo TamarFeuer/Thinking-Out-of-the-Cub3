@@ -6,7 +6,7 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/02/22 12:39:26 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/02/24 19:57:48 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/02/25 16:04:37 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 
 static void	check_for_parameters(char *log, t_data *data)
 {
-	if (!data->map_data.texture_files[N])
-		return ((void)ft_strlcpy(log, "Missing NO element", 64));
-	if (!data->map_data.texture_files[S])
-		return ((void)ft_strlcpy(log, "Missing SO element", 64));
 	if (!data->map_data.texture_files[E])
 		return ((void)ft_strlcpy(log, "Missing EA element", 64));
+	if (!data->map_data.texture_files[N])
+		return ((void)ft_strlcpy(log, "Missing NO element", 64));
 	if (!data->map_data.texture_files[W])
 		return ((void)ft_strlcpy(log, "Missing WE element", 64));
+	if (!data->map_data.texture_files[S])
+		return ((void)ft_strlcpy(log, "Missing SO element", 64));
 	if (*data->colors[FL] == -1)
 		return ((void)ft_strlcpy(log, "Missing F element", 64));
 	if (*data->colors[CE] == -1)
@@ -65,8 +65,8 @@ static void	get_identifier(char *log, t_data *data, t_list **plist)
 {
 	struct token_s *const	token = (*plist)->content;
 
-	if ((token->id == NO || token->id == SO || token->id == EA
-			|| token->id == WE))
+	if (token->id == EA || token->id == NO || token->id == WE
+		|| token->id == SO)
 	{
 		if (data->map_data.texture_files[token->id])
 			return ((void)ft_snprintf(log, 64, "(%d-%d) Duplicated %s "
@@ -121,10 +121,10 @@ void	parser(t_game *game)
 	data->map_tokens = NULL;
 	data->map_data.bgra[FL] = 0xFF;
 	data->map_data.bgra[CE] = 0xFF;
-	data->map_data.texture_files[N] = NULL;
-	data->map_data.texture_files[S] = NULL;
 	data->map_data.texture_files[E] = NULL;
+	data->map_data.texture_files[N] = NULL;
 	data->map_data.texture_files[W] = NULL;
+	data->map_data.texture_files[S] = NULL;
 	syntax_analysis(log, data);
 	if (!*log)
 		check_for_parameters(log, data);

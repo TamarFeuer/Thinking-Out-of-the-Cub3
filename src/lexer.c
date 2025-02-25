@@ -6,7 +6,7 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/02/17 16:28:59 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/02/22 18:40:21 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/02/25 13:54:07 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,9 @@ void	del_token(void *token)
 	free(token);
 }
 
-static void	evaluator(char *log, struct s_token *token, char *lexeme,
-		size_t len)
+static void	evaluator(char *log, struct s_token *token, char *lexeme)
 {
-	token->value = ft_substr(lexeme, 0, len);
+	token->value = ft_substr(lexeme, 0, token->len);
 	if (!token->value)
 		return ((void)ft_strlcpy(log, "Out of memory", 64));
 	if (!ft_strncmp(token->value, "NO", -1))
@@ -44,9 +43,9 @@ static void	evaluator(char *log, struct s_token *token, char *lexeme,
 	else
 	{
 		token->name = LITERAL;
-		if (ft_strspn(token->value, "0123456789") == len)
+		if (ft_strspn(token->value, "0123456789") == token->len)
 			token->lflags |= TVALID_NUM;
-		if (ft_strspn(token->value, "01NESW") == len)
+		if (ft_strspn(token->value, "01NSEW") == token->len)
 			token->lflags |= TVALID_MAP;
 	}
 }
@@ -74,10 +73,10 @@ static int	create_token(char *log, t_list **ptokens, unsigned int line,
 
 static void	scanner(int fd, char *log, t_list **ptokens)
 {
-	char	*line;
-	char	*lexemes;
-	int		nlines;
-	size_t	token_length;
+	char			*line;
+	char			*lexemes;
+	int				nlines;
+	struct s_token	new_token;
 
 	nlines = 0;
 	while (!*log && ft_getnextline_fd(&line, fd))
@@ -86,12 +85,13 @@ static void	scanner(int fd, char *log, t_list **ptokens)
 		while (lexemes && !*log && !create_token(log, ptokens, nlines,
 				lexemes - line))
 		{
+			new_token = ft_lstlast(*ptokens)->content;
 			if (*lexemes == ',')
-				token_length = 1;
+				new_token->len = 1;
 			else
-				token_length = ft_strcspn(lexemes, ",");
-			evaluator(log, *ptokens, lexemes, token_length);
-			lexemes += token_length;
+				new_token->len = ft_strcspn(lexemes, ",");
+			evaluator(log, new_token, lexemes);
+			lexemes += new_token->len;
 			if (!*lexemes)
 				lexemes = ft_strtok(NULL, " \t\n");
 		}

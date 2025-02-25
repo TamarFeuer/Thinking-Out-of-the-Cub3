@@ -6,7 +6,7 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/02/18 14:27:10 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/02/22 18:41:07 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/02/25 15:56:18 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ enum e_category
 
 enum e_id
 {
-	NO,
-	SO,
 	EA,
+	NO,
 	WE,
+	SO,
 	F,
 	C
 };
@@ -51,6 +51,7 @@ struct s_token
 {
 	enum e_category	name;
 	char			*value;
+	size_t			len;
 	unsigned int	line;
 	unsigned int	pos;
 	union

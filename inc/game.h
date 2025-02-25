@@ -60,10 +60,10 @@
 
 enum e_dir
 {
-	N,
-	S,
 	E,
-	W
+	N,
+	W,
+	S
 };
 
 enum e_horizon
