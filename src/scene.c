@@ -96,9 +96,9 @@ void	draw_vertical_slice(t_game *game)
 	int		top_pixel;
 	double	relative_ray_angle;
 
-	printf ("in draw vertical slice\n");
-	printf ("current_angle %f\n", game->ray->current_angle);
-	printf ("player_angle %f\n", game->player.angle);
+	//printf ("in draw vertical slice\n");
+	//printf ("current_angle %f\n", game->ray->current_angle);
+	//printf ("player_angle %f\n", game->player.angle);
 	relative_ray_angle = game->ray->current_angle - game->player.angle;
 
 	normalize_angle_to_2pi(&relative_ray_angle);

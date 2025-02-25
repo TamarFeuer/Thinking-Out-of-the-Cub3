@@ -83,17 +83,20 @@ int	is_wall_hit(t_game *game, t_pos inter, int flag)
 }
 
 
-void reach_nearest_wall_by_intersections(t_game *game, float angle)
+void reach_nearest_wall_by_intersections(t_game *game)
 {
 	float horiz_distance, vertical_distance;
-	horiz_distance = horiz_intersect(game, angle);
-	vertical_distance = vertical_intersect(game, angle);
-	printf ("vertical itersection: distance %f, end.x %f, end.y %f\n", vertical_distance, game->ray->v_hit.x, game->ray->v_hit.y);
-	printf ("horizontal itersection: distance %f ,end.x %f, end.y %f\n", horiz_distance, game->ray->h_hit.x, game->ray->h_hit.y);
+	
+	//printf ("in reach nearest: angle is %f\n", game->ray->current_angle);
+	horiz_distance = horiz_intersect(game);
+	vertical_distance = vertical_intersect(game);
+	//printf ("vertical itersection: distance %f, end.x %f, end.y %f\n", vertical_distance, game->ray->v_hit.x, game->ray->v_hit.y);
+	//printf ("horizontal itersection: distance %f ,end.x %f, end.y %f\n", horiz_distance, game->ray->h_hit.x, game->ray->h_hit.y);
 	// if (horiz_distance > vertical_intersect(game, angle))
+	//printf ("game->cell_size is %d\n", game->cell_size);
 	if (horiz_distance > vertical_distance)
 	{	
-		printf ("I met vertical first\n");
+		//printf ("\nI met vertical first\n");
 		game->ray->is_vertical_first = true;
 		game->ray->end.x = game->ray->v_hit.x;
 		game->ray->end.y = game->ray->v_hit.y;
@@ -101,7 +104,7 @@ void reach_nearest_wall_by_intersections(t_game *game, float angle)
 	}
 	else
 	{
-		printf ("I met horizontal first\n");
+		//printf ("\nI met horizontal first\n");
 		game->ray->is_vertical_first = false;
 		game->ray->end.x = game->ray->h_hit.x;
 		game->ray->end.y = game->ray->h_hit.y;

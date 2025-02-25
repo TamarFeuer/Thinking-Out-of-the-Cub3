@@ -12,7 +12,7 @@ bool is_collision(t_game *game, t_pos new, int *x_offset, int *y_offset)
 			// Check the position (x + x_offset, y + y_offset)
 			t_pos check_pos = {new.x + *x_offset, new.y + *y_offset};
 			//if (game->mapdata[get_block_index(&check_pos)] == '1')
-			if (game->mapdata[get_block_index2(game, &check_pos, 999)] == '1')  //consider ceiling in the right places
+			if (game->mapdata[get_block_index(game, &check_pos, 999)] == '1')  //consider ceiling in the right places
 				return true;
 			(*x_offset)++;
 		}
@@ -72,8 +72,8 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 		{
 			game->player.p_pos.x = round(new.x);
 			game->player.p_pos.y = round(new.y);
-			game->camera.pos.x = game->player.p_pos.x + CONST /2;
-			game->camera.pos.y = game->player.p_pos.y + CONST /2;
+			game->camera.pos.x = round(game->player.p_pos.x + CONST /2);
+			game->camera.pos.y = round(game->player.p_pos.y + CONST /2);
 			mlx_delete_image(game->mlx, game->stats);
 			if (game->is_mmap)
 				print_stats(game);
@@ -85,11 +85,7 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 		new_angle -= angle_size; // Rotate clockwise (right)
 	if ( game->is_mouse_active == false && (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)))
 		new_angle += angle_size; // Rotate counterclockwise (left)
-	// if (new_angle >= 2 * M_PI)
-	// 		new_angle -= 2 * M_PI;
-	// if (new_angle < 0)
-	// 		new_angle += 2 * M_PI;
-	printf ("in check for movement\n");
+	//printf ("in check for movement\n");
 	normalize_angle_to_2pi(&new_angle);
 	if (new_angle != game->player.angle)
 	{

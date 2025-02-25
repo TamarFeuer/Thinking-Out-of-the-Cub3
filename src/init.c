@@ -42,8 +42,8 @@ void init_game_struct(t_game *game)
 	game->ray->wall_met= false;
 	game->scene = NULL;
 	game->stats = NULL;
-	game->player.p_pos.x = X_START + (game->data->player.p_pos.x + .5) * game->cell_size - CONST/2;
-	game->player.p_pos.y = Y_START + (game->data->player.p_pos.y + .5) * game->cell_size - CONST/2;
+	game->player.p_pos.x = round(X_START + (game->data->player.p_pos.x + .5) * game->cell_size - CONST/2);
+	game->player.p_pos.y = round(Y_START + (game->data->player.p_pos.y + .5) * game->cell_size - CONST/2);
 	printf ("player  is %f %f\n", game->player.p_pos.x, game->player.p_pos.y);
 	game->player.angle = game->data->player.angle;
 	printf ("in init game struct: game->player.angle is %f\n", game->player.angle);
@@ -53,8 +53,8 @@ void init_game_struct(t_game *game)
 
 	game->ray->intersect.x = 0;
 	game->ray->intersect.y = 0;
-	game->camera.pos.x = game->player.p_pos.x + (PLAYER_SIZE + CONST) /2;
-	game->camera.pos.y = game->player.p_pos.y + (PLAYER_SIZE + CONST) /2;
+	game->camera.pos.x = round(game->player.p_pos.x + (PLAYER_SIZE + CONST) /2);
+	game->camera.pos.y = round(game->player.p_pos.y + (PLAYER_SIZE + CONST) /2);
 	printf ("in init game struct: game->camera.pos.x %f\n", game->camera.pos.x);
 	game->camera.frustum_plane_distance = SCREEN_WIDTH / 2 * (tan(FOV * DEG_TO_RAD/ 2));
 	//game->camera.frustum_plane_distance = SCREEN_WIDTH / 2 / tan(FOV * DEG_TO_RAD / 2);
@@ -66,8 +66,6 @@ void init_game_struct(t_game *game)
 	game->data->minimap_data.x_end = game->data->minimap_data.x_start + game->data->minimap_data.width;
 	game->data->minimap_data.y_start = 0;
 	game->data->minimap_data.y_end = game->data->minimap_data.y_start + game->data->minimap_data.height;
-	game->data->minimap_data.max_height = SCREEN_HEIGHT/4;
-	game->data->minimap_data.max_width = SCREEN_WIDTH/4;
 	init_map(game);
 	load_pngs(game);
 }
