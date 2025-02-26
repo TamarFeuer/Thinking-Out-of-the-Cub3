@@ -15,11 +15,12 @@ void draw_all(void *param)
 	cast_rays(game);
 	
 	//mlx_set_cursor_mode(game->mlx, MLX_MOUSE_HIDDEN);
-	
+
 	if (game->is_mmap)
 	{
 		draw_grid(game, game->data->map_data.rows, game->data->map_data.cols);
 		
+		// printf ("drawing grid\n");
 		int i = 0;
 		if (game->is_debug == false)
 			game->ray->number_of_rays = SCREEN_WIDTH;
@@ -30,9 +31,12 @@ void draw_all(void *param)
 		// while (i < 1)
 		{
 			draw_bresenham_ray(game, game->camera.pos, game->ray->ray_end[i]);
+			//DDA_ray(game, game->camera.pos, game->ray->ray_end[i], 0xA4FFAAFF);
 			i++;
 		}
+		
 		draw_player(game);
+	
 		//printf ("player angle %f\n", game->player.angle);
 		draw_player_direction(game, (t_pos){game->camera.pos.x, game->camera.pos.y}, game->player.angle);
 		
@@ -91,8 +95,8 @@ int	main(int argc, char *argv[])
 	check_arguments(game, argc, argv);
 	
 	parse_file(game, game->data, game->data->scene_description_file);
-
-	init_game_struct(game);
+	printf ("game->data->map_data.cols is %d\n", game->data->map_data.cols);
+	
 	temp_width = (SCREEN_WIDTH / 2) / game->data->map_data.cols;
 	temp_height = (SCREEN_HEIGHT / 2) / game->data->map_data.rows;
 	if (temp_width > temp_height)

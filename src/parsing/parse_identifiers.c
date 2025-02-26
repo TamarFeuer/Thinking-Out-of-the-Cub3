@@ -66,7 +66,7 @@ static void	get_identifier(t_data *data, int *i, int *j)
 	file = data->map_data.file_data;
 	skip_whitespaces(file, *i, j);
 	identifier = &file[*i][*j];
-	printf("get_identifier: %s\n", &file[*i][*j]);
+	//printf("get_identifier: %s\n", &file[*i][*j]);
 	if (!ft_strncmp(identifier, "NO", 2)) // If there are so many if conditions here, is there a need for a function that identifies the identifiers?
 		get_texture_path(data, NORTH_ID, i, j);
 	else if (!ft_strncmp(identifier, "SO", 2))

@@ -16,13 +16,13 @@
 
 #define M_PI 3.14159265358979323846
 #define DEG_TO_RAD (M_PI / 180.0)
-#define SCREEN_WIDTH 1920
-#define SCREEN_HEIGHT 1080
+#define SCREEN_WIDTH 1920// 950//1920
+#define SCREEN_HEIGHT 1080//500//1080
 #define MOUSE_SENSITIVITY 0.1f
 
 //map
-#define ROWS 8 //---> !
-#define COLS 10 //---> !
+// #define ROWS 8 //---> !
+// #define COLS 10 //---> !
 #define EMPTY '0'
 #define WALL '1'
 #define SPACE ' '
@@ -31,8 +31,8 @@
 #define CONST 4
 #define PIXELS_PER_BLOCK 8
 
-#define MMAP_WIDTH COLS * PIXELS_PER_BLOCK * CONST
-#define MMAP_HEIGHT ROWS * PIXELS_PER_BLOCK * CONST
+//#define MMAP_WIDTH COLS * PIXELS_PER_BLOCK * CONST
+//#define MMAP_HEIGHT ROWS * PIXELS_PER_BLOCK * CONST
 #define X_START 0
 #define Y_START 0
 #define X_END (X_START + MMAP_WIDTH)
@@ -119,7 +119,7 @@ typedef struct s_ray
 	t_pos		intersect;
 	int			number_of_rays;
 	int			ray_num;
-	float		current_angle;
+	double		current_angle;
 	int			angle_quad;
 	bool		wall_met;
 	int			is_vertical_first;
@@ -151,8 +151,6 @@ typedef struct s_minimap
 	int	x_end;
 	int	y_start;
 	int	y_end;
-	int max_height;
-	int	max_width;
 }	t_minimap;
 
 typedef struct s_data
@@ -199,11 +197,11 @@ void	DDA_ray(t_game *game, t_pos start, t_pos end, int color);
 const char *get_direction(t_game *game);
 void	draw_bresenham_ray(t_game *game, t_pos start, t_pos end);
 double	get_distance(t_pos start, t_pos end);
-int 	get_block_index(t_pos *grid_pos);
+int		get_block_index(t_game *game, t_pos *grid_pos, int flag);
 int 	get_block_index2(t_game *game, t_pos *grid_pos, int flag);
 void	init_map(t_game *game);
 void	reach_nearest_wall_by_plotting(t_game *game, float angle);
-void 	reach_nearest_wall_by_intersections(t_game *game, float angle);
+void 	reach_nearest_wall_by_intersections(t_game *game);
 void 	draw_player_direction(t_game *game, t_pos start, double angle);
 void 	draw_vertical_slice(t_game *game);
 void	normalize_angle_to_2pi(double *angle);
@@ -213,8 +211,8 @@ void 	determine_quad(double angle, int *quad);
 void	absolute(int *d, int *i);
 void	init_game_struct(t_game *game);
 void	draw_all(void *param);
-float	horiz_intersect(t_game *game, float angle);
-float	vertical_intersect(t_game *game, float angle);
+float	horiz_intersect(t_game *game);
+float	vertical_intersect(t_game *game);
 bool	is_out_of_bounds(t_game *game, t_pos position);
 int		is_wall_hit(t_game *game, t_pos intersect, int flag);
 int		draw_static_components(t_game *game);
@@ -246,7 +244,7 @@ int		count_lines(char *file_path);
 void	copy_line_by_line(t_mapdata *mapinfo, int fd);
 void 	parse_identifiers(t_data *data, int *i, int *j);
 void 	parse_map(t_game *game, t_data *data, int *i, int *j);
-bool	check_map_validity(t_data *data);
+bool	check_map_validity(t_game *game, t_data *data);
 bool	is_surrounded_by_walls(t_data *data, char **map);
 
 //PARSING UTILS

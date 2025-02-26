@@ -1,27 +1,6 @@
 #include "../inc/game.h"
 
 
-// t_mmap	get_blocksize(t_game *game)
-// {
-// 	int block_size;
-// 	int height;
-// 	int width;
-// 	t_mmap map;
-
-// 	map = game->mmap;
-// 	block_size = map.height;
-// 	if (map.width > map.height)
-// 		block_size = map.width;
-// 	while (block_size * map.height < MINIMAP_MAX_HEIGHT && block_size * map.width < MINIMAP_MAX_WIDTH)
-// 		block_size++;
-// 	while (block_size * map.height > MINIMAP_MAX_HEIGHT || block_size * map.width > MINIMAP_MAX_WIDTH)
-// 		block_size--;
-// 	height = block_size * map.height;
-// 	width = block_size * map.width;
-// 	return ((t_mmap) {block_size, height, width});
-// }
-
-
 void fill_grid(t_game *game, int cur_row, int cur_col, int type )
 {
 	int col, row;
@@ -30,10 +9,10 @@ void fill_grid(t_game *game, int cur_row, int cur_col, int type )
 		return;
 	
 	row = cur_row;
-	while (row < cur_row + PIXELS_PER_BLOCK * CONST)
+	while (row < cur_row + game->cell_size)
 	{
 		col = cur_col;
-		while (col < cur_col + PIXELS_PER_BLOCK * CONST)
+		while (col < cur_col + game->cell_size)
 		{
 			{	
 				// printf ("col is %d, row is %d\n", col, row);
@@ -59,32 +38,32 @@ void draw_grid(t_game *game, int rows, int cols)
 
 	// Drawing horizontal lines
 	y = 0;
-	while (y <= rows * PIXELS_PER_BLOCK * CONST )
+	while (y <= rows * game->cell_size)
 	{
 		int x_start = X_START;
-		int x_end = X_START + cols * PIXELS_PER_BLOCK * CONST;
+		int x_end = X_START + cols * game->cell_size;
 		x = x_start;
 		while (x < x_end)
 		{
 			mlx_put_pixel(game->scene, x, Y_START + y, 0x777777FF);  //safe_put_pixel
 			x++;
 		}
-		y += PIXELS_PER_BLOCK * CONST;
+		y += game->cell_size;
 	}
 
 	// Drawing vertical lines
 	x = 0;
-	while(x < (cols +1) * PIXELS_PER_BLOCK * CONST )
+	while(x < (cols +1) * game->cell_size)
 	{
 		int y_start = Y_START;
-		int y_end = Y_START + rows * PIXELS_PER_BLOCK * CONST;
+		int y_end = Y_START + rows * game->cell_size;
 		y = y_start;
 		while (y < y_end)
 		{
 			mlx_put_pixel(game->scene, X_START + x, y, 0x777777FF);  //safe put pixel
 			y++;
 		}
-		x += PIXELS_PER_BLOCK * CONST;
+		x += game->cell_size;
 	}
 	
 	y = 0;
@@ -98,12 +77,12 @@ void draw_grid(t_game *game, int rows, int cols)
 			if (game->data->mapdata[y * cols + x] == WALL)
 			{
 				//printf ("x is %d and y is %d\n",x, y);
-				fill_grid (game, y * PIXELS_PER_BLOCK * CONST, x * PIXELS_PER_BLOCK * CONST, 1);
+				fill_grid (game, y * game->cell_size, x * game->cell_size, 1);
 			}
 			if (game->data->mapdata[y * cols + x] == SPACE)
 			{
 				//printf ("x is %d and y is %d\n",x, y);
-				fill_grid (game, y * PIXELS_PER_BLOCK * CONST, x * PIXELS_PER_BLOCK * CONST, 2);
+				fill_grid (game, y * game->cell_size, x * game->cell_size, 2);
 			}
 			x++;
 			

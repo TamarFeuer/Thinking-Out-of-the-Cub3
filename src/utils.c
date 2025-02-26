@@ -60,9 +60,9 @@ void	safe_put_pixel(t_game *game, int x, int y, u_int32_t color)
 
 void	normalize_angle_to_2pi(double *angle)
 {
+	//printf ("in normalize angle\n");
 	if (*angle < 0)
 		*angle += (2 * M_PI);
 	if (*angle > 2 * M_PI)
 		*angle -= (2 * M_PI);
-	
 }
