@@ -6,7 +6,7 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/02/17 16:28:59 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/02/25 13:54:07 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/02/26 15:37:05 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ void	lexer(t_game *game)
 	char			log[64];
 
 	log[0] = '\0';
-	data->tokens = NULL;
 	if (fd < 0)
 		ft_snprintf(log, 64, "Unable to open `%s\'", data->cub_file);
 	scanner(fd, log, &data->tokens);

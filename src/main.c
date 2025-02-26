@@ -41,14 +41,17 @@ void draw_all(void *param)
 	}
 }
 
-static void allocate_structures(t_game **pgame)
+static void	allocate_structures(t_game **pgame)
 {
 	*pgame = malloc(sizeof(t_game));
 	if (*pgame)
 	{
 		(*pgame)->data = malloc(sizeof(t_data));
 		if ((*pgame)->data)
+		{
+			(*pgame)->data->tokens = NULL;
 			(*pgame)->data->map = NULL;
+		}
 		(*pgame)->ray = ft_calloc(1, sizeof(t_ray));
 		(*pgame)->mlx = NULL;
 		(*pgame)->stats = NULL;
@@ -59,7 +62,7 @@ static void allocate_structures(t_game **pgame)
 	clean_nicely(*pgame, "Out of memory");
 }
 
-static void check_arguments(t_game *game, int argc, char *argv[])
+static void	check_arguments(t_game *game, int argc, char *argv[])
 {
 	char	*extension;
 	char	log[64];
@@ -80,7 +83,8 @@ static void check_arguments(t_game *game, int argc, char *argv[])
 		clean_nicely(game, "Expected `.cub\' extension");
 	if (ft_strncmp(extension, ".cub", 5))
 	{
-		ft_snprintf(log, 64, "Unknown format `.%s\'. Expected `.cub\' extension", extension);
+		ft_snprintf(log, 64, "Unknown format `.%s\'. Expected `.cub\' "
+			"extension", extension);
 		clean_nicely(game, log);
 	}
 	game->data->cub_file = *argv;
@@ -96,7 +100,7 @@ int	main(int argc, char *argv[])
 	check_arguments(game, argc, argv);
 	lexer(game);
 	parser(game);
-	flood_fill_map(game);
+	flood_fill_map(game, ft_strdup(game->data->map));
 
 	init_game_struct(game);
 	temp_width = (SCREEN_WIDTH / 2) / game->data->map_data.cols;
