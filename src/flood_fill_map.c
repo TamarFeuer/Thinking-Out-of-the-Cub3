@@ -6,7 +6,7 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/02/25 16:18:16 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/02/27 13:38:59 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/02/27 14:22:32 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ static int	find_idx(int rows, int cols, t_point *point)
 
 void	flood_fill_map(t_game *gme, char *dup_map)
 {
-	t_list			*queue;
-	t_point			*pt;
-	int				idx;
+	t_list		*queue;
+	t_point		*pt;
+	int			idx;
 
 	queue = NULL;
 	idx = 0;

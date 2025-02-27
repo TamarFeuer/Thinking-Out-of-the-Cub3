@@ -6,7 +6,7 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/02/22 12:39:26 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/02/27 13:54:57 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/02/27 16:28:45 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,14 @@ static void	read_rgb(char *log, t_data *data, enum e_horizon hrzn,
 		if (atoi2(&data->parsed[hrzn], token->value))
 			return ((void)ft_snprintf(log, 64, "(%d-%d) `%s\'. Exceeds the 255 "
 					"limit", token->line, token->pos, token->value));
-		(*plist) = (*plist)->next;
-		token = (*plist)->content;
-		if (token->name != SEPARATOR)
-			return ((void)ft_snprintf(log, 64, "(%d-%d) `%s\'. Expected a `,\'",
-					token->line, token->pos, token->value));
+		if (c < BLUE)
+		{
+			(*plist) = (*plist)->next;
+			token = (*plist)->content;
+			if (token->name != SEPARATOR)
+				return ((void)ft_snprintf(log, 64, "(%d-%d) `%s\'. Expected a "
+						"`,\'", token->line, token->pos, token->value));
+		}
 		data->map_data.bgra[hrzn] |= data->parsed[hrzn] << 8 * (c++ - RED + 1);
 	}
 }
@@ -71,13 +74,13 @@ static void	get_identifier(char *log, t_data *data, t_list **plist)
 		if (data->map_data.texture_files[token->id])
 			return ((void)ft_snprintf(log, 64, "(%d-%d) Duplicated %s "
 					"identifier", token->line, token->pos, token->value));
-		if (!(*plist)->next || ((struct s_token *)(*plist)->next)->name
+		if (!(*plist)->next || ((struct s_token *)(*plist)->next->content)->name
 				!= LITERAL)
 			return ((void)ft_snprintf(log, 64, "(%d-%d) Missing %s texture "
 					"file", token->line, token->pos, token->value));
 		*plist = (*plist)->next;
 		data->map_data.texture_files[token->id]
-			= ((struct s_token *)*plist)->value;
+			= ((struct s_token *)(*plist)->content)->value;
 	}
 	else if (token->id == F)
 		read_rgb(log, data, FL, plist);
@@ -116,6 +119,7 @@ void	parser(t_game *game)
 	t_data *const	data = game->data;
 	char			log[64];
 
+	log[0] = '\0';
 	data->parsed[FL] = -1;
 	data->parsed[CE] = -1;
 	data->map_tokens = NULL;
