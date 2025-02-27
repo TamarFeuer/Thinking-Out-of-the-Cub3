@@ -6,7 +6,7 @@
 #    By: rtorrent <rtorrent@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/09 20:52:16 by rtorrent          #+#    #+#              #
-#    Updated: 2025/02/22 16:44:41 by rtorrent       ########   odam.nl         #
+#    Updated: 2025/02/27 14:08:42 by rtorrent       ########   odam.nl         #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,9 @@ HEADER := libft.h
 
 SRC    := ft_bzero.c\
 	ft_calloc.c\
-	ft_getnextline_fd.c\
+	ft_getnextline2.c\
+	ft_isdigit.c\
+	ft_isprint.c\
 	ft_lstadd_back.c\
 	ft_lstclear.c\
 	ft_lstdelone.c\
@@ -35,6 +37,7 @@ SRC    := ft_bzero.c\
 	ft_lstnew.c\
 	ft_memchr.c\
 	ft_memcpy.c\
+	ft_memmove.c\
 	ft_memset.c\
 	ft_snprintf.c\
 	ft_strchr.c\
@@ -47,7 +50,9 @@ SRC    := ft_bzero.c\
 	ft_strspn.c\
 	ft_strtok.c\
 	ft_strtok_r.c\
-	ft_substr.c
+	ft_substr.c\
+	xx_printf.c\
+	xx_printf_read_specf.c
 
 OBJ    := $(SRC:.c=.o)
 
@@ -81,4 +86,6 @@ re: fclean all
 
 $(OBJ): $(HEADER)
 
-ft_printf.o ft_getnextline_fd.o: %.o: %.h
+ft_getnextline2.o: ft_getnextline.h
+
+ft_snprintf.o xx_printf.o xx_printf_read_specf.o: ft_printf.h

@@ -6,7 +6,7 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/02/22 12:39:26 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/02/25 16:04:37 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/02/27 13:54:57 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,22 @@ static void	check_for_parameters(char *log, t_data *data)
 		return ((void)ft_strlcpy(log, "Missing WE element", 64));
 	if (!data->map_data.texture_files[S])
 		return ((void)ft_strlcpy(log, "Missing SO element", 64));
-	if (*data->colors[FL] == -1)
+	if (data->parsed[FL] == -1)
 		return ((void)ft_strlcpy(log, "Missing F element", 64));
-	if (*data->colors[CE] == -1)
+	if (data->parsed[CE] == -1)
 		return ((void)ft_strlcpy(log, "Missing C element", 64));
 	if (!data->map_tokens)
 		return ((void)ft_strlcpy(log, "Missing map element", 64));
 }
 
-static void	read_rgb(char *log, t_data *data, enum e_horizon horizon,
+static void	read_rgb(char *log, t_data *data, enum e_horizon hrzn,
 		t_list **plist)
 {
-	struct token_s	token;
+	struct s_token	*token;
 	enum e_rgb		c;
 
 	token = (*plist)->content;
-	if (data->parsed[horizon] != -1)
+	if (data->parsed[hrzn] != -1)
 		return ((void)ft_snprintf(log, 64, "(%d-%d) Duplicated %s identifer",
 				token->line, token->pos, token->value));
 	c = RED;
@@ -49,7 +49,7 @@ static void	read_rgb(char *log, t_data *data, enum e_horizon horizon,
 		if (!(token->name == LITERAL && token->lflags & TVALID_NUM))
 			return ((void)ft_snprintf(log, 64, "(%d-%d) `%s\'. Expected a non-"
 					"negative decimal", token->line, token->pos, token->value));
-		if (atoi2(&data->parsed[horizon], token->value))
+		if (atoi2(&data->parsed[hrzn], token->value))
 			return ((void)ft_snprintf(log, 64, "(%d-%d) `%s\'. Exceeds the 255 "
 					"limit", token->line, token->pos, token->value));
 		(*plist) = (*plist)->next;
@@ -57,13 +57,13 @@ static void	read_rgb(char *log, t_data *data, enum e_horizon horizon,
 		if (token->name != SEPARATOR)
 			return ((void)ft_snprintf(log, 64, "(%d-%d) `%s\'. Expected a `,\'",
 					token->line, token->pos, token->value));
-		map_data->bgra[horizon] |= data->parsed[horizon] << 8 * (c++ - RED + 1);
+		data->map_data.bgra[hrzn] |= data->parsed[hrzn] << 8 * (c++ - RED + 1);
 	}
 }
 
 static void	get_identifier(char *log, t_data *data, t_list **plist)
 {
-	struct token_s *const	token = (*plist)->content;
+	struct s_token *const	token = (*plist)->content;
 
 	if (token->id == EA || token->id == NO || token->id == WE
 		|| token->id == SO)
@@ -88,10 +88,10 @@ static void	get_identifier(char *log, t_data *data, t_list **plist)
 static void	syntax_analysis(char *log, t_data *data)
 {
 	t_list			*current;
-	struct token_s	*token;
+	struct s_token	*token;
 
 	current = data->tokens;
-	while (!*log && current && !syntax_error)
+	while (!*log && current)
 	{
 		token = current->content;
 		if (token->name == IDENTIFIER && !data->map_tokens)

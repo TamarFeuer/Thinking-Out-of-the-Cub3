@@ -74,12 +74,12 @@ void draw_grid(t_game *game, int rows, int cols)
 		x = 0;
 		while (x <= cols -1)
 		{
-			if (game->data->mapdata[y * cols + x] == WALL)
+			if (game->data->map[y * cols + x] == WALL)
 			{
 				//printf ("x is %d and y is %d\n",x, y);
 				fill_grid (game, y * game->cell_size, x * game->cell_size, 1);
 			}
-			if (game->data->mapdata[y * cols + x] == SPACE)
+			if (game->data->map[y * cols + x] == SPACE)
 			{
 				//printf ("x is %d and y is %d\n",x, y);
 				fill_grid (game, y * game->cell_size, x * game->cell_size, 2);

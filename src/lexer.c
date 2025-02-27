@@ -6,7 +6,7 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/02/17 16:28:59 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/02/26 15:37:05 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/02/27 12:50:53 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,11 @@ static int	create_token(char *log, t_list **ptokens, unsigned int line,
 		unsigned int pos)
 {
 	struct s_token *const	new_token = malloc(sizeof(struct s_token));
-	list_t *const			new_link = ft_lstnew(new_token);
+	t_list *const			new_link = ft_lstnew(new_token);
 
 	if (new_token && new_link)
 	{
-		token->name = IDENTIFIER;
+		new_token->name = IDENTIFIER;
 		new_token->line = line;
 		new_token->pos = pos;
 		new_token->lflags = 0;
@@ -76,10 +76,10 @@ static void	scanner(int fd, char *log, t_list **ptokens)
 	char			*line;
 	char			*lexemes;
 	int				nlines;
-	struct s_token	new_token;
+	struct s_token	*new_token;
 
 	nlines = 0;
-	while (!*log && ft_getnextline_fd(&line, fd))
+	while (!*log && ft_getnextline2(&line, fd))
 	{
 		lexemes = ft_strtok(line, " \t\n");
 		while (lexemes && !*log && !create_token(log, ptokens, nlines,
@@ -114,7 +114,7 @@ void	lexer(t_game *game)
 		ft_snprintf(log, 64, "Unable to close `%s\'", data->cub_file);
 	if (*log)
 	{
-		ft_getnextline(NULL, fd);
+		ft_getnextline2(NULL, fd);
 		clean_nicely(game, log);
 	}
 }

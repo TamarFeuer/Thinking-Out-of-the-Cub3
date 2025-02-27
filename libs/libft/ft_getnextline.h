@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_getnextline_fd.h                                :+:      :+:    :+:   */
+/*   ft_getnextline.h                                    :+:    :+:           */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rtorrent <rtorrent@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 11:25:11 by rtorrent          #+#    #+#             */
-/*   Updated: 2024/01/30 19:49:48 by rtorrent         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:12:31 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_GETNEXTLINE_FD_H
-# define FT_GETNEXTLINE_FD_H
+#ifndef FT_GETNEXTLINE_H
+# define FT_GETNEXTLINE_H
 
 // buffer size for read operations
 // (=BUFSIZ constant defined in stdio.h)

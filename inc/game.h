@@ -220,7 +220,7 @@ void mouse_action (mouse_key_t button, action_t action, modifier_key_t mods, voi
 int		atoi2(int *dst, char *str);
 void	build_map(char *log, t_game *game);
 void	del_token(void *token);
-void	flood_fill_map(t_game *game);
+void	flood_fill_map(t_game *game, char *dup_map);
 void	lexer(t_game *game);
 void	parser(t_game *game);
 

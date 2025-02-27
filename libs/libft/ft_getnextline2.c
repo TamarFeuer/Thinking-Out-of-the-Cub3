@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_getnextline_fd.c                                 :+:    :+:           */
+/*   ft_getnextline2.c                                   :+:    :+:           */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rtorrent <rtorrent@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 11:22:56 by rtorrent          #+#    #+#             */
-/*   Updated: 2025/02/18 19:30:47 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/02/27 14:09:46 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "ft_getnextline_fd.h"
+#include "ft_getnextline.h"
 
 static void	clear_blocks(t_blocks *plist, bool skip_first)
 {
@@ -115,7 +115,7 @@ static bool	read_blocks(int fd, t_blocks *plist, char **line)
 	return ((*plist)->len);
 }
 
-char	*ft_getnextline_fd(char **line, int fd)
+char	*ft_getnextline2(char **line, int fd)
 {
 	static t_blocks	listed_lines[MAX_FILES];
 

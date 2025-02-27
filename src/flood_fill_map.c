@@ -6,7 +6,7 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/02/25 16:18:16 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/02/26 18:29:38 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/02/27 13:38:59 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ static t_point	*dequeue_point(t_list **pqueue)
 static int	enqueue_point(t_list **pqueue, t_point *point)
 {
 	t_point *const	new_point = malloc(sizeof(t_point));
-	list_t *const	new_link = ft_lstnew(new_token);
+	t_list *const	new_link = ft_lstnew(new_point);
 
 	if (new_point && new_link)
 	{
 		*new_point = *point;
-		ft_lstadd_back(queue, new_point);
+		ft_lstadd_back(pqueue, new_link);
 		return (0);
 	}
 	free(new_point);
@@ -47,7 +47,7 @@ static int	enqueue_point(t_list **pqueue, t_point *point)
 	return (1);
 }
 
-static int	fill_and_enqueue(char *empty, t_list **pqueue, t_point *point);
+static int	fill_and_enqueue(char *empty, t_list **pqueue, t_point *point)
 {
 	*empty = WALL;
 	if (enqueue_point(pqueue, &(t_point){point->x - 1, point->y - 1})
@@ -83,17 +83,17 @@ void	flood_fill_map(t_game *gme, char *dup_map)
 	while (queue && idx >= 0)
 	{
 		pt = dequeue_point(&queue);
-		idx = find_idx(gme->data->map_data.rows, gme->data->map_data.cols, &pt);
+		idx = find_idx(gme->data->map_data.rows, gme->data->map_data.cols, pt);
 		if (idx == -1 || dup_map[idx] == SPACE)
-			idx == -1;
+			idx = -1;
 		else if (dup_map[idx] == EMPTY)
-			idx = fill_and_enqueue(&dup_max[idx], &queue, pt);
+			idx = fill_and_enqueue(&dup_map[idx], &queue, pt);
 		free(pt);
 	}
 	free(dup_map);
-	ft_lstclear(queue, free);
+	ft_lstclear(&queue, free);
 	if (idx == -1)
-		clean_nicely(gme, "Map open");
+		clean_nicely(gme, "Non-closed map");
 	if (idx == -2)
 		clean_nicely(gme, "Out of memory");
 }
