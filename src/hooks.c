@@ -1,25 +1,77 @@
 #include "../inc/game.h"
 
-bool is_collision(t_game *game, t_pos new, int *x_offset, int *y_offset)
-{
-	int range = CONST - 1;
+// bool is_collision(t_game *game, t_pos new, int *x_offset, int *y_offset)
+// {
+// 	int range = PLAYER_SIZE - 1;
 
-	while (*y_offset <= range)
+// 	while (*y_offset <= range)
+// 	{
+// 		*x_offset = 0;
+// 		while (*x_offset <= range)
+// 		{
+// 			// Check the position (x + x_offset, y + y_offset)
+// 			t_pos check_pos = {new.x + *x_offset, new.y + *y_offset};
+// 			//if (game->mapdata[get_block_index(&check_pos)] == '1')
+// 			if (game->mapdata[get_block_index(game, &check_pos, 999)] == '1')  //consider ceiling in the right places
+// 				return true;
+// 			(*x_offset)++;
+// 		}
+// 		(*y_offset)++;
+// 	}
+// 	return false;
+// }
+
+bool is_collision(t_game *game, t_pos new, t_player *player)
+{
+    int range = PLAYER_SIZE * CONST - 1;
+    int x_offset = 0;
+    int y_offset = 0;
+
+    // Set offsets based on quadrant
+    if (player->angle_quad == 1) 
+	{  // Right-Top
+        x_offset = range;  // Check right
+        y_offset = 0;      // Check top
+    } 
+    else if (player->angle_quad == 2) 
+	{  // Left-Top
+        x_offset = 0;      // Check left
+        y_offset = 0;      // Check top
+    } 
+    else if (player->angle_quad == 3) 
+	{  // Left-Bottom
+        x_offset = 0;      // Check left
+        y_offset = range;  // Check bottom
+    } 
+    else if (player->angle_quad == 4) {
+		  // Right-Bottom
+        x_offset = range;  // Check right
+        y_offset = range;  // Check bottom
+    }
+
+    // Check horizontal collision (left or right edge)
+	int i = 0;
+    while(i <= range) 
 	{
-		*x_offset = 0;
-		while (*x_offset <= range)
-		{
-			// Check the position (x + x_offset, y + y_offset)
-			t_pos check_pos = {new.x + *x_offset, new.y + *y_offset};
-			//if (game->mapdata[get_block_index(&check_pos)] == '1')
-			if (game->mapdata[get_block_index(game, &check_pos, 999)] == '1')  //consider ceiling in the right places
-				return true;
-			(*x_offset)++;
-		}
-		(*y_offset)++;
-	}
-	return false;
+        t_pos check_x = {new.x + x_offset, new.y + i};
+        if (game->mapdata[get_block_index(game, &check_x, 0)] == '1')
+            return true;
+		i++;
+    }
+
+    // Check vertical collision (top or bottom edge)
+	i = 0;
+    while (i <= range) 
+	{
+        t_pos check_y = {new.x + i, new.y + y_offset};
+        if (game->mapdata[get_block_index(game, &check_y, 1)] == '1')
+            return true;
+		i++;
+    }
+
+    return false;
 }
+
 
 static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 {
@@ -30,23 +82,23 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 	double angle_size = 2 * M_PI / 100;
 	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
-		new.x += cos(game->player.angle) * DISTANCE_PER_TURN;
-		new.y -= sin(game->player.angle) * DISTANCE_PER_TURN;
+		new.x += round(cos(game->player.angle) * DISTANCE_PER_TURN);
+		new.y -= round(sin(game->player.angle) * DISTANCE_PER_TURN);
 	}
 	else if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
-		new.x -= cos(game->player.angle) * DISTANCE_PER_TURN;
-		new.y += sin(game->player.angle) * DISTANCE_PER_TURN;
+		new.x -= round(cos(game->player.angle) * DISTANCE_PER_TURN);
+		new.y += round(sin(game->player.angle) * DISTANCE_PER_TURN);
 	}
 	else if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
-		new.x -= sin(game->player.angle) * DISTANCE_PER_TURN;
-		new.y -= cos(game->player.angle) * DISTANCE_PER_TURN;
+		new.x -= round(sin(game->player.angle) * DISTANCE_PER_TURN);
+		new.y -= round(cos(game->player.angle) * DISTANCE_PER_TURN);
 	}
 	else if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
-		new.x += sin(game->player.angle) * DISTANCE_PER_TURN;
-		new.y += cos(game->player.angle) * DISTANCE_PER_TURN;
+		new.x += round(sin(game->player.angle) * DISTANCE_PER_TURN);
+		new.y += round(cos(game->player.angle) * DISTANCE_PER_TURN);
 	}
 
 	// Boundary check for player movement
@@ -63,7 +115,7 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 		int x_offset = 0;
 		int y_offset = 0;
 
-		if (is_collision(game, new, &x_offset, &y_offset))
+		if (is_collision(game, new, &(game->player)))
 		{	
 			printf ("Collision! x_offset %d y_offest %d\n", x_offset, y_offset);
 			printf ("sin(game->player.angle) %f, cos(game->player.angle) %f\n", sin(game->player.angle), cos(game->player.angle));
