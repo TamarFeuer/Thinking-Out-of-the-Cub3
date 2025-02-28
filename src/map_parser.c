@@ -6,7 +6,7 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/02/24 13:12:32 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/02/27 13:59:38 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/02/28 13:29:26 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,51 +14,49 @@
 #include "lexer_parser.h"
 
 static void	check_for_player(char *log, t_game *game, struct s_token *token,
-		size_t start_index)
+		size_t index)
 {
-	const size_t	not_player = ft_strcspn(token->value + start_index, "NSEW");
-	const size_t	index_not_player = start_index + not_player;
 	enum e_dir		direction;
 
-	if (index_not_player == token->len)
+	index += ft_strcspn(token->value + index, "NSEW");
+	if (index == token->len)
 		return ;
 	if (game->player.angle_quad != -1)
 	{
 		ft_snprintf(log, 64, "(%d-%d) Player starting position redefined",
-			token->line, token->pos + index_not_player);
+			token->line, token->pos + index);
 		clean_nicely(game, log);
 	}
-	game->player.p_pos.x = token->pos + index_not_player - game->player.p_pos.x;
-	game->player.p_pos.y = token->line - game->player.p_pos.y;
+	game->player.p_pos.x = (double)(token->pos + index - game->data->parsed[0]);
+	game->player.p_pos.y = (double)(token->line - game->data->parsed[1]);
 	direction = E;
-	if (token->value[index_not_player] == 'N')
+	if (token->value[index] == 'N')
 		direction = N;
-	else if (token->value[index_not_player] == 'W')
+	else if (token->value[index] == 'W')
 		direction = W;
-	else if (token->value[index_not_player] == 'S')
+	else if (token->value[index] == 'S')
 		direction = S;
 	game->player.angle = direction * M_PI / 2;
 	game->player.angle_quad = direction + 1;
-	token->value[index_not_player] = EMPTY;
-	check_for_player(log, game, token, index_not_player + 1);
+	token->value[index] = EMPTY;
+	check_for_player(log, game, token, index + 1);
 }
 
 static void	assemble_map(char *log, t_game *game)
 {
+	t_data *const	data = game->data;
 	t_list			*map_tokens;
 	struct s_token	*token;
-	unsigned int	first_line;
 	size_t			index;
 
-	map_tokens = game->data->map_tokens;
-	first_line = ((struct s_token *)map_tokens->content)->line;
+	map_tokens = data->map_tokens;
 	while (map_tokens)
 	{
 		token = map_tokens->content;
-		index = (token->line - first_line) * game->data->map_data.cols
-			+ token->pos - game->data->parsed[0];
+		index = (token->line - data->parsed[1]) * data->map_data.cols
+			+ token->pos - data->parsed[0];
 		check_for_player(log, game, token, 0);
-		ft_strlcpy(game->data->map + index, token->value, -1);
+		ft_strlcpy(data->map + index, token->value, -1);
 		map_tokens = map_tokens->next;
 	}
 }
@@ -90,6 +88,7 @@ static void	determine_dimensions(char *log, t_data *data,
 		map_tokens = map_tokens->next;
 	}
 	data->map_data.cols = data->parsed[1] - data->parsed[0];
+	data->parsed[1] = ((struct s_token *)data->map_tokens->content)->line;
 }
 
 void	build_map(char *log, t_game *game)
@@ -104,9 +103,6 @@ void	build_map(char *log, t_game *game)
 		clean_nicely(game, "Out of memory");
 	ft_memset(data->map, SPACE, map_size);
 	data->map[map_size] = '\0';
-	game->player.p_pos.x = (double)data->parsed[0];
-	game->player.p_pos.y
-		= (double)((struct s_token *)data->map_tokens->content)->line;
 	game->player.angle_quad = -1;
 	assemble_map(log, game);
 	if (game->player.angle_quad == -1)
