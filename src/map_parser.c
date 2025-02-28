@@ -6,7 +6,7 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/02/24 13:12:32 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/02/28 13:29:26 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/02/28 15:05:10 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	assemble_map(char *log, t_game *game)
 		index = (token->line - data->parsed[1]) * data->map_data.cols
 			+ token->pos - data->parsed[0];
 		check_for_player(log, game, token, 0);
-		ft_strlcpy(data->map + index, token->value, -1);
+		ft_memcpy(data->map + index, token->value, token->len);
 		map_tokens = map_tokens->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/02/22 12:39:26 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/02/27 16:28:45 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/02/28 14:48:01 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,6 @@ static void	read_rgb(char *log, t_data *data, enum e_horizon hrzn,
 	struct s_token	*token;
 	enum e_rgb		c;
 
-	token = (*plist)->content;
-	if (data->parsed[hrzn] != -1)
-		return ((void)ft_snprintf(log, 64, "(%d-%d) Duplicated %s identifer",
-				token->line, token->pos, token->value));
 	c = RED;
 	while (!*log && c <= BLUE)
 	{
@@ -82,10 +78,13 @@ static void	get_identifier(char *log, t_data *data, t_list **plist)
 		data->map_data.texture_files[token->id]
 			= ((struct s_token *)(*plist)->content)->value;
 	}
-	else if (token->id == F)
+	else if (token->id == F && data->parsed[FL] == -1)
 		read_rgb(log, data, FL, plist);
-	else
+	else if (token->id == C && data->parsed[CE] == -1)
 		read_rgb(log, data, CE, plist);
+	else
+		return ((void)ft_snprintf(log, 64, "(%d-%d) Duplicated %s identifer",
+				token->line, token->pos, token->value));
 }
 
 static void	syntax_analysis(char *log, t_data *data)
