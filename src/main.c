@@ -4,18 +4,8 @@ void draw_all(void *param)
 {
 	t_game *game;
 	game = (t_game *)param;
-	if (game->scene)
-	{
-		mlx_delete_image(game->mlx, game->scene);
-		game->scene = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-		if (!game->scene|| (mlx_image_to_window(game->mlx, game->scene, 0, 0 ) < 0))
-			return; //error msg
-	}
 
 	cast_rays(game);
-	
-	//mlx_set_cursor_mode(game->mlx, MLX_MOUSE_HIDDEN);
-
 	if (game->is_mmap)
 	{
 		draw_grid(game, game->data->map_data.rows, game->data->map_data.cols);
@@ -39,10 +29,8 @@ void draw_all(void *param)
 	
 		//printf ("player angle %f\n", game->player.angle);
 		draw_player_direction(game, (t_pos){game->camera.pos.x, game->camera.pos.y}, game->player.angle);
-		
-		
-		
 	}
+	print_stats(game);
 }
 
 static void allocate_structures(t_game **pgame)
@@ -117,8 +105,6 @@ int	main(int argc, char *argv[])
 	game->scene = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	if (!game->scene || (mlx_image_to_window(game->mlx, game->scene, X_START, Y_START ) < 0))
 		clean_nicely(game, "Failed to create/copy an MLX42 image");
-	if(game->is_mmap)
-		print_stats(game);
 	
 	mlx_loop_hook(game->mlx, draw_all, game);
 	mlx_key_hook(game->mlx, key_hook, game);

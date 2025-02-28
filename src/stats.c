@@ -39,7 +39,7 @@ void print_stats(t_game *game)
 	temp = ft_itoa(((game->player.p_pos.y) - Y_START) / CONST);  //if fails, free stuff
 	if (temp)
 		str = ft_strjoin_free(str, temp, 1);
-	game->stats = mlx_put_string(game->mlx, str, 10, 10);
+	game->stats = mlx_put_string(game->mlx, str, 10, 10);  //check f game->stats is null
 	free(str);
 
 }
