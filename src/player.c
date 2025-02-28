@@ -13,7 +13,7 @@ void draw_player_direction(t_game *game, t_pos start, double angle)
 		end_y -= sin(angle) * step_size;
 		distance += step_size;
 		// if (game->mapdata[get_block_index(&(t_pos){end_x, end_y})] == '1')
-		if (game->data->map[get_block_index2(game, &(t_pos){end_x, end_y}, 999)] == '1')
+		if (game->data->map[get_block_index(game, &(t_pos){end_x, end_y}, 999)] == '1')
 			return;
 		mlx_put_pixel(game->scene, (int)end_x - X_START, (int)end_y - Y_START, 0xFF0000FF);
 	}

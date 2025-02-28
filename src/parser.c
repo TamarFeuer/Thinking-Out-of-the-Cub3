@@ -6,7 +6,7 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/02/22 12:39:26 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/02/28 14:48:01 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/02/28 17:18:27 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	read_rgb(char *log, t_data *data, enum e_horizon hrzn,
 				return ((void)ft_snprintf(log, 64, "(%d-%d) `%s\'. Expected a "
 						"`,\'", token->line, token->pos, token->value));
 		}
-		data->map_data.bgra[hrzn] |= data->parsed[hrzn] << 8 * (c++ - RED + 1);
+		data->map_data.rgba[hrzn] |= data->parsed[hrzn] << 8 * (3 - c++);
 	}
 }
 
@@ -122,8 +122,8 @@ void	parser(t_game *game)
 	data->parsed[FL] = -1;
 	data->parsed[CE] = -1;
 	data->map_tokens = NULL;
-	data->map_data.bgra[FL] = 0xFF;
-	data->map_data.bgra[CE] = 0xFF;
+	data->map_data.rgba[FL] = 0xFF;
+	data->map_data.rgba[CE] = 0xFF;
 	data->map_data.texture_files[E] = NULL;
 	data->map_data.texture_files[N] = NULL;
 	data->map_data.texture_files[W] = NULL;

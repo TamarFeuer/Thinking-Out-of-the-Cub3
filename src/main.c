@@ -106,14 +106,15 @@ int	main(int argc, char *argv[])
 	parser(game);
 	flood_fill_map(game, ft_strdup(game->data->map));
 
-	init_game_struct(game);
 	temp_width = (SCREEN_WIDTH / 2) / game->data->map_data.cols;
 	temp_height = (SCREEN_HEIGHT / 2) / game->data->map_data.rows;
 	if (temp_width > temp_height)
 		game->cell_size = temp_height;
 	else
 		game->cell_size = temp_width;
-	printf ("cell size is %d\n", game->cell_size);
+	printf ("tile size is %d\n", game->cell_size);
+	init_game_struct(game);
+
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	//printf ("main: player angle is %f\n", data->player.angle);
 	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Ray cast3r", true);

@@ -16,12 +16,11 @@ void init_game_struct(t_game *game)
 	game->ray->wall_met= false;
 	game->scene = NULL;
 	game->stats = NULL;
-	game->player.p_pos.x = X_START + (game->player.p_pos.x + .5) * PIXELS_PER_BLOCK * CONST - CONST/2;
-	game->player.p_pos.y = Y_START + (game->player.p_pos.y + .5) * PIXELS_PER_BLOCK * CONST - CONST/2;
-	printf ("in init: player  is %f %f\n", game->player.p_pos.x, game->player.p_pos.y);
-	game->player.angle = game->player.angle;
-	// game->player.angle_quad = 1;
-	game->ray->angle_quad = game->player.angle_quad;
+	game->player.p_pos.x = round(X_START + (game->player.p_pos.x + .5) * game->cell_size - CONST/2);
+	game->player.p_pos.y = round(Y_START + (game->player.p_pos.y + .5) * game->cell_size - CONST/2);
+	printf ("player  is %f %f\n", game->player.p_pos.x, game->player.p_pos.y);
+	printf ("in init game struct: game->player.angle is %f\n", game->player.angle);
+
 	game->ray->intersect.x = 0;
 	game->ray->intersect.y = 0;
 	game->camera.pos.x = round(game->player.p_pos.x + (PLAYER_SIZE + CONST) /2);

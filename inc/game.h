@@ -139,7 +139,7 @@ typedef struct s_data
 	{
 		int			rows;
 		int			cols;
-		u_int32_t	bgra[2];
+		u_int32_t	rgba[2];
 		char		*texture_files[4];
 	}		map_data;
 	struct s_minimap
