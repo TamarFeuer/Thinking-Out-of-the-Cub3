@@ -17,7 +17,7 @@ void fill_grid(t_game *game, int cur_row, int cur_col, int type )
 			{	
 				// printf ("col is %d, row is %d\n", col, row);
 				if (type == 1)
-					mlx_put_pixel(game->scene, col, row, 0x00F77650);
+					mlx_put_pixel(game->scene, col, row, 0x28962840);
 				else if (type == 2)
 					mlx_put_pixel(game->scene, col, row, 0x45454560);
 			

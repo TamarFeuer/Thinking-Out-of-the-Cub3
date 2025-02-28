@@ -57,14 +57,14 @@ bool is_horiz_collision(t_game *game, t_pos new, t_player player)
 	int x_offset = 0;
 
 	if (player.angle_quad == 1 || player.angle_quad == 4) 
-		x_offset = range;  // Check right side
+		x_offset = 2 * range + 1;  // Check right side
 	else
 		x_offset = 0;  // Check left side
 	int i = 0;
 	while (i <= range)
 	{
 		t_pos check_x = {new.x + x_offset, new.y + i};
-		if (game->mapdata[get_block_index(game, &check_x, 999)] == '1') 
+		if (game->mapdata[get_block_index2(game, &check_x, 0)] == '1') 
 			return (true);
 		i++;
 	}
@@ -77,14 +77,14 @@ bool is_vertical_collision(t_game *game, t_pos new, t_player player)
 	int y_offset = 0;
 
 	if (player.angle_quad == 3 || player.angle_quad == 4)
-		y_offset = range;  // Check bottom side
+		y_offset = 2 * range + 1;  // Check bottom side
 	else 
 		y_offset = 0;  // Check top side
 	int i = 0;
    	while (i <= range) 
 	{
 		t_pos check_y = {new.x + i, new.y + y_offset};
-		if (game->mapdata[get_block_index(game, &check_y, 999)] == '1') 
+		if (game->mapdata[get_block_index2(game, &check_y, 1)] == '1') 
 			return (true);
 		i++;
 	}

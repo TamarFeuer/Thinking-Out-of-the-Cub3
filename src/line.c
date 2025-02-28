@@ -1,101 +1,5 @@
 #include "../inc/game.h"
 
-// void draw_bresenham_ray(t_game *game, t_pos start, t_pos end)
-// {
-// 	int x = (int)round(start.x);
-// 	int y = (int)round(start.y);
-// 	int end_x = (int)round(end.x);
-// 	int end_y = (int)round(end.y);
-// 	int delta_x = (int)fabs(end.x - start.x);
-// 	int delta_y = (int)fabs(end.y - start.y);
-// 	int decision_variable;
-//     int distance;
-
-// 	printf ("in bresenham\n");
-// 	printf ("start.x is %d start.y is %d\n", x, y);
-// 	printf ("end_x is %d end_y is %d\n", end_x, end_y);
-// 	printf ("current angle is %f\n", game->ray->current_angle);
-// 	// Direction factors to ensure correct increments
-// 	int step_x = 1;
-// 	int step_y = 1;
-
-// 	// // Determine direction of x and y
-// 	// if (end_x < start.x)  // Moving left
-// 	// 	step_x = -1;
-// 	// if (end_y < start.y)  // Moving up
-// 	// 	step_y = -1;
-
-// 	if (end_x < x)  // Moving left
-// 		step_x = -1;
-// 	if (end_y < y)  // Moving up
-// 		step_y = -1;
-
-// 	// Case 1: Positive slope (slope >= 0)
-// 	if (delta_x >= delta_y)
-// 	{
-//         printf ("positive slope, \n");
-// 		decision_variable = 2 * delta_y - delta_x;
-// 		while (1)
-// 		{
-
-// 			if ((x == end_x && y == end_y) || x < X_START || x >= game->data->minimap_data.x_end || y < Y_START || y >= game->data->minimap_data.y_end)
-//             {
-//                 distance =  sqrt((x - start.x) * (x - start.x) + (y - start.y) * (y - start.y));
-//             //printf ("positive slope, distance is %d\n", distance);
-//                 return;
-//             }
-//             distance =  sqrt((x - start.x) * (x - start.x) + (y - start.y) * (y - start.y));
-//             //printf ("negative slope, distance is %d\n", distance);
-// 			// if (x <=52)
-// 			// 	printf ("putting pixel in x %d, Y %d\n",x , y);
-// 			mlx_put_pixel(game->scene, x, y, distance_to_color(distance)); //safe
-			
-// 			if (decision_variable >= 0)
-// 			{
-// 				decision_variable -= 2 * delta_x;
-// 				y += step_y;
-// 			}
-// 			decision_variable += 2 * delta_y;
-// 			x += step_x;
-// 		}
-// 	}
-// 	//Case 2: Negative slope (slope < 0)
-    
-// 	else if (delta_y > delta_x)  //also includes nearly vertical (dx =71, dy =72 for example)
-// 	{
-//         //printf ("3. dx is %d, dy is %d\n", delta_x, delta_y);
-//         printf ("negative slope\n");
-// 		decision_variable = 2 * delta_x - delta_y;
-// 		while (1)
-// 		{
-
-// 			//printf ("game->data->minimap_data.y_end is %d\n", game->data->minimap_data.y_end);
-// 			if ((x == end_x && y == end_y) || x < X_START || x >= game->data->minimap_data.x_end || y < Y_START || y >= game->data->minimap_data.y_end)
-//             {
-//                 // || (game->ray->found_vertical_first == 1 &&  x > X_END)
-//                 // || (game->ray->found_vertical_first == 0 &&  y > Y_END))
-//                 distance =  sqrt((x - start.x) * (x - start.x) + (y - start.y) * (y - start.y));
-//                 //printf ("Negative slope, distance is %d\n", distance);
-//                 return;
-//             }
-				
-// 			//int distance = get_distance(start, end);
-//             distance =  sqrt((x - start.x) * (x - start.x) + (y - start.y) * (y - start.y));
-//             //printf ("positive slope, distance is %d\n", distance);
-// 			mlx_put_pixel(game->scene, x, y, distance_to_color(distance));
-			
-// 			if (decision_variable >= 0)
-// 			{
-// 				decision_variable -= 2 * delta_y;
-// 				x += step_x;
-// 			}
-// 			decision_variable += 2 * delta_x;
-// 			y += step_y;
-// 		}
-// 	}
-// 	return;
-// }
-
 void draw_bresenham_ray(t_game *game, t_pos start, t_pos end)
 {
     int x = (int)round(start.x);
@@ -145,7 +49,8 @@ void draw_bresenham_ray(t_game *game, t_pos start, t_pos end)
 			}
 
 			// Set the pixel color using the computed distance
-			mlx_put_pixel(game->scene, x, y, distance_to_color(distance));
+            // if (distance <= MAX_RAY_DISTANCE)
+			mlx_put_pixel(game->scene, x, y, distance_to_color(distance));  //safe
 			
 			// Update the decision variable and position
 			if (decision_variable >= 0)
