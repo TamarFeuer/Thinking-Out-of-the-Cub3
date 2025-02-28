@@ -1,35 +1,91 @@
-NAME = libft.a
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                            :+:    :+:            #
+#                                                     +:+ +:+         +:+      #
+#    By: rtorrent <rtorrent@student.42barcel>       +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/05/09 20:52:16 by rtorrent          #+#    #+#              #
+#    Updated: 2025/02/27 14:08:42 by rtorrent       ########   odam.nl         #
+#                                                                              #
+# **************************************************************************** #
 
-FLAGS = -Wall -Wextra -Werror
+# Tools and options:
 
-INCLUDE_DIR = ./includes
-HEADER = $(INCLUDE_DIR)/libft.h
+CFLAGS += -Werror -Wextra -Wall
 
-SRC = $(shell find $(SRC_DIR) -iname "*.c")
+AR     := ar rcsv
+RM     := rm -f
 
-SRC_DIR = sources
-OBJ_DIR = objects
+# **************************************************************************** #
 
-OBJECTS	:= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
+# Filenames:
 
-# ==================== RULES ====================
+NAME   := libft.a
+
+HEADER := libft.h
+
+SRC    := ft_bzero.c\
+	ft_calloc.c\
+	ft_getnextline2.c\
+	ft_isdigit.c\
+	ft_isprint.c\
+	ft_lstadd_back.c\
+	ft_lstclear.c\
+	ft_lstdelone.c\
+	ft_lstlast.c\
+	ft_lstnew.c\
+	ft_memchr.c\
+	ft_memcpy.c\
+	ft_memmove.c\
+	ft_memset.c\
+	ft_snprintf.c\
+	ft_strchr.c\
+	ft_strcspn.c\
+	ft_strdup.c\
+	ft_strlcpy.c\
+	ft_strlen.c\
+	ft_strrchr.c\
+	ft_strncmp.c\
+	ft_strspn.c\
+	ft_strtok.c\
+	ft_strtok_r.c\
+	ft_substr.c\
+	xx_printf.c\
+	xx_printf_read_specf.c
+
+OBJ    := $(SRC:.c=.o)
+
+MKFILE := $(lastword $(MAKEFILE_LIST))
+
+# **************************************************************************** #
+
+# Primary targets:
 
 all: $(NAME)
 
-$(NAME): $(OBJECTS) $(HEADER)
-	ar rcs $(NAME) $(OBJECTS)
+$(NAME):: $(MKFILE)
+	@if [ -f "$@" ]; then $(MAKE) fclean; fi
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(@D)
-	@printf "Building $@\n"
-	@$(CC) $(FLAGS) -c $< -o $@
+$(NAME):: $(OBJ)
+	$(AR) $@ $?
 
 clean:
-	rm -rf $(OBJ_DIR)
+	$(RM) $(OBJ)
 
 fclean: clean
-	rm -f $(NAME)
+	$(RM) $(NAME)
 
 re: fclean all
 
 .PHONY: all clean fclean re
+
+# **************************************************************************** #
+
+# Build prerequisites:
+
+$(OBJ): $(HEADER)
+
+ft_getnextline2.o: ft_getnextline.h
+
+ft_snprintf.o xx_printf.o xx_printf_read_specf.o: ft_printf.h

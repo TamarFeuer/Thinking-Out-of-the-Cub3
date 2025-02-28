@@ -51,5 +51,8 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
+# swap files
+*.swp
+
 .vscode
 cub3D

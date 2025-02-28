@@ -10,11 +10,7 @@ NAME = cub3D
 SRC =	src/main.c src/line.c src/mmap.c src/player.c src/hooks.c src/clean.c \
 		src/stats.c src/libft.c src/color.c src/rays.c src/intersections.c src/scene.c \
 		src/utils.c src/init.c src/horizontal.c src/vertical.c src/mous3.c \
-		src/parsing/parsing.c src/parsing/parse_identifiers.c \
-		src/parsing/parse_map.c src/parsing/parsing_utils.c src/parsing/check_map.c \
-		src/parsing/has_surrounding_walls.c \
-		src/gnl/gnl.c src/gnl/gnl_utils.c \
-		
+		src/lexer.c src/parser.c src/map_parser.c src/flood_fill_map.c
 
 OBJ_DIR = obj
 OBJ = $(SRC:src/%.c=$(OBJ_DIR)/%.o)

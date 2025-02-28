@@ -1,6 +1,6 @@
 #include "../inc/game.h"
 
-void	delete_images(t_game *game)
+static void	delete_images(t_game *game)
 {
 	if (game->stats)
 		mlx_delete_image(game->mlx, game->stats);
@@ -8,20 +8,19 @@ void	delete_images(t_game *game)
 		mlx_delete_image(game->mlx, game->scene);
 }
 
-//use ft_free as in minishell
 void	clean_nicely(t_game *game, char *error_message)
 {
-	//free_map_grid
 	if (game)
 	{
-		// if (game->fd != -1)
-		// 	close(game->fd);
-		delete_images(game);
-		
-		if (game->mlx)
-		 	mlx_terminate(game->mlx); //causes seg fault??
+		if (game->data)
+		{
+			ft_lstclear(&game->data->tokens, del_token);
+			free(game->data->map);
+		}
 		free(game->data);
-		free(game->mapdata);
+		delete_images(game);
+		if (game->mlx)
+		 	mlx_terminate(game->mlx);
 		free(game->ray);
 		free(game);
 	}
@@ -32,4 +31,4 @@ void	clean_nicely(t_game *game, char *error_message)
 	}
 	exit(EXIT_SUCCESS);
 }
- //add cleaning the wall textures
+ // TODO add cleaning the wall textures

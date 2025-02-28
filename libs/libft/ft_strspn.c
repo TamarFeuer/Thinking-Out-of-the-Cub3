@@ -1,21 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                         :+:    :+:           */
+/*   ft_strspn.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rtorrent <rtorrent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/06 02:22:58 by rtorrent          #+#    #+#             */
-/*   Updated: 2025/02/15 16:34:52 by rtorrent       ########   odam.nl        */
+/*   Created: 2024/01/01 12:19:43 by rtorrent          #+#    #+#             */
+/*   Updated: 2024/01/01 17:41:24 by rtorrent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 
-char	*ft_strchr(const char *s, int c)
+size_t	ft_strspn(const char *s, const char *accept)
 {
-	while (*s != (char)c)
-		if (!*s++)
-			return (NULL);
-	return ((char *)s);
+	const char *const	s0 = s;
+	const char *const	a0 = accept;
+
+	while (*s)
+	{
+		accept = a0;
+		while (true)
+		{
+			if (!*accept)
+				return (s - s0);
+			else if (*s == *accept++)
+				break ;
+		}
+		s++;
+	}
+	return (s - s0);
 }
