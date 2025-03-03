@@ -1,6 +1,6 @@
 #include "../inc/game.h"
 
-void	load_pngs(t_game *game)
+static void	load_textures(t_game *game)
 {
 	game->east = mlx_load_png("textures/Tile/Tile_11-128x128.png");  //add err check
 	game->north = mlx_load_png("textures/Tile/Tile_16-128x128.png");
@@ -36,5 +36,5 @@ void init_game_struct(t_game *game)
 	game->data->minimap_data.x_end = game->data->minimap_data.x_start + game->data->minimap_data.width;
 	game->data->minimap_data.y_start = 0;
 	game->data->minimap_data.y_end = game->data->minimap_data.y_start + game->data->minimap_data.height;
-	load_pngs(game);
+	load_textures(game);
 }

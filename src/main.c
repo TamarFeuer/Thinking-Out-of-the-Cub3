@@ -60,6 +60,10 @@ static void	allocate_structures(t_game **pgame)
 		(*pgame)->mlx = NULL;
 		(*pgame)->stats = NULL;
 		(*pgame)->scene = NULL;
+		(*pgame)->east = NULL;
+		(*pgame)->north = NULL;
+		(*pgame)->west = NULL;
+		(*pgame)->south = NULL;
 		if ((*pgame)->data && (*pgame)->ray)
 			return ;
 	}
