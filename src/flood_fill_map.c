@@ -6,13 +6,13 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/02/25 16:18:16 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/02/27 14:22:32 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/03/03 14:25:46 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/game.h"
 
-// 8-way queued flooding algorithm
+// 4-way queued flooding algorithm
 // https://en.wikipedia.org/wiki/Flood_fill
 
 static t_point	*dequeue_point(t_list **pqueue)
@@ -50,13 +50,9 @@ static int	enqueue_point(t_list **pqueue, t_point *point)
 static int	fill_and_enqueue(char *empty, t_list **pqueue, t_point *point)
 {
 	*empty = WALL;
-	if (enqueue_point(pqueue, &(t_point){point->x - 1, point->y - 1})
-		|| enqueue_point(pqueue, &(t_point){point->x + 1, point->y - 1})
-		|| enqueue_point(pqueue, &(t_point){point->x, point->y - 1})
+	if (enqueue_point(pqueue, &(t_point){point->x, point->y - 1})
 		|| enqueue_point(pqueue, &(t_point){point->x - 1, point->y})
 		|| enqueue_point(pqueue, &(t_point){point->x + 1, point->y})
-		|| enqueue_point(pqueue, &(t_point){point->x - 1, point->y + 1})
-		|| enqueue_point(pqueue, &(t_point){point->x + 1, point->y + 1})
 		|| enqueue_point(pqueue, &(t_point){point->x, point->y + 1}))
 		return (-2);
 	return (0);
