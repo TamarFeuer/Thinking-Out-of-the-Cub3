@@ -2,10 +2,21 @@
 
 static void	load_textures(t_game *game)
 {
-	game->east = mlx_load_png("textures/Tile/Tile_11-128x128.png");  //add err check
-	game->north = mlx_load_png("textures/Tile/Tile_16-128x128.png");
-	game->west = mlx_load_png("textures/Wood/Wood_17-128x128.png");
-	game->south = mlx_load_png("textures/Bricks/Bricks_05-128x128.png");
+	enum e_dir	dir;
+	char		log[64];
+
+	dir = E;
+	while (dir <= S)
+	{
+		game->textures[dir]
+			= mlx_load_png(game->data->map_data.texture_files[dir]);
+		if (!game->textures[dir])
+		{
+			ft_snprintf(log, 80, "Unable to load `%s\'", game->data->map_data.texture_files[dir]);
+			clean_nicely(game, log);
+		}
+		dir++;
+	}
 }
 
 void init_game_struct(t_game *game)

@@ -1,7 +1,7 @@
-NO textures/Brick_Wall_64x64.png
-EA textures/Dirt_Road_64x64.png
-WE textures/Brick_Wall_Cracked_64x64.png	
-SO textures/stone_64x64.png
+NO textures/Tile/Tile_16-128x128.png
+SO textures/Bricks/Bricks_05-128x128.png
+WE textures/Wood/Wood_17-128x128.png
+EA textures/Tile/Tile_11-128x128.png
 
 F 107,79,58
 C 135,206,50

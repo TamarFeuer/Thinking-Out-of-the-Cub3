@@ -41,13 +41,13 @@ mlx_texture_t	*get_texture(t_game *game)
 	
 	direction = get_direction(game);
 	if (ft_strncmp(direction, "west", 4) == 0)
-		return (game->west);
+		return (game->textures[W]);
 	else if (ft_strncmp(direction, "north", 4) == 0)
-		return (game->north);
+		return (game->textures[N]);
 	else if (ft_strncmp(direction, "east", 4) == 0)
-		return (game->east);
+		return (game->textures[E]);
 	else
-		return (game->south);
+		return (game->textures[S]);
 }
 
 
