@@ -51,11 +51,12 @@
 //     return (false);
 // }
 
-bool is_horiz_collision(t_game *game, t_pos new, t_player player)
+bool is_vertical_collision(t_game *game, t_pos new, t_player player)
 {
 	int range = PLAYER_SIZE;
 	int x_offset = 0;
 
+	
 	if (player.angle_quad == 1 || player.angle_quad == 4) 
 		x_offset = 2 * range + 1;  // Check right side
 	else
@@ -65,17 +66,21 @@ bool is_horiz_collision(t_game *game, t_pos new, t_player player)
 	{
 		t_pos check_x = {new.x + x_offset, new.y + i};
 		if (game->mapdata[get_block_index2(game, &check_x, 0)] == '1') 
+		{
+			printf("vertical collision!\n");
 			return (true);
+		}
 		i++;
 	}
 	return (false);
 }
 
-bool is_vertical_collision(t_game *game, t_pos new, t_player player)
+bool is_horiz_collision(t_game *game, t_pos new, t_player player)
 {
 	int range = PLAYER_SIZE;
 	int y_offset = 0;
 
+	
 	if (player.angle_quad == 3 || player.angle_quad == 4)
 		y_offset = 2 * range + 1;  // Check bottom side
 	else 
@@ -84,8 +89,11 @@ bool is_vertical_collision(t_game *game, t_pos new, t_player player)
    	while (i <= range) 
 	{
 		t_pos check_y = {new.x + i, new.y + y_offset};
-		if (game->mapdata[get_block_index2(game, &check_y, 1)] == '1') 
+		if (game->mapdata[get_block_index2(game, &check_y, 1)] == '1')
+		{
+			printf("horizontal collision!\n");
 			return (true);
+		}
 		i++;
 	}
 	return (false);
@@ -131,8 +139,8 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 			new.x = X_START + game->data->minimap_data.width - CONST;
 		if (new.y > Y_START + game->data->minimap_data.height - CONST)
 			new.y = Y_START + game->data->minimap_data.height - CONST;
-		int x_offset = 0;
-		int y_offset = 0;
+		// int x_offset = 0;
+		// int y_offset = 0;
 
 		// if (is_collision(game, new, &(game->player)))
 		// {	
@@ -143,24 +151,29 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 		// {
 		if (!is_horiz_collision(game, new, game->player))
 		{
-			game->player.p_pos.x = round(new.x);
-			game->camera.pos.x = round(game->player.p_pos.x + CONST /2);
+			game->player.p_pos.y = round(new.y);
+			//game->camera.pos.y = round(game->player.p_pos.y + CONST /2);
+			game->camera.pos.y = round(game->player.p_pos.y + (PLAYER_SIZE + CONST) /2);
+	
 		}
-		else
-		{
-			printf ("Collision! x_offset %d y_offest %d\n", x_offset, y_offset);
-			printf ("sin(game->player.angle) %f, cos(game->player.angle) %f\n", round(sin(game->player.angle) * DISTANCE_PER_TURN), round(cos(game->player.angle) * DISTANCE_PER_TURN));
-		}
+		// else
+		// {
+		// 	printf ("Collision! x_offset %d y_offest %d\n", x_offset, y_offset);
+		// 	printf ("sin(game->player.angle) %f, cos(game->player.angle) %f\n", round(sin(game->player.angle) * DISTANCE_PER_TURN), round(cos(game->player.angle) * DISTANCE_PER_TURN));
+		// }
 		if (!is_vertical_collision(game, new, game->player))
 		{
-			game->player.p_pos.y = round(new.y);
-			game->camera.pos.y = round(game->player.p_pos.y + CONST /2);
+			
+
+			game->player.p_pos.x = round(new.x);
+			//game->camera.pos.x = round(game->player.p_pos.x + CONST /2);
+			game->camera.pos.x = round(game->player.p_pos.x + (PLAYER_SIZE + CONST) /2);
 		}
-		else
-		{
-			printf ("Collision! x_offset %d y_offest %d\n", x_offset, y_offset);
-			printf ("sin(game->player.angle) %f, cos(game->player.angle) %f\n", round(sin(game->player.angle) * DISTANCE_PER_TURN), round(cos(game->player.angle) * DISTANCE_PER_TURN));
-		}
+		// else
+		// {
+		// 	printf ("Collision! x_offset %d y_offest %d\n", x_offset, y_offset);
+		// 	printf ("sin(game->player.angle) %f, cos(game->player.angle) %f\n", round(sin(game->player.angle) * DISTANCE_PER_TURN), round(cos(game->player.angle) * DISTANCE_PER_TURN));
+		// }
 	}
 	if (game->is_mouse_active == false &&(keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)))
 		new_angle -= angle_size; // Rotate clockwise (right)
