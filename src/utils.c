@@ -66,3 +66,11 @@ void	normalize_angle_to_2pi(double *angle)
 	if (*angle > 2 * M_PI)
 		*angle -= (2 * M_PI);
 }
+
+int	atoi2(int *dst, char *str)
+{
+	*dst = 0;
+	while (*str && *dst <= 255)
+		*dst = 10 * *dst + *str++ - '0';
+	return (*dst > 255);
+}

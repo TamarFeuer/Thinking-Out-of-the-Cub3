@@ -1,29 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strrchr.c                                        :+:    :+:           */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtorrent <rtorrent@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rtorrent <rtorrent@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/06 02:35:08 by rtorrent          #+#    #+#             */
-/*   Updated: 2025/02/15 16:30:20 by rtorrent       ########   odam.nl        */
+/*   Created: 2023/04/06 16:52:20 by rtorrent          #+#    #+#             */
+/*   Updated: 2023/05/17 19:42:06 by rtorrent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 
-char	*ft_strrchr(const char *s, int c)
+size_t	ft_strlen(const char *s)
 {
-	const char	*s_last;
-
-	s_last = NULL;
-	s = ft_strchr(s, c);
-	if (s && !*s)
-		return ((char *)s);
-	while (s)
-	{
-		s_last = s;
-		s = ft_strchr(++s, c);
-	}
-	return ((char *)s_last);
+	return (ft_strchr(s, '\0') - s);
 }

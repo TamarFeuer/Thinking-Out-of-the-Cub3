@@ -45,15 +45,18 @@ void draw_all(void *param)
 	}
 }
 
-static void allocate_structures(t_game **pgame)
+static void	allocate_structures(t_game **pgame)
 {
 	*pgame = malloc(sizeof(t_game));
-
 	if (*pgame)
 	{
 		(*pgame)->data = malloc(sizeof(t_data));
+		if ((*pgame)->data)
+		{
+			(*pgame)->data->tokens = NULL;
+			(*pgame)->data->map = NULL;
+		}
 		(*pgame)->ray = ft_calloc(1, sizeof(t_ray));
-		(*pgame)->mapdata = NULL;
 		(*pgame)->mlx = NULL;
 		(*pgame)->stats = NULL;
 		(*pgame)->scene = NULL;
@@ -63,9 +66,10 @@ static void allocate_structures(t_game **pgame)
 	clean_nicely(*pgame, "Out of memory");
 }
 
-static void check_arguments(t_game *game, int argc, char *argv[])
+static void	check_arguments(t_game *game, int argc, char *argv[])
 {
 	char	*extension;
+	char	log[64];
 
 	if (argc >= 2)
 		game->is_debug = !ft_strncmp(*++argv, "-d", 3);
@@ -79,9 +83,15 @@ static void check_arguments(t_game *game, int argc, char *argv[])
 	if (argc > 2)
 		clean_nicely(game, "Too many arguments");
 	extension = ft_strrchr(*argv, '.');
-	if (!extension || ft_strncmp(extension, ".cub", 5))
+	if (!extension)
 		clean_nicely(game, "Expected `.cub\' extension");
-	game->data->scene_description_file = *argv;
+	if (ft_strncmp(extension, ".cub", 5))
+	{
+		ft_snprintf(log, 64, "Unknown format `.%s\'. Expected `.cub\' "
+			"extension", extension);
+		clean_nicely(game, log);
+	}
+	game->data->cub_file = *argv;
 }
 
 int	main(int argc, char *argv[])
@@ -90,13 +100,12 @@ int	main(int argc, char *argv[])
 	int width, height;
 	int temp_width, temp_height;
 
-	
 	allocate_structures(&game);
 	check_arguments(game, argc, argv);
-	
-	parse_file(game, game->data, game->data->scene_description_file);
-	printf ("game->data->map_data.cols is %d\n", game->data->map_data.cols);
-	
+	lexer(game);
+	parser(game);
+	flood_fill_map(game, ft_strdup(game->data->map));
+
 	temp_width = (SCREEN_WIDTH / 2) / game->data->map_data.cols;
 	temp_height = (SCREEN_HEIGHT / 2) / game->data->map_data.rows;
 	if (temp_width > temp_height)
@@ -105,7 +114,7 @@ int	main(int argc, char *argv[])
 		game->cell_size = temp_width;
 	printf ("tile size is %d\n", game->cell_size);
 	init_game_struct(game);
-	
+
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	//printf ("main: player angle is %f\n", data->player.angle);
 	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Ray cast3r", true);
