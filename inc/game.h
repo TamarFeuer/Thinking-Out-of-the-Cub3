@@ -56,6 +56,9 @@
 #define MIN_RAY_DISTANCE 5.0f
 #define FLOOR_COLOR 0xFF8000FF  //---> !
 
+//error logs
+#define LOG 80
+
 enum e_dir
 {
 	E,
@@ -169,10 +172,7 @@ typedef struct s_game
 	mlx_t			*mlx;
 	mlx_image_t 	*scene;
 	mlx_image_t 	*stats;
-	mlx_texture_t	*north;
-	mlx_texture_t	*south;
-	mlx_texture_t	*west;
-	mlx_texture_t	*east;
+	mlx_texture_t	*textures[4];
 }	t_game;
 
 void	draw_grid(t_game *game, int rows, int cols);

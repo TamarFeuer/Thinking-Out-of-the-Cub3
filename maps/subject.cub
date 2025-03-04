@@ -1,7 +1,7 @@
-NO ./path_to_the_north_texture
-SO ./path_to_the_south_texture
-WE ./path_to_the_west_texture
-EA ./path_to_the_east_texture
+NO textures/Tile/Tile_01-128x128.png
+SO textures/Bricks/Bricks_22-128x128.png
+WE textures/Wood/Wood_02-128x128.png
+EA textures/Grass/Grass_03-128x128.png
 
 F 220,100,0
 C 225,30,0

@@ -60,6 +60,10 @@ static void	allocate_structures(t_game **pgame)
 		(*pgame)->mlx = NULL;
 		(*pgame)->stats = NULL;
 		(*pgame)->scene = NULL;
+		(*pgame)->textures[E] = NULL;
+		(*pgame)->textures[N] = NULL;
+		(*pgame)->textures[W] = NULL;
+		(*pgame)->textures[S] = NULL;
 		if ((*pgame)->data && (*pgame)->ray)
 			return ;
 	}
@@ -69,7 +73,7 @@ static void	allocate_structures(t_game **pgame)
 static void	check_arguments(t_game *game, int argc, char *argv[])
 {
 	char	*extension;
-	char	log[64];
+	char	log[LOG];
 
 	if (argc >= 2)
 		game->is_debug = !ft_strncmp(*++argv, "-d", 3);
@@ -87,7 +91,7 @@ static void	check_arguments(t_game *game, int argc, char *argv[])
 		clean_nicely(game, "Expected `.cub\' extension");
 	if (ft_strncmp(extension, ".cub", 5))
 	{
-		ft_snprintf(log, 64, "Unknown format `.%s\'. Expected `.cub\' "
+		ft_snprintf(log, LOG, "Unknown format `.%s\'. Expected `.cub\' "
 			"extension", extension);
 		clean_nicely(game, log);
 	}
@@ -117,7 +121,7 @@ int	main(int argc, char *argv[])
 
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	//printf ("main: player angle is %f\n", data->player.angle);
-	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Ray cast3r", true);
+	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Thinking Out of the Cub3", true);
 	if (!game->mlx)
 		clean_nicely(game, "Failed to initialize MLX42");
 	mlx_get_monitor_size(0, &width, &height);
