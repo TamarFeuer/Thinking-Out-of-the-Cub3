@@ -6,7 +6,7 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/02/24 13:12:32 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/03/04 11:53:28 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/03/04 12:17:04 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ static void	check_for_player(char *log, t_game *game, struct s_token *token,
 		return ;
 	if (game->player.angle_quad != -1)
 	{
-		ft_snprintf(log, LOG, "(%d-%d) Player starting position redefined",
-			token->line, token->pos + index);
+		ft_snprintf(log, LOG, "(%d,%d) Player starting position redefined",
+			token->line + 1, token->pos + index + 1);
 		clean_nicely(game, log);
 	}
 	game->player.p_pos.x = (double)(token->pos + index - game->data->parsed[0]);

@@ -12,7 +12,8 @@ static void	load_textures(t_game *game)
 			= mlx_load_png(game->data->map_data.texture_files[dir]);
 		if (!game->textures[dir])
 		{
-			ft_snprintf(log, LOG, "Unable to load `%s\'", game->data->map_data.texture_files[dir]);
+			ft_snprintf(log, LOG, "Unable to load .png texture `%s\'",
+				game->data->map_data.texture_files[dir]);
 			clean_nicely(game, log);
 		}
 		dir++;

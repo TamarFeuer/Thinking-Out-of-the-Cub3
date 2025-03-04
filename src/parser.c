@@ -6,7 +6,7 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/02/22 12:39:26 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/03/04 11:56:16 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/03/04 12:23:16 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,19 @@ static void	read_rgb(char *log, t_data *data, enum e_horizon hrzn,
 		(*plist) = (*plist)->next;
 		token = (*plist)->content;
 		if (!(token->name == LITERAL && token->lflags & TVALID_NUM))
-			return ((void)ft_snprintf(log, LOG, "(%d-%d) `%s\'. Expected a non-"
-					"negative decimal", token->line, token->pos, token->value));
+			return ((void)ft_snprintf(log, LOG, "(%d,%d) `%s\'. Expected a non-"
+					"negative decimal", token->line + 1, token->pos + 1,
+					token->value));
 		if (atoi2(&data->parsed[hrzn], token->value))
-			return ((void)ft_snprintf(log, LOG, "(%d-%d) `%s\'. Exceeds the "
-					"255 limit", token->line, token->pos, token->value));
+			return ((void)ft_snprintf(log, LOG, "(%d,%d) `%s\'. Exceeds 255",
+					token->line + 1, token->pos + 1, token->value));
 		if (c < BLUE)
 		{
 			(*plist) = (*plist)->next;
 			token = (*plist)->content;
 			if (token->name != SEPARATOR)
-				return ((void)ft_snprintf(log, LOG, "(%d-%d) `%s\'. Expected a "
-						"`,\'", token->line, token->pos, token->value));
+				return ((void)ft_snprintf(log, LOG, "(%d,%d) `%s\'. Expected a "
+						"`,\'", token->line + 1, token->pos + 1, token->value));
 		}
 		data->map_data.rgba[hrzn] |= data->parsed[hrzn] << 8 * (3 - c++);
 	}
@@ -68,12 +69,13 @@ static void	get_identifier(char *log, t_data *data, t_list **plist)
 		|| token->id == SO)
 	{
 		if (data->map_data.texture_files[token->id])
-			return ((void)ft_snprintf(log, LOG, "(%d-%d) Duplicated %s "
-					"identifier", token->line, token->pos, token->value));
+			return ((void)ft_snprintf(log, LOG, "(%d,%d) Duplicated %s "
+					"identifier", token->line + 1, token->pos + 1,
+					token->value));
 		if (!(*plist)->next || ((struct s_token *)(*plist)->next->content)->name
 				!= LITERAL)
-			return ((void)ft_snprintf(log, LOG, "(%d-%d) Missing %s texture "
-					"file", token->line, token->pos, token->value));
+			return ((void)ft_snprintf(log, LOG, "(%d,%d) Missing %s texture "
+					"file", token->line + 1, token->pos + 1, token->value));
 		*plist = (*plist)->next;
 		data->map_data.texture_files[token->id]
 			= ((struct s_token *)(*plist)->content)->value;
@@ -83,8 +85,8 @@ static void	get_identifier(char *log, t_data *data, t_list **plist)
 	else if (token->id == C && data->parsed[CE] == -1)
 		read_rgb(log, data, CE, plist);
 	else
-		return ((void)ft_snprintf(log, LOG, "(%d-%d) Duplicated %s identifer",
-				token->line, token->pos, token->value));
+		return ((void)ft_snprintf(log, LOG, "(%d,%d) Duplicated %s identifer",
+				token->line + 1, token->pos + 1, token->value));
 }
 
 static void	syntax_analysis(char *log, t_data *data)
@@ -107,8 +109,8 @@ static void	syntax_analysis(char *log, t_data *data)
 			}
 		}
 		else
-			ft_snprintf(log, LOG, "(%d-%d) Unexpected token `%s\'",
-				token->line, token->pos, token->value);
+			ft_snprintf(log, LOG, "(%d,%d) Unexpected token `%s\'",
+				token->line + 1, token->pos + 1, token->value);
 		current = current->next;
 	}
 }
