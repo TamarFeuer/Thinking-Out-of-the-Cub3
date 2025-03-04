@@ -73,7 +73,7 @@ static void	allocate_structures(t_game **pgame)
 static void	check_arguments(t_game *game, int argc, char *argv[])
 {
 	char	*extension;
-	char	log[64];
+	char	log[LOG];
 
 	if (argc >= 2)
 		game->is_debug = !ft_strncmp(*++argv, "-d", 3);
@@ -91,7 +91,7 @@ static void	check_arguments(t_game *game, int argc, char *argv[])
 		clean_nicely(game, "Expected `.cub\' extension");
 	if (ft_strncmp(extension, ".cub", 5))
 	{
-		ft_snprintf(log, 64, "Unknown format `.%s\'. Expected `.cub\' "
+		ft_snprintf(log, LOG, "Unknown format `.%s\'. Expected `.cub\' "
 			"extension", extension);
 		clean_nicely(game, log);
 	}

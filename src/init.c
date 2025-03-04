@@ -3,7 +3,7 @@
 static void	load_textures(t_game *game)
 {
 	enum e_dir	dir;
-	char		log[64];
+	char		log[LOG];
 
 	dir = E;
 	while (dir <= S)
@@ -12,7 +12,7 @@ static void	load_textures(t_game *game)
 			= mlx_load_png(game->data->map_data.texture_files[dir]);
 		if (!game->textures[dir])
 		{
-			ft_snprintf(log, 80, "Unable to load `%s\'", game->data->map_data.texture_files[dir]);
+			ft_snprintf(log, LOG, "Unable to load `%s\'", game->data->map_data.texture_files[dir]);
 			clean_nicely(game, log);
 		}
 		dir++;

@@ -56,6 +56,9 @@
 #define MIN_RAY_DISTANCE 5.0f
 #define FLOOR_COLOR 0xFF8000FF  //---> !
 
+//error logs
+#define LOG 80
+
 enum e_dir
 {
 	E,

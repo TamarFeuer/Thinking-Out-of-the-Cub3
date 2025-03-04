@@ -6,7 +6,7 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/02/24 13:12:32 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/02/28 15:05:10 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/03/04 11:53:28 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	check_for_player(char *log, t_game *game, struct s_token *token,
 		return ;
 	if (game->player.angle_quad != -1)
 	{
-		ft_snprintf(log, 64, "(%d-%d) Player starting position redefined",
+		ft_snprintf(log, LOG, "(%d-%d) Player starting position redefined",
 			token->line, token->pos + index);
 		clean_nicely(game, log);
 	}
@@ -73,8 +73,8 @@ static void	determine_dimensions(char *log, t_data *data,
 	{
 		token = map_tokens->content;
 		if (token->line > last_line + 1)
-			return ((void)ft_snprintf(log, 64, "Empty map row detected at line "
-					"%d", ++last_line));
+			return ((void)ft_snprintf(log, LOG, "Empty map row detected at "
+					"line %d", ++last_line));
 		if (token->line > last_line)
 		{
 			last_line++;
