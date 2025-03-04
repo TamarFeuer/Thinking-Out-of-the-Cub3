@@ -87,8 +87,8 @@ static void	check_arguments(t_game *game, int argc, char *argv[])
 		clean_nicely(game, "Expected `.cub\' extension");
 	if (ft_strncmp(extension, ".cub", 5))
 	{
-		ft_snprintf(log, 64, "Unknown format `.%s\'. Expected `.cub\' "
-			"extension", extension);
+		ft_snprintf(log, 64, "Unknown format `%s\'. Expected `.cub\' extension",
+			extension);
 		clean_nicely(game, log);
 	}
 	game->data->cub_file = *argv;
