@@ -1,7 +1,7 @@
-NO textures/Tile/Tile_16-128x128.png
-SO textures/Bricks/Bricks_05-128x128.png
-WE textures/Wood/Wood_17-128x128.png
-EA textures/Tile/Tile_11-128x128.png
+NO textures/Tile/Tile_01-128x128.png
+SO textures/Bricks/Bricks_22-128x128.png
+WE textures/Wood/Wood_02-128x128.png
+EA textures/Grass/Grass_03-128x128.png
 
 F 220,100,0
 C 225,30,0
