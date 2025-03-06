@@ -6,7 +6,7 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/02/24 13:12:32 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/02/28 15:05:10 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/03/06 12:19:19 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ void	build_map(char *log, t_game *game)
 	size_t			map_size;
 
 	determine_dimensions(log, data, data->map_data.rows);
+	if (*log)
+		return ;
 	map_size = data->map_data.rows * data->map_data.cols;
 	data->map = malloc(map_size + 1);
 	if (!data->map)
