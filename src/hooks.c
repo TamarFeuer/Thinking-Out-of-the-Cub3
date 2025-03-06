@@ -65,7 +65,7 @@ bool is_vertical_collision(t_game *game, t_pos new, t_player player)
 	while (i <= range)
 	{
 		t_pos check_x = {new.x + x_offset, new.y + i};
-		if (game->mapdata[get_block_index2(game, &check_x, 0)] == '1') 
+		if (game->data->map[get_block_index2(game, &check_x, 0)] == '1') 
 		{
 			printf("vertical collision!\n");
 			return (true);
@@ -89,7 +89,7 @@ bool is_horiz_collision(t_game *game, t_pos new, t_player player)
    	while (i <= range) 
 	{
 		t_pos check_y = {new.x + i, new.y + y_offset};
-		if (game->mapdata[get_block_index2(game, &check_y, 1)] == '1')
+		if (game->data->map[get_block_index2(game, &check_y, 1)] == '1')
 		{
 			printf("horizontal collision!\n");
 			return (true);
