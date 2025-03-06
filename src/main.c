@@ -109,7 +109,7 @@ int	main(int argc, char *argv[])
 
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	//printf ("main: player angle is %f\n", data->player.angle);
-	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Thinking Out of the Cub3", true);
+	game->mlx = mlx_init(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, "Thinking Out of the Cub3", true);
 	if (!game->mlx)
 		clean_nicely(game, "Failed to initialize MLX42");
 	mlx_get_monitor_size(0, &width, &height);
