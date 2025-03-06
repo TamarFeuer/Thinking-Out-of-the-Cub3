@@ -1,10 +1,10 @@
-NO textures/Dirt_road_64x64.png
-SO textures/Green_wall_Rocks_64x64.png
-WE textures/Water_64x64.png
-EA textures/Rocky_road_64x64.png
+NO textures/Tile/Tile_16-128x128.png
+SO textures/Bricks/Bricks_05-128x128.png
+WE textures/Wood/Wood_17-128x128.png
+EA textures/Tile/Tile_11-128x128.png
 
-F 107,79,58
-C 135,206,250
+F 184,113,243
+C 51,12,227
 
 1                           1
 11                         11
