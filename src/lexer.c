@@ -6,7 +6,7 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/02/17 16:28:59 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/02/27 12:50:53 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/03/04 11:51:53 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	evaluator(char *log, struct s_token *token, char *lexeme)
 {
 	token->value = ft_substr(lexeme, 0, token->len);
 	if (!token->value)
-		return ((void)ft_strlcpy(log, "Out of memory", 64));
+		return ((void)ft_strlcpy(log, "Out of memory", LOG));
 	if (!ft_strncmp(token->value, "NO", -1))
 		token->id = NO;
 	else if (!ft_strncmp(token->value, "SO", -1))
@@ -67,7 +67,7 @@ static int	create_token(char *log, t_list **ptokens, unsigned int line,
 	}
 	free(new_token);
 	free(new_link);
-	ft_strlcpy(log, "Out of memory", 64);
+	ft_strlcpy(log, "Out of memory", LOG);
 	return (1);
 }
 
@@ -104,14 +104,14 @@ void	lexer(t_game *game)
 {
 	t_data *const	data = game->data;
 	const int		fd = open(data->cub_file, O_RDONLY);
-	char			log[64];
+	char			log[LOG];
 
 	log[0] = '\0';
 	if (fd < 0)
-		ft_snprintf(log, 64, "Unable to open `%s\'", data->cub_file);
+		ft_snprintf(log, LOG, "Unable to open `%s\'", data->cub_file);
 	scanner(fd, log, &data->tokens);
 	if (fd >= 0 && close(fd) < 0 && !*log)
-		ft_snprintf(log, 64, "Unable to close `%s\'", data->cub_file);
+		ft_snprintf(log, LOG, "Unable to close `%s\'", data->cub_file);
 	if (*log)
 	{
 		ft_getnextline2(NULL, fd);
