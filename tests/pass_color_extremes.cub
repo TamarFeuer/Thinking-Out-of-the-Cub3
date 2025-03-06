@@ -3,7 +3,7 @@ NO tests/textures/Green_Wall_Rocks_64x64.png
 WE tests/textures/Dirt_Road_64x64.png
 SO tests/textures/Rocky_Road_64x64.png
 
-F 93,138,168
+F 0,255,255
 C 83,75,79
 
                 11111
@@ -27,7 +27,3 @@ C 83,75,79
   100000100111111111111111
   1100000011
    11111111
-
-   
-
-
