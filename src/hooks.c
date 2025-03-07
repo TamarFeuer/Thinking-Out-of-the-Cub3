@@ -1,51 +1,42 @@
 #include "../inc/game.h"
 
-bool is_vertical_collision(t_game *game, t_pos new, t_player player)
+bool is_horiz_collision(t_game *game, t_pos new)
 {
-	int x_offset = 0;
-
+	t_pos	new_tl = new;
+	t_pos	new_tr = {new.x + PLAYER_SIZE * CONST, new.y};
+	t_pos	new_bl = {new.x, new.y + PLAYER_SIZE * CONST};
+	t_pos	new_br = {new.x + PLAYER_SIZE * CONST, new.y + PLAYER_SIZE * CONST};
 	
-	if (player.angle_quad == 1 || player.angle_quad == 4) 
-		x_offset = PLAYER_SIZE; //2 * PLAYER_SIZE + 1;  // Check right side
-	else
-		x_offset = 0;  // Check left side
-	int i = 0;
-	while (i <= PLAYER_SIZE)
-	{
-		t_pos check_x = {new.x + x_offset, new.y + i};
-		if (game->data->map[get_block_index2(game, &check_x, 1)] == '1') 
+	if ((game->data->map[get_block_index2(game, &new_tl, 1)] == '1') || (game->data->map[get_block_index2(game, &new_tr, 1)] == '1')
+		|| (game->data->map[get_block_index2(game, &new_bl, 1)] == '1') || (game->data->map[get_block_index2(game, &new_br, 1)] == '1'))
 		{
-			printf("vertical collision!\n");
-			return (true);
+			if ((game->data->map[get_block_index2(game, &new_tl, 1)] == '1' && game->data->map[get_block_index2(game, &new_tr, 1)] == '1')
+			|| (game->data->map[get_block_index2(game, &new_bl, 1)] == '1' && game->data->map[get_block_index2(game, &new_br, 1)] == '1'))
+			{
+				printf("horizontal collision!\n");
+				return (true);
+			}
 		}
-		i++;
-	}
 	return (false);
 }
 
-bool is_horiz_collision(t_game *game, t_pos new, t_player player)
+bool is_vertical_collision(t_game *game, t_pos new)
 {
-	int y_offset = 0;
+	t_pos	new_tl = new;
+	t_pos	new_tr = {new.x + PLAYER_SIZE * CONST, new.y};
+	t_pos	new_bl = {new.x, new.y + PLAYER_SIZE * CONST};
+	t_pos	new_br = {new.x + PLAYER_SIZE * CONST, new.y + PLAYER_SIZE * CONST};
 
-	
-	if (player.angle_quad == 3 || player.angle_quad == 4)
-		y_offset = PLAYER_SIZE; //2 * PLAYER_SIZE + 1;  // Check bottom side
-	else 
-		y_offset = 0;  // Check top side
-	int i = 0;
-	printf ("player: %f, %f\n", game->player.p_pos.x, game->player.p_pos.y);
-   	while (i <= PLAYER_SIZE)
-	{
-		t_pos check_y = {new.x + i, new.y + y_offset};
-		printf ("horiz: check y: %f, %f\n", new.x + i, new.y + y_offset);
-		if (game->data->map[get_block_index2(game, &check_y, 0)] == '1')
+	if ((game->data->map[get_block_index2(game, &new_tl, 0)] == '1') || (game->data->map[get_block_index2(game, &new_tr, 0)] == '1')
+		|| (game->data->map[get_block_index2(game, &new_bl, 0)] == '1') || (game->data->map[get_block_index2(game, &new_br, 0)] == '1'))
 		{
-			printf("horizontal collision!\n");
-			return (true);
+			if ((game->data->map[get_block_index2(game, &new_tl, 0)] == '1' && game->data->map[get_block_index2(game, &new_bl, 0)] == '1')
+			|| (game->data->map[get_block_index2(game, &new_tr, 0)] == '1' && game->data->map[get_block_index2(game, &new_br, 0)] == '1'))
+			{
+				printf("vertical collision!\n");
+				return (true);
+			}
 		}
-		i++;
-	}
-	printf ("\n");
 	return (false);
 }
 
@@ -89,39 +80,20 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 			new.x = X_START + game->data->minimap_data.width - CONST;
 		if (new.y > Y_START + game->data->minimap_data.height - CONST)
 			new.y = Y_START + game->data->minimap_data.height - CONST;
-		// int x_offset = 0;
-		// int y_offset = 0;
-
-		// if (is_collision(game, new, &(game->player)))
-		// {	
-		// 	printf ("Collision! x_offset %d y_offest %d\n", x_offset, y_offset);
-		// 	printf ("sin(game->player.angle) %f, cos(game->player.angle) %f\n", round(sin(game->player.angle) * DISTANCE_PER_TURN), round(cos(game->player.angle) * DISTANCE_PER_TURN));
-		// }
-		// else
-		// {
-		if (!is_horiz_collision(game, new, game->player))
+	
+		if (!is_horiz_collision(game, new))
 		{
 			game->player.p_pos.y = round(new.y);
 			//game->camera.pos.y = round(game->player.p_pos.y + CONST /2);
 			game->camera.pos.y = round(game->player.p_pos.y + (PLAYER_SIZE + CONST) /2);
-	
 		}
-		// else
-		// {
-		// 	printf ("Collision! x_offset %d y_offest %d\n", x_offset, y_offset);
-		// 	printf ("sin(game->player.angle) %f, cos(game->player.angle) %f\n", round(sin(game->player.angle) * DISTANCE_PER_TURN), round(cos(game->player.angle) * DISTANCE_PER_TURN));
-		// }
-		if (!is_vertical_collision(game, new, game->player))
+		
+		if (!is_vertical_collision(game, new))
 		{
 			game->player.p_pos.x = round(new.x);
 			//game->camera.pos.x = round(game->player.p_pos.x + CONST /2);
 			game->camera.pos.x = round(game->player.p_pos.x + (PLAYER_SIZE + CONST) /2);
 		}
-		// else
-		// {
-		// 	printf ("Collision! x_offset %d y_offest %d\n", x_offset, y_offset);
-		// 	printf ("sin(game->player.angle) %f, cos(game->player.angle) %f\n", round(sin(game->player.angle) * DISTANCE_PER_TURN), round(cos(game->player.angle) * DISTANCE_PER_TURN));
-		// }
 	}
 	if (game->is_mouse_active == false &&(keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)))
 		new_angle -= angle_size; // Rotate clockwise (right)

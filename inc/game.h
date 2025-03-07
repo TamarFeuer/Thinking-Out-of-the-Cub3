@@ -39,6 +39,8 @@
 //player
 #define PLAYER_SIZE 2
 #define PLAYER_DIRECTION_SIZE 50
+#define FORWARD 1
+#define BACKWARD 0
 
 //rays
 #define FOV 60.0 // Field of View in degrees

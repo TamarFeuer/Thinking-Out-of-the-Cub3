@@ -29,10 +29,16 @@ int get_block_index2(t_game *game, t_pos *grid_pos, int flag)
 	int block_index_x = (int)((floor(grid_pos->x) - X_START) / (game->cell_size));
 	int block_index_y = (int)((floor(grid_pos->y) - Y_START) / (game->cell_size));
 	//printf("on grid_x %d, on grid Y %d\n", block_index_x, block_index_y);
-	if (flag && (game->ray->angle_quad == 1 || game->ray->angle_quad == 2))
+	if (flag == 1 && (game->ray->angle_quad == 1 || game->ray->angle_quad == 2))
+	{
+		
 		block_index_y = (int)(ceil(grid_pos->y) - Y_START) / (game->cell_size);
-	else if (!flag && (game->ray->angle_quad == 2 || game->ray->angle_quad == 3))
+	}
+	else if (flag == 0 && (game->ray->angle_quad == 2 || game->ray->angle_quad == 3))
+	{
+		
 		block_index_x = (int)(ceil(grid_pos->x) - Y_START) / (game->cell_size);
+	}
 	
 	result = (block_index_y) * game->data->map_data.cols + (block_index_x);
 	//printf ("flag is %d, result is %d\n", flag, result);
