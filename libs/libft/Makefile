@@ -6,7 +6,7 @@
 #    By: rtorrent <rtorrent@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/09 20:52:16 by rtorrent          #+#    #+#              #
-#    Updated: 2025/02/27 14:08:42 by rtorrent       ########   odam.nl         #
+#    Updated: 2025/03/07 18:32:06 by rtorrent       ########   odam.nl         #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ SRC    := ft_bzero.c\
 	ft_strchr.c\
 	ft_strcspn.c\
 	ft_strdup.c\
+	ft_strlcat.c\
 	ft_strlcpy.c\
 	ft_strlen.c\
 	ft_strrchr.c\
