@@ -6,7 +6,7 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/02/24 13:12:32 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/03/04 12:17:04 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/03/06 14:49:13 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static void	determine_dimensions(char *log, t_data *data,
 		token = map_tokens->content;
 		if (token->line > last_line + 1)
 			return ((void)ft_snprintf(log, LOG, "Empty map row detected at "
-					"line %d", ++last_line));
+					"line %d", last_line + 2));
 		if (token->line > last_line)
 		{
 			last_line++;
@@ -97,6 +97,8 @@ void	build_map(char *log, t_game *game)
 	size_t			map_size;
 
 	determine_dimensions(log, data, data->map_data.rows);
+	if (*log)
+		return ;
 	map_size = data->map_data.rows * data->map_data.cols;
 	data->map = malloc(map_size + 1);
 	if (!data->map)
