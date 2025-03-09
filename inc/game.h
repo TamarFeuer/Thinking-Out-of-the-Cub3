@@ -209,7 +209,7 @@ int		draw_static_components(t_game *game);
 void 	cursor_hook(double xpos, double ypos, void* param);
 void mouse_action (mouse_key_t button, action_t action, modifier_key_t mods, void* param);
 
-int		atoi2(int *dst, char *str);
+int		atoi_limit_255(int *dst, char *str);
 void	build_map(char *log, t_game *game);
 void	del_token(void *token);
 void	flood_fill_map(t_game *game, char *dup_map);
