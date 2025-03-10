@@ -23,27 +23,28 @@ int get_block_index(t_game *game, t_pos *grid_pos, int flag)
 }
 
 //flag: vertical 1, horizontal 0
-int get_block_index2(t_game *game, t_pos *grid_pos, int flag)
+t_block_index get_block_index2(t_game *game, t_pos *grid_pos, int flag)
 {
-	int result = -1;
-	int block_index_x = (int)((floor(grid_pos->x) - X_START) / (game->cell_size));
-	int block_index_y = (int)((floor(grid_pos->y) - Y_START) / (game->cell_size));
+	t_block_index block_index;
+	block_index.index = -1;
+	block_index.x = (int)((floor(grid_pos->x) - X_START) / (game->cell_size));
+	block_index.y = (int)((floor(grid_pos->y) - Y_START) / (game->cell_size));
 	//printf("on grid_x %d, on grid Y %d\n", block_index_x, block_index_y);
 	if (flag == 1 && (game->ray->angle_quad == 1 || game->ray->angle_quad == 2))
 	{
 		
-		block_index_y = (int)(ceil(grid_pos->y) - Y_START) / (game->cell_size);
+		block_index.y = (int)(ceil(grid_pos->y) - Y_START) / (game->cell_size);
 	}
 	else if (flag == 0 && (game->ray->angle_quad == 2 || game->ray->angle_quad == 3))
 	{
 		
-		block_index_x = (int)(ceil(grid_pos->x) - Y_START) / (game->cell_size);
+		block_index.x = (int)(ceil(grid_pos->x) - Y_START) / (game->cell_size);
 	}
 	
-	result = (block_index_y) * game->data->map_data.cols + (block_index_x);
+	block_index.index = (block_index.y) * game->data->map_data.cols + (block_index.x);
 	//printf ("flag is %d, result is %d\n", flag, result);
 	//printf ("game->ray->end.x %f, game->ray->end.y %f\n", game->ray->end.x, game->ray->end.y);
-	return result;
+	return block_index;
 }
 
 

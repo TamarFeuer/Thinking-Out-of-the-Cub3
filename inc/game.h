@@ -82,6 +82,13 @@ enum e_rgb
 	BLUE
 };
 
+typedef struct s_block_index 
+{
+    int index;
+    int x;
+    int y;
+} t_block_index;
+
 typedef struct s_pos
 {
 	double	x;
@@ -190,7 +197,7 @@ const char *get_direction(t_game *game);
 void	draw_bresenham_ray(t_game *game, t_pos start, t_pos end);
 double	get_distance(t_pos start, t_pos end);
 int		get_block_index(t_game *game, t_pos *grid_pos, int flag);
-int 	get_block_index2(t_game *game, t_pos *grid_pos, int flag);
+t_block_index 	get_block_index2(t_game *game, t_pos *grid_pos, int flag);
 void	reach_nearest_wall_by_plotting(t_game *game, float angle);
 void 	reach_nearest_wall_by_intersections(t_game *game);
 void 	draw_player_direction(t_game *game, t_pos start, double angle);

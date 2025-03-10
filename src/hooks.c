@@ -9,52 +9,100 @@ bool is_diagonal_collision(t_game *game, t_pos new)
 	t_pos check1;
 	t_pos check2;
 
-	// Check four diagonal corners
 	if (game->player.angle_quad == 1)
 	{
 		// Top right of player
-		check1.x = round(new_tr.x / CONST);
-		check1.y = round((new_tr.y - 1) / CONST);
-		check2.x = round((new_tr.x - 1) / CONST);
-		check2.y = round(new_tr.y / CONST);
+		if ((get_block_index2(game, &new_tr, 999).x == (get_block_index2(game, &(game->player.p_pos), 999).x) + 1)
+			&& (get_block_index2(game, &new_tr, 999).y == (get_block_index2(game, &(game->player.p_pos), 999).y) - 1))
+		{
+			//printf ("quad 1, passed the first check\n");
+			// if (game->data->map[get_block_index2(game, &new_tr, 999).index] != '1' && game->data->map[get_block_index2(game, &new_tr, 999).index] != ' ')
+			// 	return false;
+			//printf ("quad 1 passed the second test\n");
+			check1.x = round(new_tr.x / CONST);
+			check1.y = round((new_tr.y - 1) / CONST);
+			check2.x = round((new_tr.x - 1) / CONST);
+			check2.y = round(new_tr.y / CONST);
+			return true;
+		}
+		else
+			return false;
 	}
 	else if (game->player.angle_quad == 2)
 	{
 		// Top left of player
-		check1.x = round(new_tl.x / CONST);
-		check1.y = round((new_tl.y - 1) / CONST);
-		check2.x = round((new_tl.x + 1) / CONST);
-		check2.y = round(new_tl.y / CONST);
+		if ((get_block_index2(game, &new_tl, 999).x == (get_block_index2(game, &(game->player.p_pos), 999).x) - 1)
+			&& (get_block_index2(game, &new_tl, 999).y == (get_block_index2(game, &(game->player.p_pos), 999).y) - 1))
+		{
+			//printf ("quad 2, passed the first check\n");
+			// if (game->data->map[get_block_index2(game, &new_tl, 999).index] != '1' && game->data->map[get_block_index2(game, &new_tl, 999).index] != ' ')
+			// 	return false;
+			//printf ("quad 2 passed the second test\n");
+			check1.x = round(new_tl.x / CONST);
+			check1.y = round((new_tl.y - 1) / CONST);
+			check2.x = round((new_tl.x + 1) / CONST);
+			check2.y = round(new_tl.y / CONST);
+			return true;
+		}
+		else
+			return false;
+
 	}
 	else if (game->player.angle_quad == 3)
 	{
 		// Bottom left of player
-		check1.x = round(new_bl.x / CONST);
-		check1.y = round((new_bl.y + 1) / CONST);
-		check2.x = round((new_bl.x - 1) / CONST);
-		check2.y = round(new_bl.y / CONST);
+		if ((get_block_index2(game, &new_bl, 999).x == (get_block_index2(game, &(game->player.p_pos), 999).x) - 1)
+			&& (get_block_index2(game, &new_bl, 999).y == (get_block_index2(game, &(game->player.p_pos), 999).y) + 1))
+		{
+			//printf ("quad 3, passed the first check\n");
+			// if (game->data->map[get_block_index2(game, &new_bl, 999).index] != '1' && game->data->map[get_block_index2(game, &new_bl, 999).index] != ' ')
+			// 	return false;
+			//printf ("quad 3 passed the second test\n");
+			check1.x = round(new_bl.x / CONST);
+			check1.y = round((new_bl.y + 1) / CONST);
+			check2.x = round((new_bl.x - 1) / CONST);
+			check2.y = round(new_bl.y / CONST);
+			return true;
+		}
+		else
+			return false;
 	}
 	else if (game->player.angle_quad == 4)
 	{
 		// Bottom right of player
-		check1.x = round(new_br.x / CONST);
-		check1.y = round((new_br.y + 1) / CONST);
-		check2.x = round((new_br.x + 1) / CONST);
-		check2.y = round(new_br.y / CONST);
+		//printf ("game->player.angle_quad == 4\n");
+		//printf ("new.x is %d new.y is %d      old.x is %d, old.y is %d\n", get_block_index2(game, &new, 999).x, get_block_index2(game, &new, 999).y, get_block_index2(game, &(game->player.p_pos), 999).x, get_block_index2(game, &(game->player.p_pos), 999).y);
+		if ((get_block_index2(game, &new_br, 999).x == (get_block_index2(game, &(game->player.p_pos), 999).x) + 1)
+			&& (get_block_index2(game, &new_br, 999).y == (get_block_index2(game, &(game->player.p_pos), 999).y) + 1))
+		{
+			//printf ("quad 4, passed the first check\n");
+			//printf ("the char is |%c|\n", game->data->map[get_block_index2(game, &new_br, 999).index]);
+			// if (game->data->map[get_block_index2(game, &new_br, 999).index] != '1' && game->data->map[get_block_index2(game, &new_br, 999).index] != ' ')
+			// 	return false;
+			//printf ("quad 4 passed the second test\n");
+			check1.x = round(new_br.x / CONST);
+			check1.y = round((new_br.y + 1) / CONST);
+			check2.x = round((new_br.x + 1) / CONST);
+			check2.y = round(new_br.y / CONST);
+			//printf ("diagonal collision\n");
+			return true;
+		}
+		else
+			return false;
 	}
 
-	printf("check1 is x=%f, y=%f\n", check1.x, check1.y);
-	printf("check2 is x=%f, y=%f\n", check2.x, check2.y);
+	//printf("check1 is x=%f, y=%f\n", check1.x, check1.y);
+	//printf("check2 is x=%f, y=%f\n", check2.x, check2.y);
 
-	int index_horiz1 = get_block_index2(game, &check1, 0);
-	int index_vert1 = get_block_index2(game, &check1, 1);
-	int index_horiz2 = get_block_index2(game, &check2, 0);
-	int index_vert2 = get_block_index2(game, &check2, 1);
+	int x_index_new1 = get_block_index2(game, &check1, 999).x;
+	int y_index_new1 = get_block_index2(game, &check1, 999).y;
+	int x_index_new2 = get_block_index2(game, &check2, 999).x;
+	int y_index_new2 = get_block_index2(game, &check2, 999).y;
 
-	if ((game->data->map[index_horiz1] == '1' && game->data->map[index_vert1] == '1')
-		&& (game->data->map[index_horiz2] == '1' && game->data->map[index_vert2] == '1'))
+	if ((game->data->map[x_index_new1] == '1' && game->data->map[y_index_new1] == '1')
+		&& (game->data->map[x_index_new2] == '1' && game->data->map[y_index_new2] == '1'))
 	{
-		printf("Diagonal collision!\n");
+		//printf("Diagonal collision!\n");
 		return true;
 	}
 	return false;
@@ -68,11 +116,11 @@ bool is_horiz_collision(t_game *game, t_pos new)
 	t_pos	new_bl = {new.x, new.y + PLAYER_SIZE * CONST};
 	t_pos	new_br = {new.x + PLAYER_SIZE * CONST, new.y + PLAYER_SIZE * CONST};
 	
-	if ((game->data->map[get_block_index2(game, &new_tl, 1)] == '1') || (game->data->map[get_block_index2(game, &new_tr, 1)] == '1')
-		|| (game->data->map[get_block_index2(game, &new_bl, 1)] == '1') || (game->data->map[get_block_index2(game, &new_br, 1)] == '1'))
+	if ((game->data->map[get_block_index2(game, &new_tl, 1).index] == '1') || (game->data->map[get_block_index2(game, &new_tr, 1).index] == '1')
+		|| (game->data->map[get_block_index2(game, &new_bl, 1).index] == '1') || (game->data->map[get_block_index2(game, &new_br, 1).index] == '1'))
 		{
-			if ((game->data->map[get_block_index2(game, &new_tl, 1)] == '1' && game->data->map[get_block_index2(game, &new_tr, 1)] == '1')
-			|| (game->data->map[get_block_index2(game, &new_bl, 1)] == '1' && game->data->map[get_block_index2(game, &new_br, 1)] == '1'))
+			if ((game->data->map[get_block_index2(game, &new_tl, 1).index] == '1' && game->data->map[get_block_index2(game, &new_tr, 1).index] == '1')
+			|| (game->data->map[get_block_index2(game, &new_bl, 1).index] == '1' && game->data->map[get_block_index2(game, &new_br, 1).index] == '1'))
 			{
 				printf("horizontal collision!\n");
 				return (true);
@@ -88,11 +136,11 @@ bool is_vertical_collision(t_game *game, t_pos new)
 	t_pos	new_bl = {new.x, new.y + PLAYER_SIZE * CONST};
 	t_pos	new_br = {new.x + PLAYER_SIZE * CONST, new.y + PLAYER_SIZE * CONST};
 
-	if ((game->data->map[get_block_index2(game, &new_tl, 0)] == '1') || (game->data->map[get_block_index2(game, &new_tr, 0)] == '1')
-		|| (game->data->map[get_block_index2(game, &new_bl, 0)] == '1') || (game->data->map[get_block_index2(game, &new_br, 0)] == '1'))
+	if ((game->data->map[get_block_index2(game, &new_tl, 0).index] == '1') || (game->data->map[get_block_index2(game, &new_tr, 0).index] == '1')
+		|| (game->data->map[get_block_index2(game, &new_bl, 0).index] == '1') || (game->data->map[get_block_index2(game, &new_br, 0).index] == '1'))
 		{
-			if ((game->data->map[get_block_index2(game, &new_tl, 0)] == '1' && game->data->map[get_block_index2(game, &new_bl, 0)] == '1')
-			|| (game->data->map[get_block_index2(game, &new_tr, 0)] == '1' && game->data->map[get_block_index2(game, &new_br, 0)] == '1'))
+			if ((game->data->map[get_block_index2(game, &new_tl, 0).index] == '1' && game->data->map[get_block_index2(game, &new_bl, 0).index] == '1')
+			|| (game->data->map[get_block_index2(game, &new_tr, 0).index] == '1' && game->data->map[get_block_index2(game, &new_br, 0).index] == '1'))
 			{
 				printf("vertical collision!\n");
 				return (true);
