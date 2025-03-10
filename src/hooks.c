@@ -160,5 +160,11 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 		mlx_close_window(game->mlx);
 		clean_nicely(game, NULL);
 	}
+	if (keydata.key == MLX_KEY_M && keydata.action == MLX_PRESS)
+	{
+		game->is_mmap = !game->is_mmap;
+		if (game->is_mmap)
+			print_stats(game);
+	}
 	check_keys_for_movement(game, keydata);
 }
