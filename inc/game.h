@@ -206,18 +206,10 @@ bool	is_out_of_bounds(t_game *game, t_pos position);
 int		is_wall_hit(t_game *game, t_pos intersect, int flag);
 int		draw_static_components(t_game *game);
 
-// LIBFT
-bool	ft_is_pos_identifier(char c);
-char	*ft_itoa(int n);
-char	*ft_ftoa(float n, int precision);
-char	*ft_strjoin(char const *s1, char const *s2);
-float	limit_decimal_places(float number, int decimal_places);
-char	**ft_split(char const *s, char c);
-
 void 	cursor_hook(double xpos, double ypos, void* param);
 void mouse_action (mouse_key_t button, action_t action, modifier_key_t mods, void* param);
 
-int		atoi2(int *dst, char *str);
+int		atoi_limit_255(int *dst, char *str);
 void	build_map(char *log, t_game *game);
 void	del_token(void *token);
 void	flood_fill_map(t_game *game, char *dup_map);

@@ -6,7 +6,7 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/02/22 12:39:26 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/03/04 12:23:16 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/03/09 19:46:49 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	read_rgb(char *log, t_data *data, enum e_horizon hrzn,
 			return ((void)ft_snprintf(log, LOG, "(%d,%d) `%s\'. Expected a non-"
 					"negative decimal", token->line + 1, token->pos + 1,
 					token->value));
-		if (atoi2(&data->parsed[hrzn], token->value))
+		if (atoi_limit_255(&data->parsed[hrzn], token->value))
 			return ((void)ft_snprintf(log, LOG, "(%d,%d) `%s\'. Exceeds 255",
 					token->line + 1, token->pos + 1, token->value));
 		if (c < BLUE)

@@ -67,7 +67,7 @@ void	normalize_angle_to_2pi(double *angle)
 		*angle -= (2 * M_PI);
 }
 
-int	atoi2(int *dst, char *str)
+int	atoi_limit_255(int *dst, char *str)
 {
 	*dst = 0;
 	while (*str && *dst <= 255)
