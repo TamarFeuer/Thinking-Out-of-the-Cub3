@@ -10,9 +10,9 @@ bool is_diagonal_collision(t_game *game, t_pos new)
 	if (game->player.angle_quad == 1 || game->player.angle_quad == 3)
 	{
 		
-		if ((game->data->map[get_block_index2(game, &new_tl, 1).index] == '1') || (game->data->map[get_block_index2(game, &new_br, 1).index] == '1'))
+		if ((game->data->map[get_block_index2(game, &new_tl, 1).index] == '1') && (game->data->map[get_block_index2(game, &new_br, 1).index] == '1'))
 		{
-			printf ("diagonal collision\n");
+			//printf ("quad 1 or 3 diagonal collision\n");
 			return true;
 		}
 		else
@@ -21,9 +21,9 @@ bool is_diagonal_collision(t_game *game, t_pos new)
 	else if (game->player.angle_quad == 2 || game->player.angle_quad == 4)
 	{
 		
-		if ((game->data->map[get_block_index2(game, &new_bl, 1).index] == '1') || (game->data->map[get_block_index2(game, &new_tr, 1).index] == '1'))
+		if ((game->data->map[get_block_index2(game, &new_bl, 1).index] == '1') && (game->data->map[get_block_index2(game, &new_tr, 1).index] == '1'))
 		{
-			//printf ("diagonal collision\n");
+			//printf ("quad 2 or 4 diagonal collision\n");
 			return true;
 		}
 		else
@@ -33,6 +33,39 @@ bool is_diagonal_collision(t_game *game, t_pos new)
 }
 
 
+// bool is_horiz_collision(t_game *game, t_pos new)
+// {
+// 	t_pos	new_tl = new;
+// 	t_pos	new_tr = {new.x + PLAYER_SIZE * CONST, new.y};
+// 	t_pos	new_bl = {new.x, new.y + PLAYER_SIZE * CONST};
+// 	t_pos	new_br = {new.x + PLAYER_SIZE * CONST, new.y + PLAYER_SIZE * CONST};
+	
+// 	if (((game->data->map[get_block_index2(game, &new_tl, 1).index] == '1') && (game->data->map[get_block_index2(game, &new_tr, 1).index] == '1'))
+// 		|| ((game->data->map[get_block_index2(game, &new_bl, 1).index] == '1') && (game->data->map[get_block_index2(game, &new_br, 1).index] == '1')))
+// 		{
+// 			printf("horizontal collision!\n");
+// 			return (true);
+// 		}
+// 	return (false);
+// }
+
+// bool is_vertical_collision(t_game *game, t_pos new)
+// {
+// 	t_pos	new_tl = new;
+// 	t_pos	new_tr = {new.x + PLAYER_SIZE * CONST, new.y};
+// 	t_pos	new_bl = {new.x, new.y + PLAYER_SIZE * CONST};
+// 	t_pos	new_br = {new.x + PLAYER_SIZE * CONST, new.y + PLAYER_SIZE * CONST};
+
+// 	if (((game->data->map[get_block_index2(game, &new_tl, 0).index] == '1') && (game->data->map[get_block_index2(game, &new_bl, 0).index] == '1'))
+// 		|| ((game->data->map[get_block_index2(game, &new_tr, 0).index] == '1') && (game->data->map[get_block_index2(game, &new_br, 0).index] == '1')))
+	
+// 		{
+// 			printf("vertical collision!\n");
+// 			return (true);
+// 		}
+// 	return (false);
+// }
+
 bool is_horiz_collision(t_game *game, t_pos new)
 {
 	t_pos	new_tl = new;
@@ -40,10 +73,10 @@ bool is_horiz_collision(t_game *game, t_pos new)
 	t_pos	new_bl = {new.x, new.y + PLAYER_SIZE * CONST};
 	t_pos	new_br = {new.x + PLAYER_SIZE * CONST, new.y + PLAYER_SIZE * CONST};
 	
-	if (((game->data->map[get_block_index2(game, &new_tl, 1).index] == '1') && (game->data->map[get_block_index2(game, &new_tr, 1).index] == '1'))
-		|| ((game->data->map[get_block_index2(game, &new_bl, 1).index] == '1') && (game->data->map[get_block_index2(game, &new_br, 1).index] == '1')))
+	if ((((game->player.angle_quad == 1) || (game->player.angle_quad == 2)) && (game->data->map[get_block_index2(game, &new_tl, 1).index] == '1') && (game->data->map[get_block_index2(game, &new_tr, 1).index] == '1'))
+		|| (((game->player.angle_quad == 3) || (game->player.angle_quad == 4)) && (game->data->map[get_block_index2(game, &new_bl, 1).index] == '1') && (game->data->map[get_block_index2(game, &new_br, 1).index] == '1')))
 		{
-			printf("horizontal collision!\n");
+			//printf("horizontal collision!\n");
 			return (true);
 		}
 	return (false);
@@ -56,11 +89,11 @@ bool is_vertical_collision(t_game *game, t_pos new)
 	t_pos	new_bl = {new.x, new.y + PLAYER_SIZE * CONST};
 	t_pos	new_br = {new.x + PLAYER_SIZE * CONST, new.y + PLAYER_SIZE * CONST};
 
-	if (((game->data->map[get_block_index2(game, &new_tl, 0).index] == '1') && (game->data->map[get_block_index2(game, &new_bl, 0).index] == '1'))
-		|| ((game->data->map[get_block_index2(game, &new_tr, 0).index] == '1') && (game->data->map[get_block_index2(game, &new_br, 0).index] == '1')))
+	if ((((game->player.angle_quad == 2) || (game->player.angle_quad == 3)) && (game->data->map[get_block_index2(game, &new_tl, 0).index] == '1') && (game->data->map[get_block_index2(game, &new_bl, 0).index] == '1'))
+		|| (((game->player.angle_quad == 1) || (game->player.angle_quad == 4)) && (game->data->map[get_block_index2(game, &new_tr, 0).index] == '1') && (game->data->map[get_block_index2(game, &new_br, 0).index] == '1')))
 	
 		{
-			printf("vertical collision!\n");
+			//printf("vertical collision!\n");
 			return (true);
 		}
 	return (false);
@@ -74,8 +107,11 @@ void check_collision(t_game *game, t_pos *new_pos)
     bool vert_collision = is_vertical_collision(game, *new_pos);  // Check vertical collision
     bool diag_collision = is_diagonal_collision(game, *new_pos);  // Check diagonal collision
 
+
+	if (diag_collision)
+		return;
     // Handle movement based on the type of collision
-    // if (!diag_collision) 
+	// if (!diag_collision) 
 	// {
 
         // If there's no horizontal collision, the player can move vertically (up or down)
