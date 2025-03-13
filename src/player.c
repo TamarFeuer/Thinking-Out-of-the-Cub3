@@ -13,9 +13,9 @@ void draw_player_direction(t_game *game, t_pos start, double angle)
 		end_y -= sin(angle) * step_size;
 		distance += step_size;
 		// if (game->mapdata[get_block_index(&(t_pos){end_x, end_y})] == '1')
-		if (game->data->map[get_block_index(game, &(t_pos){end_x, end_y}, 999)] == '1')
+		if (game->data->map[get_block_index(game, &(t_pos){end_x, end_y}, 999)] == '1' || distance > MAX_RAY_DISTANCE)
 			return;
-		mlx_put_pixel(game->mini, (int)end_x - X_START, (int)end_y - Y_START, 0xFF0000FF);
+		mlx_put_pixel(game->mini, (int)end_x - X_START, (int)end_y - Y_START, distance_to_color(distance, 1));
 	}
 }
 

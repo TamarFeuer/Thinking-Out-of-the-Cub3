@@ -49,8 +49,8 @@ void draw_bresenham_ray(t_game *game, t_pos start, t_pos end)
 			}
 
 			// Set the pixel color using the computed distance
-            // if (distance <= MAX_RAY_DISTANCE)
-			mlx_put_pixel(game->mini, x, y, distance_to_color(distance));  //safe
+            if (distance <= MAX_RAY_DISTANCE)
+			    mlx_put_pixel(game->mini, x, y, distance_to_color(distance, 0));  //safe
 			
 			// Update the decision variable and position
 			if (decision_variable >= 0)
@@ -80,7 +80,8 @@ void draw_bresenham_ray(t_game *game, t_pos start, t_pos end)
 			}
 
 			// Set the pixel color using the computed distance
-			mlx_put_pixel(game->mini, x, y, distance_to_color(distance));
+			if (distance <= MAX_RAY_DISTANCE)
+                mlx_put_pixel(game->mini, x, y, distance_to_color(distance, 0));
 
 			// Update the decision variable and position
 			if (decision_variable >= 0)

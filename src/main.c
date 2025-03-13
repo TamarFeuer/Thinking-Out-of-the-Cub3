@@ -10,7 +10,7 @@ void draw_all(void *param)
 	cast_rays(game);
 	if (game->is_mmap)
 	{
-		printf("width: %u\n", game->mini->width);
+		//printf("width: %u\n", game->mini->width);
 		//assert(game->mini->width == 19);
 		const uint32_t npixels = (game->mini->width - 1)* (game->mini->height - 1) *  CONST;
 		pixel = game->mini->pixels;
@@ -36,9 +36,11 @@ void draw_all(void *param)
 		draw_player(game);
 	
 		//printf ("player angle %f\n", game->player.angle);
-		draw_player_direction(game, (t_pos){game->camera.pos.x, game->camera.pos.y}, game->player.angle);
 		draw_grid(game, game->data->map_data.rows, game->data->map_data.cols);
+		draw_player_direction(game, (t_pos){game->camera.pos.x, game->camera.pos.y}, game->player.angle);
+	
 	}
+	mlx_delete_image(game->mlx, game->stats);
 	print_stats(game);
 }
 

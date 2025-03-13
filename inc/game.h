@@ -45,8 +45,8 @@
 //rays
 #define FOV 60.0 // Field of View in degrees
 #define NUMBER_OF_RAYS 640
-#define MAX_RAY_LENGTH 400
-#define MAX_RAY_DISTANCE 300
+// #define MAX_RAY_LENGTH 400
+#define MAX_RAY_DISTANCE 400
 #define DISTANCE_PER_TURN 0.5 * CONST
 #define OUT_OF_BOUNDS 1000000000
 
@@ -191,7 +191,7 @@ void	cast_rays(t_game *game);
 void	key_hook(mlx_key_data_t keydata, void *param);
 void	print_stats(t_game *game);
 void	clean_nicely(t_game *game, char *error_message);
-int		distance_to_color(int distance);
+int		distance_to_color(int distance, int flag);
 // void	DDA_ray(t_game *game, t_pos start, t_pos end);
 void	DDA_ray(t_game *game, t_pos start, t_pos end, int color);
 const char *get_direction(t_game *game);

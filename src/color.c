@@ -27,18 +27,34 @@ int	convert_to_mlx42_endian(int c)
 // 	return (alpha << 24) | (red << 16) | (255 << 8) | blue;
 // }
 
-int distance_to_color(int distance)
+int distance_to_color(int distance, int flag)
 {
-    int max_color_value = 255;
+    int red;
+    int blue;
+    int green;
+    //int max_color_value = 255;
     // Normalize the distance (between 0 and 1)
     float normalized_distance = (float)distance / MAX_RAY_DISTANCE;
     if (normalized_distance > 1.0f) 
         normalized_distance = 1.0f;
-
-    int red = (int)((1.0f - normalized_distance) * max_color_value);
-    int blue = (int)((1.0f - normalized_distance) * max_color_value);
+    if (flag == 0) //PLAYER DIRECTION
+    {
+        // red = (int)((1.0f - normalized_distance) * max_color_value);
+        red = 0xFF;
+        //blue = (int)((1.0f - normalized_distance) * max_color_value);
+        blue = 0x00;
+        // green = 0xFF;
+        green = 00;
+    }
+    else// RAYS
+    {
+        red = 0xFF;
+        blue = 0x00;
+        green = 0xFF;
+    }
     int alpha = (1.0f - normalized_distance) * 255;
 
+
     // Reverse the color for MLX42 (Blue << 24 | Green << 16 | Red << 8 | Alpha)
-    return (blue << 24) | (255 << 16) | (red << 8) | alpha;
+    return (blue << 24) | (green << 16) | (red << 8) | alpha;
 }

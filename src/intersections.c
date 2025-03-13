@@ -10,7 +10,7 @@ void reach_nearest_wall_by_plotting(t_game *game, float angle) //start and end i
    
 	//printf ("angle is %f\n", angle);
 	//printf ("starting in x=%f y=%f\n", start.x, start.y);
-	while (distance < MAX_RAY_LENGTH)
+	while (distance < MAX_RAY_DISTANCE)
 	{
 		game->ray->end.x += cos(angle) * step_size;
 		game->ray->end.y -= sin(angle) * step_size;
@@ -41,7 +41,7 @@ void reach_nearest_wall_by_plotting(t_game *game, float angle) //start and end i
 				return;
 			}
 		}
-		if (distance > MAX_RAY_LENGTH)
+		if (distance > MAX_RAY_DISTANCE)
 		{
 			// Out of bounds, stop casting
 			game->ray->wall_met= false;
