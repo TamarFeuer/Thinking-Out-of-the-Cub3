@@ -12,7 +12,7 @@ void draw_all(void *param)
 	{
 		//printf("width: %u\n", game->mini->width);
 		//assert(game->mini->width == 19);
-		const uint32_t npixels = (game->mini->width - 1)* (game->mini->height - 1) *  CONST;
+		const uint32_t npixels = (game->mini->width)* (game->mini->height) *  CONST;
 		pixel = game->mini->pixels;
 		while (pixel - game->mini->pixels < npixels)
 			*pixel++ &= 0xFFFFFF00;
@@ -126,7 +126,7 @@ int	main(int argc, char *argv[])
 	mlx_get_monitor_size(0, &width, &height);
 	//printf ("width is %d, height is %d\n", width, height);
 
-	game->scene = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	game->scene = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT); //check return value. copywrites Rutger
 	if (!game->scene || (mlx_image_to_window(game->mlx, game->scene, X_START, Y_START ) < 0))
 		clean_nicely(game, "Failed to create/copy an MLX42 image");
 	game->mini = mlx_new_image(game->mlx, game->data->map_data.cols * game->cell_size + 1, game->data->map_data.rows * game->cell_size + 1);
