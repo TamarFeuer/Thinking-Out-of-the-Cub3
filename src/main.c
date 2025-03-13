@@ -16,7 +16,7 @@ void draw_all(void *param)
 		pixel = game->mini->pixels;
 		while (pixel - game->mini->pixels < npixels)
 			*pixel++ &= 0xFFFFFF00;
-		draw_grid(game, game->data->map_data.rows, game->data->map_data.cols);
+		
 		
 		// printf ("drawing grid\n");
 		int i = 0;
@@ -37,6 +37,7 @@ void draw_all(void *param)
 	
 		//printf ("player angle %f\n", game->player.angle);
 		draw_player_direction(game, (t_pos){game->camera.pos.x, game->camera.pos.y}, game->player.angle);
+		draw_grid(game, game->data->map_data.rows, game->data->map_data.cols);
 	}
 	print_stats(game);
 }
