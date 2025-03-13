@@ -180,6 +180,7 @@ typedef struct s_game
 	t_camera		camera;
 	mlx_t			*mlx;
 	mlx_image_t 	*scene;
+	mlx_image_t		*mini;
 	mlx_image_t 	*stats;
 	mlx_texture_t	*textures[4];
 }	t_game;

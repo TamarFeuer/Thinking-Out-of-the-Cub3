@@ -1,13 +1,21 @@
 #include "../inc/game.h"
-
+#include <assert.h>
 void draw_all(void *param)
 {
 	t_game *game;
 	game = (t_game *)param;
+	uint8_t *pixel;
+
 
 	cast_rays(game);
 	if (game->is_mmap)
 	{
+		printf("width: %u\n", game->mini->width);
+		//assert(game->mini->width == 19);
+		const uint32_t npixels = (game->mini->width - 1)* (game->mini->height - 1) *  CONST;
+		pixel = game->mini->pixels;
+		while (pixel - game->mini->pixels < npixels)
+			*pixel++ &= 0xFFFFFF00;
 		draw_grid(game, game->data->map_data.rows, game->data->map_data.cols);
 		
 		// printf ("drawing grid\n");
@@ -117,6 +125,9 @@ int	main(int argc, char *argv[])
 
 	game->scene = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	if (!game->scene || (mlx_image_to_window(game->mlx, game->scene, X_START, Y_START ) < 0))
+		clean_nicely(game, "Failed to create/copy an MLX42 image");
+	game->mini = mlx_new_image(game->mlx, game->data->map_data.cols * game->cell_size + 1, game->data->map_data.rows * game->cell_size + 1);
+	if (!game->mini || (mlx_image_to_window(game->mlx, game->mini, X_START, Y_START ) < 0))
 		clean_nicely(game, "Failed to create/copy an MLX42 image");
 	
 	mlx_loop_hook(game->mlx, draw_all, game);
