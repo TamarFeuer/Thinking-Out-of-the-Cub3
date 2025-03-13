@@ -110,22 +110,21 @@ void check_collision(t_game *game, t_pos *new_pos)
 
 	if (diag_collision)
 		return;
-    // Handle movement based on the type of collision
-	// if (!diag_collision) 
-	// {
+	printf ("y value of new pos is %f\n", (*new_pos).y);
 
         // If there's no horizontal collision, the player can move vertically (up or down)
         if (!horiz_collision) 
 		{
-            game->player.p_pos.y = round(new_pos->y);  // Move player vertically
-			game->camera.pos.y = round(game->player.p_pos.y + (PLAYER_SIZE + CONST) / 2);
+            game->player.p_pos.y = (new_pos->y);  // Move player vertically
+			printf ("new player pos is y = %f\n", new_pos->y);
+			game->camera.pos.y = (game->player.p_pos.y + (PLAYER_SIZE + CONST) / 2);
         }
 
         // If there's no vertical collision, the player can move horizontally (left or right)
         if (!vert_collision) 
 		{
-            game->player.p_pos.x = round(new_pos->x);  // Move player horizontally
-			game->camera.pos.x = round(game->player.p_pos.x + (PLAYER_SIZE + CONST) / 2);
+            game->player.p_pos.x = (new_pos->x);  // Move player horizontally
+			game->camera.pos.x = (game->player.p_pos.x + (PLAYER_SIZE + CONST) / 2);
 			//printf ("new player.pos is x=%f y=%f\n", game->player.p_pos.x, game->player.p_pos.y);
 
         // }
@@ -146,23 +145,25 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 	double angle_size = 2 * M_PI / 100;
 	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
-		new.x += round(cos(game->player.angle) * DISTANCE_PER_TURN);
-		new.y -= round(sin(game->player.angle) * DISTANCE_PER_TURN);
+		new.x += (cos(game->player.angle) * DISTANCE_PER_TURN);
+		new.y -= (sin(game->player.angle) * DISTANCE_PER_TURN);
+		printf ("addition is %f\n", sin(game->player.angle) * DISTANCE_PER_TURN);
+		printf ("quad is %d\n", game->player.angle_quad);
 	}
 	else if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
-		new.x -= round(cos(game->player.angle) * DISTANCE_PER_TURN);
-		new.y += round(sin(game->player.angle) * DISTANCE_PER_TURN);
+		new.x -= (cos(game->player.angle) * DISTANCE_PER_TURN);
+		new.y += (sin(game->player.angle) * DISTANCE_PER_TURN);
 	}
 	else if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
-		new.x -= round(sin(game->player.angle) * DISTANCE_PER_TURN);
-		new.y -= round(cos(game->player.angle) * DISTANCE_PER_TURN);
+		new.x -= (sin(game->player.angle) * DISTANCE_PER_TURN);
+		new.y -= (cos(game->player.angle) * DISTANCE_PER_TURN);
 	}
 	else if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
-		new.x += round(sin(game->player.angle) * DISTANCE_PER_TURN);
-		new.y += round(cos(game->player.angle) * DISTANCE_PER_TURN);
+		new.x += (sin(game->player.angle) * DISTANCE_PER_TURN);
+		new.y += (cos(game->player.angle) * DISTANCE_PER_TURN);
 	}
 
 	// Boundary check for player movement
