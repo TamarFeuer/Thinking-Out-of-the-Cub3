@@ -40,7 +40,7 @@
 #define PLAYER_SIZE 2
 #define PLAYER_DIRECTION_SIZE 50
 #define FORWARD 1
-#define BACKWARD 0
+#define BACKWARD -1
 
 //rays
 #define FOV 60.0 // Field of View in degrees
@@ -138,6 +138,7 @@ typedef struct s_ray
 	t_pos		h_hit;
 	t_pos		ray_start[SCREEN_WIDTH];
 	t_pos		ray_end[SCREEN_WIDTH];
+	int			direction;
 }	t_ray;
 
 typedef struct s_data

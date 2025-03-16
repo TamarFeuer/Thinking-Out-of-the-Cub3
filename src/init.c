@@ -48,5 +48,6 @@ void init_game_struct(t_game *game)
 	game->data->minimap_data.x_end = game->data->minimap_data.x_start + game->data->minimap_data.width;
 	game->data->minimap_data.y_start = 0;
 	game->data->minimap_data.y_end = game->data->minimap_data.y_start + game->data->minimap_data.height;
+	game->ray->direction = FORWARD;
 	load_textures(game);
 }

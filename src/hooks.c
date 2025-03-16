@@ -1,36 +1,36 @@
 #include "../inc/game.h"
 
-bool is_diagonal_collision(t_game *game, t_pos new)
-{
-    t_pos new_tl = new;
-	t_pos new_tr = {new.x + PLAYER_SIZE * CONST, new.y};
-	t_pos new_bl = {new.x, new.y + PLAYER_SIZE * CONST};
-	t_pos new_br = {new.x + PLAYER_SIZE * CONST, new.y + PLAYER_SIZE * CONST};
+// bool is_diagonal_collision(t_game *game, t_pos new)
+// {
+//     t_pos new_tl = new;
+// 	t_pos new_tr = {new.x + PLAYER_SIZE * CONST, new.y};
+// 	t_pos new_bl = {new.x, new.y + PLAYER_SIZE * CONST};
+// 	t_pos new_br = {new.x + PLAYER_SIZE * CONST, new.y + PLAYER_SIZE * CONST};
 	
-	if (game->player.angle_quad == 1 || game->player.angle_quad == 3)
-	{
+// 	if (game->player.angle_quad == 1 || game->player.angle_quad == 3)
+// 	{
 		
-		if ((game->data->map[get_block_index2(game, &new_tl, 1).index] == '1') && (game->data->map[get_block_index2(game, &new_br, 1).index] == '1'))
-		{
-			//printf ("quad 1 or 3 diagonal collision\n");
-			return true;
-		}
-		else
-			return false;
-	}
-	else if (game->player.angle_quad == 2 || game->player.angle_quad == 4)
-	{
+// 		if ((game->data->map[get_block_index2(game, &new_tl, 1).index] == '1') && (game->data->map[get_block_index2(game, &new_br, 1).index] == '1'))
+// 		{
+// 			//printf ("quad 1 or 3 diagonal collision\n");
+// 			return true;
+// 		}
+// 		else
+// 			return false;
+// 	}
+// 	else if (game->player.angle_quad == 2 || game->player.angle_quad == 4)
+// 	{
 		
-		if ((game->data->map[get_block_index2(game, &new_bl, 1).index] == '1') && (game->data->map[get_block_index2(game, &new_tr, 1).index] == '1'))
-		{
-			//printf ("quad 2 or 4 diagonal collision\n");
-			return true;
-		}
-		else
-			return false;
-	}
-	return false;
-}
+// 		if ((game->data->map[get_block_index2(game, &new_bl, 1).index] == '1') && (game->data->map[get_block_index2(game, &new_tr, 1).index] == '1'))
+// 		{
+// 			//printf ("quad 2 or 4 diagonal collision\n");
+// 			return true;
+// 		}
+// 		else
+// 			return false;
+// 	}
+// 	return false;
+// }
 
 
 // bool is_horiz_collision(t_game *game, t_pos new)
@@ -40,12 +40,24 @@ bool is_diagonal_collision(t_game *game, t_pos new)
 // 	t_pos	new_bl = {new.x, new.y + PLAYER_SIZE * CONST};
 // 	t_pos	new_br = {new.x + PLAYER_SIZE * CONST, new.y + PLAYER_SIZE * CONST};
 	
-// 	if (((game->data->map[get_block_index2(game, &new_tl, 1).index] == '1') && (game->data->map[get_block_index2(game, &new_tr, 1).index] == '1'))
-// 		|| ((game->data->map[get_block_index2(game, &new_bl, 1).index] == '1') && (game->data->map[get_block_index2(game, &new_br, 1).index] == '1')))
-// 		{
-// 			printf("horizontal collision!\n");
-// 			return (true);
-// 		}
+// 	if (game->ray->direction == FORWARD)
+// 	{
+// 		if (((game->player.angle_quad == 1 || game->player.angle_quad == 2) && (is_wall_hit(game, new_tl, 1) && is_wall_hit(game, new_tr, 1)))
+// 			|| ((game->player.angle_quad == 3 || game->player.angle_quad == 4) && (is_wall_hit(game, new_bl, 1) && is_wall_hit(game, new_br, 1))))
+// 			{
+// 				printf("horizontal collision!\n");
+// 				return (true);
+// 			}
+// 	}
+// 	else if (game->ray->direction == BACKWARD)
+// 	{
+// 		if (((game->player.angle_quad == 3 || game->player.angle_quad == 4) && (is_wall_hit(game, new_tl, 1) && is_wall_hit(game, new_tr, 1)))
+// 			|| ((game->player.angle_quad == 1 || game->player.angle_quad == 2) && (is_wall_hit(game, new_bl, 1) && is_wall_hit(game, new_br, 1))))
+// 			{
+// 				printf("horizontal collision!\n");
+// 				return (true);
+// 			}
+// 	}
 // 	return (false);
 // }
 
@@ -56,85 +68,135 @@ bool is_diagonal_collision(t_game *game, t_pos new)
 // 	t_pos	new_bl = {new.x, new.y + PLAYER_SIZE * CONST};
 // 	t_pos	new_br = {new.x + PLAYER_SIZE * CONST, new.y + PLAYER_SIZE * CONST};
 
-// 	if (((game->data->map[get_block_index2(game, &new_tl, 0).index] == '1') && (game->data->map[get_block_index2(game, &new_bl, 0).index] == '1'))
-// 		|| ((game->data->map[get_block_index2(game, &new_tr, 0).index] == '1') && (game->data->map[get_block_index2(game, &new_br, 0).index] == '1')))
+// 	if (game->ray->direction == FORWARD)
+// 	{
+// 		if ((((game->player.angle_quad == 2) || (game->player.angle_quad == 3)) && (game->data->map[get_block_index2(game, &new_tl, 0).index] == '1') && (game->data->map[get_block_index2(game, &new_bl, 0).index] == '1'))
+// 			|| (((game->player.angle_quad == 1) || (game->player.angle_quad == 4)) && (game->data->map[get_block_index2(game, &new_tr, 0).index] == '1') && (game->data->map[get_block_index2(game, &new_br, 0).index] == '1')))
+		
+// 			{
+// 				printf("vertical collision!\n");
+// 				return (true);
+// 			}
+// 	}
+// 	else if (game->ray->direction == BACKWARD)
+// 	{
+// 		if ((((game->player.angle_quad == 1) || (game->player.angle_quad == 4)) && (game->data->map[get_block_index2(game, &new_tl, 0).index] == '1') && (game->data->map[get_block_index2(game, &new_bl, 0).index] == '1'))
+// 			|| (((game->player.angle_quad == 2) || (game->player.angle_quad == 3)) && (game->data->map[get_block_index2(game, &new_tr, 0).index] == '1') && (game->data->map[get_block_index2(game, &new_br, 0).index] == '1')))
+// 			{
+// 				printf("vertical collision!\n");
+// 				return (true);
+// 			}
 	
-// 		{
-// 			printf("vertical collision!\n");
-// 			return (true);
-// 		}
+// 	}
 // 	return (false);
 // }
 
-bool is_horiz_collision(t_game *game, t_pos new)
+
+// void check_collision(t_game *game, t_pos *new_pos) 
+// {
+//     // Check for collisions in all directions
+//     bool horiz_collision = is_horiz_collision(game, *new_pos);  // Check horizontal collision
+//     bool vert_collision = is_vertical_collision(game, *new_pos);  // Check vertical collision
+//     bool diag_collision = is_diagonal_collision(game, *new_pos);  // Check diagonal collision
+
+
+// 	if (diag_collision)
+// 		return;
+// 	printf ("direction is %d\n", game->ray->direction);
+// 	//printf ("y value of new pos is %f\n", (*new_pos).y);
+
+//         // If there's no horizontal collision, the player can move vertically (up or down)
+//         if (!horiz_collision) 
+// 		{
+//             game->player.p_pos.y = (new_pos->y);  // Move player vertically
+// 			//printf ("new player pos is y = %f\n", new_pos->y);
+// 			game->camera.pos.y = (game->player.p_pos.y + (PLAYER_SIZE + CONST) / 2);
+//         }
+
+//         // If there's no vertical collision, the player can move horizontally (left or right)
+//         if (!vert_collision) 
+// 		{
+//            game->player.p_pos.x = (new_pos->x);  // Move player horizontally
+// 			game->camera.pos.x = (game->player.p_pos.x + (PLAYER_SIZE + CONST) / 2);
+// 			//printf ("new player.pos is x=%f y=%f\n", game->player.p_pos.x, game->player.p_pos.y);
+//     }
+// }
+
+//-----------------------------------------------------
+void check_collision(t_game *game, t_pos new_pos) 
 {
-	t_pos	new_tl = new;
-	t_pos	new_tr = {new.x + PLAYER_SIZE * CONST, new.y};
-	t_pos	new_bl = {new.x, new.y + PLAYER_SIZE * CONST};
-	t_pos	new_br = {new.x + PLAYER_SIZE * CONST, new.y + PLAYER_SIZE * CONST};
-	
-	if ((((game->player.angle_quad == 1) || (game->player.angle_quad == 2)) && (game->data->map[get_block_index2(game, &new_tl, 1).index] == '1') && (game->data->map[get_block_index2(game, &new_tr, 1).index] == '1'))
-		|| (((game->player.angle_quad == 3) || (game->player.angle_quad == 4)) && (game->data->map[get_block_index2(game, &new_bl, 1).index] == '1') && (game->data->map[get_block_index2(game, &new_br, 1).index] == '1')))
-		{
-			//printf("horizontal collision!\n");
-			return (true);
-		}
-	return (false);
-}
+    t_block_index block_x, block_y;
 
-bool is_vertical_collision(t_game *game, t_pos new)
-{
-	t_pos	new_tl = new;
-	t_pos	new_tr = {new.x + PLAYER_SIZE * CONST, new.y};
-	t_pos	new_bl = {new.x, new.y + PLAYER_SIZE * CONST};
-	t_pos	new_br = {new.x + PLAYER_SIZE * CONST, new.y + PLAYER_SIZE * CONST};
+    // Define positions for each corner based on the movement direction
+    t_pos check_x, check_y;
 
-	if ((((game->player.angle_quad == 2) || (game->player.angle_quad == 3)) && (game->data->map[get_block_index2(game, &new_tl, 0).index] == '1') && (game->data->map[get_block_index2(game, &new_bl, 0).index] == '1'))
-		|| (((game->player.angle_quad == 1) || (game->player.angle_quad == 4)) && (game->data->map[get_block_index2(game, &new_tr, 0).index] == '1') && (game->data->map[get_block_index2(game, &new_br, 0).index] == '1')))
-	
-		{
-			//printf("vertical collision!\n");
-			return (true);
-		}
-	return (false);
-}
-
-
-void check_collision(t_game *game, t_pos *new_pos) 
-{
-    // Check for collisions in all directions
-    bool horiz_collision = is_horiz_collision(game, *new_pos);  // Check horizontal collision
-    bool vert_collision = is_vertical_collision(game, *new_pos);  // Check vertical collision
-    bool diag_collision = is_diagonal_collision(game, *new_pos);  // Check diagonal collision
-
-
-	if (diag_collision)
-		return;
-	printf ("y value of new pos is %f\n", (*new_pos).y);
-
-        // If there's no horizontal collision, the player can move vertically (up or down)
-        if (!horiz_collision) 
-		{
-            game->player.p_pos.y = (new_pos->y);  // Move player vertically
-			printf ("new player pos is y = %f\n", new_pos->y);
-			game->camera.pos.y = (game->player.p_pos.y + (PLAYER_SIZE + CONST) / 2);
+    // When moving horizontally (left or right)
+    if (new_pos.x != game->player.p_pos.x) 
+	{
+        // Check the left or right corners based on movement direction
+        if (new_pos.x > game->player.p_pos.x) 
+		{ 
+			//printf ("moving right\n");
+            check_x = (t_pos){new_pos.x + CONST * PLAYER_SIZE, game->player.p_pos.y + CONST * PLAYER_SIZE};  // Right bottom corner
+        } 
+		else 
+		{ 
+			//printf ("moving left\n");
+            check_x = (t_pos){new_pos.x , game->player.p_pos.y};  // Left bottom corner
         }
-
-        // If there's no vertical collision, the player can move horizontally (left or right)
-        if (!vert_collision) 
-		{
-            game->player.p_pos.x = (new_pos->x);  // Move player horizontally
-			game->camera.pos.x = (game->player.p_pos.x + (PLAYER_SIZE + CONST) / 2);
-			//printf ("new player.pos is x=%f y=%f\n", game->player.p_pos.x, game->player.p_pos.y);
-
-        // }
+        block_x = get_block_index2(game, &check_x, 0); // flag = 0 for horizontal
     }
 
-    // Update the camera position based on the player's new position
-   
-    // game->camera.pos.y = round(game->player.p_pos.y + (PLAYER_SIZE + CONST) / 2);
-	// game->camera.pos.x = round(game->player.p_pos.x + (PLAYER_SIZE + CONST) / 2);
+    // When moving vertically (up or down)
+    if (new_pos.y != game->player.p_pos.y) 
+	{
+        // Check the top or bottom corners based on movement direction
+        if (new_pos.y > game->player.p_pos.y) 
+		{ 
+			//printf ("moving down\n");
+            check_y = (t_pos){game->player.p_pos.x, new_pos.y + PLAYER_SIZE * CONST};  // Bottom left corner  --- add botton right
+        } 
+		else 
+		{ 
+			//printf ("moving up\n");
+            check_y = (t_pos){game->player.p_pos.x, new_pos.y };  // Top left corner   
+        }
+        block_y = get_block_index2(game, &check_y, 1); // flag = 1 for vertical
+    }
+
+    // Check for collisions
+    if (game->data->map[block_y.index] == '1' && game->data->map[block_x.index] == '1') 
+	{
+        printf("Diagonal collision detected!\n");
+		printf ("new is x=%f y=%f\n", new_pos.x, new_pos.y);
+        return;
+    }
+
+    // Check horizontal movement (X direction)
+    if (game->data->map[block_x.index] == '1' && game->data->map[block_y.index] != '1') 
+	{
+        printf("Collision in X direction, block movement in x\n");
+
+    }
+    else 
+	{
+        game->player.p_pos.x = new_pos.x;  // Move player horizontally
+        game->camera.pos.x = (game->player.p_pos.x + (PLAYER_SIZE + CONST) / 2);
+    }
+
+    // Check vertical movement (Y direction)
+    if (game->data->map[block_y.index] == '1' && game->data->map[block_x.index] != '1') 
+	{
+        printf("Collision in Y direction, block movement in y\n");
+       
+    }
+    else 
+	{
+        game->player.p_pos.y = new_pos.y;  // Move player vertically
+        game->camera.pos.y = (game->player.p_pos.y + (PLAYER_SIZE + CONST) / 2);
+    }
 }
+
 
 static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 {
@@ -147,23 +209,28 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 	{
 		new.x += (cos(game->player.angle) * DISTANCE_PER_TURN);
 		new.y -= (sin(game->player.angle) * DISTANCE_PER_TURN);
-		printf ("addition is %f\n", sin(game->player.angle) * DISTANCE_PER_TURN);
-		printf ("quad is %d\n", game->player.angle_quad);
+		//printf ("addition is %f\n", sin(game->player.angle) * DISTANCE_PER_TURN);
+		//printf ("quad is %d\n", game->player.angle_quad);
+		game->ray->direction = FORWARD;
 	}
 	else if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
 		new.x -= (cos(game->player.angle) * DISTANCE_PER_TURN);
 		new.y += (sin(game->player.angle) * DISTANCE_PER_TURN);
+		game->ray->direction = BACKWARD;
 	}
 	else if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
 		new.x -= (sin(game->player.angle) * DISTANCE_PER_TURN);
 		new.y -= (cos(game->player.angle) * DISTANCE_PER_TURN);
+		game->ray->direction = FORWARD;
 	}
 	else if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
 		new.x += (sin(game->player.angle) * DISTANCE_PER_TURN);
 		new.y += (cos(game->player.angle) * DISTANCE_PER_TURN);
+		game->ray->direction = BACKWARD;
+		
 	}
 
 	// Boundary check for player movement
@@ -177,7 +244,7 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 			new.x = X_START + game->data->minimap_data.width - CONST;
 		if (new.y > Y_START + game->data->minimap_data.height - CONST)
 			new.y = Y_START + game->data->minimap_data.height - CONST;
-		check_collision(game, &new);
+		check_collision(game, new);
 	}
 	if (game->is_mouse_active == false &&(keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)))
 		new_angle -= angle_size; // Rotate clockwise (right)
