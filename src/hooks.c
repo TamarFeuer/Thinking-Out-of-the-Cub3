@@ -123,79 +123,151 @@
 // }
 
 //-----------------------------------------------------
-void check_collision(t_game *game, t_pos new_pos) 
-{
-    t_block_index block_x, block_y;
+// void check_collision(t_game *game, t_pos new_pos)
+// {
+//     t_block_index block_x, block_y;
 
-    // Define positions for each corner based on the movement direction
-    t_pos check_x, check_y;
+//     // Define positions for each corner based on the movement direction
+//     t_pos check_x, check_y;
 
-    // When moving horizontally (left or right)
-    if (new_pos.x != game->player.p_pos.x) 
-	{
-        // Check the left or right corners based on movement direction
-        if (new_pos.x > game->player.p_pos.x) 
-		{ 
-			//printf ("moving right\n");
-            check_x = (t_pos){new_pos.x + CONST * PLAYER_SIZE, game->player.p_pos.y + CONST * PLAYER_SIZE};  // Right bottom corner
-        } 
-		else 
-		{ 
-			//printf ("moving left\n");
-            check_x = (t_pos){new_pos.x , game->player.p_pos.y};  // Left bottom corner
-        }
-        block_x = get_block_index2(game, &check_x, 0); // flag = 0 for horizontal
-    }
+//     // When moving horizontally (left or right)
+//     if (new_pos.x != game->player.p_pos.x) 
+// 	{
+//         // Check the left or right corners based on movement direction
+//         if (new_pos.x > game->player.p_pos.x) 
+// 		{ 
+// 			//printf ("moving right\n");
+//             check_x = (t_pos){new_pos.x + CONST * PLAYER_SIZE, game->player.p_pos.y + CONST * PLAYER_SIZE};  // Right bottom corner
+//         } 
+// 		else 
+// 		{ 
+// 			//printf ("moving left\n");
+//             check_x = (t_pos){new_pos.x , game->player.p_pos.y};  // Left bottom corner
+//         }
+//         block_x = get_block_index2(game, &check_x, 0); // flag = 0 for horizontal
+//     }
 
-    // When moving vertically (up or down)
-    if (new_pos.y != game->player.p_pos.y) 
-	{
-        // Check the top or bottom corners based on movement direction
-        if (new_pos.y > game->player.p_pos.y) 
-		{ 
-			//printf ("moving down\n");
-            check_y = (t_pos){game->player.p_pos.x, new_pos.y + PLAYER_SIZE * CONST};  // Bottom left corner  --- add botton right
-        } 
-		else 
-		{ 
-			//printf ("moving up\n");
-            check_y = (t_pos){game->player.p_pos.x, new_pos.y };  // Top left corner   
-        }
-        block_y = get_block_index2(game, &check_y, 1); // flag = 1 for vertical
-    }
+//     // When moving vertically (up or down)
+//     if (new_pos.y != game->player.p_pos.y) 
+// 	{
+//         // Check the top or bottom corners based on movement direction
+//         if (new_pos.y > game->player.p_pos.y) 
+// 		{ 
+// 			//printf ("moving down\n");
+//             check_y = (t_pos){game->player.p_pos.x, new_pos.y + PLAYER_SIZE * CONST};  // Bottom left corner  --- add botton right
+//         } 
+// 		else 
+// 		{ 
+// 			//printf ("moving up\n");
+//             check_y = (t_pos){game->player.p_pos.x, new_pos.y };  // Top left corner   
+//         }
+//         block_y = get_block_index2(game, &check_y, 1); // flag = 1 for vertical
+//     }
 
-    // Check for collisions
-    if (game->data->map[block_y.index] == '1' && game->data->map[block_x.index] == '1') 
-	{
-        printf("Diagonal collision detected!\n");
-		printf ("new is x=%f y=%f\n", new_pos.x, new_pos.y);
-        return;
-    }
+//     // Check for collisions
+//     if (game->data->map[block_y.index] == '1' && game->data->map[block_x.index] == '1') 
+// 	{
+//         printf("Diagonal collision detected!\n");
+// 		printf ("new is x=%f y=%f\n", new_pos.x, new_pos.y);
+//         return;
+//     }
 
-    // Check horizontal movement (X direction)
-    if (game->data->map[block_x.index] == '1' && game->data->map[block_y.index] != '1') 
-	{
-        printf("Collision in X direction, block movement in x\n");
+//     // Check horizontal movement (X direction)
+//     if (game->data->map[block_x.index] == '1' && game->data->map[block_y.index] != '1') 
+// 	{
+//         printf("Collision in X direction, block movement in x\n");
 
-    }
-    else 
-	{
-        game->player.p_pos.x = new_pos.x;  // Move player horizontally
-        game->camera.pos.x = (game->player.p_pos.x + (PLAYER_SIZE + CONST) / 2);
-    }
+//     }
+//     else 
+// 	{
+//         game->player.p_pos.x = new_pos.x;  // Move player horizontally
+//         game->camera.pos.x = (game->player.p_pos.x + (PLAYER_SIZE + CONST) / 2);
+//     }
 
-    // Check vertical movement (Y direction)
-    if (game->data->map[block_y.index] == '1' && game->data->map[block_x.index] != '1') 
-	{
-        printf("Collision in Y direction, block movement in y\n");
+//     // Check vertical movement (Y direction)
+//     if (game->data->map[block_y.index] == '1' && game->data->map[block_x.index] != '1') 
+// 	{
+//         printf("Collision in Y direction, block movement in y\n");
        
-    }
-    else 
-	{
-        game->player.p_pos.y = new_pos.y;  // Move player vertically
-        game->camera.pos.y = (game->player.p_pos.y + (PLAYER_SIZE + CONST) / 2);
-    }
+//     }
+//     else 
+// 	{
+//         game->player.p_pos.y = new_pos.y;  // Move player vertically
+//         game->camera.pos.y = (game->player.p_pos.y + (PLAYER_SIZE + CONST) / 2);
+//     }
+// }
+
+int corner_block_index(t_game *game, t_pos corner)
+{
+	float y_index = get_block_index2(game, &corner, 1).y;
+	float x_index = get_block_index2(game, &corner, 0).x;
+	int block_index = (y_index) * game->data->map_data.cols + (x_index);
+	return (block_index);
 }
+
+bool is_colliding(t_game *game, t_pos new)
+{
+    t_pos new_tl = new;
+	t_pos new_tr = {new.x + PLAYER_SIZE * CONST, new.y};
+	t_pos new_bl = {new.x, new.y + PLAYER_SIZE * CONST};
+	t_pos new_br = {new.x + PLAYER_SIZE * CONST, new.y + PLAYER_SIZE * CONST};
+	
+	if ((game->data->map[corner_block_index(game, new_tl)] == '1')
+		|| (game->data->map[corner_block_index(game, new_tr)] == '1')
+		||(game->data->map[corner_block_index(game, new_bl)] == '1')
+		||(game->data->map[corner_block_index(game, new_br)] == '1'))
+	{
+		printf ("collision\n");
+		return true;
+	}
+	else
+		return false;
+}
+
+
+
+
+// check if there is any collision
+// if there is separate to vertical and horrizontal
+void check_collision(t_game *game, t_pos old_pos, t_pos new_pos)
+{
+	if (is_colliding(game, new_pos))
+	{
+		//flag: vertical 1, horizontal 0
+		// Try moving only in the vertical direction
+		t_pos temp_pos;
+		temp_pos.x = new_pos.x;
+		temp_pos.y = old_pos.y;
+		if (!is_wall_hit(game, temp_pos, 1))
+		{
+			game->player.p_pos = temp_pos; // Allow horizontal movement
+			game->camera.pos.x = (game->player.p_pos.x + (PLAYER_SIZE + CONST) / 2);
+			return;
+		}
+
+		temp_pos.x = old_pos.x;
+		temp_pos.y = new_pos.y;
+		if (!is_wall_hit(game, temp_pos, 0))
+		{
+			game->player.p_pos = temp_pos; // Allow vertical movement
+			game->camera.pos.y = (game->player.p_pos.y + (PLAYER_SIZE + CONST) / 2);
+			return;
+		}
+
+		// No valid movement, stay in old position
+		game->player.p_pos = old_pos;
+	}
+	else
+	{
+		// No collision, update position
+		game->player.p_pos = new_pos;
+		game->camera.pos.x = (game->player.p_pos.x + (PLAYER_SIZE + CONST) / 2);
+		game->camera.pos.y = (game->player.p_pos.y + (PLAYER_SIZE + CONST) / 2);
+	}
+}
+
+
+
 
 
 static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
@@ -244,7 +316,7 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 			new.x = X_START + game->data->minimap_data.width - CONST;
 		if (new.y > Y_START + game->data->minimap_data.height - CONST)
 			new.y = Y_START + game->data->minimap_data.height - CONST;
-		check_collision(game, new);
+		check_collision(game, game->player.p_pos, new);
 	}
 	if (game->is_mouse_active == false &&(keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)))
 		new_angle -= angle_size; // Rotate clockwise (right)
