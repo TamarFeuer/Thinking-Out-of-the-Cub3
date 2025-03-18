@@ -35,8 +35,9 @@ void init_game_struct(t_game *game)
 
 	game->ray->intersect.x = 0;
 	game->ray->intersect.y = 0;
-	game->camera.pos.x = round(game->player.p_pos.x + (PLAYER_SIZE + CONST) /2);
-	game->camera.pos.y = round(game->player.p_pos.y + (PLAYER_SIZE + CONST) /2);
+	
+	game->camera.pos.x = round(game->player.p_pos.x) + PLAYER_SIZE * CONST / 2 - 1;
+	game->camera.pos.y = round(game->player.p_pos.y) + PLAYER_SIZE * CONST / 2 - 1;
 	printf ("in init game struct: game->camera.pos.x %f\n", game->camera.pos.x);
 	game->camera.frustum_plane_distance = SCREEN_WIDTH / 2 * (tan(FOV * DEG_TO_RAD/ 2));
 	//game->camera.frustum_plane_distance = SCREEN_WIDTH / 2 / tan(FOV * DEG_TO_RAD / 2);

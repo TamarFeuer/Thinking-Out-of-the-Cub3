@@ -215,6 +215,7 @@ float	horiz_intersect(t_game *game);
 float	vertical_intersect(t_game *game);
 bool	is_out_of_bounds(t_game *game, t_pos position);
 int		is_wall_hit(t_game *game, t_pos intersect, int flag);
+int		is_wall_hit2(t_game *game, t_pos intersect, int flag);
 int		draw_static_components(t_game *game);
 
 // LIBFT
