@@ -50,25 +50,15 @@ double get_distance(t_pos start, t_pos end)
 
 void cast_rays(t_game *game)
 {
-	// t_pos start = {game->camera.pos.x, game->camera.pos.y};
+	t_ray *const	ray = game->ray;
 
-	float step = FOV * DEG_TO_RAD / SCREEN_WIDTH;
-	// printf ("step is %f\n", step);
-	game->ray->current_angle = game->player.angle + (FOV / 2) * DEG_TO_RAD;
-	normalize_angle_to_2pi((double *)&game->ray->current_angle);
-	determine_quad(game->ray->current_angle, &game->ray->angle_quad);
-	//printf ("cast rays: angle is %f\n", game->ray->current_angle);
-	
-	
-	game->ray->ray_num = 0;
-	if (game->is_debug == false)
-		game->ray->number_of_rays = SCREEN_WIDTH;
-	else
-		game->ray->number_of_rays = 1;
-		
-	while (game->ray->ray_num < game->ray->number_of_rays)
-	// while (game->ray->ray_num < 1)
+	ray->ray_num = 0;
+	while (ray->ray_num < SCREEN_WIDTH)
 	{	
+		ray->current_angle = game->player.angle +
+			atan((SCREEN_WIDTH / 2.0 - ray->ray_num) / FRUSTUM_PLANE);
+		normalize_angle_to_2pi(&ray->current_angle);
+		determine_quad(ray->current_angle, &ray->angle_quad);
 		// printf("by_plotting: \n");
 		//reach_nearest_wall_by_plotting(game, game->ray->current_angle);
 		// printf("Ray %d: angle %f, distance %f, camera.x %f, camera.y %f\n", game->ray->ray_n, game->ray->current_angle, game->ray->distance, game->camera.pos.x, game->camera.pos.y);
@@ -91,25 +81,18 @@ void cast_rays(t_game *game)
 																		//or
 		// if (game->is_mmap == true && game->is_debug == false)
 		
-		game->ray->ray_start[game->ray->ray_num].x = game->camera.pos.x;
-		game->ray->ray_start[game->ray->ray_num].y = game->camera.pos.y;
-		game->ray->ray_end[game->ray->ray_num].x = game->ray->end.x;
-		game->ray->ray_end[game->ray->ray_num].y = game->ray->end.y;
+		ray->ray_start[ray->ray_num].x = game->camera.pos.x;
+		ray->ray_start[ray->ray_num].y = game->camera.pos.y;
+		ray->ray_end[ray->ray_num].x = ray->end.x;
+		ray->ray_end[ray->ray_num].y = ray->end.y;
 
 		//draw_ray(game, game->camera.pos, game->ray->end);
 		//printf ("in cast_rays: angle is %f\n", game->ray->current_angle);
-		draw_vertical_slice(game);
+		draw_scene(game);
 		
-		game->ray->intersect.x = 0;
-		game->ray->intersect.y = 0;
-		game->ray->current_angle -= step;
-			
-		normalize_angle_to_2pi((double *)&game->ray->current_angle);
-		
-		determine_quad(game->ray->current_angle, &game->ray->angle_quad);
-		game->ray->ray_num++;
-		
-		
+		ray->intersect.x = 0;
+		ray->intersect.y = 0;
+
+		ray->ray_num++;
 	}
 }
-

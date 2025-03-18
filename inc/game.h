@@ -14,8 +14,8 @@
 
 #define M_PI 3.14159265358979323846
 #define DEG_TO_RAD (M_PI / 180.0)
-#define SCREEN_WIDTH 1920// 950//1920
-#define SCREEN_HEIGHT 1080//500//1080
+#define SCREEN_WIDTH 1920 //950//1920
+#define SCREEN_HEIGHT 1080 //500//1080
 #define MOUSE_SENSITIVITY 0.1f
 
 //map
@@ -42,6 +42,7 @@
 
 //rays
 #define FOV 60.0 // Field of View in degrees
+#define FRUSTUM_PLANE (SCREEN_WIDTH / 2.0 / tan(FOV * DEG_TO_RAD / 2.0))
 #define NUMBER_OF_RAYS 640
 #define MAX_RAY_LENGTH 400
 #define MAX_RAY_DISTANCE 300
@@ -103,7 +104,6 @@ typedef struct s_camera
 {
 	t_pos		pos;
 	float		angle;
-	float		frustum_plane_distance;
 }	t_camera;
 
 typedef struct s_mmap
@@ -192,7 +192,7 @@ int 	get_block_index2(t_game *game, t_pos *grid_pos, int flag);
 void	reach_nearest_wall_by_plotting(t_game *game, float angle);
 void 	reach_nearest_wall_by_intersections(t_game *game);
 void 	draw_player_direction(t_game *game, t_pos start, double angle);
-void 	draw_vertical_slice(t_game *game);
+void 	draw_scene(t_game *game);
 void	normalize_angle_to_2pi(double *angle);
 void	safe_put_pixel(t_game *game, int x, int y, u_int32_t color);
 int		convert_to_mlx42_endian(int c);

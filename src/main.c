@@ -20,6 +20,7 @@ void draw_all(void *param)
 	{
 		draw_grid(game, game->data->map_data.rows, game->data->map_data.cols);
 		
+/*
 		// printf ("drawing grid\n");
 		int i = 0;
 		if (game->is_debug == false)
@@ -35,6 +36,7 @@ void draw_all(void *param)
 			i++;
 		}
 		
+*/
 		draw_player(game);
 	
 		//printf ("player angle %f\n", game->player.angle);
