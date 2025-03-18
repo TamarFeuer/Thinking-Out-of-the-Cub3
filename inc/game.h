@@ -119,12 +119,12 @@ typedef struct s_ray
 	t_pos		intersect;
 	int			number_of_rays;
 	int			ray_num;
+	double		relative_angle;
 	double		current_angle;
 	int			angle_quad;
 	bool		wall_met;
 	int			is_vertical_first;
-	float		distance;
-	float		corrected_distance;
+	double		distance;
 	t_pos		v_hit;
 	t_pos		h_hit;
 	t_pos		ray_start[SCREEN_WIDTH];

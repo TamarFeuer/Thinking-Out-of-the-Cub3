@@ -55,8 +55,9 @@ void cast_rays(t_game *game)
 	ray->ray_num = 0;
 	while (ray->ray_num < SCREEN_WIDTH)
 	{	
-		ray->current_angle = game->player.angle +
-			atan((SCREEN_WIDTH / 2.0 - ray->ray_num) / FRUSTUM_PLANE);
+		ray->relative_angle = atan((SCREEN_WIDTH / 2.0 - ray->ray_num)
+				/ FRUSTUM_PLANE);
+		ray->current_angle = game->player.angle + ray->relative_angle;
 		normalize_angle_to_2pi(&ray->current_angle);
 		determine_quad(ray->current_angle, &ray->angle_quad);
 		// printf("by_plotting: \n");
