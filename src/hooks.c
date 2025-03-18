@@ -217,13 +217,15 @@ bool is_colliding(t_game *game, t_pos new)
 		||(game->data->map[corner_block_index(game, new_bl)] == '1')
 		||(game->data->map[corner_block_index(game, new_br)] == '1'))
 	{
-		printf ("collision\n");
+		printf ("collision @ %f, %f\n", new_tl.x, new_tl.y);
+		printf ("collision @ %f, %f\n", new_tr.x, new_tr.y);
+		printf ("collision @ %f, %f\n", new_bl.x, new_bl.y);
+		printf ("collision @ %f, %f\n", new_br.x, new_br.y);
 		return true;
 	}
 	else
 		return false;
 }
-
 
 
 
@@ -234,25 +236,30 @@ void check_collision(t_game *game, t_pos old_pos, t_pos new_pos)
 	if (is_colliding(game, new_pos))
 	{
 		//flag: vertical 1, horizontal 0
-		// Try moving only in the vertical direction
+		// Try moving only in the horizontal direction
 		t_pos temp_pos;
 		temp_pos.x = new_pos.x;
 		temp_pos.y = old_pos.y;
-		if (!is_wall_hit(game, temp_pos, 1))
+		if (!is_wall_hit(game, temp_pos, 0))
 		{
-			game->player.p_pos = temp_pos; // Allow horizontal movement
+			
+			game->player.p_pos.x = temp_pos.x; // Allow horizontal movement
 			game->camera.pos.x = (game->player.p_pos.x + (PLAYER_SIZE + CONST) / 2);
 			return;
 		}
+		else
+			printf ("no horizontal movement allowed\n");
 
 		temp_pos.x = old_pos.x;
 		temp_pos.y = new_pos.y;
-		if (!is_wall_hit(game, temp_pos, 0))
+		if (!is_wall_hit(game, temp_pos, 1))
 		{
-			game->player.p_pos = temp_pos; // Allow vertical movement
+			game->player.p_pos.y = temp_pos.y; // Allow vertical movement
 			game->camera.pos.y = (game->player.p_pos.y + (PLAYER_SIZE + CONST) / 2);
 			return;
 		}
+		else
+			printf ("no v movement allowed\n");
 
 		// No valid movement, stay in old position
 		game->player.p_pos = old_pos;

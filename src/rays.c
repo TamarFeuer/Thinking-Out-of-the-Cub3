@@ -25,6 +25,7 @@ int get_block_index(t_game *game, t_pos *grid_pos, int flag)
 //flag: vertical 1, horizontal 0
 t_block_index get_block_index2(t_game *game, t_pos *grid_pos, int flag)
 {
+	(void)flag;
 	t_block_index block_index;
 	block_index.index = -1;
 	block_index.x = (int)((floor(grid_pos->x) - X_START) / (game->cell_size));
