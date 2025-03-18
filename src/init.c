@@ -33,8 +33,8 @@ void init_game_struct(t_game *game)
 
 	game->ray->intersect.x = 0;
 	game->ray->intersect.y = 0;
-	game->camera.pos.x = round(game->player.p_pos.x + (PLAYER_SIZE + CONST) /2);
-	game->camera.pos.y = round(game->player.p_pos.y + (PLAYER_SIZE + CONST) /2);
+	game->camera.pos.x = round(game->player.p_pos.x) + PLAYER_SIZE * CONST / 2 - 1;
+	game->camera.pos.y = round(game->player.p_pos.y) + PLAYER_SIZE * CONST / 2 - 1;
 	printf ("in init game struct: game->camera.pos.x %f\n", game->camera.pos.x);
 	//MINIMAP struct init
 	game->data->minimap_data.width = game->data->map_data.cols * game->cell_size;

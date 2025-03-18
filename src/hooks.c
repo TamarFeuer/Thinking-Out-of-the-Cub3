@@ -124,8 +124,8 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 		{
 			game->player.p_pos.x = round(new.x);
 			game->player.p_pos.y = round(new.y);
-			game->camera.pos.x = round(game->player.p_pos.x + CONST /2);
-			game->camera.pos.y = round(game->player.p_pos.y + CONST /2);
+			game->camera.pos.x = round(game->player.p_pos.x) + PLAYER_SIZE * CONST / 2 - 1;
+			game->camera.pos.y = round(game->player.p_pos.y) + PLAYER_SIZE * CONST / 2 - 1;
 			mlx_delete_image(game->mlx, game->stats);
 			if (game->is_mmap)
 				print_stats(game);
