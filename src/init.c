@@ -26,8 +26,6 @@ void init_game_struct(t_game *game)
 	game->is_mouse_active = false;
 	game->ray->is_vertical_first = -1;
 	game->ray->wall_met= false;
-	game->scene = NULL;
-	game->stats = NULL;
 	game->player.p_pos.x = round(X_START + (game->player.p_pos.x + .5) * game->cell_size - CONST/2);
 	game->player.p_pos.y = round(Y_START + (game->player.p_pos.y + .5) * game->cell_size - CONST/2);
 	printf ("player  is %f %f\n", game->player.p_pos.x, game->player.p_pos.y);
