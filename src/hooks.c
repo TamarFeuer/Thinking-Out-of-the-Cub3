@@ -210,20 +210,36 @@ bool is_colliding(t_game *game, t_pos new)
     t_pos new_tl = new;
 	t_pos new_tr = {new.x + PLAYER_SIZE * CONST , new.y};
 	t_pos new_bl = {new.x, new.y + PLAYER_SIZE * CONST };
-	t_pos new_br = {new.x + PLAYER_SIZE * CONST -1, new.y + PLAYER_SIZE * CONST };
+	t_pos new_br = {new.x + PLAYER_SIZE * CONST , new.y + PLAYER_SIZE * CONST };
 	
-	if ((game->data->map[corner_block_index(game, new_tl)] == '1')
+	// if ((game->data->map[corner_block_index(game, new_tl)] == '1')
+	// 	|| (game->data->map[corner_block_index(game, new_tr)] == '1')
+	// 	||(game->data->map[corner_block_index(game, new_bl)] == '1')
+	// 	||(game->data->map[corner_block_index(game, new_br)] == '1')
+	// 	|| (is_wall_hit2(game, new_tl, 0))
+	// 	|| (is_wall_hit2(game, new_tr, 0))
+	// 	||(is_wall_hit2(game, new_bl, 0))
+	// 	||(is_wall_hit2(game, new_br, 0))
+	// 	||(is_wall_hit2(game, new_tl, 1))
+	// 	|| (is_wall_hit2(game, new_tr, 1))
+	// 	||(is_wall_hit2(game, new_bl, 1))
+	// 	||(is_wall_hit2(game, new_br, 1)))
+
+	if (((new.x >= game->player.p_pos.x && new.y <= game->player.p_pos.y)
+		&& ((game->data->map[corner_block_index(game, new_tl)] == '1')
 		|| (game->data->map[corner_block_index(game, new_tr)] == '1')
 		||(game->data->map[corner_block_index(game, new_bl)] == '1')
-		||(game->data->map[corner_block_index(game, new_br)] == '1')
-		|| (is_wall_hit2(game, new_tl, 0))
-		|| (is_wall_hit2(game, new_tr, 0))
-		||(is_wall_hit2(game, new_bl, 0))
-		||(is_wall_hit2(game, new_br, 0))
-		||(is_wall_hit2(game, new_tl, 1))
-		|| (is_wall_hit2(game, new_tr, 1))
-		||(is_wall_hit2(game, new_bl, 1))
-		||(is_wall_hit2(game, new_br, 1)))
+		||(game->data->map[corner_block_index(game, new_br)] == '1')))
+		|| (new.x < game->player.p_pos.x &&
+			((is_wall_hit2(game, new_tl, 0)
+			|| is_wall_hit2(game, new_tr, 0)
+			|| is_wall_hit2(game, new_bl, 0)
+			||is_wall_hit2(game, new_br, 0))))
+		||  (new.y > game->player.p_pos.y &&
+			((is_wall_hit2(game, new_tl, 1)
+			|| is_wall_hit2(game, new_tr, 1)
+			|| is_wall_hit2(game, new_bl, 1)
+			|| is_wall_hit2(game, new_br, 1)))))
 
 	{
 		if (game->data->map[corner_block_index(game, new_tl)] == '1')
