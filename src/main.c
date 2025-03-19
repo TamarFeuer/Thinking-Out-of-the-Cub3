@@ -58,6 +58,7 @@ static void	allocate_structures(t_game **pgame)
 		(*pgame)->ray = ft_calloc(1, sizeof(t_ray));
 		(*pgame)->mlx = NULL;
 		(*pgame)->stats = NULL;
+		(*pgame)->mini = NULL;
 		(*pgame)->scene = NULL;
 		(*pgame)->textures[E] = NULL;
 		(*pgame)->textures[N] = NULL;
