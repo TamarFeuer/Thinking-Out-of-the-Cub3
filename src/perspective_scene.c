@@ -6,7 +6,7 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/03/18 11:17:21 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/03/18 16:52:28 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/03/20 11:25:02 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,17 @@ static int	max(int a, int b)
 
 void	draw_scene(t_game *game)
 {
-	t_ray *const	ray = game->ray;
-	const int		h0 = (int)(SCREEN_HEIGHT / ray->distance
-			/ cos(ray->relative_angle));
-	const int		h[2] = {min((SCREEN_HEIGHT + h0) / 2, SCREEN_HEIGHT - 1),
+	t_ray *const		ray = game->ray;
+	const int			h0 = (int)(game->vperspective * WALL_TO_SCREEN_RATIO
+			/ ray->distance / cos(ray->relative_angle));
+	const int			h[2] = {min((SCREEN_HEIGHT + h0) / 2, SCREEN_HEIGHT - 1),
 			max((SCREEN_HEIGHT - h0) / 2, 0)};
 	int				y;
 
 /*
 	if (ray->ray_num == SCREEN_WIDTH / 2) {
-		printf("** FRUSTRUM %f\n", FRUSTUM_PLANE);
-		printf("   SCREEN HEIGHT %d\n", SCREEN_HEIGHT);
+		printf("** Projection plane %f\n", projection_plane);
+		printf("   Screen height %d\n", SCREEN_HEIGHT);
 		printf("   ray->distance %f\n", ray->distance);
 		printf("   ray->relative_angle %f\n", ray->relative_angle * 180 / M_PI);
 		printf("   ray->current_angle %f\n", ray->current_angle * 180 / M_PI);

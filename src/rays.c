@@ -57,13 +57,12 @@ double get_distance(t_pos start, t_pos end)
 
 void cast_rays(t_game *game)
 {
-	t_ray *const	ray = game->ray;
+	t_ray *const		ray = game->ray;
 
 	ray->ray_num = 0;
 	while (ray->ray_num < SCREEN_WIDTH)
 	{	
-		ray->relative_angle = atan((SCREEN_WIDTH / 2.0 - ray->ray_num)
-				/ FRUSTUM_PLANE);
+		ray->relative_angle = atan((SCREEN_WIDTH / 2.0 - ray->ray_num) / game->pplane);
 		ray->current_angle = game->player.angle + ray->relative_angle;
 		normalize_angle_to_2pi(&ray->current_angle);
 		determine_quad(ray->current_angle, &ray->angle_quad);

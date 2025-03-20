@@ -21,17 +21,19 @@
 #define SCREEN_HEIGHT 1080 // 500
 #define FOV_H 60.0 // horizontal field of view in degrees
 #define FOV_V 40.0 // vertical field of view in degrees
-#define PROJECTION (SCREEN_WIDTH / 2.0 / tan(FOV_H * DEG_TO_RAD / 2.0))
 
 //map
 #define EMPTY '0'
 #define WALL '1'
 #define SPACE ' '
 
+//scene
+#define SCENE_BLOCK_SIZE 64
+#define WALL_TO_SCREEN_RATIO 6
+
 //mini map
 #define CONST 4
 #define PIXELS_PER_BLOCK 8
-
 //#define MMAP_WIDTH COLS * PIXELS_PER_BLOCK * CONST
 //#define MMAP_HEIGHT ROWS * PIXELS_PER_BLOCK * CONST
 #define X_START 0
@@ -48,19 +50,9 @@
 #define BACKWARD -1
 
 //rays
-#define NUMBER_OF_RAYS 640
-// #define MAX_RAY_LENGTH 400
 #define MAX_RAY_DISTANCE 400
 #define DISTANCE_PER_TURN 0.5 * CONST
 #define OUT_OF_BOUNDS 1000000000
-
-//scene
-#define SCENE_BLOCK_SIZE 64
-#define SCENE_WIDTH  1920
-#define SCENE_HEIGHT 1080
-#define BASE_FRUSTUM_DISTANCE 300.0f
-#define MIN_RAY_DISTANCE 5.0f
-#define FLOOR_COLOR 0xFF8000FF  //---> !
 
 //error logs
 #define LOG 80
@@ -182,6 +174,8 @@ typedef struct s_game
 	t_mmap			mmap;
 	t_player		player;
 	t_camera		camera;
+	double			pplane;
+	double			vperspective;
 	mlx_t			*mlx;
 	mlx_image_t 	*scene;
 	mlx_image_t		*mini;
