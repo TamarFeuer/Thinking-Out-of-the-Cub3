@@ -10,7 +10,7 @@ void reach_nearest_wall_by_plotting(t_game *game, float angle) //start and end i
    
 	//printf ("angle is %f\n", angle);
 	//printf ("starting in x=%f y=%f\n", start.x, start.y);
-	while (distance < MAX_RAY_LENGTH)
+	while (distance < MAX_RAY_DISTANCE)
 	{
 		game->ray->end.x += cos(angle) * step_size;
 		game->ray->end.y -= sin(angle) * step_size;
@@ -21,7 +21,7 @@ void reach_nearest_wall_by_plotting(t_game *game, float angle) //start and end i
 		//check map limits
 		{
 			//if (game->mapdata[get_block_index(&game->ray->end)] == '1')
-			if (game->data->map[get_block_index2(game, &game->ray->end, 99)] == '1')
+			if (game->data->map[get_block_index2(game, &game->ray->end, 99).index] == '1')
 			{
 				
 				//printf ("Intersection found\n");
@@ -41,7 +41,7 @@ void reach_nearest_wall_by_plotting(t_game *game, float angle) //start and end i
 				return;
 			}
 		}
-		if (distance > MAX_RAY_LENGTH)
+		if (distance > MAX_RAY_DISTANCE)
 		{
 			// Out of bounds, stop casting
 			game->ray->wall_met= false;
@@ -73,10 +73,21 @@ bool is_out_of_bounds(t_game *game, t_pos position)
 
 int	is_wall_hit(t_game *game, t_pos inter, int flag)
 {
-	if (game->data->map[get_block_index2(game, &inter, flag)] == '1')
+	if (game->data->map[get_block_index2(game, &inter, flag).index] == '1')
 	{	
 		//printf ("game->ray->end.x %f, game->ray->end.y %f\n", game->ray->end.x, game->ray->end.y);
-		//printf ("hit wall\n");
+		
+		return (true);
+	}
+	return (false);
+}
+
+int	is_wall_hit2(t_game *game, t_pos inter, int flag)
+{
+	if (game->data->map[get_block_index2(game, &inter, flag).index] == '1')
+	{	
+		//printf ("game->ray->end.x %f, game->ray->end.y %f\n", game->ray->end.x, game->ray->end.y);
+		printf ("hit wall\n");
 		return (true);
 	}
 	return (false);

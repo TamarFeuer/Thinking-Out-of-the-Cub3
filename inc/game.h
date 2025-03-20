@@ -44,11 +44,13 @@
 //player
 #define PLAYER_SIZE 2
 #define PLAYER_DIRECTION_SIZE 50
+#define FORWARD 1
+#define BACKWARD -1
 
 //rays
 #define NUMBER_OF_RAYS 640
-#define MAX_RAY_LENGTH 400
-#define MAX_RAY_DISTANCE 300
+// #define MAX_RAY_LENGTH 400
+#define MAX_RAY_DISTANCE 400
 #define DISTANCE_PER_TURN 0.5 * CONST
 #define OUT_OF_BOUNDS 1000000000
 
@@ -83,6 +85,13 @@ enum e_rgb
 	GREEN,
 	BLUE
 };
+
+typedef struct s_block_index 
+{
+    int index;
+    int x;
+    int y;
+} t_block_index;
 
 typedef struct s_pos
 {
@@ -132,6 +141,7 @@ typedef struct s_ray
 	t_pos		h_hit;
 	t_pos		ray_start[SCREEN_WIDTH];
 	t_pos		ray_end[SCREEN_WIDTH];
+	int			direction;
 }	t_ray;
 
 typedef struct s_data
@@ -174,6 +184,7 @@ typedef struct s_game
 	t_camera		camera;
 	mlx_t			*mlx;
 	mlx_image_t 	*scene;
+	mlx_image_t		*mini;
 	mlx_image_t 	*stats;
 	mlx_texture_t	*textures[4];
 }	t_game;
@@ -184,14 +195,14 @@ void	cast_rays(t_game *game);
 void	key_hook(mlx_key_data_t keydata, void *param);
 void	print_stats(t_game *game);
 void	clean_nicely(t_game *game, char *error_message);
-int		distance_to_color(int distance);
+int		distance_to_color(int distance, int flag);
 // void	DDA_ray(t_game *game, t_pos start, t_pos end);
 void	DDA_ray(t_game *game, t_pos start, t_pos end, int color);
 const char *get_direction(t_game *game);
 void	draw_bresenham_ray(t_game *game, t_pos start, t_pos end);
 double	get_distance(t_pos start, t_pos end);
 int		get_block_index(t_game *game, t_pos *grid_pos, int flag);
-int 	get_block_index2(t_game *game, t_pos *grid_pos, int flag);
+t_block_index 	get_block_index2(t_game *game, t_pos *grid_pos, int flag);
 void	reach_nearest_wall_by_plotting(t_game *game, float angle);
 void 	reach_nearest_wall_by_intersections(t_game *game);
 void 	draw_player_direction(t_game *game, t_pos start, double angle);
@@ -207,6 +218,7 @@ float	horiz_intersect(t_game *game);
 float	vertical_intersect(t_game *game);
 bool	is_out_of_bounds(t_game *game, t_pos position);
 int		is_wall_hit(t_game *game, t_pos intersect, int flag);
+int		is_wall_hit2(t_game *game, t_pos intersect, int flag);
 int		draw_static_components(t_game *game);
 
 void 	cursor_hook(double xpos, double ypos, void* param);

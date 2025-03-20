@@ -1,24 +1,22 @@
 #include "../inc/game.h"
-
+#include <assert.h>
 void draw_all(void *param)
 {
 	t_game *game;
 	game = (t_game *)param;
-	if (game->scene)
-	{
-		mlx_delete_image(game->mlx, game->scene);
-		game->scene = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-		if (!game->scene|| (mlx_image_to_window(game->mlx, game->scene, 0, 0 ) < 0))
-			return; //error msg
-	}
+	uint8_t *pixel;
+
 
 	cast_rays(game);
-	
-	//mlx_set_cursor_mode(game->mlx, MLX_MOUSE_HIDDEN);
-
 	if (game->is_mmap)
 	{
-		draw_grid(game, game->data->map_data.rows, game->data->map_data.cols);
+		//printf("width: %u\n", game->mini->width);
+		//assert(game->mini->width == 19);
+		const uint32_t npixels = (game->mini->width)* (game->mini->height) *  CONST;
+		pixel = game->mini->pixels;
+		while (pixel - game->mini->pixels < npixels)
+			*pixel++ &= 0xFFFFFF00;
+		
 		
 		// printf ("drawing grid\n");
 		int i = 0;
@@ -38,11 +36,12 @@ void draw_all(void *param)
 		draw_player(game);
 	
 		//printf ("player angle %f\n", game->player.angle);
+		draw_grid(game, game->data->map_data.rows, game->data->map_data.cols);
 		draw_player_direction(game, (t_pos){game->camera.pos.x, game->camera.pos.y}, game->player.angle);
-		
-		
-		
+	
 	}
+	mlx_delete_image(game->mlx, game->stats);
+	print_stats(game);
 }
 
 static void	allocate_structures(t_game **pgame)
@@ -59,6 +58,7 @@ static void	allocate_structures(t_game **pgame)
 		(*pgame)->ray = ft_calloc(1, sizeof(t_ray));
 		(*pgame)->mlx = NULL;
 		(*pgame)->stats = NULL;
+		(*pgame)->mini = NULL;
 		(*pgame)->scene = NULL;
 		(*pgame)->textures[E] = NULL;
 		(*pgame)->textures[N] = NULL;
@@ -127,11 +127,12 @@ int	main(int argc, char *argv[])
 	mlx_get_monitor_size(0, &width, &height);
 	//printf ("width is %d, height is %d\n", width, height);
 
-	game->scene = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	game->scene = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT); //check return value. copywrites Rutger
 	if (!game->scene || (mlx_image_to_window(game->mlx, game->scene, X_START, Y_START ) < 0))
 		clean_nicely(game, "Failed to create/copy an MLX42 image");
-	if(game->is_mmap)
-		print_stats(game);
+	game->mini = mlx_new_image(game->mlx, game->data->map_data.cols * game->cell_size + 1, game->data->map_data.rows * game->cell_size + 1);
+	if (!game->mini || (mlx_image_to_window(game->mlx, game->mini, X_START, Y_START ) < 0))
+		clean_nicely(game, "Failed to create/copy an MLX42 image");
 	
 	mlx_loop_hook(game->mlx, draw_all, game);
 	mlx_key_hook(game->mlx, key_hook, game);

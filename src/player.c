@@ -13,9 +13,9 @@ void draw_player_direction(t_game *game, t_pos start, double angle)
 		end_y -= sin(angle) * step_size;
 		distance += step_size;
 		// if (game->mapdata[get_block_index(&(t_pos){end_x, end_y})] == '1')
-		if (game->data->map[get_block_index(game, &(t_pos){end_x, end_y}, 999)] == '1')
+		if (game->data->map[get_block_index(game, &(t_pos){end_x, end_y}, 999)] == '1' || distance > MAX_RAY_DISTANCE)
 			return;
-		mlx_put_pixel(game->scene, (int)end_x - X_START, (int)end_y - Y_START, 0xFF0000FF);
+		mlx_put_pixel(game->mini, (int)end_x - X_START, (int)end_y - Y_START, distance_to_color(distance, 1));
 	}
 }
 
@@ -25,14 +25,14 @@ void draw_player(t_game *game)
 	int x = round(game->player.p_pos.x);
 	int y = round(game->player.p_pos.y);
 
-	mlx_image_to_window(game->mlx, game->scene, X_START, Y_START);
+	// mlx_image_to_window(game->mlx, game->mini, X_START, Y_START);
 	int i = 0;
 	while (i < size)
 	{
 		int j = 0;
 		while (j < size)
 		{
-			mlx_put_pixel(game->scene, (x - X_START) + i, (y - Y_START) + j, 0xFFFFFFFF);
+			mlx_put_pixel(game->mini, (x - X_START) + i, (y - Y_START) + j, 0xFFFFFFFF);
 			j++;
 		}
 		i++;

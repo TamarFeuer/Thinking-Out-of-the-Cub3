@@ -17,9 +17,9 @@ void fill_grid(t_game *game, int cur_row, int cur_col, int type )
 			{	
 				// printf ("col is %d, row is %d\n", col, row);
 				if (type == 1)
-					mlx_put_pixel(game->scene, col, row, 0x00F77650);
+					mlx_put_pixel(game->mini, col, row, 0x2896299);
 				else if (type == 2)
-					mlx_put_pixel(game->scene, col, row, 0x45454560);
+					mlx_put_pixel(game->mini, col, row, 0x45454560);
 			
 			}
 			col++;
@@ -45,7 +45,7 @@ void draw_grid(t_game *game, int rows, int cols)
 		x = x_start;
 		while (x < x_end)
 		{
-			mlx_put_pixel(game->scene, x, Y_START + y, 0x777777FF);  //safe_put_pixel
+			mlx_put_pixel(game->mini, x, Y_START + y, 0x777777FF);  //safe_put_pixel
 			x++;
 		}
 		y += game->cell_size;
@@ -60,7 +60,7 @@ void draw_grid(t_game *game, int rows, int cols)
 		y = y_start;
 		while (y < y_end)
 		{
-			mlx_put_pixel(game->scene, X_START + x, y, 0x777777FF);  //safe put pixel
+			mlx_put_pixel(game->mini, X_START + x, y, 0x777777FF);  //safe put pixel
 			y++;
 		}
 		x += game->cell_size;

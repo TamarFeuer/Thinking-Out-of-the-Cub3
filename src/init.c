@@ -33,6 +33,7 @@ void init_game_struct(t_game *game)
 
 	game->ray->intersect.x = 0;
 	game->ray->intersect.y = 0;
+	
 	game->camera.pos.x = round(game->player.p_pos.x) + PLAYER_SIZE * CONST / 2 - 1;
 	game->camera.pos.y = round(game->player.p_pos.y) + PLAYER_SIZE * CONST / 2 - 1;
 	printf ("in init game struct: game->camera.pos.x %f\n", game->camera.pos.x);
@@ -44,5 +45,6 @@ void init_game_struct(t_game *game)
 	game->data->minimap_data.x_end = game->data->minimap_data.x_start + game->data->minimap_data.width;
 	game->data->minimap_data.y_start = 0;
 	game->data->minimap_data.y_end = game->data->minimap_data.y_start + game->data->minimap_data.height;
+	game->ray->direction = FORWARD;
 	load_textures(game);
 }

@@ -6,6 +6,8 @@ static void	delete_mlx(t_game *game)
 
 	if (game->stats)
 		mlx_delete_image(game->mlx, game->stats);
+	if (game->mini)
+		mlx_delete_image(game->mlx, game->mini);
 	if (game->scene)
 		mlx_delete_image(game->mlx, game->scene);
 	dir = E;
