@@ -14,9 +14,14 @@
 
 #define M_PI 3.14159265358979323846
 #define DEG_TO_RAD (M_PI / 180.0)
-#define SCREEN_WIDTH 1920 //950//1920
-#define SCREEN_HEIGHT 1080 //500//1080
 #define MOUSE_SENSITIVITY 0.1f
+
+//screen
+#define SCREEN_WIDTH 1920 // 950
+#define SCREEN_HEIGHT 1080 // 500
+#define FOV_H 60.0 // horizontal field of view in degrees
+#define FOV_V 40.0 // vertical field of view in degrees
+#define PROJECTION (SCREEN_WIDTH / 2.0 / tan(FOV_H * DEG_TO_RAD / 2.0))
 
 //map
 #define EMPTY '0'
@@ -41,8 +46,6 @@
 #define PLAYER_DIRECTION_SIZE 50
 
 //rays
-#define FOV 60.0 // Field of View in degrees
-#define FRUSTUM_PLANE (SCREEN_WIDTH / 2.0 / tan(FOV * DEG_TO_RAD / 2.0))
 #define NUMBER_OF_RAYS 640
 #define MAX_RAY_LENGTH 400
 #define MAX_RAY_DISTANCE 300

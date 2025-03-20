@@ -6,7 +6,7 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/03/18 11:17:21 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/03/18 16:18:23 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/03/18 16:52:28 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	draw_scene(t_game *game)
 {
 	t_ray *const	ray = game->ray;
 	const int		h0 = (int)(SCREEN_HEIGHT / ray->distance
-			/ cos(ray->relative_angle)) * CONST;
+			/ cos(ray->relative_angle));
 	const int		h[2] = {min((SCREEN_HEIGHT + h0) / 2, SCREEN_HEIGHT - 1),
 			max((SCREEN_HEIGHT - h0) / 2, 0)};
 	int				y;
@@ -50,7 +50,7 @@ void	draw_scene(t_game *game)
 	y = 0;
 	while (y < h[CE])
 		safe_put_pixel(game, ray->ray_num, y++, game->data->map_data.rgba[CE]);
-	while (y < h[FL])
+	while (y <= h[FL])
 		safe_put_pixel(game, ray->ray_num, y++, 0xFF0000FF);
 	while (y < SCREEN_HEIGHT)
 		safe_put_pixel(game, ray->ray_num, y++, game->data->map_data.rgba[FL]);
