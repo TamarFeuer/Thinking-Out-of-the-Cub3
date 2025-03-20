@@ -1,5 +1,5 @@
 #include "../inc/game.h"
-//#include <assert.h>
+#include <assert.h>
 void draw_all(void *param)
 {
 	t_game *game;

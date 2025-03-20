@@ -95,7 +95,7 @@ void cast_rays(t_game *game)
 
 		//draw_ray(game, game->camera.pos, game->ray->end);
 		//printf ("in cast_rays: angle is %f\n", game->ray->current_angle);
-		draw_scene(game);
+		draw_scene(game, game->ray);
 		
 		ray->intersect.x = 0;
 		ray->intersect.y = 0;
