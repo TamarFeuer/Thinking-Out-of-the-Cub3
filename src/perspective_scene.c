@@ -6,33 +6,11 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/03/18 11:17:21 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/03/20 12:13:38 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/03/24 16:42:19 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/game.h"
-
-enum e_dir	get_texture(t_ray *ray)
-{
-	if (ray->is_vertical_first)
-	{
-		if (ray->angle_quad == 1 || ray->angle_quad == 4)
-			return (W);
-		else
-			return (E);
-	}
-	if (ray->angle_quad == 1 || ray->angle_quad == 2)
-		return (S);
-	return (N);
-}
-
-static uint32_t	get_pixel_color(t_game *game, t_ray *ray)
-{
-	mlx_texture_t *const	wall = game->textures[get_texture(ray)];
-	(void)wall;
-
-	return 0xFF0000FF;
-}
 
 static int	min(int a, int b)
 {
@@ -48,32 +26,63 @@ static int	max(int a, int b)
 	return (b);
 }
 
+static enum e_dir	which_texture(t_ray *ray)
+{
+	if (ray->is_vertical_first)
+	{
+		if (ray->angle_quad == 1 || ray->angle_quad == 4)
+			return (W);
+		else
+			return (E);
+	}
+	if (ray->angle_quad == 1 || ray->angle_quad == 2)
+		return (S);
+	return (N);
+}
+
+static int	horizontal_pixel(int width, double d)
+{
+	return ((int)fmod(d, (double)SCENE_BLOCK_SIZE) * width / SCENE_BLOCK_SIZE);
+}
+
+static uint32_t	pixel_color(t_game *game, int h0, int h, t_pos *end)
+{
+	enum e_dir				wall_dir = which_texture(game->ray);
+	mlx_texture_t *const	texture = game->textures[wall_dir];
+	uint32_t *const			pixels = (uint32_t *)texture->pixels;
+	int						x_pixel;
+	int						y_pixel;
+
+	if (wall_dir == E)
+		x_pixel = texture->width - 1 - horizontal_pixel(texture->width, end->y);
+	else if (wall_dir == N)
+		x_pixel = texture->width - 1 - horizontal_pixel(texture->width, end->x);
+	else if (wall_dir == W)
+		x_pixel = horizontal_pixel(texture->width, end->y);
+	else
+		x_pixel = horizontal_pixel(texture->width, end->x);
+	y_pixel = min(
+			max(h0 + 2 * h - SCREEN_HEIGHT, 0) * texture->height / (2 * h0),
+			texture->height - 1);
+
+	return (color_abgr_to_rgba(pixels[y_pixel * texture->width + x_pixel]));
+}
+
 void	draw_scene(t_game *game, t_ray *ray)
 {
-	const int	h0 = (int)(game->vperspective * WALL_TO_SCREEN_RATIO
-			/ ray->distance / cos(ray->relative_angle));
+	const int	h0 = (int)(SCENE_BLOCK_SIZE / ray->distance
+			/ cos(ray->relative_angle));
 	const int	h[2] = {min((SCREEN_HEIGHT + h0) / 2, SCREEN_HEIGHT - 1),
-			max((SCREEN_HEIGHT - h0) / 2, 0)};
-	int				y;
+		max((SCREEN_HEIGHT - h0) / 2, 0)};
+	int			y;
 
-/*
-	if (ray->ray_num == SCREEN_WIDTH / 2) {
-		printf("** Projection plane %f\n", projection_plane);
-		printf("   Screen height %d\n", SCREEN_HEIGHT);
-		printf("   ray->distance %f\n", ray->distance);
-		printf("   ray->relative_angle %f\n", ray->relative_angle * 180 / M_PI);
-		printf("   ray->current_angle %f\n", ray->current_angle * 180 / M_PI);
-		printf("   h0 %d\n", h0);
-		printf("   h[CE] %d\n", h[CE]);
-		printf("   h[FL] %d\n", h[FL]);
-	}
-*/
 	y = 0;
 	while (y < h[CE])
 		safe_put_pixel(game, ray->ray_num, y++, game->data->map_data.rgba[CE]);
-	while (y <= h[FL])
+	while (y <= h[FL] && h0)
 	{
-		safe_put_pixel(game, ray->ray_num, y, get_pixel_color(game, ray));
+		safe_put_pixel(game, ray->ray_num, y,
+			pixel_color(game, h0, y, &game->ray->end));
 		y++;
 	}
 	while (y < SCREEN_HEIGHT)

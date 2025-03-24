@@ -1,15 +1,15 @@
 #include "../inc/game.h"
 
-int	convert_to_mlx42_endian(int c)
+uint32_t	color_abgr_to_rgba(uint32_t c)
 {
-	unsigned int	b;
+	uint32_t	c1;
 
-	b = 0;
-	b |= (c & 0xFF) << 24;
-	b |= (c & 0xFF00) << 8;
-	b |= (c & 0xFF0000) >> 8;
-	b |= (c & 0xFF000000) >> 24;
-	return (b);
+	c1 = 0;
+	c1 |= (c & 0x000000FF) << 24;
+	c1 |= (c & 0x0000FF00) << 8;
+	c1 |= (c & 0x00FF0000) >> 8;
+	c1 |= (c & 0xFF000000) >> 24;
+	return (c1);
 }
 
 // int distance_to_color(int distance)

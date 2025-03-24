@@ -1,14 +1,5 @@
 #include "../inc/game.h"
 
-void	absolute(int *d, int *i)
-{
-	if (*d < 0)
-	{
-		*i = -1;
-		*d = -(*d);
-	}
-}
-
 void determine_quad(double angle, int *quad)
 {
     double cos_a = cos(angle);

@@ -30,8 +30,7 @@ void init_game_struct(t_game *game)
 	game->player.p_pos.y = round(Y_START + (game->player.p_pos.y + .5) * game->cell_size - CONST/2);
 	printf ("player  is %f %f\n", game->player.p_pos.x, game->player.p_pos.y);
 	printf ("in init game struct: game->player.angle is %f\n", game->player.angle);
-	game->pplane = SCREEN_WIDTH / 2.0 / tan(FOV_H * DEG_TO_RAD / 2.0);
-	game->vperspective =  SCREEN_HEIGHT / tan(FOV_V / 2.0 * DEG_TO_RAD);
+	game->pplane = SCREEN_WIDTH / (2.0 * tan(FOV * DEG_TO_RAD / 2.0));
 	game->ray->intersect.x = 0;
 	game->ray->intersect.y = 0;
 	

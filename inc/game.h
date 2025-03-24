@@ -19,8 +19,7 @@
 //screen
 #define SCREEN_WIDTH 1920 // 950
 #define SCREEN_HEIGHT 1080 // 500
-#define FOV_H 60.0 // horizontal field of view in degrees
-#define FOV_V 40.0 // vertical field of view in degrees
+#define FOV 60.0 // horizontal field of view in degrees
 
 //map
 #define EMPTY '0'
@@ -29,7 +28,6 @@
 
 //scene
 #define SCENE_BLOCK_SIZE 64
-#define WALL_TO_SCREEN_RATIO 8
 
 //mini map
 #define CONST 4
@@ -147,7 +145,7 @@ typedef struct s_data
 	{
 		int			rows;
 		int			cols;
-		u_int32_t	rgba[2];
+		uint32_t	rgba[2];
 		char		*texture_files[4];
 	}		map_data;
 	struct s_minimap
@@ -175,7 +173,6 @@ typedef struct s_game
 	t_player		player;
 	t_camera		camera;
 	double			pplane;
-	double			vperspective;
 	mlx_t			*mlx;
 	mlx_image_t 	*scene;
 	mlx_image_t		*mini;
@@ -183,46 +180,46 @@ typedef struct s_game
 	mlx_texture_t	*textures[4];
 }	t_game;
 
-void	draw_grid(t_game *game, int rows, int cols);
-void	draw_player(t_game *game);
-void	cast_rays(t_game *game);
-void	key_hook(mlx_key_data_t keydata, void *param);
-void	print_stats(t_game *game);
-void	clean_nicely(t_game *game, char *error_message);
-int		distance_to_color(int distance, int flag);
+void		draw_grid(t_game *game, int rows, int cols);
+void		draw_player(t_game *game);
+void		cast_rays(t_game *game);
+void		key_hook(mlx_key_data_t keydata, void *param);
+void		print_stats(t_game *game);
+void		clean_nicely(t_game *game, char *error_message);
+int			distance_to_color(int distance, int flag);
 // void	DDA_ray(t_game *game, t_pos start, t_pos end);
-void	DDA_ray(t_game *game, t_pos start, t_pos end, int color);
+void		DDA_ray(t_game *game, t_pos start, t_pos end, int color);
 const char *get_direction(t_game *game);
-void	draw_bresenham_ray(t_game *game, t_pos start, t_pos end);
-double	get_distance(t_pos start, t_pos end);
-int		get_block_index(t_game *game, t_pos *grid_pos, int flag);
+void		draw_bresenham_ray(t_game *game, t_pos start, t_pos end);
+double		get_distance(t_pos start, t_pos end);
+int			get_block_index(t_game *game, t_pos *grid_pos, int flag);
 t_block_index 	get_block_index2(t_game *game, t_pos *grid_pos, int flag);
-void	reach_nearest_wall_by_plotting(t_game *game, float angle);
-void 	reach_nearest_wall_by_intersections(t_game *game);
-void 	draw_player_direction(t_game *game, t_pos start, double angle);
-void 	draw_scene(t_game *game, t_ray *ray);
-void	normalize_angle_to_2pi(double *angle);
-void	safe_put_pixel(t_game *game, int x, int y, u_int32_t color);
-int		convert_to_mlx42_endian(int c);
-void 	determine_quad(double angle, int *quad);
-void	absolute(int *d, int *i);
-void	init_game_struct(t_game *game);
-void	draw_all(void *param);
-float	horiz_intersect(t_game *game);
-float	vertical_intersect(t_game *game);
-bool	is_out_of_bounds(t_game *game, t_pos position);
-int		is_wall_hit(t_game *game, t_pos intersect, int flag);
-int		is_wall_hit2(t_game *game, t_pos intersect, int flag);
-int		draw_static_components(t_game *game);
+void		reach_nearest_wall_by_plotting(t_game *game, float angle);
+void 		reach_nearest_wall_by_intersections(t_game *game);
+void 		draw_player_direction(t_game *game, t_pos start, double angle);
+void		normalize_angle_to_2pi(double *angle);
+void		safe_put_pixel(t_game *game, int x, int y, u_int32_t color);
+void 		determine_quad(double angle, int *quad);
+void		init_game_struct(t_game *game);
+void		draw_all(void *param);
+float		horiz_intersect(t_game *game);
+float		vertical_intersect(t_game *game);
+bool		is_out_of_bounds(t_game *game, t_pos position);
+int			is_wall_hit(t_game *game, t_pos intersect, int flag);
+int			is_wall_hit2(t_game *game, t_pos intersect, int flag);
+int			draw_static_components(t_game *game);
 
-void 	cursor_hook(double xpos, double ypos, void* param);
-void mouse_action (mouse_key_t button, action_t action, modifier_key_t mods, void* param);
+void		cursor_hook(double xpos, double ypos, void* param);
+void		mouse_action (mouse_key_t button, action_t action, modifier_key_t mods, void* param);
 
-int		atoi_limit_255(int *dst, char *str);
-void	build_map(char *log, t_game *game);
-void	del_token(void *token);
-void	flood_fill_map(t_game *game, char *dup_map);
-void	lexer(t_game *game);
-void	parser(t_game *game);
+int			atoi_limit_255(int *dst, char *str);
+void		build_map(char *log, t_game *game);
+void		del_token(void *token);
+void		flood_fill_map(t_game *game, char *dup_map);
+void		lexer(t_game *game);
+void		parser(t_game *game);
+
+uint32_t	color_abgr_to_rgba(uint32_t c);
+void 		draw_scene(t_game *game, t_ray *ray);
 
 #endif
