@@ -6,7 +6,7 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/03/18 11:17:21 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/03/24 16:42:19 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/03/25 12:51:57 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static uint32_t	pixel_color(t_game *game, int h0, int h, t_pos *end)
 
 void	draw_scene(t_game *game, t_ray *ray)
 {
-	const int	h0 = (int)(SCENE_BLOCK_SIZE / ray->distance
+	const int	h0 = (int)(SCENE_BLOCK_SIZE * game->pplane / ray->distance
 			/ cos(ray->relative_angle));
 	const int	h[2] = {min((SCREEN_HEIGHT + h0) / 2, SCREEN_HEIGHT - 1),
 		max((SCREEN_HEIGHT - h0) / 2, 0)};
