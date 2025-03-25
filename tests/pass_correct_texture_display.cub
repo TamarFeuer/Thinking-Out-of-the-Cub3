@@ -1,0 +1,18 @@
+EA tests/textures/Graffiti_East_64x64.png
+NO tests/textures/Graffiti_North_64x64.png
+WE tests/textures/Graffiti_West_64x64.png
+SO tests/textures/Graffiti_South_64x64.png
+
+F 155,118,83
+C 175,238,238
+
+1111111111
+1000000001
+1000E00001
+1001111001
+1001  1001
+1001  1001
+1001111001
+1000000001
+1000000001
+1111111111
