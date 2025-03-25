@@ -6,7 +6,7 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/03/18 11:17:21 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/03/25 12:51:57 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/03/25 17:24:00 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ static enum e_dir	which_texture(t_ray *ray)
 	return (N);
 }
 
-static int	horizontal_pixel(int width, double d)
+static int	horizontal_pixel(int tw, double d)
 {
-	return ((int)fmod(d, (double)SCENE_BLOCK_SIZE) * width / SCENE_BLOCK_SIZE);
+	return ((int)(fmod(d, (double)SCENE_BLOCK_SIZE) * tw / SCENE_BLOCK_SIZE));
 }
 
 static uint32_t	pixel_color(t_game *game, int h0, int h, t_pos *end)
 {
-	enum e_dir				wall_dir = which_texture(game->ray);
+	const enum e_dir		wall_dir = which_texture(game->ray);
 	mlx_texture_t *const	texture = game->textures[wall_dir];
 	uint32_t *const			pixels = (uint32_t *)texture->pixels;
 	int						x_pixel;
@@ -64,7 +64,6 @@ static uint32_t	pixel_color(t_game *game, int h0, int h, t_pos *end)
 	y_pixel = min(
 			max(h0 + 2 * h - SCREEN_HEIGHT, 0) * texture->height / (2 * h0),
 			texture->height - 1);
-
 	return (color_abgr_to_rgba(pixels[y_pixel * texture->width + x_pixel]));
 }
 
@@ -82,7 +81,7 @@ void	draw_scene(t_game *game, t_ray *ray)
 	while (y <= h[FL] && h0)
 	{
 		safe_put_pixel(game, ray->ray_num, y,
-			pixel_color(game, h0, y, &game->ray->end));
+			pixel_color(game, h0, y, &ray->end));
 		y++;
 	}
 	while (y < SCREEN_HEIGHT)
