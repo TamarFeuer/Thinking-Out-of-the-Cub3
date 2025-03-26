@@ -6,7 +6,7 @@
 #    By: rtorrent <rtorrent@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/09 20:52:16 by rtorrent          #+#    #+#              #
-#    Updated: 2025/03/07 18:32:06 by rtorrent       ########   odam.nl         #
+#    Updated: 2025/03/26 16:19:37 by rtorrent       ########   odam.nl         #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,7 +69,7 @@ $(NAME):: $(MKFILE)
 	@if [ -f "$@" ]; then $(MAKE) fclean; fi
 
 $(NAME):: $(OBJ)
-	$(AR) $@ $?
+	@$(AR) $@ $?
 
 clean:
 	$(RM) $(OBJ)
