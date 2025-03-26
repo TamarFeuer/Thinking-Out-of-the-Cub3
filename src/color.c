@@ -12,6 +12,14 @@ uint32_t	color_abgr_to_rgba(uint32_t c)
 	return (c1);
 }
 
+int	atoi_limit_255(int *dst, char *str)
+{
+	*dst = 0;
+	while (*str && *dst <= 255)
+		*dst = 10 * *dst + *str++ - '0';
+	return (*dst > 255);
+}
+
 // int distance_to_color(int distance)
 // {
 // 	int max_color_value = 255;

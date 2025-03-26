@@ -214,12 +214,13 @@ void		mouse_action (mouse_key_t button, action_t action, modifier_key_t mods, vo
 
 int			atoi_limit_255(int *dst, char *str);
 void		build_map(char *log, t_game *game);
+uint32_t	color_abgr_to_rgba(uint32_t c);
 void		del_token(void *token);
+void 		draw_scene(t_game *game, t_ray *ray);
 void		flood_fill_map(t_game *game, char *dup_map);
 void		lexer(t_game *game);
+int			min(int a, int b);
+int			max(int a, int b);
 void		parser(t_game *game);
-
-uint32_t	color_abgr_to_rgba(uint32_t c);
-void 		draw_scene(t_game *game, t_ray *ray);
 
 #endif

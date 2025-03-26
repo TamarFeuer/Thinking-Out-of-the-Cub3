@@ -6,25 +6,11 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/03/18 11:17:21 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/03/25 17:24:00 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/03/26 12:06:55 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/game.h"
-
-static int	min(int a, int b)
-{
-	if (a < b)
-		return (a);
-	return (b);
-}
-
-static int	max(int a, int b)
-{
-	if (a > b)
-		return (a);
-	return (b);
-}
 
 static enum e_dir	which_texture(t_ray *ray)
 {
@@ -40,36 +26,35 @@ static enum e_dir	which_texture(t_ray *ray)
 	return (N);
 }
 
-static int	horizontal_pixel(int tw, double d)
-{
-	return ((int)(fmod(d, (double)SCENE_BLOCK_SIZE) * tw / SCENE_BLOCK_SIZE));
-}
-
 static uint32_t	pixel_color(t_game *game, int h0, int h, t_pos *end)
 {
 	const enum e_dir		wall_dir = which_texture(game->ray);
-	mlx_texture_t *const	texture = game->textures[wall_dir];
-	uint32_t *const			pixels = (uint32_t *)texture->pixels;
+	mlx_texture_t *const	t = game->textures[wall_dir];
+	uint32_t *const			pixels = (uint32_t *)t->pixels;
 	int						x_pixel;
 	int						y_pixel;
 
 	if (wall_dir == E)
-		x_pixel = texture->width - 1 - horizontal_pixel(texture->width, end->y);
+		x_pixel = t->width - 1 - (int)(fmod(end->y,
+					(double)game->cell_size) * t->width / game->cell_size);
 	else if (wall_dir == N)
-		x_pixel = texture->width - 1 - horizontal_pixel(texture->width, end->x);
+		x_pixel = t->width - 1 - (int)(fmod(end->x,
+					(double)game->cell_size) * t->width / game->cell_size);
 	else if (wall_dir == W)
-		x_pixel = horizontal_pixel(texture->width, end->y);
+		x_pixel = (int)(fmod(end->y,
+					(double)game->cell_size) * t->width / game->cell_size);
 	else
-		x_pixel = horizontal_pixel(texture->width, end->x);
+		x_pixel = (int)(fmod(end->x,
+					(double)game->cell_size) * t->width / game->cell_size);
 	y_pixel = min(
-			max(h0 + 2 * h - SCREEN_HEIGHT, 0) * texture->height / (2 * h0),
-			texture->height - 1);
-	return (color_abgr_to_rgba(pixels[y_pixel * texture->width + x_pixel]));
+			max(h0 + 2 * h - SCREEN_HEIGHT, 0) * t->height / (2 * h0),
+			t->height - 1);
+	return (color_abgr_to_rgba(pixels[y_pixel * t->width + x_pixel]));
 }
 
 void	draw_scene(t_game *game, t_ray *ray)
 {
-	const int	h0 = (int)(SCENE_BLOCK_SIZE * game->pplane / ray->distance
+	const int	h0 = (int)(game->cell_size * game->pplane / ray->distance
 			/ cos(ray->relative_angle));
 	const int	h[2] = {min((SCREEN_HEIGHT + h0) / 2, SCREEN_HEIGHT - 1),
 		max((SCREEN_HEIGHT - h0) / 2, 0)};
