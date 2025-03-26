@@ -1,22 +1,23 @@
 #include "../inc/game.h"
-#include <assert.h>
-void draw_all(void *param)
-{
-	t_game *game;
-	game = (t_game *)param;
-	uint8_t *pixel;
 
+static void	clear_image(mlx_image_t *image, uint32_t npixels)
+{
+	uint8_t	*pixel;
+
+	pixel = image->pixels;
+	while (pixel - image->pixels < npixels)
+		*pixel++ &= 0xFFFFFF00;
+}
+
+void	draw_all(void *param)
+{
+	t_game *const	game = (t_game *)param;
 
 	cast_rays(game);
 	if (game->is_mmap)
 	{
-		//printf("width: %u\n", game->mini->width);
-		//assert(game->mini->width == 19);
-		const uint32_t npixels = (game->mini->width)* (game->mini->height) *  CONST;
-		pixel = game->mini->pixels;
-		while (pixel - game->mini->pixels < npixels)
-			*pixel++ &= 0xFFFFFF00;
-		
+		clear_image(game->mini,
+			(uint32_t)((game->mini->width) * (game->mini->height) * CONST));
 		
 		// printf ("drawing grid\n");
 		int i = 0;
@@ -38,10 +39,10 @@ void draw_all(void *param)
 		//printf ("player angle %f\n", game->player.angle);
 		draw_grid(game, game->data->map_data.rows, game->data->map_data.cols);
 		draw_player_direction(game, (t_pos){game->camera.pos.x, game->camera.pos.y}, game->player.angle);
-	
+
+		mlx_delete_image(game->mlx, game->stats);
+		print_stats(game);
 	}
-	mlx_delete_image(game->mlx, game->stats);
-	print_stats(game);
 }
 
 static void	allocate_structures(t_game **pgame)
@@ -57,7 +58,6 @@ static void	allocate_structures(t_game **pgame)
 		}
 		(*pgame)->ray = ft_calloc(1, sizeof(t_ray));
 		(*pgame)->mlx = NULL;
-		(*pgame)->stats = NULL;
 		(*pgame)->mini = NULL;
 		(*pgame)->scene = NULL;
 		(*pgame)->textures[E] = NULL;
