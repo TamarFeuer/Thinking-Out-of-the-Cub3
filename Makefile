@@ -52,6 +52,7 @@ clean:
 fclean: clean
 	@make -C $(LIBFT_DIR) fclean >/dev/null
 	@rm -rf $(MLX_DIR)/build
+	@echo "$(CYAN)Removing MLX build!$(RESET)"
 	@echo "$(CYAN)Cleaning $(NAME)!$(RESET)"
 	@rm -f $(NAME)
 
