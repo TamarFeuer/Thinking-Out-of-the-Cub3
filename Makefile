@@ -7,6 +7,8 @@ LDFLAGS = -ldl -lglfw -pthread -lm
 
 NAME = cub3D
 
+HDR = inc/game.h
+
 SRC =	src/main.c src/line.c src/mmap.c src/player.c src/hooks.c src/clean.c \
 		src/stats.c src/color.c src/rays.c src/intersections.c \
 		src/perspective_scene.c src/utils.c src/init.c \
@@ -21,29 +23,28 @@ MLX_DIR = libs/MLX42
 LIB_MLX = $(MLX_DIR)/build/libmlx42.a
 LIBFT = $(LIBFT_DIR)/libft.a
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re libft
 
 all: $(NAME)
 
-
-#(NAME): $(OBJ) $(LIBFT) $(LIB_MLX)
-$(NAME): $(LIB_MLX) $(LIBFT) $(OBJ)
+$(NAME): $(LIB_MLX) libft $(OBJ)
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(LIB_MLX) $(LDFLAGS)
-#	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIB_MLX) $(LDFLAGS)
 	@echo "$(DGREEN)Finished building $@!$(RESET)"
 
-$(OBJ_DIR)/%.o: src/%.c
+$(OBJ_DIR)/%.o: src/%.c $(HDR)
 	@mkdir -p $(dir $@)  # Ensure the directory for the object file exists
-	@echo "$(TEAL)Compiling $@ from $^...$(RESET)"
-	@$(CC) $(CFLAGS) -c -o $@ $^
+	@echo "$(TEAL)Compiling $@ from $<...$(RESET)"
+	@$(CC) $(CFLAGS) -c $< -o $@
 
- $(LIBFT):
-	@make -C $(LIBFT_DIR)
+$(addprefix $(OBJ_DIR)/,lexer.o parser.o map_parser.o): src/lexer_parser.h
+
+libft:
+	@make -s -C $(LIBFT_DIR)
 
 $(LIB_MLX):
 	@cmake $(MLX_DIR) -B $(MLX_DIR)/build
-	@make -C $(MLX_DIR)/build -j4
-	
+	@cmake --build $(MLX_DIR)/build -j4
+
 clean:
 	@make -C $(LIBFT_DIR) clean >/dev/null
 	@echo "$(PINK)Cleaning $(OBJ)!$(RESET)"
@@ -51,6 +52,8 @@ clean:
 
 fclean: clean
 	@make -C $(LIBFT_DIR) fclean >/dev/null
+	@rm -rf $(MLX_DIR)/build
+	@echo "$(CYAN)Removing MLX build!$(RESET)"
 	@echo "$(CYAN)Cleaning $(NAME)!$(RESET)"
 	@rm -f $(NAME)
 
