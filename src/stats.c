@@ -153,8 +153,8 @@ void	print_stats(t_game *game)
 	p = info + ft_strlcpy(info, "Angle: ", LOG);
 	ft_ftoa(p, game->player.angle / M_PI, 6);
 	p = info + ft_strlcat(info, "PI X: ", LOG);
-	ft_itoa2(p, (game->player.p_pos.x - X_START) / CONST);
+	ft_itoa2(p, (game->player.p_pos.x - X_START));
 	p = info + ft_strlcat(info, " Y: ", LOG);
-	ft_itoa2(p, (game->player.p_pos.y - Y_START) / CONST);
+	ft_itoa2(p, (game->player.p_pos.y - Y_START));
 	game->stats = mlx_put_string(game->mlx, info, 10, 10);
 }

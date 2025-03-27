@@ -1,14 +1,5 @@
 #include "../inc/game.h"
 
-void	absolute(int *d, int *i)
-{
-	if (*d < 0)
-	{
-		*i = -1;
-		*d = -(*d);
-	}
-}
-
 void determine_quad(double angle, int *quad)
 {
     double cos_a = cos(angle);
@@ -31,7 +22,6 @@ void determine_quad(double angle, int *quad)
     else if (cos_a == 0 && sin_a == -1)
         *quad = 4;
 }
-
 
 void	safe_put_pixel(t_game *game, int x, int y, u_int32_t color)
 {
@@ -67,10 +57,16 @@ void	normalize_angle_to_2pi(double *angle)
 		*angle -= (2 * M_PI);
 }
 
-int	atoi_limit_255(int *dst, char *str)
+int	min(int a, int b)
 {
-	*dst = 0;
-	while (*str && *dst <= 255)
-		*dst = 10 * *dst + *str++ - '0';
-	return (*dst > 255);
+	if (a < b)
+		return (a);
+	return (b);
+}
+
+int	max(int a, int b)
+{
+	if (a > b)
+		return (a);
+	return (b);
 }

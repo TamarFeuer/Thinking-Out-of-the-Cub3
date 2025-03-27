@@ -123,9 +123,9 @@ void DDA_ray(t_game *game, t_pos start, t_pos end, int color)
         //printf("Distance at step %d: %f\n", step_count, distance);
         //mlx_put_pixel(game->scene, (int)round(x), (int)round(y), distance_to_color(distance));
         // mlx_put_pixel(game->scene, (int)round(x) - X_START,  (int)round(y) - Y_START, 
-		// 	convert_to_mlx42_endian(distance_to_color(distance)));
+		// 	color_abgr_to_rgba(distance_to_color(distance)));
 		mlx_put_pixel(game->scene, (int)round(x) - X_START,  (int)round(y) - Y_START, 
-			convert_to_mlx42_endian(color));
+			color_abgr_to_rgba(color));
     
         x += x_increment;
         y += y_increment;
