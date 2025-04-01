@@ -1,7 +1,16 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                          ::::::::            #
+#    Makefile                                            :+:    :+:            #
+#                                                       +:+                    #
+#    By: rtorrent <marvin@42.fr>                       +#+                     #
+#                                                     +#+                      #
+#    Created: 2025/04/01 20:19:25 by rtorrent       #+#    #+#                 #
+#    Updated: 2025/04/01 20:31:45 by rtorrent       ########   odam.nl         #
+#                                                                              #
+# **************************************************************************** #
+
 CC = cc
-# CFLAGS = -Wall -Wextra -Werror -Isrc -Ilibs/libft -Ilibs/MLX42/include/MLX42 -g -fsanitize=address -O3
-# CFLAGS = -Wall -Wextra -Werror -Isrc -Ilibs/MLX42/include/MLX42 -g -fsanitize=address -O3
-#CFLAGS = -Wall -Wextra -Werror -Isrc -g -Ilibs/MLX42/include/MLX42
 CFLAGS = -Wall -Wextra -Werror -g -Ilibs/MLX42/include/MLX42
 LDFLAGS = -ldl -lglfw -pthread -lm
 
@@ -23,11 +32,14 @@ MLX_DIR = libs/MLX42
 LIB_MLX = $(MLX_DIR)/build/libmlx42.a
 LIBFT = $(LIBFT_DIR)/libft.a
 
-.PHONY: all clean fclean re libft
+.PHONY: all clean fclean re
 
 all: $(NAME)
 
-$(NAME): $(LIB_MLX) libft $(OBJ)
+$(NAME)::
+	@make -s -C $(LIBFT_DIR)
+
+$(NAME):: $(LIB_MLX) $(LIBFT) $(OBJ)
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(LIB_MLX) $(LDFLAGS)
 	@echo "$(DGREEN)Finished building $@!$(RESET)"
 
@@ -37,9 +49,6 @@ $(OBJ_DIR)/%.o: src/%.c $(HDR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(addprefix $(OBJ_DIR)/,lexer.o parser.o map_parser.o): src/lexer_parser.h
-
-libft:
-	@make -s -C $(LIBFT_DIR)
 
 $(LIB_MLX):
 	@cmake $(MLX_DIR) -B $(MLX_DIR)/build
