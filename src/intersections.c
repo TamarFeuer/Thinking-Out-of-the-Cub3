@@ -93,6 +93,17 @@ int	is_wall_hit2(t_game *game, t_pos inter, int flag)
 	return (false);
 }
 
+int	is_wall_hit3(t_game *game, t_pos inter, int flag)
+{
+	if (game->data->map[get_block_index3(game, &inter, flag).index] == '1')
+	{	
+		//printf ("game->ray->end.x %f, game->ray->end.y %f\n", game->ray->end.x, game->ray->end.y);
+		printf ("hit wall\n");
+		return (true);
+	}
+	return (false);
+}
+
 
 void reach_nearest_wall_by_intersections(t_game *game)
 {
