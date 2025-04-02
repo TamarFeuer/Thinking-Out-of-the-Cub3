@@ -6,7 +6,7 @@
 #    By: rtorrent <marvin@42.fr>                       +#+                     #
 #                                                     +#+                      #
 #    Created: 2025/04/01 20:19:25 by rtorrent       #+#    #+#                 #
-#    Updated: 2025/04/01 20:31:45 by rtorrent       ########   odam.nl         #
+#    Updated: 2025/04/02 11:16:27 by rtorrent       ########   odam.nl         #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,11 +18,26 @@ NAME = cub3D
 
 HDR = inc/game.h
 
-SRC =	src/main.c src/line.c src/mmap.c src/player.c src/hooks.c src/clean.c \
-		src/stats.c src/color.c src/rays.c src/intersections.c \
-		src/perspective_scene.c src/utils.c src/init.c \
-		src/horizontal.c src/vertical.c src/mous3.c \
-		src/lexer.c src/parser.c src/map_parser.c src/flood_fill_map.c
+SRC = src/clean.c \
+	src/color.c \
+	src/flood_fill_map.c \
+	src/hooks.c \
+	src/horizontal.c \
+	src/init.c \
+	src/intersections.c \
+	src/lexer.c \
+	src/line.c \
+	src/main.c \
+	src/map_parser.c \
+	src/mmap.c \
+	src/mous3.c \
+	src/parser.c \
+	src/perspective_scene.c \
+	src/player.c \
+	src/rays.c \
+	src/stats.c \
+	src/utils.c \
+	src/vertical.c
 
 OBJ_DIR = obj
 OBJ = $(SRC:src/%.c=$(OBJ_DIR)/%.o)
