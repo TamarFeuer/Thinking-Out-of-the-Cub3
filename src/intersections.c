@@ -101,13 +101,16 @@ void reach_nearest_wall_by_intersections(t_game *game)
 	//printf ("in reach nearest: angle is %f\n", game->ray->current_angle);
 	horiz_distance = horiz_intersect(game);
 	vertical_distance = vertical_intersect(game);
-	//printf ("vertical itersection: distance %f, end.x %f, end.y %f\n", vertical_distance, game->ray->v_hit.x, game->ray->v_hit.y);
-	//printf ("horizontal itersection: distance %f ,end.x %f, end.y %f\n", horiz_distance, game->ray->h_hit.x, game->ray->h_hit.y);
-	// if (horiz_distance > vertical_intersect(game, angle))
-	//printf ("game->cell_size is %d\n", game->cell_size);
+	if (game->ray->ray_num == SCREEN_WIDTH /2)
+	{
+		printf ("vertical itersection: distance %f, end.x %f, end.y %f\n", vertical_distance, game->ray->v_hit.x, game->ray->v_hit.y);
+		printf ("horizontal itersection: distance %f ,end.x %f, end.y %f\n", horiz_distance, game->ray->h_hit.x, game->ray->h_hit.y);
+	}
+
 	if (horiz_distance > vertical_distance)
 	{	
-		//printf ("\nI met vertical first\n");
+		if (game->ray->ray_num == SCREEN_WIDTH /2)
+			printf ("\nI met vertical first\n");
 		game->ray->is_vertical_first = true;
 		game->ray->end.x = game->ray->v_hit.x;
 		game->ray->end.y = game->ray->v_hit.y;
@@ -115,7 +118,8 @@ void reach_nearest_wall_by_intersections(t_game *game)
 	}
 	else
 	{
-		//printf ("\nI met horizontal first\n");
+		if (game->ray->ray_num == SCREEN_WIDTH /2)
+			printf ("\nI met horizontal first\n");
 		game->ray->is_vertical_first = false;
 		game->ray->end.x = game->ray->h_hit.x;
 		game->ray->end.y = game->ray->h_hit.y;

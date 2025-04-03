@@ -25,11 +25,11 @@ void	draw_all(void *param)
 			game->ray->number_of_rays = SCREEN_WIDTH;
 		else
 			game->ray->number_of_rays = 1;
-			
+		draw_grid(game, game->data->map_data.rows, game->data->map_data.cols);
 		while (i < game->ray->number_of_rays)
-		// while (i < 1)
 		{
-			draw_bresenham_ray(game, game->camera.pos, game->ray->ray_end[i]);
+			if (i == SCREEN_WIDTH /2)
+				draw_bresenham_ray(game, game->camera.pos, game->ray->ray_end[i]);
 			//DDA_ray(game, game->camera.pos, game->ray->ray_end[i], 0xA4FFAAFF);
 			i++;
 		}
@@ -37,8 +37,8 @@ void	draw_all(void *param)
 		draw_player(game);
 	
 		//printf ("player angle %f\n", game->player.angle);
-		draw_grid(game, game->data->map_data.rows, game->data->map_data.cols);
-		draw_player_direction(game, (t_pos){game->camera.pos.x, game->camera.pos.y}, game->player.angle);
+		
+		//draw_player_direction(game, (t_pos){game->camera.pos.x, game->camera.pos.y}, game->player.angle);
 
 		mlx_delete_image(game->mlx, game->stats);
 		print_stats(game);

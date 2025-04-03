@@ -315,7 +315,7 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 	new.x = game->player.p_pos.x;
 	new.y = game->player.p_pos.y;
 	double new_angle = game->player.angle;
-	double angle_size = 2 * M_PI / 100;
+	double angle_size = M_PI / 100;
 	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
 		new.x += (cos(game->player.angle) * DISTANCE_PER_TURN);

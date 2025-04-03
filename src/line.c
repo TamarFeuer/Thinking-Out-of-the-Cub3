@@ -31,8 +31,28 @@ void draw_bresenham_ray(t_game *game, t_pos start, t_pos end)
     if (delta_y < 0)  // Moving up
         step_y = -1;
 
+    if (delta_y == 0) 
+    {
+            // Handle the horizontal line directly
+            if (delta_x > 0) 
+            {
+                // Moving to the right
+                x = (int)round(start.x);
+                while (x <= (int)round(end.x)) 
+                {
+                    distance = sqrt((x - start.x) * (x - start.x) + (y - start.y) * (y - start.y));
+                    if (x < X_START || x >= game->data->minimap_data.x_end || y < Y_START || y >= game->data->minimap_data.y_end)
+                    
+                        return; // Exit if out of bounds
+                    if (distance <= MAX_RAY_DISTANCE)
+                        mlx_put_pixel(game->mini, x, y, 0x000000FF); // Draw pixel
+                    x++;
+                }
+            }
+        }
+
     // Case 1: Positive slope (abs_delta_x >= abs_delta_y)
-    if (abs_delta_x >= abs_delta_y)
+    else if (abs_delta_x >= abs_delta_y)
     {
         //printf("positive slope, \n");
         decision_variable = 2 * abs_delta_y - abs_delta_x;
@@ -50,7 +70,8 @@ void draw_bresenham_ray(t_game *game, t_pos start, t_pos end)
 
 			// Set the pixel color using the computed distance
             if (distance <= MAX_RAY_DISTANCE)
-			    mlx_put_pixel(game->mini, x, y, distance_to_color(distance, 0));  //safe
+			    //mlx_put_pixel(game->mini, x, y, distance_to_color(distance, 0));  //safe
+                mlx_put_pixel(game->mini, x, y, 0x333333FF);
 			
 			// Update the decision variable and position
 			if (decision_variable >= 0)
@@ -81,7 +102,8 @@ void draw_bresenham_ray(t_game *game, t_pos start, t_pos end)
 
 			// Set the pixel color using the computed distance
 			if (distance <= MAX_RAY_DISTANCE)
-                mlx_put_pixel(game->mini, x, y, distance_to_color(distance, 0));
+                //mlx_put_pixel(game->mini, x, y, distance_to_color(distance, 0));
+                mlx_put_pixel(game->mini, x, y, 0x333333FF);
 
 			// Update the decision variable and position
 			if (decision_variable >= 0)

@@ -24,8 +24,8 @@ float	vertical_intersect(t_game *game)
 
 	//printf ("\nVERTICAL:\n");
 	delta_x_to_next_vertical = 0;
-	if (game->ray->current_angle == M_PI / 2 || game->ray->current_angle == 3 * M_PI / 2)
-		game->ray->current_angle += 0.0001;
+	// if (game->ray->current_angle == M_PI / 2 || game->ray->current_angle == 3 * M_PI / 2)
+	// 	game->ray->current_angle += 0.0001;
 	//increase_x = game->cell_size;
 	increase_y = game->cell_size * tan(game->ray->current_angle); //how much y changes when x changes by 1 (or -1) block_size
 	
@@ -34,9 +34,13 @@ float	vertical_intersect(t_game *game)
 	//printf ("increase_x is %f, delta_x_to_next_vertical is %d, \n", increase_x, delta_x_to_next_vertical);
 	
 	game->ray->intersect.x = floor(game->camera.pos.x / (game->cell_size)) * game->cell_size + delta_x_to_next_vertical;
-	//printf ("game->ray->intersect.x %f\n", game->ray->intersect.x);
-	//printf ("game->camera.pos.x %f, floor(game->camera.pos.x / (game->cell_size)) %f\n", game->camera.pos.x, floor(game->camera.pos.x / (game->cell_size)));
+	//game->ray->intersect.x = floor(game->camera.pos.x / (game->cell_size)) * game->cell_size + delta_x_to_next_vertical;
+	printf ("game->ray->intersect.x %f\n", game->ray->intersect.x);
+	printf ("game->camera.pos.x %f, floor(game->camera.pos.x / (game->cell_size)) %f\n", game->camera.pos.x, floor(game->camera.pos.x / (game->cell_size)));
+	printf ("floor(game->camera.pos.x / (game->cell_size)) * game->cell_size is %f\n", floor(game->camera.pos.x / (game->cell_size)) * game->cell_size);
+	printf ("delta_x_to_next_vertical %d\n", delta_x_to_next_vertical);
 	game->ray->intersect.y = game->camera.pos.y - (game->ray->intersect.x - game->camera.pos.x) * tan(game->ray->current_angle);
+
 	
 	//printf ("game->ray->intersect.y %f\n", game->ray->intersect.y);
 	while (!is_out_of_bounds(game, game->ray->intersect) && !is_wall_hit(game, game->ray->intersect, 1))
