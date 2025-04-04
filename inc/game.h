@@ -123,6 +123,7 @@ typedef struct s_ray
 	int			ray_num;
 	double		relative_angle;
 	double		current_angle;
+	double		tan_current;
 	int			angle_quad;
 	bool		wall_met;
 	int			is_vertical_first;
@@ -202,8 +203,8 @@ void		safe_put_pixel(t_game *game, int x, int y, u_int32_t color);
 void 		determine_quad(double angle, int *quad);
 void		init_game_struct(t_game *game);
 void		draw_all(void *param);
-float		horiz_intersect(t_game *game);
-float		vertical_intersect(t_game *game);
+double		horiz_intersect(t_game *game);
+double		vertical_intersect(t_game *game);
 bool		is_out_of_bounds(t_game *game, t_pos position);
 int			is_wall_hit(t_game *game, t_pos intersect, int flag);
 int			is_wall_hit2(t_game *game, t_pos intersect, int flag);
