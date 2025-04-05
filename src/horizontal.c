@@ -23,6 +23,7 @@ void	set_inc_horiz(t_game *game, float *increase_y, int *delta_y_to_next_horiz, 
 double	horiz_intersect(t_game *game)
 {
 	double	increase_x;
+	double	increase_y;
 	double	cotan_current;
 
 	if (game->ray->tan_current == 0)
@@ -32,10 +33,6 @@ double	horiz_intersect(t_game *game)
 	else
 		cotan_current = 1.0 / game->ray->tan_current;
 
-	increase_x = game->cell_size * cotan_current;
-	if (game->ray->angle_quad == 3 || game->ray->angle_quad == 4)
-		increase_x *= -1;
-	
 	//printf ("\nHORIZONTAL:\n");
 	//set_inc_horiz(game, &increase_y, &delta_y_to_next_horiz, &increase_x);
 	//printf ("increase_x is %f\n", increase_x);
@@ -45,11 +42,15 @@ double	horiz_intersect(t_game *game)
 	{
 		game->ray->intersect.y = floor((game->camera.pos.y - Y_START) / game->cell_size) * game->cell_size;
 		game->ray->intersect.x = game->camera.pos.x - X_START + (game->ray->intersect.y - game->camera.pos.y) * cotan_current;
+		increase_x = game->cell_size * cotan_current;
+		increase_y = -game->cell_size;
 	}
 	else
 	{
 		game->ray->intersect.y = ceil((game->camera.pos.y - Y_START) / game->cell_size) * game->cell_size;
 		game->ray->intersect.x = game->camera.pos.x - X_START - (game->ray->intersect.y - game->camera.pos.y) * cotan_current;
+		increase_x = -game->cell_size * cotan_current;
+		increase_y = game->cell_size;
 	}
 
 	//printf ("game->ray->inter.y %f\n", game->ray->intersect.y);
@@ -63,8 +64,8 @@ double	horiz_intersect(t_game *game)
 		//	safe_put_pixel(game, (int)game->ray->intersect.x, (int)game->ray->intersect.y, 0xFF00FFFF);
 		//mlx_put_pixel(game->scene, (int)round(game->ray->inter.x) - X_START, (int)round(game->ray->inter.y) - Y_START, 0xFF0000FF);
 		//printf ("horiz intersect: did not hit wall yet\n");
-		game->ray->intersect.y += game->cell_size;
 		game->ray->intersect.x += increase_x;
+		game->ray->intersect.y += increase_y;
 		//printf ("HERE!!!!   intersect_x is %f, intersect_y is %f\n", game->ray->intersect.x, game->ray->intersect.y);
 	}
 	if (is_out_of_bounds(game, game->ray->intersect))

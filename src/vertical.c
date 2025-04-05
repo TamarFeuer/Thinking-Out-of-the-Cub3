@@ -20,27 +20,30 @@ void	set_inc_vert(t_game *game, float *increase_x, int *delta_x_to_next_vertical
 
 double	vertical_intersect(t_game *game)
 {
+	double	increase_x;
 	double	increase_y;
 
 	if (game->ray->tan_current == HUGE_VAL || game->ray->tan_current == -HUGE_VAL)
 		return (OUT_OF_BOUNDS);
 
 	//printf ("\nVERTICAL:\n");
-	increase_y = game->cell_size * game->ray->tan_current; //how much y changes when x changes by 1 (or -1) block_size
 	
 	//set_inc_vert(game, &increase_x, &delta_x_to_next_vertical, &increase_y);
 	//printf ("increase_y is %f\n", increase_y);
 	//printf ("increase_x is %f, delta_x_to_next_vertical is %d, \n", increase_x, delta_x_to_next_vertical);
 	if (game->ray->angle_quad == 1 || game->ray->angle_quad == 4)
 	{
-		increase_y *= -1;
 		game->ray->intersect.x = ceil((game->camera.pos.x - X_START) / game->cell_size) * game->cell_size;
 		game->ray->intersect.y = game->camera.pos.y - Y_START - (game->ray->intersect.x - game->camera.pos.x) * game->ray->tan_current;
+		increase_x = game->cell_size;
+		increase_y = -game->cell_size * game->ray->tan_current; //how much y changes when x changes by 1 (or -1) block_size
 	}
 	else
 	{
 		game->ray->intersect.x = floor((game->camera.pos.x - X_START) / game->cell_size) * game->cell_size;
 		game->ray->intersect.y = game->camera.pos.y - Y_START + (game->ray->intersect.x - game->camera.pos.x) * game->ray->tan_current;
+		increase_x = -game->cell_size;
+		increase_y = game->cell_size * game->ray->tan_current; //how much y changes when x changes by 1 (or -1) block_size
 	}
 		
 	
@@ -54,7 +57,7 @@ double	vertical_intersect(t_game *game)
 		//	safe_put_pixel(game, (int)game->ray->intersect.x, (int)game->ray->intersect.y, 0xFFFF00FF);
 		//printf ("vertical intersect. did not hit wall yet\n");
 		//mlx_put_pixel(game->scene, (int)round(game->ray->intersect.x) - X_START,  (int)round(game->ray->intersect.y) - Y_START, 0xFFFF00FF);
-		game->ray->intersect.x += game->cell_size;
+		game->ray->intersect.x += increase_x;
 		game->ray->intersect.y += increase_y; //the sign was already dealt with
 		//printf ("intersect_x is %f, intersect_y is %f\n", game->ray->intersect.x, game->ray->intersect.y);
 	}

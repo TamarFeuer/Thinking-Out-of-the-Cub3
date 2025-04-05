@@ -27,23 +27,20 @@ t_block_index get_block_index2(t_game *game, t_pos *grid_pos, int flag)
 {
 	t_block_index block_index;
 
-	(void)flag;
 	//block_index.index = -1;
 	block_index.x = (int)((grid_pos->x - X_START) / game->cell_size);
 	block_index.y = (int)((grid_pos->y - Y_START) / game->cell_size);
-	/*
 	//printf("on grid_x %d, on grid Y %d\n", block_index_x, block_index_y);
-	if (flag == 1 && (game->ray->angle_quad == 1 || game->ray->angle_quad == 2))
+	if (flag == 0 && (game->ray->angle_quad == 1 || game->ray->angle_quad == 2))
 	{
 		
-		block_index.y = (int)(ceil(grid_pos->y) - Y_START) / (game->cell_size);
+		block_index.y--;
 	}
-	else if (flag == 0 && (game->ray->angle_quad == 2 || game->ray->angle_quad == 3))
+	else if (flag == 1 && (game->ray->angle_quad == 2 || game->ray->angle_quad == 3))
 	{
 		
-		block_index.x = (int)(ceil(grid_pos->x) - Y_START) / (game->cell_size);
+		block_index.x--;
 	}
-	*/
 	
 	block_index.index = block_index.y * game->data->map_data.cols + block_index.x;
 	//printf ("flag is %d, result is %d\n", flag, result);
