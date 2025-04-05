@@ -49,7 +49,7 @@
 
 //rays
 #define MAX_RAY_DISTANCE 400
-#define DISTANCE_PER_TURN 0.5 * CONST
+#define DISTANCE_PER_TURN 0.4 * CONST
 #define OUT_OF_BOUNDS 1000000000
 
 //error logs

@@ -41,7 +41,7 @@ double	vertical_intersect(t_game *game)
 	else
 	{
 		game->ray->intersect.x = floor((game->camera.pos.x - X_START) / game->cell_size) * game->cell_size;
-		game->ray->intersect.y = game->camera.pos.y - Y_START + (game->ray->intersect.x - game->camera.pos.x) * game->ray->tan_current;
+		game->ray->intersect.y = game->camera.pos.y - Y_START - (game->ray->intersect.x - game->camera.pos.x) * game->ray->tan_current;
 		increase_x = -game->cell_size;
 		increase_y = game->cell_size * game->ray->tan_current; //how much y changes when x changes by 1 (or -1) block_size
 	}
