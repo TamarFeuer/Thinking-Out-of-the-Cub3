@@ -49,7 +49,7 @@
 
 //rays
 #define MAX_RAY_DISTANCE 400
-#define DISTANCE_PER_TURN 0.5 * CONST
+#define DISTANCE_PER_TURN 0.4 * CONST
 #define OUT_OF_BOUNDS 1000000000
 
 //error logs
@@ -123,6 +123,7 @@ typedef struct s_ray
 	int			ray_num;
 	double		relative_angle;
 	double		current_angle;
+	double		tan_current;
 	int			angle_quad;
 	bool		wall_met;
 	int			is_vertical_first;
@@ -194,6 +195,7 @@ void		draw_bresenham_ray(t_game *game, t_pos start, t_pos end);
 double		get_distance(t_pos start, t_pos end);
 int			get_block_index(t_game *game, t_pos *grid_pos, int flag);
 t_block_index 	get_block_index2(t_game *game, t_pos *grid_pos, int flag);
+int		 	get_block_index3(t_game *game, t_pos *grid_pos, int flag);
 void		reach_nearest_wall_by_plotting(t_game *game, float angle);
 void 		reach_nearest_wall_by_intersections(t_game *game);
 void 		draw_player_direction(t_game *game, t_pos start, double angle);
@@ -202,8 +204,8 @@ void		safe_put_pixel(t_game *game, int x, int y, u_int32_t color);
 void 		determine_quad(double angle, int *quad);
 void		init_game_struct(t_game *game);
 void		draw_all(void *param);
-float		horiz_intersect(t_game *game);
-float		vertical_intersect(t_game *game);
+double		horiz_intersect(t_game *game);
+double		vertical_intersect(t_game *game);
 bool		is_out_of_bounds(t_game *game, t_pos position);
 int			is_wall_hit(t_game *game, t_pos intersect, int flag);
 int			is_wall_hit2(t_game *game, t_pos intersect, int flag);

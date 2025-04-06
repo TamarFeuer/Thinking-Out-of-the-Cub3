@@ -22,7 +22,6 @@ int get_block_index(t_game *game, t_pos *grid_pos, int flag)
 	return result;
 }
 
-//flag: vertical 1, horizontal 0
 t_block_index get_block_index2(t_game *game, t_pos *grid_pos, int flag)
 {
 	t_block_index block_index;
@@ -47,6 +46,19 @@ t_block_index get_block_index2(t_game *game, t_pos *grid_pos, int flag)
 	return block_index;
 }
 
+int get_block_index3(t_game *game, t_pos *grid_pos, int flag)
+{
+	t_block_index block_index;
+
+	block_index.x = (int)((grid_pos->x - X_START) / game->cell_size);
+	block_index.y = (int)((grid_pos->y - Y_START) / game->cell_size);
+	if (flag == 0 && (game->ray->angle_quad == 1 || game->ray->angle_quad == 2))
+		block_index.y--;
+	else if (flag == 1 && (game->ray->angle_quad == 2 || game->ray->angle_quad == 3))
+		block_index.x--;
+	block_index.index = block_index.y * game->data->map_data.cols + block_index.x;
+	return (block_index.index);
+}
 
 double get_distance(t_pos start, t_pos end)
 {
@@ -66,6 +78,7 @@ void cast_rays(t_game *game)
 		ray->current_angle = game->player.angle + ray->relative_angle;
 		normalize_angle_to_2pi(&ray->current_angle);
 		determine_quad(ray->current_angle, &ray->angle_quad);
+		ray->tan_current = tan(ray->current_angle);
 		// printf("by_plotting: \n");
 		//reach_nearest_wall_by_plotting(game, game->ray->current_angle);
 		// printf("Ray %d: angle %f, distance %f, camera.x %f, camera.y %f\n", game->ray->ray_n, game->ray->current_angle, game->ray->distance, game->camera.pos.x, game->camera.pos.y);
@@ -96,9 +109,6 @@ void cast_rays(t_game *game)
 		//draw_ray(game, game->camera.pos, game->ray->end);
 		//printf ("in cast_rays: angle is %f\n", game->ray->current_angle);
 		draw_scene(game, game->ray);
-		
-		ray->intersect.x = 0;
-		ray->intersect.y = 0;
 
 		ray->ray_num++;
 	}

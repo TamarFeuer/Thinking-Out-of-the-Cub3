@@ -73,13 +73,7 @@ bool is_out_of_bounds(t_game *game, t_pos position)
 
 int	is_wall_hit(t_game *game, t_pos inter, int flag)
 {
-	if (game->data->map[get_block_index2(game, &inter, flag).index] == '1')
-	{	
-		//printf ("game->ray->end.x %f, game->ray->end.y %f\n", game->ray->end.x, game->ray->end.y);
-		
-		return (true);
-	}
-	return (false);
+	return (game->data->map[get_block_index3(game, &inter, flag)] == '1');
 }
 
 int	is_wall_hit2(t_game *game, t_pos inter, int flag)
@@ -96,7 +90,7 @@ int	is_wall_hit2(t_game *game, t_pos inter, int flag)
 
 void reach_nearest_wall_by_intersections(t_game *game)
 {
-	float horiz_distance, vertical_distance;
+	double	horiz_distance, vertical_distance;
 	
 	//printf ("in reach nearest: angle is %f\n", game->ray->current_angle);
 	horiz_distance = horiz_intersect(game);
@@ -111,7 +105,7 @@ void reach_nearest_wall_by_intersections(t_game *game)
 		game->ray->is_vertical_first = true;
 		game->ray->end.x = game->ray->v_hit.x;
 		game->ray->end.y = game->ray->v_hit.y;
-		game->ray->distance = get_distance(game->camera.pos, game->ray->end);
+		game->ray->distance = vertical_distance;
 	}
 	else
 	{
@@ -119,7 +113,7 @@ void reach_nearest_wall_by_intersections(t_game *game)
 		game->ray->is_vertical_first = false;
 		game->ray->end.x = game->ray->h_hit.x;
 		game->ray->end.y = game->ray->h_hit.y;
-		game->ray->distance = get_distance(game->camera.pos, game->ray->end);
+		game->ray->distance = horiz_distance;
 	}
 	
 }
