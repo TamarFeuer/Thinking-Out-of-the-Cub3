@@ -205,25 +205,29 @@ int corner_block_index(t_game *game, t_pos corner)
 	return (block_index);
 }
 
-bool is_colliding(t_game *game, t_pos new)
+bool is_colliding(t_game *game, t_pos new, int flag)
 {
     t_pos new_tl = new;
 	t_pos new_tr = {new.x + PLAYER_SIZE * CONST , new.y};
 	t_pos new_bl = {new.x, new.y + PLAYER_SIZE * CONST };
 	t_pos new_br = {new.x + PLAYER_SIZE * CONST -1, new.y + PLAYER_SIZE * CONST };
 	
-	if ((game->data->map[corner_block_index(game, new_tl)] == '1')
-		|| (game->data->map[corner_block_index(game, new_tr)] == '1')
-		||(game->data->map[corner_block_index(game, new_bl)] == '1')
-		||(game->data->map[corner_block_index(game, new_br)] == '1')
-		|| (is_wall_hit2(game, new_tl, 0))
-		|| (is_wall_hit2(game, new_tr, 0))
-		||(is_wall_hit2(game, new_bl, 0))
-		||(is_wall_hit2(game, new_br, 0))
-		||(is_wall_hit2(game, new_tl, 1))
-		|| (is_wall_hit2(game, new_tr, 1))
-		||(is_wall_hit2(game, new_bl, 1))
-		||(is_wall_hit2(game, new_br, 1)))
+	// if ((game->data->map[corner_block_index(game, new_tl)] == '1')
+	// 	|| (game->data->map[corner_block_index(game, new_tr)] == '1')
+	// 	||(game->data->map[corner_block_index(game, new_bl)] == '1')
+	// 	||(game->data->map[corner_block_index(game, new_br)] == '1'))
+		// if ((is_wall_hit(game, new_tl, 0))
+		// || (is_wall_hit(game, new_tr, 0))
+		// ||(is_wall_hit(game, new_bl, 0))
+		// ||(is_wall_hit(game, new_br, 0))
+		// ||(is_wall_hit(game, new_tl, 1))
+		// || (is_wall_hit(game, new_tr, 1))
+		// ||(is_wall_hit(game, new_bl, 1))
+		// ||(is_wall_hit(game, new_br, 1)))
+		if ((is_wall_hit2(game, new_tl, flag))
+		|| (is_wall_hit2(game, new_tr, flag))
+		||(is_wall_hit2(game, new_bl,flag))
+		||(is_wall_hit2(game, new_br, flag)))
 
 	{
 		if (game->data->map[corner_block_index(game, new_tl)] == '1')
@@ -246,9 +250,7 @@ bool is_colliding(t_game *game, t_pos new)
 // if there is separate to vertical and horrizontal
 void check_collision(t_game *game, t_pos old_pos, t_pos new_pos)
 {
-	if (is_wall_hit2(game, game->player.p_pos, 0))
-			printf ("before collision player is collidaing\n");
-	if (is_colliding(game, new_pos))
+	if (is_colliding(game, new_pos, 99))
 	{
 		printf ("COLLIDING\n");
 		//flag: vertical 1, horizontal 0
@@ -259,7 +261,7 @@ void check_collision(t_game *game, t_pos old_pos, t_pos new_pos)
 		temp_pos2.x = old_pos.x;
 		temp_pos2.y = new_pos.y;
 	
-		if (is_wall_hit2(game, temp_pos1, 0) && is_wall_hit2(game, temp_pos2, 1))
+		if (is_wall_hit2(game, temp_pos1, 1) && is_wall_hit2(game, temp_pos2, 0))
 		{
 			printf("diagonal\n");
 			return;
@@ -268,7 +270,7 @@ void check_collision(t_game *game, t_pos old_pos, t_pos new_pos)
 		printf ("player is at x=%f y=%f\n", game->player.p_pos.x, game->player.p_pos.y);
 		
 		printf ("temp_pos.x is %f, temp_pos.y is %f\n", temp_pos1.x, temp_pos1.y);
-		if (!is_colliding(game, temp_pos1))
+		if (!is_colliding(game, temp_pos1, 1))
 		//if(game->data->map[corner_block_index(game, temp_pos)] != '1')
 		{
 			game->player.p_pos.x = temp_pos1.x; // Allow horizontal movement
@@ -282,11 +284,10 @@ void check_collision(t_game *game, t_pos old_pos, t_pos new_pos)
 		
 		printf ("trying to move vertically\n");
 		printf ("temp_pos.x is %f, temp_pos.y is %f\n", temp_pos2.x, temp_pos2.y);
-		if (!is_colliding(game, temp_pos2))
+		if (!is_colliding(game, temp_pos2, 0))
 		{
 			game->player.p_pos.y = temp_pos2.y; // Allow vertical movement
 			game->camera.pos.y = game->player.p_pos.y + PLAYER_SIZE * CONST /2 - 1;
-			game->player.p_pos.x = temp_pos2.x; 
 			printf("Allowing to go to new y\n\n");
 			return;
 		}
@@ -304,8 +305,6 @@ void check_collision(t_game *game, t_pos old_pos, t_pos new_pos)
 		game->camera.pos.y = game->player.p_pos.y + PLAYER_SIZE * CONST /2- 1;
 	}
 }
-
-
 
 
 

@@ -29,16 +29,20 @@ t_block_index get_block_index2(t_game *game, t_pos *grid_pos, int flag)
 	block_index.index = -1;
 	block_index.x = (int)((floor(grid_pos->x) - X_START) / (game->cell_size));
 	block_index.y = (int)((floor(grid_pos->y) - Y_START) / (game->cell_size));
-	//printf("on grid_x %d, on grid Y %d\n", block_index_x, block_index_y);
-	if (flag == 1 && (game->ray->angle_quad == 1 || game->ray->angle_quad == 2))
+	// printf("on grid_x %d, on grid Y %d\n", block_index_x, block_index_y);
+	if (flag == 1 && 
+		(((game->ray->angle_quad == 1 || game->ray->angle_quad == 2) && game->ray->direction == FORWARD) 
+		|| ((game->ray->angle_quad == 3 || game->ray->angle_quad == 4) && game->ray->direction == BACKWARD)))
 	{
-		
-		block_index.y = (int)(ceil(grid_pos->y) - Y_START) / (game->cell_size);
+		block_index.x--;
+		//block_index.y = (int)(ceil(grid_pos->y) - Y_START) / (game->cell_size);
 	}
-	else if (flag == 0 && (game->ray->angle_quad == 2 || game->ray->angle_quad == 3))
+	else if (flag == 0 && 
+		(((game->ray->angle_quad == 2 || game->ray->angle_quad == 3) && game->ray->direction == FORWARD)
+		|| ((game->ray->angle_quad == 1 || game->ray->angle_quad == 4) && game->ray->direction == BACKWARD)))
 	{
-		
-		block_index.x = (int)(ceil(grid_pos->x) - Y_START) / (game->cell_size);
+		block_index.y--;
+		//block_index.x = (int)(ceil(grid_pos->x) - Y_START) / (game->cell_size);
 	}
 	
 	block_index.index = (block_index.y) * game->data->map_data.cols + block_index.x;

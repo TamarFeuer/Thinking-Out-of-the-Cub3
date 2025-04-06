@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                          ::::::::            #
-#    Makefile                                            :+:    :+:            #
-#                                                       +:+                    #
-#    By: rtorrent <marvin@42.fr>                       +#+                     #
-#                                                     +#+                      #
-#    Created: 2025/04/01 20:19:25 by rtorrent       #+#    #+#                 #
-#    Updated: 2025/04/02 11:16:27 by rtorrent       ########   odam.nl         #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: tfeuer <tfeuer@student.42.fr>              +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/04/01 20:19:25 by rtorrent          #+#    #+#              #
+#    Updated: 2025/04/06 14:12:58 by tfeuer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,7 @@ $(NAME)::
 $(NAME):: $(LIB_MLX) $(LIBFT) $(OBJ)
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(LIB_MLX) $(LDFLAGS)
 	@echo "$(DGREEN)Finished building $@!$(RESET)"
-
+	
 $(OBJ_DIR)/%.o: src/%.c $(HDR)
 	@mkdir -p $(dir $@)  # Ensure the directory for the object file exists
 	@echo "$(TEAL)Compiling $@ from $<...$(RESET)"
