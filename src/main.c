@@ -117,7 +117,9 @@ int	main(int argc, char *argv[])
 		game->cell_size = temp_height;
 	else
 		game->cell_size = temp_width;
-	printf ("tile size is %d\n", game->cell_size);
+	printf ("cell size is %d\n", game->cell_size);
+	if (game->cell_size < 1)
+		clean_nicely(game, "Map it too big to enjoy the game");
 	init_game_struct(game);
 
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);

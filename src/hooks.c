@@ -394,7 +394,6 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 			draw_mmap(game);
 			game->mini->enabled = true;
 		}
-
 	}
 	check_keys_for_movement(game, keydata);
 }
