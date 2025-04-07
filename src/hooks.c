@@ -380,5 +380,21 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 		mlx_close_window(game->mlx);
 		clean_nicely(game, NULL);
 	}
+	if (keydata.key == MLX_KEY_M && keydata.action == MLX_PRESS)
+	{
+		printf("Player pressed M. toggling mmap...\n");
+		game->is_mmap ^= 1;
+		if (game->is_mmap == false)
+		{
+			game->mini->enabled = false;
+			game->stats->enabled = false;
+		}
+		else
+		{
+			draw_mmap(game);
+			game->mini->enabled = true;
+		}
+
+	}
 	check_keys_for_movement(game, keydata);
 }
