@@ -22,7 +22,7 @@ static void	load_textures(t_game *game)
 
 void init_game_struct(t_game *game)
 {
-	game->is_mmap = true;
+	game->is_mmap = false;
 	game->is_mouse_active = false;
 	game->ray->is_vertical_first = -1;
 	game->ray->wall_met= false;

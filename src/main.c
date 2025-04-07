@@ -9,7 +9,8 @@ static void	clear_image(mlx_image_t *image, uint32_t npixels)
 		*pixel++ &= 0xFFFFFF00;
 }
 
-void	draw_all(void *param)
+
+void	draw_mmap(void *param)
 {
 	t_game *const	game = (t_game *)param;
 
@@ -39,7 +40,6 @@ void	draw_all(void *param)
 		//printf ("player angle %f\n", game->player.angle);
 		draw_grid(game, game->data->map_data.rows, game->data->map_data.cols);
 		draw_player_direction(game, (t_pos){game->camera.pos.x, game->camera.pos.y}, game->player.angle);
-
 		mlx_delete_image(game->mlx, game->stats);
 		print_stats(game);
 	}
@@ -117,7 +117,9 @@ int	main(int argc, char *argv[])
 		game->cell_size = temp_height;
 	else
 		game->cell_size = temp_width;
-	printf ("tile size is %d\n", game->cell_size);
+	printf ("cell size is %d\n", game->cell_size);
+	if (game->cell_size < 1)
+		clean_nicely(game, "Map it too big to enjoy the game");
 	init_game_struct(game);
 
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
@@ -135,7 +137,7 @@ int	main(int argc, char *argv[])
 	if (!game->mini || (mlx_image_to_window(game->mlx, game->mini, X_START, Y_START ) < 0))
 		clean_nicely(game, "Failed to create/copy an MLX42 image");
 	
-	mlx_loop_hook(game->mlx, draw_all, game);
+	mlx_loop_hook(game->mlx, draw_mmap, game);
 	mlx_key_hook(game->mlx, key_hook, game);
 	mlx_cursor_hook(game->mlx, cursor_hook, game);
 	mlx_mouse_hook(game->mlx, mouse_action, game);

@@ -203,7 +203,7 @@ void		normalize_angle_to_2pi(double *angle);
 void		safe_put_pixel(t_game *game, int x, int y, u_int32_t color);
 void 		determine_quad(double angle, int *quad);
 void		init_game_struct(t_game *game);
-void		draw_all(void *param);
+void		draw_mmap(void *param);
 double		horiz_intersect(t_game *game);
 double		vertical_intersect(t_game *game);
 bool		is_out_of_bounds(t_game *game, t_pos position);
