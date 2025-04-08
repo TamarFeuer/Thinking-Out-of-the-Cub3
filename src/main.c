@@ -118,8 +118,9 @@ int	main(int argc, char *argv[])
 	else
 		game->cell_size = temp_width;
 	printf ("cell size is %d\n", game->cell_size);
-	if (game->cell_size < 1)
-		clean_nicely(game, "Map it too big to enjoy the game");
+	
+	if (game->cell_size < 2 * PLAYER_SIZE * CONST)
+		clean_nicely(game, "The map is too large for the screen resolution");
 	init_game_struct(game);
 
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
