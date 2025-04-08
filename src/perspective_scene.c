@@ -6,7 +6,7 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/03/18 11:17:21 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/04/08 15:19:29 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/04/08 15:30:12 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static uint32_t	pixel_color(t_game *game, int h0, int h, t_pos *end)
 
 void	draw_scene(t_game *game, t_ray *ray)
 {
-	int	h0; 
+	int	h0;
 	int	h[2];
 	int	y;
 
