@@ -6,7 +6,7 @@
 /*   By: rtorrent <marvin@42.fr>                       +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/03/18 11:17:21 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/03/26 12:06:55 by rtorrent       ########   odam.nl        */
+/*   Updated: 2025/04/08 15:30:12 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,16 @@ static uint32_t	pixel_color(t_game *game, int h0, int h, t_pos *end)
 
 void	draw_scene(t_game *game, t_ray *ray)
 {
-	const int	h0 = (int)(game->cell_size * game->pplane / ray->distance
-			/ cos(ray->relative_angle));
-	const int	h[2] = {min((SCREEN_HEIGHT + h0) / 2, SCREEN_HEIGHT - 1),
-		max((SCREEN_HEIGHT - h0) / 2, 0)};
-	int			y;
+	int	h0;
+	int	h[2];
+	int	y;
 
+	h0 = (int)(game->cell_size * game->pplane / ray->distance
+			/ cos(ray->relative_angle));
+	if (h0 < 0 || h0 > INT_MAX - SCREEN_HEIGHT)
+		h0 = INT_MAX - SCREEN_HEIGHT;
+	h[FL] = min((SCREEN_HEIGHT + h0) / 2, SCREEN_HEIGHT - 1);
+	h[CE] = max((SCREEN_HEIGHT - h0) / 2, 0);
 	y = 0;
 	while (y < h[CE])
 		safe_put_pixel(game, ray->ray_num, y++, game->data->map_data.rgba[CE]);
