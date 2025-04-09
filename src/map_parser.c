@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                         ::::::::           */
-/*   map_parser.c                                        :+:    :+:           */
-/*                                                      +:+                   */
-/*   By: rtorrent <marvin@42.fr>                       +#+                    */
-/*                                                    +#+                     */
-/*   Created: 2025/02/24 13:12:32 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/03/06 14:49:13 by rtorrent       ########   odam.nl        */
+/*                                                        :::      ::::::::   */
+/*   map_parser.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tfeuer <tfeuer@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/24 13:12:32 by rtorrent          #+#    #+#             */
+/*   Updated: 2025/04/09 16:27:01 by tfeuer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ static void	check_for_player(char *log, t_game *game, struct s_token *token,
 			token->line + 1, token->pos + index + 1);
 		clean_nicely(game, log);
 	}
-	game->player.p_pos.x = (double)(token->pos + index - game->data->parsed[0]);
-	game->player.p_pos.y = (double)(token->line - game->data->parsed[1]);
+	game->player.pos.x = (double)(token->pos + index - game->data->parsed[0]);
+	game->player.pos.y = (double)(token->line - game->data->parsed[1]);
 	direction = E;
 	if (token->value[index] == 'N')
 		direction = N;

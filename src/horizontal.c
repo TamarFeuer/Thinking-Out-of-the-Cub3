@@ -1,25 +1,5 @@
 #include "../inc/game.h"
 
-/*
-
-void	set_inc_horiz(t_game *game, float *increase_y, int *delta_y_to_next_horiz, float *increase_x)
-{
-	(void)increase_x;
-	if (game->ray->angle_quad == 3 || game->ray->angle_quad == 4) //ray facing down
-	{
-		*increase_y = game->cell_size;
-		*delta_y_to_next_horiz = game->cell_size; //proceed to the first location on the new block
-	}
-	else if (game->ray->angle_quad == 1 || game->ray->angle_quad == 2) //ray facing up
-	{
-		*increase_y = -game->cell_size;
-		*delta_y_to_next_horiz =  -1; //proceed to the last location on the new block
-	}
-	if (game->ray->angle_quad == 3 || game->ray->angle_quad == 4)
-		*increase_x *= -1;
-	
-}
-*/
 double	horiz_intersect(t_game *game)
 {
 	double	increase_x;
@@ -40,15 +20,15 @@ double	horiz_intersect(t_game *game)
 	
 	if (game->ray->angle_quad == 1 || game->ray->angle_quad == 2)
 	{
-		game->ray->intersect.y = floor((game->camera.pos.y - Y_START) / game->cell_size) * game->cell_size;
-		game->ray->intersect.x = game->camera.pos.x - X_START - (game->ray->intersect.y - game->camera.pos.y) * cotan_current;
+		game->ray->intersect.y = floor((game->camera_pos.y - Y_START) / game->cell_size) * game->cell_size;
+		game->ray->intersect.x = game->camera_pos.x - X_START - (game->ray->intersect.y - game->camera_pos.y) * cotan_current;
 		increase_x = game->cell_size * cotan_current;
 		increase_y = -game->cell_size;
 	}
 	else
 	{
-		game->ray->intersect.y = ceil((game->camera.pos.y - Y_START) / game->cell_size) * game->cell_size;
-		game->ray->intersect.x = game->camera.pos.x - X_START - (game->ray->intersect.y - game->camera.pos.y) * cotan_current;
+		game->ray->intersect.y = ceil((game->camera_pos.y - Y_START) / game->cell_size) * game->cell_size;
+		game->ray->intersect.x = game->camera_pos.x - X_START - (game->ray->intersect.y - game->camera_pos.y) * cotan_current;
 		increase_x = -game->cell_size * cotan_current;
 		increase_y = game->cell_size;
 	}
@@ -78,5 +58,5 @@ double	horiz_intersect(t_game *game)
 	//printf ("horiz intersectsect: end.x is %f and end.y is %f\n", game->ray->h_hit.x, game->ray->h_hit.y);
 	// return (sqrt(pow(game->ray->intersect.x - game->camera.pos.x, 2) + 
 	// 			pow(game->ray->intersect.y - game->camera.pos.y, 2)));
-	return (get_distance(game->camera.pos, game->ray->h_hit));
+	return (get_distance(game->camera_pos, game->ray->h_hit));
 }

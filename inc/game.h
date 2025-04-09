@@ -32,9 +32,7 @@
 
 //mini map
 #define CONST 4
-#define PIXELS_PER_BLOCK 8
-//#define MMAP_WIDTH COLS * PIXELS_PER_BLOCK * CONST
-//#define MMAP_HEIGHT ROWS * PIXELS_PER_BLOCK * CONST
+// #define PIXELS_PER_BLOCK 8
 #define X_START 0
 #define Y_START 0
 #define X_END (X_START + MMAP_WIDTH)
@@ -98,23 +96,10 @@ typedef struct s_point
 
 typedef struct s_player
 {
-	t_pos		p_pos;  // ---> !
-	double		angle;  // in radians ---> !
+	t_pos		pos;
+	double		angle;
 	int			angle_quad;
 }	t_player;
-
-typedef struct s_camera
-{
-	t_pos		pos;
-	float		angle;
-}	t_camera;
-
-typedef struct s_mmap
-{
-	int block_size;
-	int height;
-	int width;
-} t_mmap;
 
 typedef struct s_ray
 {
@@ -131,7 +116,6 @@ typedef struct s_ray
 	double		distance;
 	t_pos		v_hit;
 	t_pos		h_hit;
-	t_pos		ray_start[SCREEN_WIDTH];
 	t_pos		ray_end[SCREEN_WIDTH];
 	int			direction;
 }	t_ray;
@@ -168,14 +152,13 @@ typedef struct s_game
 	bool			is_debug;
 	bool			is_mmap;
 	bool			is_mouse_active;
+	mlx_t			*mlx;
 	int				cell_size;
 	t_data			*data;
 	t_ray			*ray;
-	t_mmap			mmap;
 	t_player		player;
-	t_camera		camera;
+	t_pos			camera_pos;
 	double			pplane;
-	mlx_t			*mlx;
 	mlx_image_t 	*scene;
 	mlx_image_t		*mini;
 	mlx_image_t 	*stats;
@@ -194,10 +177,7 @@ void		DDA_ray(t_game *game, t_pos start, t_pos end, int color);
 const char *get_direction(t_game *game);
 void		draw_bresenham_ray(t_game *game, t_pos start, t_pos end);
 double		get_distance(t_pos start, t_pos end);
-int			get_block_index(t_game *game, t_pos *grid_pos, int flag);
-t_block_index 	get_block_index2(t_game *game, t_pos *grid_pos, int flag);
-int		 	get_block_index3(t_game *game, t_pos *grid_pos, int flag);
-void		reach_nearest_wall_by_plotting(t_game *game, float angle);
+int		 	get_block_index(t_game *game, t_pos *grid_pos, int flag);
 void 		reach_nearest_wall_by_intersections(t_game *game);
 void 		draw_player_direction(t_game *game, t_pos start, double angle);
 void		normalize_angle_to_2pi(double *angle);
@@ -209,12 +189,8 @@ double		horiz_intersect(t_game *game);
 double		vertical_intersect(t_game *game);
 bool		is_out_of_bounds(t_game *game, t_pos position);
 int			is_wall_hit(t_game *game, t_pos intersect, int flag);
-int			is_wall_hit2(t_game *game, t_pos intersect, int flag);
-int			draw_static_components(t_game *game);
-
 void		cursor_hook(double xpos, double ypos, void* param);
 void		mouse_action (mouse_key_t button, action_t action, modifier_key_t mods, void* param);
-
 int			atoi_limit_255(int *dst, char *str);
 void		build_map(char *log, t_game *game);
 uint32_t	color_abgr_to_rgba(uint32_t c);

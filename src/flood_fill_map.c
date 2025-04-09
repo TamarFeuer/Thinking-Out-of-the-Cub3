@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                         ::::::::           */
-/*   flood_fill_map.c                                    :+:    :+:           */
-/*                                                      +:+                   */
-/*   By: rtorrent <marvin@42.fr>                       +#+                    */
-/*                                                    +#+                     */
-/*   Created: 2025/02/25 16:18:16 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/03/03 14:25:46 by rtorrent       ########   odam.nl        */
+/*                                                        :::      ::::::::   */
+/*   flood_fill_map.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tfeuer <tfeuer@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/25 16:18:16 by rtorrent          #+#    #+#             */
+/*   Updated: 2025/04/09 16:25:36 by tfeuer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	flood_fill_map(t_game *gme, char *dup_map)
 	queue = NULL;
 	idx = 0;
 	if (!dup_map || enqueue_point(&queue,
-			&(t_point){(int)gme->player.p_pos.x, (int)gme->player.p_pos.y}))
+			&(t_point){(int)gme->player.pos.x, (int)gme->player.pos.y}))
 		idx = -2;
 	while (queue && idx >= 0)
 	{

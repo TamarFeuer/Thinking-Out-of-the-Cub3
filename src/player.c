@@ -22,8 +22,8 @@ void draw_player_direction(t_game *game, t_pos start, double angle)
 void draw_player(t_game *game)
 {
 	int size = PLAYER_SIZE * CONST; // Player is PLAYER_SIZE x PLAYER_SIZE pixels
-	int x = round(game->player.p_pos.x);
-	int y = round(game->player.p_pos.y);
+	int x = round(game->player.pos.x);
+	int y = round(game->player.pos.y);
 
 	// mlx_image_to_window(game->mlx, game->mini, X_START, Y_START);
 	int i = 0;

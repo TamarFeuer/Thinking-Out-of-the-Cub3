@@ -1,53 +1,5 @@
 #include "../inc/game.h"
 
-/*
-
-char *ft_strjoin_free(char *left, char *right, int free_flag)
-{
-	char *result = ft_strjoin(left, right);
-	if (!result)
-		return NULL;
-
-	if (free_flag == 1 || free_flag == 3)
-	{
-		free(left);
-		left = NULL;
-	}
-	if (free_flag == 2 || free_flag == 3)
-	{
-		free(right);
-		right = NULL;
-	}
-	return result;
-}
-
-void print_stats(t_game *game)
-{
-	char *str;
-	
-	
-	char *temp = ft_ftoa(game->player.angle / M_PI, 6);
-	if (!temp)
-		return;
-	str = ft_strjoin("Angle: ", temp);
-	free(temp);
-	if (!str)
-		return;
-	str = ft_strjoin_free(str, "PI X: ", 1);
-	temp = ft_itoa(((game->player.p_pos.x) - X_START) / CONST);  //if fails free stuff
-	if (temp)
-		str = ft_strjoin_free(str, temp, 3);
-	str = ft_strjoin_free(str, " Y: ", 1);
-	temp = ft_itoa(((game->player.p_pos.y) - Y_START) / CONST);  //if fails, free stuff
-	if (temp)
-		str = ft_strjoin_free(str, temp, 3);
-	game->stats = mlx_put_string(game->mlx, str, 10, 10);
-	free(str);
-
-}
-
-*/
-
 static unsigned int	count_int_length(long long n)
 {
 	unsigned int	i;
@@ -153,8 +105,8 @@ void	print_stats(t_game *game)
 	p = info + ft_strlcpy(info, "Angle: ", LOG);
 	ft_ftoa(p, game->player.angle / M_PI, 6);
 	p = info + ft_strlcat(info, "PI X: ", LOG);
-	ft_itoa2(p, (game->player.p_pos.x - X_START));
+	ft_itoa2(p, (game->player.pos.x - X_START));
 	p = info + ft_strlcat(info, " Y: ", LOG);
-	ft_itoa2(p, (game->player.p_pos.y - Y_START));
+	ft_itoa2(p, (game->player.pos.y - Y_START));
 	game->stats = mlx_put_string(game->mlx, info, 10, 10);
 }

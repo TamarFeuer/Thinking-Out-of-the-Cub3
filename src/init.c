@@ -26,15 +26,15 @@ void init_game_struct(t_game *game)
 	game->is_mouse_active = false;
 	game->ray->is_vertical_first = -1;
 	game->ray->wall_met= false;
-	game->player.p_pos.x = round(X_START + (game->player.p_pos.x + .5) * game->cell_size - PLAYER_SIZE * CONST/2);
-	game->player.p_pos.y = round(Y_START + (game->player.p_pos.y + .5) * game->cell_size - PLAYER_SIZE * CONST/2);
-	printf ("player  is %f %f\n", game->player.p_pos.x, game->player.p_pos.y);
+	game->player.pos.x = round(X_START + (game->player.pos.x + .5) * game->cell_size - PLAYER_SIZE * CONST/2);
+	game->player.pos.y = round(Y_START + (game->player.pos.y + .5) * game->cell_size - PLAYER_SIZE * CONST/2);
+	printf ("player  is %f %f\n", game->player.pos.x, game->player.pos.y);
 	printf ("in init game struct: game->player.angle is %f\n", game->player.angle);
 	game->pplane = SCREEN_WIDTH / (2.0 * tan(FOV * DEG_TO_RAD / 2.0));
 	
-	game->camera.pos.x = round(game->player.p_pos.x) + PLAYER_SIZE * CONST / 2 - 1;
-	game->camera.pos.y = round(game->player.p_pos.y) + PLAYER_SIZE * CONST / 2 - 1;
-	printf ("in init game struct: game->camera.pos.x %f\n", game->camera.pos.x);
+	game->camera_pos.x = round(game->player.pos.x) + PLAYER_SIZE * CONST / 2 - 1;
+	game->camera_pos.y = round(game->player.pos.y) + PLAYER_SIZE * CONST / 2 - 1;
+	printf ("in init game struct: game->camera.pos.x %f\n", game->camera_pos.x);
 	//MINIMAP struct init
 	game->data->minimap_data.width = game->data->map_data.cols * game->cell_size;
 	printf ("in parsing: game->data->minimap_data.width %d\n", game->data->minimap_data.width);
