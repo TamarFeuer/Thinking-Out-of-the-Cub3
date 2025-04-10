@@ -15,15 +15,15 @@ double	vertical_intersect(t_game *game)
 	//printf ("increase_x is %f, delta_x_to_next_vertical is %d, \n", increase_x, delta_x_to_next_vertical);
 	if (game->ray->angle_quad == 1 || game->ray->angle_quad == 4)
 	{
-		game->ray->intersect.x = ceil((game->camera_pos.x - X_START) / game->cell_size) * game->cell_size;
-		game->ray->intersect.y = game->camera_pos.y - Y_START - (game->ray->intersect.x - game->camera_pos.x) * game->ray->tan_current;
+		game->ray->intersect.x = ceil(game->camera_pos.x / game->cell_size) * game->cell_size;
+		game->ray->intersect.y = game->camera_pos.y - (game->ray->intersect.x - game->camera_pos.x) * game->ray->tan_current;
 		increase_x = game->cell_size;
 		increase_y = -game->cell_size * game->ray->tan_current; //how much y changes when x changes by 1 (or -1) block_size
 	}
 	else
 	{
-		game->ray->intersect.x = floor((game->camera_pos.x - X_START) / game->cell_size) * game->cell_size;
-		game->ray->intersect.y = game->camera_pos.y - Y_START - (game->ray->intersect.x - game->camera_pos.x) * game->ray->tan_current;
+		game->ray->intersect.x = floor(game->camera_pos.x  / game->cell_size) * game->cell_size;
+		game->ray->intersect.y = game->camera_pos.y - (game->ray->intersect.x - game->camera_pos.x) * game->ray->tan_current;
 		increase_x = -game->cell_size;
 		increase_y = game->cell_size * game->ray->tan_current; //how much y changes when x changes by 1 (or -1) block_size
 	}

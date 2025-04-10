@@ -12,7 +12,6 @@ bool is_colliding(t_game *game, t_pos new, int flag)
 		||(is_wall_hit(game, new_bl,flag))
 		||(is_wall_hit(game, new_br, flag)))
 	{
-	
 		return true;
 	}
 	else
@@ -48,7 +47,7 @@ void check_collision(t_game *game, t_pos old_pos, t_pos new_pos)
 		if (!is_colliding(game, temp_pos1, 99))
 		//if(game->data->map[corner_block_index(game, temp_pos)] != '1')
 		{
-			game->camera_pos.x = temp_pos1.x; // Allow horizontal movement
+			game->player.pos.x = temp_pos1.x; // Allow horizontal movement
 			game->camera_pos.x = game->player.pos.x + PLAYER_SIZE * CONST / 2 - 1;
 			printf ("Allowing to go to new x\n\n");
 			return;
@@ -120,14 +119,14 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 	// Boundary check for player movement
 	if (new.x != game->player.pos.x || new.y != game->player.pos.y)
 	{
-		if (new.x < X_START)
-			new.x = X_START;
-		if (new.y < Y_START)
-			new.y = Y_START;
-		if (new.x > X_START + game->data->minimap_data.width - CONST)
-			new.x = X_START + game->data->minimap_data.width - CONST;
-		if (new.y > Y_START + game->data->minimap_data.height - CONST)
-			new.y = Y_START + game->data->minimap_data.height - CONST;
+		if (new.x < 0)
+			new.x = 0;
+		if (new.y < 0)
+			new.y = 0;
+		if (new.x > game->data->minimap_data.width - CONST)
+			new.x = game->data->minimap_data.width - CONST;
+		if (new.y > game->data->minimap_data.height - CONST)
+			new.y = game->data->minimap_data.height - CONST;
 		check_collision(game, game->player.pos, new);
 	}
 	if (game->is_mouse_active == false &&(keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)))

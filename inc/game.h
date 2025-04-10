@@ -32,9 +32,6 @@
 
 //mini map
 #define CONST 4
-// #define PIXELS_PER_BLOCK 8
-#define X_START 0
-#define Y_START 0
 #define X_END (X_START + MMAP_WIDTH)
 #define Y_END (Y_START + MMAP_HEIGHT)
 #define MMAP_MAX_HEIGHT SCREEN_HEIGHT/4
@@ -49,7 +46,7 @@
 //rays
 #define MAX_RAY_DISTANCE 400
 #define DISTANCE_PER_TURN 0.4 * CONST
-#define OUT_OF_BOUNDS 1000000000
+#define OUT_OF_BOUNDS INT_MAX
 
 //error logs
 #define LOG 80

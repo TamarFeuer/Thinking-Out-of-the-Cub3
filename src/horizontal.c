@@ -20,15 +20,15 @@ double	horiz_intersect(t_game *game)
 	
 	if (game->ray->angle_quad == 1 || game->ray->angle_quad == 2)
 	{
-		game->ray->intersect.y = floor((game->camera_pos.y - Y_START) / game->cell_size) * game->cell_size;
-		game->ray->intersect.x = game->camera_pos.x - X_START - (game->ray->intersect.y - game->camera_pos.y) * cotan_current;
+		game->ray->intersect.y = floor(game->camera_pos.y / game->cell_size) * game->cell_size;
+		game->ray->intersect.x = game->camera_pos.x - (game->ray->intersect.y - game->camera_pos.y) * cotan_current;
 		increase_x = game->cell_size * cotan_current;
 		increase_y = -game->cell_size;
 	}
 	else
 	{
-		game->ray->intersect.y = ceil((game->camera_pos.y - Y_START) / game->cell_size) * game->cell_size;
-		game->ray->intersect.x = game->camera_pos.x - X_START - (game->ray->intersect.y - game->camera_pos.y) * cotan_current;
+		game->ray->intersect.y = ceil(game->camera_pos.y  / game->cell_size) * game->cell_size;
+		game->ray->intersect.x = game->camera_pos.x - (game->ray->intersect.y - game->camera_pos.y) * cotan_current;
 		increase_x = -game->cell_size * cotan_current;
 		increase_y = game->cell_size;
 	}

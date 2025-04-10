@@ -26,8 +26,8 @@ void init_game_struct(t_game *game)
 	game->is_mouse_active = false;
 	game->ray->is_vertical_first = -1;
 	game->ray->wall_met= false;
-	game->player.pos.x = round(X_START + (game->player.pos.x + .5) * game->cell_size - PLAYER_SIZE * CONST/2);
-	game->player.pos.y = round(Y_START + (game->player.pos.y + .5) * game->cell_size - PLAYER_SIZE * CONST/2);
+	game->player.pos.x = round((game->player.pos.x + .5) * game->cell_size - PLAYER_SIZE * CONST/2);
+	game->player.pos.y = round((game->player.pos.y + .5) * game->cell_size - PLAYER_SIZE * CONST/2);
 	printf ("player  is %f %f\n", game->player.pos.x, game->player.pos.y);
 	printf ("in init game struct: game->player.angle is %f\n", game->player.angle);
 	game->pplane = SCREEN_WIDTH / (2.0 * tan(FOV * DEG_TO_RAD / 2.0));

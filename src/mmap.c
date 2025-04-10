@@ -40,12 +40,12 @@ void draw_grid(t_game *game, int rows, int cols)
 	y = 0;
 	while (y <= rows * game->cell_size)
 	{
-		int x_start = X_START;
-		int x_end = X_START + cols * game->cell_size;
+		int x_start = 0;
+		int x_end = cols * game->cell_size;
 		x = x_start;
 		while (x < x_end)
 		{
-			mlx_put_pixel(game->mini, x, Y_START + y, 0x777777FF);  //safe_put_pixel
+			mlx_put_pixel(game->mini, x, y, 0x777777FF);  //safe_put_pixel
 			x++;
 		}
 		y += game->cell_size;
@@ -55,12 +55,12 @@ void draw_grid(t_game *game, int rows, int cols)
 	x = 0;
 	while(x < (cols +1) * game->cell_size)
 	{
-		int y_start = Y_START;
-		int y_end = Y_START + rows * game->cell_size;
+		int y_start = 0;
+		int y_end = rows * game->cell_size;
 		y = y_start;
 		while (y < y_end)
 		{
-			mlx_put_pixel(game->mini, X_START + x, y, 0x777777FF);  //safe put pixel
+			mlx_put_pixel(game->mini, x, y, 0x777777FF);  //safe put pixel
 			y++;
 		}
 		x += game->cell_size;

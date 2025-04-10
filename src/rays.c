@@ -4,8 +4,8 @@ int get_block_index(t_game *game, t_pos *grid_pos, int flag)
 {
 	t_block_index block_index;
 
-	block_index.x = (int)((grid_pos->x - X_START) / game->cell_size);
-	block_index.y = (int)((grid_pos->y - Y_START) / game->cell_size);
+	block_index.x = (int)(grid_pos->x / game->cell_size);
+	block_index.y = (int)(grid_pos->y / game->cell_size);
 	if (flag == 0 && (game->ray->angle_quad == 1 || game->ray->angle_quad == 2))
 		block_index.y--;
 	else if (flag == 1 && (game->ray->angle_quad == 2 || game->ray->angle_quad == 3))

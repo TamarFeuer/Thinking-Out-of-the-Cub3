@@ -132,10 +132,10 @@ int	main(int argc, char *argv[])
 	//printf ("width is %d, height is %d\n", width, height);
 
 	game->scene = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT); //check return value. copywrites Rutger
-	if (!game->scene || (mlx_image_to_window(game->mlx, game->scene, X_START, Y_START ) < 0))
+	if (!game->scene || (mlx_image_to_window(game->mlx, game->scene, 0, 0) < 0))
 		clean_nicely(game, "Failed to create/copy an MLX42 image");
 	game->mini = mlx_new_image(game->mlx, game->data->map_data.cols * game->cell_size + 1, game->data->map_data.rows * game->cell_size + 1);
-	if (!game->mini || (mlx_image_to_window(game->mlx, game->mini, X_START, Y_START ) < 0))
+	if (!game->mini || (mlx_image_to_window(game->mlx, game->mini, 0, 0) < 0))
 		clean_nicely(game, "Failed to create/copy an MLX42 image");
 	
 	mlx_loop_hook(game->mlx, draw_mmap, game);

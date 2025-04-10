@@ -43,7 +43,7 @@ void draw_bresenham_ray(t_game *game, t_pos start, t_pos end)
 			distance = sqrt((x - start.x) * (x - start.x) + (y - start.y) * (y - start.y));
 			
 			// Check if we should exit
-			if ((x == end_x && y == end_y) || x < X_START || x >= game->data->minimap_data.x_end || y < Y_START || y >= game->data->minimap_data.y_end)
+			if ((x == end_x && y == end_y) || x < 0 || x >= game->data->minimap_data.x_end || y < 0 || y >= game->data->minimap_data.y_end)
 			{
 				return; // Exit without doing anything else
 			}
@@ -74,7 +74,7 @@ void draw_bresenham_ray(t_game *game, t_pos start, t_pos end)
 			distance = sqrt((x - start.x) * (x - start.x) + (y - start.y) * (y - start.y));
 
 			// Check if we should exit
-			if ((x == end_x && y == end_y) || x < X_START || x >= game->data->minimap_data.x_end || y < Y_START || y >= game->data->minimap_data.y_end)
+			if ((x == end_x && y == end_y) || x < 0 || x >= game->data->minimap_data.x_end || y < 0 || y >= game->data->minimap_data.y_end)
 			{
 				return; // Exit without doing anything else
 			}
@@ -124,71 +124,10 @@ void DDA_ray(t_game *game, t_pos start, t_pos end, int color)
         //mlx_put_pixel(game->scene, (int)round(x), (int)round(y), distance_to_color(distance));
         // mlx_put_pixel(game->scene, (int)round(x) - X_START,  (int)round(y) - Y_START, 
 		// 	color_abgr_to_rgba(distance_to_color(distance)));
-		mlx_put_pixel(game->scene, (int)round(x) - X_START,  (int)round(y) - Y_START, 
-			color_abgr_to_rgba(color));
+		mlx_put_pixel(game->scene, (int)round(x),  (int)round(y), color_abgr_to_rgba(color));
     
         x += x_increment;
         y += y_increment;
         step_count++;
     }
 }
-
-//more bresenham:
-
-// static void draw_segment_low_slope(t_game *game, t_pos p1, t_pos p2, int col)
-// {
-//     int dx = p2.x - p1.x;
-//     int dy = p2.y - p1.y;
-//     int yi = 1;
-//     int derive;
-
-//     if (dy < 0)
-//     {
-//         yi = -1;
-//         dy = -dy;
-//     }
-//     derive = (2 * dy) - dx;
-//     while (p1.x <= p2.x)
-//     {
-//         mlx_put_pixel(img, p1.x, p1.y, col);
-//         if (derive > 0)
-//         {
-//             p1.y += yi;
-//             derive += 2 * (dy - dx);
-//         }
-//         else
-//         {
-//             derive += 2 * dy;
-//         }
-//         p1.x++;
-//     }
-// }
-
-// static void draw_segment_high_slope(t_game *game, t_pos p1, t_pos p2, int col)
-// {
-//     int dx = p2.x - p1.x;
-//     int dy = p2.y - p1.y;
-//     int xi = 1;
-//     int derive;
-
-//     if (dx < 0)
-//     {
-//         xi = -1;
-//         dx = -dx;
-//     }
-//     derive = (2 * dx) - dy;
-//     while (p1.y <= p2.y)
-//     {
-//         mlx_put_pixel(img, p1.x, p1.y, col);
-//         if (derive > 0)
-//         {
-//             p1.x += xi;
-//             derive += 2 * (dx - dy);
-//         }
-//         else
-//         {
-//             derive += 2 * dx;
-//         }
-//         p1.y++;
-//     }
-// }
