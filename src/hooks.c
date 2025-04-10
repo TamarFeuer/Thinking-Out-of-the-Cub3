@@ -24,6 +24,7 @@ bool is_colliding(t_game *game, t_pos new, int flag)
 // if there is separate to vertical and horrizontal
 void check_collision(t_game *game, t_pos old_pos, t_pos new_pos)
 {
+
 	if (is_colliding(game, new_pos, 99))
 	{
 		printf ("COLLIDING\n");
@@ -123,10 +124,10 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 			new.x = 0;
 		if (new.y < 0)
 			new.y = 0;
-		if (new.x > game->data->minimap_data.width - CONST)
-			new.x = game->data->minimap_data.width - CONST;
-		if (new.y > game->data->minimap_data.height - CONST)
-			new.y = game->data->minimap_data.height - CONST;
+		if (new.x > game->data->minimap_data.width)
+			new.x = game->data->minimap_data.width;
+		if (new.y > game->data->minimap_data.height)
+			new.y = game->data->minimap_data.height;
 		check_collision(game, game->player.pos, new);
 	}
 	if (game->is_mouse_active == false &&(keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)))

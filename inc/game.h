@@ -20,7 +20,7 @@
 //screen
 #define SCREEN_WIDTH 1920 // 950
 #define SCREEN_HEIGHT 1080 // 500
-#define FOV 60.0 // horizontal field of view in degrees
+#define FOV 60.0
 
 //map
 #define EMPTY '0'
@@ -32,8 +32,6 @@
 
 //mini map
 #define CONST 4
-#define X_END (X_START + MMAP_WIDTH)
-#define Y_END (Y_START + MMAP_HEIGHT)
 #define MMAP_MAX_HEIGHT SCREEN_HEIGHT/4
 #define MMAP_MAX_WIDTH SCREEN_WIDTH/4
 
@@ -50,6 +48,13 @@
 
 //error logs
 #define LOG 80
+
+typedef enum e_collision_flag
+{
+	COLLIDE_W_HORIZONTAL,
+	COLLIDE_W_VERTICAL,
+	COLLIDE_NONE
+}   t_collision_flag;
 
 enum e_dir
 {
@@ -74,9 +79,9 @@ enum e_rgb
 
 typedef struct s_block_index 
 {
-    int index;
-    int x;
-    int y;
+	int index;
+	int x;
+	int y;
 } t_block_index;
 
 typedef struct s_pos
@@ -185,7 +190,7 @@ void		draw_mmap(void *param);
 double		horiz_intersect(t_game *game);
 double		vertical_intersect(t_game *game);
 bool		is_out_of_bounds(t_game *game, t_pos position);
-int			is_wall_hit(t_game *game, t_pos intersect, int flag);
+int			is_wall_hit(t_game *game, t_pos intersect, t_collision_flag flag);
 void		cursor_hook(double xpos, double ypos, void* param);
 void		mouse_action (mouse_key_t button, action_t action, modifier_key_t mods, void* param);
 int			atoi_limit_255(int *dst, char *str);
