@@ -6,10 +6,12 @@ int get_block_index(t_game *game, t_pos *grid_pos, t_intersection_flag flag)
 
 	block_index.x = (int)(grid_pos->x / game->cell_size);
 	block_index.y = (int)(grid_pos->y / game->cell_size);
-	if (flag == 0 && (game->ray->angle_quad == 1 || game->ray->angle_quad == 2))
+	if (flag == INTERSECT_W_HORIZONTAL && (game->ray->angle_quad == 1 || game->ray->angle_quad == 2))
 		block_index.y--;
-	else if (flag == 1 && (game->ray->angle_quad == 2 || game->ray->angle_quad == 3))
+		
+	else if (flag == INTERSECT_W_VERTICAL && (game->ray->angle_quad == 2 || game->ray->angle_quad == 3))
 		block_index.x--;
+		
 	block_index.index = block_index.y * game->data->map_data.cols + block_index.x;
 	return (block_index.index);
 }
