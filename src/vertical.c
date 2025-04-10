@@ -33,7 +33,7 @@ double	vertical_intersect(t_game *game)
 	//printf ("game->camera.pos.x %f, floor(game->camera.pos.x / (game->cell_size)) %f\n", game->camera.pos.x, floor(game->camera.pos.x / (game->cell_size)));
 	
 	//printf ("game->ray->intersect.y %f\n", game->ray->intersect.y);
-	while (!is_out_of_bounds(game, game->ray->intersect) && !is_wall_hit(game, game->ray->intersect, COLLIDE_W_VERTICAL))
+	while (!is_out_of_bounds(game, game->ray->intersect) && !is_wall_hit(game, game->ray->intersect, INTERSECT_W_VERTICAL))
 	{
 		//if (game->is_debug)
 		//	safe_put_pixel(game, (int)game->ray->intersect.x, (int)game->ray->intersect.y, 0xFFFF00FF);

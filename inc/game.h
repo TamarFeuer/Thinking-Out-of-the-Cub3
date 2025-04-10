@@ -49,12 +49,12 @@
 //error logs
 #define LOG 80
 
-typedef enum e_collision_flag
+typedef enum e_intersection_flag
 {
-	COLLIDE_W_HORIZONTAL,
-	COLLIDE_W_VERTICAL,
-	COLLIDE_NONE
-}   t_collision_flag;
+	INTERSECT_W_HORIZONTAL,
+	INTERSECT_W_VERTICAL,
+	INTERSECT_NONE
+}   t_intersection_flag;
 
 enum e_dir
 {
@@ -176,10 +176,9 @@ void		clean_nicely(t_game *game, char *error_message);
 int			distance_to_color(int distance, int flag);
 // void	DDA_ray(t_game *game, t_pos start, t_pos end);
 void		DDA_ray(t_game *game, t_pos start, t_pos end, int color);
-const char *get_direction(t_game *game);
 void		draw_bresenham_ray(t_game *game, t_pos start, t_pos end);
 double		get_distance(t_pos start, t_pos end);
-int		 	get_block_index(t_game *game, t_pos *grid_pos, int flag);
+int		 	get_block_index(t_game *game, t_pos *grid_pos, t_intersection_flag flag);
 void 		reach_nearest_wall_by_intersections(t_game *game);
 void 		draw_player_direction(t_game *game, t_pos start, double angle);
 void		normalize_angle_to_2pi(double *angle);
@@ -190,7 +189,7 @@ void		draw_mmap(void *param);
 double		horiz_intersect(t_game *game);
 double		vertical_intersect(t_game *game);
 bool		is_out_of_bounds(t_game *game, t_pos position);
-int			is_wall_hit(t_game *game, t_pos intersect, t_collision_flag flag);
+int			is_wall_hit(t_game *game, t_pos intersect, t_intersection_flag flag);
 void		cursor_hook(double xpos, double ypos, void* param);
 void		mouse_action (mouse_key_t button, action_t action, modifier_key_t mods, void* param);
 int			atoi_limit_255(int *dst, char *str);

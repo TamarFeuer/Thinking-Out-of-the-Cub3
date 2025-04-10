@@ -37,7 +37,7 @@ double	horiz_intersect(t_game *game)
 	//printf ("game->camera.pos.x %f\n", game->camera.pos.x);
 	//printf ("game->camera.pos.y %f, floor(game->camera.pos.y / (game->cell_size)) %f\n", game->camera.pos.y, floor(game->camera.pos.y / (game->cell_size)));
 	//printf ("game->ray->intersect.x %f, game->ray->intersect.y %f\n", game->ray->intersect.x, game->ray->intersect.y);
-	while (!is_out_of_bounds(game, game->ray->intersect) && !is_wall_hit(game, game->ray->intersect, COLLIDE_W_HORIZONTAL))
+	while (!is_out_of_bounds(game, game->ray->intersect) && !is_wall_hit(game, game->ray->intersect, INTERSECT_W_HORIZONTAL))
 	{
 		//printf ("in horiz intersect\n");
 		//if (game->is_debug )

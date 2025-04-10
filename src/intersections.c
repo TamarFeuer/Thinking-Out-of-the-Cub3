@@ -21,7 +21,7 @@ bool is_out_of_bounds(t_game *game, t_pos position)
 // 	return (false);
 // }
 
-int	is_wall_hit(t_game *game, t_pos inter, t_collision_flag flag)
+int	is_wall_hit(t_game *game, t_pos inter, t_intersection_flag flag)
 {
 	return (game->data->map[get_block_index(game, &inter, flag)] == '1');
 }

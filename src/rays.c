@@ -1,6 +1,6 @@
 #include "../inc/game.h"
 
-int get_block_index(t_game *game, t_pos *grid_pos, int flag)
+int get_block_index(t_game *game, t_pos *grid_pos, t_intersection_flag flag)
 {
 	t_block_index block_index;
 

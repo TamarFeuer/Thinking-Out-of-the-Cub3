@@ -1,6 +1,6 @@
 #include "../inc/game.h"
 
-bool is_colliding(t_game *game, t_pos new, int flag)
+bool is_colliding(t_game *game, t_pos new, t_intersection_flag flag)
 {
     t_pos new_tl = new;
 	t_pos new_tr = {new.x + PLAYER_SIZE * CONST , new.y};
@@ -25,7 +25,7 @@ bool is_colliding(t_game *game, t_pos new, int flag)
 void check_collision(t_game *game, t_pos old_pos, t_pos new_pos)
 {
 
-	if (is_colliding(game, new_pos, 99))
+	if (is_colliding(game, new_pos, INTERSECT_NONE))
 	{
 		printf ("COLLIDING\n");
 		//flag: vertical 1, horizontal 0
@@ -36,7 +36,7 @@ void check_collision(t_game *game, t_pos old_pos, t_pos new_pos)
 		temp_pos2.x = old_pos.x;
 		temp_pos2.y = new_pos.y;
 	
-		if (is_wall_hit(game, temp_pos1, 99) && is_wall_hit(game, temp_pos2, 99))
+		if (is_wall_hit(game, temp_pos1, INTERSECT_NONE) && is_wall_hit(game, temp_pos2, INTERSECT_NONE))
 		{
 			printf("diagonal\n");
 			return;
