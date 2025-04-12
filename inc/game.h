@@ -36,10 +36,8 @@
 #define MMAP_MAX_WIDTH SCREEN_WIDTH/4
 
 //player
-#define PLAYER_SIZE 2
+#define PLAYER_SIZE 8
 #define PLAYER_DIRECTION_SIZE 50
-#define FORWARD 1
-#define BACKWARD -1
 
 //rays
 #define MAX_RAY_DISTANCE 400
@@ -119,7 +117,6 @@ typedef struct s_ray
 	t_pos		v_hit;
 	t_pos		h_hit;
 	t_pos		ray_end[SCREEN_WIDTH];
-	int			direction;
 }	t_ray;
 
 typedef struct s_data
@@ -174,7 +171,6 @@ void		key_hook(mlx_key_data_t keydata, void *param);
 void		print_stats(t_game *game);
 void		clean_nicely(t_game *game, char *error_message);
 int			distance_to_color(int distance, int flag);
-// void	DDA_ray(t_game *game, t_pos start, t_pos end);
 void		DDA_ray(t_game *game, t_pos start, t_pos end, int color);
 void		draw_bresenham_ray(t_game *game, t_pos start, t_pos end);
 double		get_distance(t_pos start, t_pos end);

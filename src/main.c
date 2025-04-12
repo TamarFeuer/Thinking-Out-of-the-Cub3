@@ -9,35 +9,27 @@ static void	clear_image(mlx_image_t *image, uint32_t npixels)
 		*pixel++ &= 0xFFFFFF00;
 }
 
-
 void	draw_mmap(void *param)
 {
 	t_game *const	game = (t_game *)param;
+	int				i;
 
 	cast_rays(game);
 	if (game->is_mmap)
 	{
 		clear_image(game->mini,
 			(uint32_t)((game->mini->width) * (game->mini->height) * CONST));
-		
-		// printf ("drawing grid\n");
-		int i = 0;
+		i = 0;
 		if (game->is_debug == false)
 			game->ray->number_of_rays = SCREEN_WIDTH;
 		else
 			game->ray->number_of_rays = 1;
-			
 		while (i < game->ray->number_of_rays)
-		// while (i < 1)
 		{
 			draw_bresenham_ray(game, game->camera_pos, game->ray->ray_end[i]);
-			//DDA_ray(game, game->camera.pos, game->ray->ray_end[i], 0xA4FFAAFF);
 			i++;
 		}
-		
 		draw_player(game);
-	
-		//printf ("player angle %f\n", game->player.angle);
 		draw_grid(game, game->data->map_data.rows, game->data->map_data.cols);
 		draw_player_direction(game, (t_pos){game->camera_pos.x, game->camera_pos.y}, game->player.angle);
 		mlx_delete_image(game->mlx, game->stats);
@@ -102,42 +94,33 @@ static void	check_arguments(t_game *game, int argc, char *argv[])
 int	main(int argc, char *argv[])
 {
 	t_game	*game;
-	int width, height;
-	int temp_width, temp_height;
+	int		temp_width;
+	int		temp_height;
 
 	allocate_structures(&game);
 	check_arguments(game, argc, argv);
 	lexer(game);
 	parser(game);
 	flood_fill_map(game, ft_strdup(game->data->map));
-
 	temp_width = (SCREEN_WIDTH / 2) / game->data->map_data.cols;
 	temp_height = (SCREEN_HEIGHT / 2) / game->data->map_data.rows;
 	if (temp_width > temp_height)
 		game->cell_size = temp_height;
 	else
 		game->cell_size = temp_width;
-	printf ("cell size is %d\n", game->cell_size);
-	
-	if (game->cell_size < 2 * PLAYER_SIZE * CONST)
+	if (game->cell_size < 2 * PLAYER_SIZE)
 		clean_nicely(game, "The map is too large for the screen resolution");
 	init_game_struct(game);
-
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
-	//printf ("main: player angle is %f\n", data->player.angle);
 	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Thinking Out of the Cub3", true);
 	if (!game->mlx)
 		clean_nicely(game, "Failed to initialize MLX42");
-	mlx_get_monitor_size(0, &width, &height);
-	//printf ("width is %d, height is %d\n", width, height);
-
-	game->scene = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT); //check return value. copywrites Rutger
+	game->scene = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	if (!game->scene || (mlx_image_to_window(game->mlx, game->scene, 0, 0) < 0))
 		clean_nicely(game, "Failed to create/copy an MLX42 image");
 	game->mini = mlx_new_image(game->mlx, game->data->map_data.cols * game->cell_size + 1, game->data->map_data.rows * game->cell_size + 1);
 	if (!game->mini || (mlx_image_to_window(game->mlx, game->mini, 0, 0) < 0))
 		clean_nicely(game, "Failed to create/copy an MLX42 image");
-	
 	mlx_loop_hook(game->mlx, draw_mmap, game);
 	mlx_key_hook(game->mlx, key_hook, game);
 	mlx_cursor_hook(game->mlx, cursor_hook, game);

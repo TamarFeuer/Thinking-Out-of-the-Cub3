@@ -50,51 +50,50 @@ static void	ft_itoa2(char *str, int n)
 
 static void	ft_ftoa(char *str, float n, int precision)
 {
-    int int_part = (int)n;  // Extract the integer part
-    float decimal_part = n - int_part;  // Extract the decimal part
-    int i = 0, digit;
+	int		int_part;
+	float	decimal_part;
+	int		i;
+	int		j;
+	int		digit;
+	int		temp_int_part;
+	int		num_digits;
 
-    // Handle the integer part (negative or positive)
-    if (int_part < 0)
-    {
-        str[i++] = '-';  // Add the minus sign for negative numbers
-        int_part = -int_part;  // Work with positive integer part for easier handling
-    }
-
-    // Convert the integer part to string (reverse order)
-    int temp_int_part = int_part;
-    int num_digits = 0;
-    while (temp_int_part > 0)
-    {
-        num_digits++;
-        temp_int_part /= 10;
-    }
-
-    // If the integer part is 0, we still need to handle it
-    if (num_digits == 0)
-        str[i++] = '0';
-
-    for (int j = 0; j < num_digits; j++)
-    {
-        str[i + num_digits - 1 - j] = (int_part % 10) + '0';  // Get last digit
-        int_part /= 10;
-    }
-    i += num_digits;
-
-    // Add the decimal point
-    str[i++] = '.';
-
-    // Handle the fractional part (multiply by 10 to extract digits)
-    for (int j = 0; j < precision; j++)
-    {
-        decimal_part *= 10;
-        digit = (int)decimal_part;
-        str[i++] = digit + '0';  // Convert digit to char
-        decimal_part -= digit;  // Remove the integer part from decimal part
-    }
-
-    // Null-terminate the string
-    str[i] = '\0';
+	int_part = (int)n;
+	decimal_part = n - int_part;
+	i = 0;
+	if (int_part < 0)
+	{
+		str[i++] = '-';
+		int_part = -int_part;
+	}
+	temp_int_part = int_part;
+	num_digits = 0;
+	while (temp_int_part > 0)
+	{
+		num_digits++;
+		temp_int_part /= 10;
+	}
+	if (num_digits == 0)
+		str[i++] = '0';
+	j = 0;
+	while (j < num_digits)
+	{
+		str[i + num_digits - 1 - j] = (int_part % 10) + '0';
+		int_part /= 10;
+		j++;
+	}
+	i += num_digits;
+	str[i++] = '.';
+	j = 0;
+	while (j < precision)
+	{
+		decimal_part *= 10;
+		digit = (int)decimal_part;
+		str[i++] = digit + '0';
+		decimal_part -= digit;
+		j++;
+	}
+	str[i] = '\0';
 }
 
 void	print_stats(t_game *game)

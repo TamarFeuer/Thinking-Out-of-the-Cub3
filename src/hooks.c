@@ -1,123 +1,92 @@
 #include "../inc/game.h"
 
-bool is_colliding(t_game *game, t_pos new, t_intersection_flag flag)
+bool	is_colliding(t_game *game, t_pos new, t_intersection_flag flag)
 {
-    t_pos new_tl = new;
-	t_pos new_tr = {new.x + PLAYER_SIZE * CONST , new.y};
-	t_pos new_bl = {new.x, new.y + PLAYER_SIZE * CONST };
-	t_pos new_br = {new.x + PLAYER_SIZE * CONST -1, new.y + PLAYER_SIZE * CONST };
-	
-		if ((is_wall_hit(game, new_tl, flag))
-		|| (is_wall_hit(game, new_tr, flag))
-		||(is_wall_hit(game, new_bl,flag))
-		||(is_wall_hit(game, new_br, flag)))
-	{
-		return true;
-	}
+	t_pos	new_tl;
+	t_pos	new_tr;
+	t_pos	new_bl;
+	t_pos	new_br;
+
+	new_tl = new;
+	new_tr.x = new.x + PLAYER_SIZE;
+	new_tr.y = new.y;
+	new_bl.x = new.x;
+	new_bl.y = new.y + PLAYER_SIZE;
+	new_br.x = new.x + PLAYER_SIZE;
+	new_br.y = new.y + PLAYER_SIZE;
+	if (is_wall_hit (game, new_tl, flag)
+		|| is_wall_hit (game, new_tr, flag)
+		|| is_wall_hit (game, new_bl, flag)
+		|| is_wall_hit (game, new_br, flag))
+		return (true);
 	else
-		return false;
+		return (false);
 }
 
-
-
-// check if there is any collision
-// if there is separate to vertical and horrizontal
-void check_collision(t_game *game, t_pos old_pos, t_pos new_pos)
+void	check_collision(t_game *game, t_pos old_pos, t_pos new_pos)
 {
+	t_pos	temp_pos1;
+	t_pos	temp_pos2;
 
 	if (is_colliding(game, new_pos, INTERSECT_NONE))
 	{
-		printf ("COLLIDING\n");
-		//flag: vertical 1, horizontal 0
-		// Try moving only in the horizontal direction
-		t_pos temp_pos1, temp_pos2;
 		temp_pos1.x = new_pos.x;
 		temp_pos1.y = old_pos.y;
 		temp_pos2.x = old_pos.x;
 		temp_pos2.y = new_pos.y;
-	
 		if (is_wall_hit(game, temp_pos1, INTERSECT_NONE) && is_wall_hit(game, temp_pos2, INTERSECT_NONE))
+			return ;
+		if (!is_colliding(game, temp_pos1, INTERSECT_NONE))
 		{
-			printf("diagonal\n");
-			return;
+			game->player.pos.x = temp_pos1.x;
+			game->camera_pos.x = game->player.pos.x + PLAYER_SIZE / 2 - 1;
+			return ;
 		}
-		printf ("trying to move horrizontally\n");
-		printf ("player is at x=%f y=%f\n", game->player.pos.x, game->player.pos.y);
-		
-		printf ("temp_pos.x is %f, temp_pos.y is %f\n", temp_pos1.x, temp_pos1.y);
-		if (!is_colliding(game, temp_pos1, 99))
-		//if(game->data->map[corner_block_index(game, temp_pos)] != '1')
+		if (!is_colliding(game, temp_pos2, INTERSECT_NONE))
 		{
-			game->player.pos.x = temp_pos1.x; // Allow horizontal movement
-			game->camera_pos.x = game->player.pos.x + PLAYER_SIZE * CONST / 2 - 1;
-			printf ("Allowing to go to new x\n\n");
-			return;
+			game->player.pos.y = temp_pos2.y;
+			game->camera_pos.y = game->player.pos.y + PLAYER_SIZE / 2 - 1;
+			return ;
 		}
-		else
-			printf ("no horizontal movement allowed\n\n");
-
-		
-		printf ("trying to move vertically\n");
-		printf ("temp_pos.x is %f, temp_pos.y is %f\n", temp_pos2.x, temp_pos2.y);
-		if (!is_colliding(game, temp_pos2, 99))
-		{
-			game->player.pos.y = temp_pos2.y; // Allow vertical movement
-			game->camera_pos.y = game->player.pos.y + PLAYER_SIZE * CONST /2 - 1;
-			printf("Allowing to go to new y\n\n");
-			return;
-		}
-		else
-			printf ("no vertical movement allowed\n\n");
-		// No valid movement, stay in old position
-		//game->player.p_pos = old_pos;
 	}
 	else
 	{
-		// No collision, update position
 		game->player.pos = new_pos;
-		game->camera_pos.x = game->player.pos.x + PLAYER_SIZE * CONST / 2 - 1;
-		game->camera_pos.y = game->player.pos.y + PLAYER_SIZE * CONST /2- 1;
+		game->camera_pos.x = game->player.pos.x + PLAYER_SIZE / 2 - 1;
+		game->camera_pos.y = game->player.pos.y + PLAYER_SIZE / 2 - 1;
 	}
 }
 
-
-
-static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
+static void	check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 {
-	t_pos new;
+	t_pos	new;
+	double	new_angle;
+	double	angle_size;
+
 	new.x = game->player.pos.x;
 	new.y = game->player.pos.y;
-	double new_angle = game->player.angle;
-	double angle_size = M_PI / 100;
+	new_angle = game->player.angle;
+	angle_size = M_PI / 100;
 	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
 		new.x += (cos(game->player.angle) * DISTANCE_PER_TURN);
 		new.y -= (sin(game->player.angle) * DISTANCE_PER_TURN);
-		//printf ("addition is %f\n", sin(game->player.angle) * DISTANCE_PER_TURN);
-		//printf ("quad is %d\n", game->player.angle_quad);
-		game->ray->direction = FORWARD;
 	}
 	else if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
 		new.x -= (cos(game->player.angle) * DISTANCE_PER_TURN);
 		new.y += (sin(game->player.angle) * DISTANCE_PER_TURN);
-		game->ray->direction = BACKWARD;
 	}
 	else if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
 		new.x -= (sin(game->player.angle) * DISTANCE_PER_TURN);
 		new.y -= (cos(game->player.angle) * DISTANCE_PER_TURN);
-		game->ray->direction = FORWARD;
 	}
 	else if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
 		new.x += (sin(game->player.angle) * DISTANCE_PER_TURN);
 		new.y += (cos(game->player.angle) * DISTANCE_PER_TURN);
-		game->ray->direction = BACKWARD;
-		
 	}
-
-	// Boundary check for player movement
 	if (new.x != game->player.pos.x || new.y != game->player.pos.y)
 	{
 		if (new.x < 0)
@@ -130,11 +99,10 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 			new.y = game->data->minimap_data.height;
 		check_collision(game, game->player.pos, new);
 	}
-	if (game->is_mouse_active == false &&(keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)))
-		new_angle -= angle_size; // Rotate clockwise (right)
-	if ( game->is_mouse_active == false && (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)))
-		new_angle += angle_size; // Rotate counterclockwise (left)
-	//printf ("in check for movement\n");
+	if (game->is_mouse_active == false && (keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)))
+		new_angle -= angle_size;
+	if (game->is_mouse_active == false && (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)))
+		new_angle += angle_size;
 	normalize_angle_to_2pi(&new_angle);
 	if (new_angle != game->player.angle)
 	{
@@ -146,6 +114,7 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 void	key_hook(mlx_key_data_t keydata, void *param)
 {
 	t_game	*game;
+
 	game = param;
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 	{
