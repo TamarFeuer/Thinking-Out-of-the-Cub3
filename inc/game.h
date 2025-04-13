@@ -109,6 +109,19 @@ typedef struct s_point
 	int	y;
 }	t_point;
 
+typedef struct s_bresenham_params 
+{
+	int		x_start;
+	int		y_start;
+	int		x_end;
+	int		y_end;
+	int		abs_dx;
+	int		abs_dy;
+	int		step_x;
+	int		step_y;
+	t_vec2	start;
+}	t_bresenham_params;
+
 typedef struct s_player
 {
 	t_vec2		pos;
