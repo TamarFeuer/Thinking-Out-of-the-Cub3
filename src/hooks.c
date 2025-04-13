@@ -1,8 +1,8 @@
 #include "../inc/game.h"
 
-bool is_colliding(t_game *game, t_vec2 new, t_intersect_type intersect_type)
+bool	is_colliding(t_game *game, t_vec2 new, t_intersect_type intersect_type)
 {
-    t_vec2	new_tl;
+	t_vec2	new_tl;
 	t_vec2	new_tr;
 	t_vec2	new_bl;
 	t_vec2	new_br;
@@ -178,7 +178,7 @@ static void	handle_rotation_keys(t_game *game, mlx_key_data_t keydata,
 			*new_angle += angle_increment;
 	}
 }
-    
+
 /**
  * @brief Clamps the player's intended world position to stay within map limits.
  * @details Adjusts the x and y components of the player's potential position
