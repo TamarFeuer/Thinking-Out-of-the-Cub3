@@ -56,8 +56,8 @@ static void	plot_valid_pixel(t_game *game, t_vec2 start, int x, int y)
 {
 	int	distance;
 
-	if (x < 0 || x >= game->data->minimap_data.x_end
-		|| y < 0 || y >= game->data->minimap_data.y_end)
+	if (x < 0 || x >= game->data->map_data.cols * game->cell_size
+		|| y < 0 || y >= game->data->map_data.rows * game->cell_size)
 		return ;
 	distance = (int)sqrt((x - start.x) * (x - start.x)
 			+ (y - start.y) * (y - start.y));

@@ -19,12 +19,8 @@ void	draw_mmap(void *param)
 	{
 		clear_image(game->mini,
 			(uint32_t)((game->mini->width) * (game->mini->height) * CONST));
-		if (game->is_debug == false)
-			game->number_of_rays = SCREEN_WIDTH;
-		else
-			game->number_of_rays = 1;
 		i = 0;
-		while (i < game->number_of_rays)
+		while (game->is_debug == false && i < game->number_of_rays)
 		{
 			draw_bresenham_ray(game, game->camera_pos, game->ray_end[i]);
 			i++;

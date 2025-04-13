@@ -60,8 +60,8 @@ void	put_pixel_scene(t_game *game, int x, int y, u_int32_t color)
  */
 void	put_pixel_mmap(t_game *game, int x, int y, u_int32_t color)
 {
-	if (x < 0 || x >= (int)game->data->minimap_data.width || \
-		y < 0 || y >= (int)game->data->minimap_data.height)
+	if (x < 0 || x >= (int)game->data->map_data.cols * game->cell_size || \
+		y < 0 || y >= (int)game->data->map_data.rows * game->cell_size)
 		return ;
 	mlx_put_pixel(game->mini, x, y, color);
 }

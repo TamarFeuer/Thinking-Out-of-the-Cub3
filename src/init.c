@@ -24,7 +24,7 @@ void	init_game_struct(t_game *game)
 {
 	game->is_mmap = false;
 	game->is_mouse_active = false;
-	game->ray->is_vertical_first = -1;
+	
 	game->ray->wall_met = false;
 	game->player.pos.x = round((game->player.pos.x + .5) * \
 		game->cell_size - PLAYER_SIZE / 2);
@@ -33,15 +33,15 @@ void	init_game_struct(t_game *game)
 	game->pplane = SCREEN_WIDTH / (2.0 * tan(FOV * DEG_TO_RAD / 2.0));
 	game->camera_pos.x = round(game->player.pos.x) + CAMERA_OFFSET_X;
 	game->camera_pos.y = round(game->player.pos.y) + CAMERA_OFFSET_Y;
-	game->data->minimap_data.width = \
-		game->data->map_data.cols * game->cell_size;
-	game->data->minimap_data.height = \
-		game->data->map_data.rows * game->cell_size;
-	game->data->minimap_data.x_start = 0;
-	game->data->minimap_data.x_end = \
-		game->data->minimap_data.x_start + game->data->minimap_data.width;
-	game->data->minimap_data.y_start = 0;
-	game->data->minimap_data.y_end = \
-		game->data->minimap_data.y_start + game->data->minimap_data.height;
+	// game->data->minimap_data.width = 
+	// 	game->data->map_data.cols * game->cell_size;
+	// game->data->minimap_data.height = 
+	// 	game->data->map_data.rows * game->cell_size;
+	// game->data->minimap_data.x_end = game->data->map_data.cols * game->cell_size
+	// game->data->minimap_data.y_end = game->data->map_data.rows * game->cell_size;
+	if (game->is_debug == false)
+		game->number_of_rays = SCREEN_WIDTH;
+	else
+		game->number_of_rays = 1;
 	load_textures(game);
 }

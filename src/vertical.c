@@ -137,6 +137,8 @@ double	vertical_intersect(t_game *game)
 	while (should_continue_stepping(game, game->ray->intersect, \
 									INTERSECT_W_VERTICAL))
 	{
+		if (game->is_debug)
+			put_pixel_mmap(game, game->ray->intersect.x, game->ray->intersect.y, 0xFF0000FF);
 		game->ray->intersect.x += game->ray->ray_step.x;
 		game->ray->intersect.y += game->ray->ray_step.y;
 	}

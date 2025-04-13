@@ -182,17 +182,6 @@ typedef struct s_data
 		uint32_t	rgba[2];
 		char		*texture_files[4];
 	}		map_data;
-	struct s_minimap
-	{
-		int width;
-		int	height;
-		int	x_start;
-		int	x_end;
-		int	y_start;
-		int	y_end;
-		int max_height;
-		int	max_width;
-	}		minimap_data;
 }	t_data;
 
 typedef struct s_game

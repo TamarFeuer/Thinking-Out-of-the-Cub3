@@ -64,7 +64,7 @@ void	cast_rays(t_game *game)
 	t_ray *const		ray = game->ray;
 
 	ray->ray_num = 0;
-	while (ray->ray_num < SCREEN_WIDTH)
+	while (ray->ray_num < game->number_of_rays)
 	{
 		ray->relative_angle = atan((SCREEN_WIDTH / 2.0 - ray->ray_num) / \
 			game->pplane);
