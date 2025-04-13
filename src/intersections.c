@@ -21,25 +21,19 @@ bool is_out_of_bounds(t_game *game, t_vec2 position)
 // 	return (false);
 // }
 
-int	is_wall_hit(t_game *game, t_vec2 inter, t_intersection_flag flag)
+int	is_wall_hit(t_game *game, t_vec2 inter, t_intersect_type intersect_type)
 {
-	return (game->data->map[get_block_index(game, &inter, flag)] == '1');
+	return (game->data->map[get_block_index(game, &inter, intersect_type)] == '1');
 }
 
 void reach_nearest_wall_by_intersections(t_game *game)
 {
 	double	horiz_distance, vertical_distance;
 	
-	//printf ("in reach nearest: angle is %f\n", game->ray->current_angle);
 	horiz_distance = horiz_intersect(game);
 	vertical_distance = vertical_intersect(game);
-	//printf ("vertical itersection: distance %f, end.x %f, end.y %f\n", vertical_distance, game->ray->v_hit.x, game->ray->v_hit.y);
-	//printf ("horizontal itersection: distance %f ,end.x %f, end.y %f\n", horiz_distance, game->ray->h_hit.x, game->ray->h_hit.y);
-	// if (horiz_distance > vertical_intersect(game, angle))
-	//printf ("game->cell_size is %d\n", game->cell_size);
 	if (horiz_distance > vertical_distance)
 	{	
-		//printf ("\nI met vertical first\n");
 		game->ray->is_vertical_first = true;
 		game->ray->end.x = game->ray->v_hit.x;
 		game->ray->end.y = game->ray->v_hit.y;
@@ -47,7 +41,6 @@ void reach_nearest_wall_by_intersections(t_game *game)
 	}
 	else
 	{
-		//printf ("\nI met horizontal first\n");
 		game->ray->is_vertical_first = false;
 		game->ray->end.x = game->ray->h_hit.x;
 		game->ray->end.y = game->ray->h_hit.y;
@@ -56,11 +49,11 @@ void reach_nearest_wall_by_intersections(t_game *game)
 }
 
 bool	should_continue_stepping(t_game *game, t_vec2 intersect, \
-	t_intersection_flag flag)
+	t_intersect_type intersect_type)
 {
 	if (is_out_of_bounds(game, intersect))
 		return (false);
-	if (is_wall_hit(game, intersect, flag))
+	if (is_wall_hit(game, intersect, intersect_type))
 		return (false);
 	return (true);
 }

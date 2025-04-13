@@ -20,49 +20,50 @@ int	atoi_limit_255(int *dst, char *str)
 	return (*dst > 255);
 }
 
-// int distance_to_color(int distance)
-// {
-// 	int max_color_value = 255;
-// 	// Normalize the distance (between 0 and 1)
-// 	float normalized_distance = (float)distance / MAX_RAY_DISTANCE;
-// 	if (normalized_distance > 1.0f) normalized_distance = 1.0f;
-
-// 	int red = (int)((1.0f - normalized_distance) * max_color_value );
-// 	int blue = (int)((1.0f -normalized_distance) * max_color_value );
-// 	int alpha = (1.0f - normalized_distance) * 255;
-
-// 	// ARGB color (Alpha << 24 | Red << 16 | Green << 8 | Blue)
-// 	return (alpha << 24) | (red << 16) | (255 << 8) | blue;
-// }
-
-int distance_to_color(int distance, int flag)
+/**
+ * @brief Calculates a color with distance-based fog/shading based on ray type.
+ * @details Determines a base color based on `ray_sort` (Red for player,
+ *          Magenta for casted rays). Calculates a normalized distance and uses
+ *          it to compute an alpha value (0-255) for fog/shading. The final
+ *          color is formatted as an integer suitable for MLX42 (BGRA).
+ *
+ * @param distance The raw distance value (e.g., from raycasting).
+ * @param ray_sort The type of ray (`t_ray_sort`: PLAYER_DIRECTION or
+ *                 CASTED_RAYS) determining the base color.
+ *
+ * @return int An integer representing the final color, formatted for MLX42.
+ *         MLX42 expects colors in a 32-bit integer. The bytes typically
+ *         represent Blue, Green, Red, and Alpha components (BGRA order).
+ *         This function constructs this integer as follows:
+ *         Each 8-bit color component is shifted to its correct byte position
+ *         using the left-shift operator (`<<`). They are then combined using
+ *         the bitwise OR operator (`|`).
+ *         - `(Blue << 24)` : Blue component in bits 31-24.
+ *         - `(Green << 16)`: Green component in bits 23-16.
+ *         - `(Red << 8)`  : Red component in bits 15-8.
+ *         - `Alpha`       : Alpha component in bits 7-0.
+ *         The final structure is: `(B << 24 | G << 16 | R << 8 | A)`.
+ *         The Alpha component creates a fog effect: 0 means fully transparent
+ *         (max fog, far distance), while 255 means fully opaque (no fog,
+ *         near distance).
+ */
+int	distance_to_color(int distance, t_ray_sort ray_sort)
 {
-    int red;
-    int blue;
-    int green;
-    //int max_color_value = 255;
-    // Normalize the distance (between 0 and 1)
-    float normalized_distance = (float)distance / MAX_RAY_DISTANCE;
-    if (normalized_distance > 1.0f) 
-        normalized_distance = 1.0f;
-    if (flag == 0) //PLAYER DIRECTION
-    {
-        // red = (int)((1.0f - normalized_distance) * max_color_value);
-        red = 0xFF;
-        //blue = (int)((1.0f - normalized_distance) * max_color_value);
-        blue = 0x00;
-        // green = 0xFF;
-        green = 00;
-    }
-    else// RAYS
-    {
-        red = 0xFF;
-        blue = 0x00;
-        green = 0xFF;
-    }
-    int alpha = (1.0f - normalized_distance) * 255;
+	int		blue;
+	int		green;
+	int		red;
+	int		alpha;
+	float	normalized_distance;
 
-
-    // Reverse the color for MLX42 (Blue << 24 | Green << 16 | Red << 8 | Alpha)
-    return (blue << 24) | (green << 16) | (red << 8) | alpha;
+	normalized_distance = (float)distance / MAX_RAY_DISTANCE;
+	if (normalized_distance > 1.0f)
+		normalized_distance = 1.0f;
+	red = 0xFF;
+	blue = 0x00;
+	if (ray_sort == PLAYER_DIRECTION)
+		green = 0xFF;
+	else
+		green = 00;
+	alpha = (1.0f - normalized_distance) * 255;
+	return ((blue << 24) | (green << 16) | (red << 8) | alpha);
 }

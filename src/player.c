@@ -12,16 +12,15 @@ void draw_player_direction(t_game *game, t_vec2 start, double angle)
 		end_x += cos(angle) * step_size;
 		end_y -= sin(angle) * step_size;
 		distance += step_size;
-		// if (game->mapdata[get_block_index(&(t_vec2){end_x, end_y})] == '1')
-		if (game->data->map[get_block_index(game, &(t_vec2){end_x, end_y}, 999)] == '1' || distance > MAX_RAY_DISTANCE)
+		if (game->data->map[get_block_index(game, &(t_vec2){end_x, end_y}, INTERSECT_NONE)] == '1' || distance > MAX_RAY_DISTANCE)
 			return;
-		mlx_put_pixel(game->mini, (int)end_x, (int)end_y, distance_to_color(distance, 1));
+		put_pixel_mmap(game, (int)end_x, (int)end_y, distance_to_color(distance, PLAYER_DIRECTION));
 	}
 }
 
 void draw_player(t_game *game)
 {
-	int size = PLAYER_SIZE * CONST; // Player is PLAYER_SIZE x PLAYER_SIZE pixels
+	int size = PLAYER_SIZE;
 	int x = round(game->player.pos.x);
 	int y = round(game->player.pos.y);
 
@@ -32,7 +31,7 @@ void draw_player(t_game *game)
 		int j = 0;
 		while (j < size)
 		{
-			mlx_put_pixel(game->mini, x + i, y + j, 0xFFFFFFFF);
+			put_pixel_mmap(game, x + i, y + j, 0xFFFFFFFF);
 			j++;
 		}
 		i++;

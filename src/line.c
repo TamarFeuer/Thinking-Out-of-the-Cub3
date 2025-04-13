@@ -50,7 +50,7 @@ void draw_bresenham_ray(t_game *game, t_vec2 start, t_vec2 end)
 
 			// Set the pixel color using the computed distance
             if (distance <= MAX_RAY_DISTANCE)
-			    mlx_put_pixel(game->mini, x, y, distance_to_color(distance, 0));  //safe
+				put_pixel_mmap(game, x, y, distance_to_color(distance, CASTED_RAYS));
 			
 			// Update the decision variable and position
 			if (decision_variable >= 0)
@@ -81,7 +81,7 @@ void draw_bresenham_ray(t_game *game, t_vec2 start, t_vec2 end)
 
 			// Set the pixel color using the computed distance
 			if (distance <= MAX_RAY_DISTANCE)
-                mlx_put_pixel(game->mini, x, y, distance_to_color(distance, 0));
+				put_pixel_mmap(game, x, y, distance_to_color(distance, CASTED_RAYS));
 
 			// Update the decision variable and position
 			if (decision_variable >= 0)
@@ -95,39 +95,4 @@ void draw_bresenham_ray(t_game *game, t_vec2 start, t_vec2 end)
 	}
 
     return;
-}
-
-
-void DDA_ray(t_game *game, t_vec2 start, t_vec2 end, int color)
-{
-    double dx = end.x - start.x;
-    double dy = end.y - start.y;
-    double steps;
-
-    steps = fmax(fabs(dx), fabs(dy));
-
-    //printf ("steps is %f\n", steps);
-    double x_increment = dx / steps;
-    double y_increment = dy / steps;
-
-    double x = start.x;
-    double y = start.y;
-    int step_count = 0;
-	
-    while (step_count <= steps) 
-    {
-        (void)game;
-        
-        //double distance = get_distance(start, (t_vec2){x, y});
-        
-        //printf("Distance at step %d: %f\n", step_count, distance);
-        //mlx_put_pixel(game->scene, (int)round(x), (int)round(y), distance_to_color(distance));
-        // mlx_put_pixel(game->scene, (int)round(x) - X_START,  (int)round(y) - Y_START, 
-		// 	color_abgr_to_rgba(distance_to_color(distance)));
-		mlx_put_pixel(game->scene, (int)round(x),  (int)round(y), color_abgr_to_rgba(color));
-    
-        x += x_increment;
-        y += y_increment;
-        step_count++;
-    }
 }

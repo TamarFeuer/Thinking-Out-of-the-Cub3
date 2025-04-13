@@ -34,21 +34,21 @@
  *             `ray->angle_quad`, and `data->map_data.cols`.
  * @param grid_pos Pointer to the `t_vec2` structure containing the floating-point
  *                 x and y coordinates of the intersection point to check.
- * @param flag An enum/int (`t_intersection_flag`) indicating whether this check
+ * @param intersection_type An enum/int (`t_intersection_type`) indicating whether this check
  *             originates from a vertical or horizontal intersection calculation.
  *
  * @return int The calculated 1D index into the `game->data->map` array
  *             corresponding to the relevant map cell to check for a wall.
  */
-int get_block_index(t_game *game, t_vec2 *grid_pos, t_intersection_flag flag)
+int get_block_index(t_game *game, t_vec2 *grid_pos, t_intersect_type intersect_type)
 {
 	t_block_index block_index;
 
 	block_index.x = (int)(grid_pos->x / game->cell_size);
 	block_index.y = (int)(grid_pos->y / game->cell_size);
-	if (flag == INTERSECT_W_HORIZONTAL && (game->ray->angle_quad == 1 || game->ray->angle_quad == 2))
+	if (intersect_type == INTERSECT_W_HORIZONTAL && (game->ray->angle_quad == 1 || game->ray->angle_quad == 2))
 		block_index.y--;
-	else if (flag == INTERSECT_W_VERTICAL && (game->ray->angle_quad == 2 || game->ray->angle_quad == 3))
+	else if (intersect_type == INTERSECT_W_VERTICAL && (game->ray->angle_quad == 2 || game->ray->angle_quad == 3))
 		block_index.x--;
 	block_index.index = block_index.y * game->data->map_data.cols + block_index.x;
 	return (block_index.index);

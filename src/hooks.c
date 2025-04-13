@@ -1,142 +1,257 @@
 #include "../inc/game.h"
 
-bool is_colliding(t_game *game, t_vec2 new, t_intersection_flag flag)
+bool is_colliding(t_game *game, t_vec2 new, t_intersect_type intersect_type)
 {
-    t_vec2 new_tl = new;
-	t_vec2 new_tr = {new.x + PLAYER_SIZE * CONST , new.y};
-	t_vec2 new_bl = {new.x, new.y + PLAYER_SIZE * CONST };
-	t_vec2 new_br = {new.x + PLAYER_SIZE * CONST -1, new.y + PLAYER_SIZE * CONST };
-	
-		if ((is_wall_hit(game, new_tl, flag))
-		|| (is_wall_hit(game, new_tr, flag))
-		||(is_wall_hit(game, new_bl,flag))
-		||(is_wall_hit(game, new_br, flag)))
-	{
+    t_vec2 new_tl;
+	t_vec2 new_tr;
+	t_vec2 new_bl;
+	t_vec2 new_br;
+
+	new_tl = new;
+	new_tr.x = new.x + PLAYER_SIZE;
+	new_tr.y = new.y;
+	new_bl.x = new.x;
+	new_bl.y = new.y + PLAYER_SIZE;
+	new_br.x = new.x + PLAYER_SIZE;
+	new_br.y = new.y + PLAYER_SIZE;
+	if (is_wall_hit(game, new_tl, intersect_type)
+		|| is_wall_hit(game, new_tr, intersect_type)
+		|| is_wall_hit(game, new_bl, intersect_type)
+		|| is_wall_hit(game, new_br, intersect_type))
 		return true;
-	}
 	else
 		return false;
 }
 
-
-
-// check if there is any collision
-// if there is separate to vertical and horrizontal
-void check_collision(t_game *game, t_vec2 old_pos, t_vec2 new_pos)
+/**
+ * @brief Updates the player's and camera's position based on a new valid position.
+ * @details Sets the `game->player.pos` to `new_valid_pos`. Also updates the
+ *          `game->camera_pos` based on the new player position and predefined
+ *          offsets (`CAMERA_OFFSET_X`, `CAMERA_OFFSET_Y`).
+ *
+ * @param game Pointer to the main game structure.
+ * @param new_valid_pos The new, collision-free position for the player.
+ */
+static void	update_player_and_camera_pos(t_game *game, t_vec2 new_valid_pos)
 {
+	game->player.pos = new_valid_pos;
+	game->camera_pos.x = game->player.pos.x + CAMERA_OFFSET_X;
+	game->camera_pos.y = game->player.pos.y + CAMERA_OFFSET_Y;
+}
 
-	if (is_colliding(game, new_pos, INTERSECT_NONE))
+/**
+ * @brief Attempts "wall sliding" by checking axis-aligned moves if a diagonal
+ *        move is blocked.
+ * @details If a direct move to `new_pos` resulted in a collision, this function
+ *          checks if moving only horizontally (to `new_pos.x`, `old_pos.y`) or
+ *          only vertically (to `old_pos.x`, `new_pos.y`) is possible without
+ *          colliding. If either axis-aligned move is valid, it updates the
+ *          player's position accordingly using `update_player_and_camera_pos`
+ *          and returns true.
+ *
+ * @param game Pointer to the main game structure.
+ * @param old_pos The player's position before the attempted move.
+ * @param new_pos The diagonally desired, but colliding, new position.
+ *
+ * @return bool Returns `true` if a valid slide movement (horizontal or
+ *         vertical) was found and applied, `false` otherwise (meaning the
+ *         player stays at `old_pos`).
+ */
+static bool	try_slide_movement(t_game *game, t_vec2 old_pos, t_vec2 new_pos)
+{
+	t_vec2	horizontal_try;
+	t_vec2	vertical_try;
+
+	horizontal_try.x = new_pos.x;
+	horizontal_try.y = old_pos.y;
+	vertical_try.x = old_pos.x;
+	vertical_try.y = new_pos.y;
+
+	if (!is_colliding(game, horizontal_try, INTERSECT_NONE))
 	{
-		printf ("COLLIDING\n");
-		//flag: vertical 1, horizontal 0
-		// Try moving only in the horizontal direction
-		t_vec2 temp_pos1, temp_pos2;
-		temp_pos1.x = new_pos.x;
-		temp_pos1.y = old_pos.y;
-		temp_pos2.x = old_pos.x;
-		temp_pos2.y = new_pos.y;
-	
-		if (is_wall_hit(game, temp_pos1, INTERSECT_NONE) && is_wall_hit(game, temp_pos2, INTERSECT_NONE))
-		{
-			printf("diagonal\n");
-			return;
-		}
-		printf ("trying to move horrizontally\n");
-		printf ("player is at x=%f y=%f\n", game->player.pos.x, game->player.pos.y);
-		
-		printf ("temp_pos.x is %f, temp_pos.y is %f\n", temp_pos1.x, temp_pos1.y);
-		if (!is_colliding(game, temp_pos1, 99))
-		//if(game->data->map[corner_block_index(game, temp_pos)] != '1')
-		{
-			game->player.pos.x = temp_pos1.x; // Allow horizontal movement
-			game->camera_pos.x = game->player.pos.x + PLAYER_SIZE * CONST / 2 - 1;
-			printf ("Allowing to go to new x\n\n");
-			return;
-		}
-		else
-			printf ("no horizontal movement allowed\n\n");
-
-		
-		printf ("trying to move vertically\n");
-		printf ("temp_pos.x is %f, temp_pos.y is %f\n", temp_pos2.x, temp_pos2.y);
-		if (!is_colliding(game, temp_pos2, 99))
-		{
-			game->player.pos.y = temp_pos2.y; // Allow vertical movement
-			game->camera_pos.y = game->player.pos.y + PLAYER_SIZE * CONST /2 - 1;
-			printf("Allowing to go to new y\n\n");
-			return;
-		}
-		else
-			printf ("no vertical movement allowed\n\n");
-		// No valid movement, stay in old position
-		//game->player.p_pos = old_pos;
+		update_player_and_camera_pos(game, horizontal_try);
+		return (true);
 	}
-	else
+	if (!is_colliding(game, vertical_try, INTERSECT_NONE))
 	{
-		// No collision, update position
-		game->player.pos = new_pos;
-		game->camera_pos.x = game->player.pos.x + PLAYER_SIZE * CONST / 2 - 1;
-		game->camera_pos.y = game->player.pos.y + PLAYER_SIZE * CONST /2- 1;
+		update_player_and_camera_pos(game, vertical_try);
+		return (true);
+	}
+	return (false);
+}
+
+/**
+ * @brief Checks for collision at a desired new position and updates the player
+ *        position, attempting wall sliding if necessary.
+ * @details Checks if moving the player from `old_pos` directly to `new_pos`
+ *          results in a collision using `is_colliding`.
+ *          - If there is no collision, the player's position is updated to
+ *            `new_pos` (and the camera position is updated accordingly).
+ *          - If there IS a collision with the direct move, it calls
+ *            `try_slide_movement` to see if moving only horizontally or only
+ *            vertically from `old_pos` towards `new_pos` is possible. If
+ *            sliding succeeds, the position is updated by the helper function.
+ *          - If both the direct move and sliding attempts fail, the player's
+ *            position remains unchanged at `old_pos`.
+ *
+ * @param game Pointer to the main game structure. Will be modified if a valid
+ *             move is found.
+ * @param old_pos The player's current position before attempting the move.
+ * @param new_pos The desired target position for the player.
+ */
+void	check_collision(t_game *game, t_vec2 old_pos, t_vec2 new_pos)
+{
+	if (!is_colliding(game, new_pos, INTERSECT_NONE))
+		update_player_and_camera_pos(game, new_pos);
+	else
+		try_slide_movement(game, old_pos, new_pos);
+}
+
+/**
+ * @brief Calculates the desired change in player position based on WASD keys.
+ * @details Checks if WASD keys are active (pressed or held). If so, calculates
+ *          the potential change in x and y coordinates based on the player's
+ *          current angle and movement speed (`DISTANCE_PER_TURN`). Updates the
+ *          `new_pos` vector passed by reference.
+ *
+ * @param game Pointer to the main game structure (for player angle).
+ * @param keydata Structure containing key and action data.
+ * @param key_is_active Boolean indicating if the key action is PRESS or REPEAT.
+ * @param new_pos Pointer to the `t_vec2` structure where the calculated new
+ *                position (relative to the current) will be stored.
+ * @note This function directly modifies the `new_pos` passed to it.
+ */
+static void	handle_movement_keys(t_game *game, mlx_key_data_t keydata,
+	bool key_is_active, t_vec2 *new_pos)
+{
+	double	move_dx;
+	double	move_dy;
+
+	move_dx = cos(game->player.angle) * DISTANCE_PER_TURN;
+	move_dy = sin(game->player.angle) * DISTANCE_PER_TURN;
+	if (key_is_active && keydata.key == MLX_KEY_W)
+	{
+		new_pos->x += move_dx;
+		new_pos->y -= move_dy;
+	}
+	else if (key_is_active && keydata.key == MLX_KEY_S)
+	{
+		new_pos->x -= move_dx;
+		new_pos->y += move_dy;
+	}
+	else if (key_is_active && keydata.key == MLX_KEY_A)
+	{
+		new_pos->x -= move_dy;
+		new_pos->y -= move_dx;
+	}
+	else if (key_is_active && keydata.key == MLX_KEY_D) 
+	{
+		new_pos->x += move_dy;
+		new_pos->y += move_dx;
 	}
 }
 
-
-
-static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
+/**
+* @brief Calculates the desired change in player angle based on arrow keys.
+* @details Checks if Left/Right arrow keys are active (pressed or held) and if
+*          mouse rotation is inactive. If conditions met, updates the potential
+*          new angle passed by reference.
+*
+* @param game Pointer to the main game structure (for mouse active status).
+* @param keydata Structure containing key and action data.
+* @param key_is_active Boolean indicating if the key action is PRESS or REPEAT.
+* @param new_angle Pointer to the double where the calculated new angle will
+*                  be stored.
+* @note This function directly modifies the `new_angle` passed to it.
+*/
+static void	handle_rotation_keys(t_game *game, mlx_key_data_t keydata,
+	bool key_is_active, double *new_angle)
 {
-	t_vec2 new;
-	new.x = game->player.pos.x;
-	new.y = game->player.pos.y;
-	double new_angle = game->player.angle;
-	double angle_size = M_PI / 100;
-	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-	{
-		new.x += (cos(game->player.angle) * DISTANCE_PER_TURN);
-		new.y -= (sin(game->player.angle) * DISTANCE_PER_TURN);
-		//printf ("addition is %f\n", sin(game->player.angle) * DISTANCE_PER_TURN);
-		//printf ("quad is %d\n", game->player.angle_quad);
-	}
-	else if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-	{
-		new.x -= (cos(game->player.angle) * DISTANCE_PER_TURN);
-		new.y += (sin(game->player.angle) * DISTANCE_PER_TURN);
-	}
-	else if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-	{
-		new.x -= (sin(game->player.angle) * DISTANCE_PER_TURN);
-		new.y -= (cos(game->player.angle) * DISTANCE_PER_TURN);
+	double	angle_increment;
 
-	}
-	else if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+	angle_increment = M_PI / 100.0; // Rotation speed
+	if (!game->is_mouse_active && key_is_active)
 	{
-		new.x += (sin(game->player.angle) * DISTANCE_PER_TURN);
-		new.y += (cos(game->player.angle) * DISTANCE_PER_TURN);
-		
+		if (keydata.key == MLX_KEY_RIGHT)
+		*new_angle -= angle_increment;
+		else if (keydata.key == MLX_KEY_LEFT)
+		*new_angle += angle_increment;
 	}
+}
 
-	// Boundary check for player movement
-	if (new.x != game->player.pos.x || new.y != game->player.pos.y)
+/**
+ * @brief Clamps the player's intended world position to stay within the map
+ *        boundaries, accounting for player size.
+ * @details Adjusts the x and y components of the player's potential position
+ *          vector (`pos`) to ensure the player's bounding box does not go
+ *          outside the valid map area. The minimum boundary is (0, 0). The
+ *          maximum boundary is calculated based on the map dimensions in cells
+ *          (`map_data.cols`, `map_data.rows`), the size of each cell
+ *          (`game->cell_size`), and the player's size (`PLAYER_SIZE`).
+ *          This prevents the player from moving outside the playable world grid.
+ *
+ * @param game Pointer to the main game structure (for map dimensions, cell size).
+ * @param pos Pointer to the `t_vec2` position vector (player's top-left corner)
+ *            to be clamped. This vector represents world coordinates.
+ *
+ * @note This function directly modifies the `pos` vector passed to it. It uses
+ *       world coordinates and boundaries, NOT minimap pixel dimensions.
+ *       Assumes PLAYER_SIZE represents the player's width and height.
+ */
+static void	clamp_player_position_to_world(t_game *game, t_vec2 *pos)
+{
+	double	max_x;
+	double	max_y;
+
+	max_x = (double)game->data->map_data.cols * game->cell_size - PLAYER_SIZE;
+	max_y = (double)game->data->map_data.rows * game->cell_size - PLAYER_SIZE;
+	if (pos->x < 0.0)
+		pos->x = 0.0;
+	else if (pos->x > max_x)
+		pos->x = max_x;
+	if (pos->y < 0.0)
+		pos->y = 0.0;
+	else if (pos->y > max_y)
+		pos->y = max_y;
+}
+
+/**
+* @brief Processes key presses/holds for player movement and rotation.
+* @details Checks for WASD movement and Left/Right arrow key rotation based on
+*          the provided `keydata`. Calculates potential new position and angle.
+*          If the potential position changed, clamps it to map boundaries and
+*          performs collision detection using `check_collision`, potentially
+*          updating the player's position. If the potential angle changed,
+*          normalizes it and updates the player's angle and quadrant.
+*
+* @param game Pointer to the main game structure, whose player state may be
+*             modified.
+* @param keydata The key event data provided by MLX42's key hook.
+*/
+void	check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
+{
+	t_vec2	new_pos;
+	double	new_angle;
+	bool	key_is_active;
+	t_vec2	old_pos;
+
+	new_pos = game->player.pos;
+	new_angle = game->player.angle;
+	old_pos = game->player.pos;
+	key_is_active = (keydata.action == MLX_PRESS 
+		|| keydata.action == MLX_REPEAT);
+	handle_movement_keys(game, keydata, key_is_active, &new_pos);
+	handle_rotation_keys(game, keydata, key_is_active, &new_angle);
+	if (new_pos.x != old_pos.x || new_pos.y != old_pos.y)
 	{
-		if (new.x < 0)
-			new.x = 0;
-		if (new.y < 0)
-			new.y = 0;
-		if (new.x > game->data->minimap_data.width)
-			new.x = game->data->minimap_data.width;
-		if (new.y > game->data->minimap_data.height)
-			new.y = game->data->minimap_data.height;
-		check_collision(game, game->player.pos, new);
+		clamp_player_position_to_world(game, &new_pos);
+		check_collision(game, old_pos, new_pos);
 	}
-	if (game->is_mouse_active == false &&(keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)))
-		new_angle -= angle_size; // Rotate clockwise (right)
-	if ( game->is_mouse_active == false && (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)))
-		new_angle += angle_size; // Rotate counterclockwise (left)
-	//printf ("in check for movement\n");
-	normalize_angle_to_2pi(&new_angle);
 	if (new_angle != game->player.angle)
 	{
-		determine_quad(new_angle, &game->player.angle_quad);
+		normalize_angle_to_2pi(&new_angle);
 		game->player.angle = new_angle;
+		determine_quad(game->player.angle, &game->player.angle_quad);
 	}
 }
 
