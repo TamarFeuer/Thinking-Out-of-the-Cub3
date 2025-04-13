@@ -1,62 +1,80 @@
 #include "../inc/game.h"
 
+static void	init_horizontal_intercept_and_step(t_game *game, \
+	double cotan_current)
+{
+	t_vec2	*intersect;
+	t_vec2	*step;
+	double	delta_y;
+
+	intersect = &game->ray->intersect;
+	step = &game->ray->ray_step;
+	if (game->ray->angle_quad == 1 || game->ray->angle_quad == 2)
+	{
+		intersect->y = floor(game->camera_pos.y / game->cell_size)
+			* game->cell_size;
+		step->y = -game->cell_size;
+	}
+	else
+	{
+		intersect->y = ceil(game->camera_pos.y / game->cell_size)
+			* game->cell_size;
+		step->y = game->cell_size;
+	}
+	delta_y = intersect->y - game->camera_pos.y;
+	intersect->x = game->camera_pos.x - delta_y * cotan_current;
+	step->x = step->y * -cotan_current;
+}
+
+/**
+ * @brief Calculates the distance to the nearest wall intersected by a ray
+ *        when checking along horizontal grid lines.
+ * @details Performs raycasting by checking for intersections with horizontal
+ *          grid lines. It first handles edge cases: purely horizontal rays
+ *          (`tan_current` is 0) return `OUT_OF_BOUNDS`. It then calculates
+ *          the cotangent (`cotan_current`) of the ray's angle, handling
+ *          vertical rays (`tan_current` is +/- HUGE_VAL). This cotangent is
+ *          then passed to `init_horizontal_intercept_and_step` to initialize
+ *          the starting intersection point and step increments. The function
+ *          then iteratively steps along the ray's path using
+ *          `should_continue_stepping` to check for boundaries or wall hits.
+ *          If a wall is hit, it stores coordinates in `game->ray->h_hit` and
+ *          returns the distance. Returns `OUT_OF_BOUNDS` if the ray goes out
+ *          of bounds first.
+ *
+ * @param game Pointer to the main game structure (`t_game`). Used to access
+ *             ray properties, camera position, and map data. `game->ray->h_hit`
+ *             will be updated upon a successful hit.
+ *
+ * @return double Returns the distance from the camera position to the horizontal
+ *         wall hit point (`game->ray->h_hit`), or `OUT_OF_BOUNDS` if the ray
+ *         leaves map boundaries, or if the ray is perfectly horizontal.
+ *
+ * @note Modifies `game->ray->h_hit` if a wall is hit. Relies on
+ *       `init_horizontal_intercept_and_step` to modify `game->ray->intersect`
+ *       and `game->ray->ray_step`.
+ */
 double	horiz_intersect(t_game *game)
 {
-	double	increase_x;
-	double	increase_y;
 	double	cotan_current;
 
 	if (game->ray->tan_current == 0)
 		return (OUT_OF_BOUNDS);
-	else if (game->ray->tan_current == HUGE_VAL || game->ray->tan_current == -HUGE_VAL)
+	if (game->ray->tan_current == HUGE_VAL
+		|| game->ray->tan_current == -HUGE_VAL)
 		cotan_current = 0;
 	else
 		cotan_current = 1.0 / game->ray->tan_current;
-
-	//printf ("\nHORIZONTAL:\n");
-	//set_inc_horiz(game, &increase_y, &delta_y_to_next_horiz, &increase_x);
-	//printf ("increase_x is %f\n", increase_x);
-	//printf ("increase_y is %f, delta_y_to_next_horiz is %d, \n", increase_y, delta_y_to_next_horiz);
-	
-	if (game->ray->angle_quad == 1 || game->ray->angle_quad == 2)
+	init_horizontal_intercept_and_step(game, cotan_current);
+	while (should_continue_stepping(game, game->ray->intersect, \
+									INTERSECT_W_HORIZONTAL))
 	{
-		game->ray->intersect.y = floor(game->camera_pos.y / game->cell_size) * game->cell_size;
-		game->ray->intersect.x = game->camera_pos.x - (game->ray->intersect.y - game->camera_pos.y) * cotan_current;
-		increase_x = game->cell_size * cotan_current;
-		increase_y = -game->cell_size;
-	}
-	else
-	{
-		game->ray->intersect.y = ceil(game->camera_pos.y  / game->cell_size) * game->cell_size;
-		game->ray->intersect.x = game->camera_pos.x - (game->ray->intersect.y - game->camera_pos.y) * cotan_current;
-		increase_x = -game->cell_size * cotan_current;
-		increase_y = game->cell_size;
-	}
-
-	//printf ("game->ray->inter.y %f\n", game->ray->intersect.y);
-	//printf ("game->camera.pos.x %f\n", game->camera.pos.x);
-	//printf ("game->camera.pos.y %f, floor(game->camera.pos.y / (game->cell_size)) %f\n", game->camera.pos.y, floor(game->camera.pos.y / (game->cell_size)));
-	//printf ("game->ray->intersect.x %f, game->ray->intersect.y %f\n", game->ray->intersect.x, game->ray->intersect.y);
-	while (!is_out_of_bounds(game, game->ray->intersect) && !is_wall_hit(game, game->ray->intersect, INTERSECT_W_HORIZONTAL))
-	{
-		//printf ("in horiz intersect\n");
-		//if (game->is_debug )
-		//	safe_put_pixel(game, (int)game->ray->intersect.x, (int)game->ray->intersect.y, 0xFF00FFFF);
-		//mlx_put_pixel(game->scene, (int)round(game->ray->inter.x) - X_START, (int)round(game->ray->inter.y) - Y_START, 0xFF0000FF);
-		//printf ("horiz intersect: did not hit wall yet\n");
-		game->ray->intersect.x += increase_x;
-		game->ray->intersect.y += increase_y;
-
+		game->ray->intersect.x += game->ray->ray_step.x;
+		game->ray->intersect.y += game->ray->ray_step.y;
 	}
 	if (is_out_of_bounds(game, game->ray->intersect))
 		return (OUT_OF_BOUNDS);
-	//printf ("in horiz intersect\n");
-	//if (game->is_debug )
-		//safe_put_pixel(game, (int)game->ray->intersect.x, (int)game->ray->intersect.y, 0xFF00FFFF);
 	game->ray->h_hit.x = game->ray->intersect.x;
 	game->ray->h_hit.y = game->ray->intersect.y;
-	//printf ("horiz intersectsect: end.x is %f and end.y is %f\n", game->ray->h_hit.x, game->ray->h_hit.y);
-	// return (sqrt(pow(game->ray->intersect.x - game->camera.pos.x, 2) + 
-	// 			pow(game->ray->intersect.y - game->camera.pos.y, 2)));
 	return (get_distance(game->camera_pos, game->ray->h_hit));
 }

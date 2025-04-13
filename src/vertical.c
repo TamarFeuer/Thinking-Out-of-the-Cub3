@@ -3,34 +3,73 @@
 /**
  * @brief Calculates the initial vertical grid intersection and step increments.
  * @details This function sets up the starting conditions for vertical grid
- *          line stepping in the raycasting process. It calculates the coordinate
- *          of the first vertical grid line the ray hits and the necessary step
- *          sizes to reach subsequent vertical lines.
+ *          line stepping in the raycasting process. It calculates the
+ *          coordinate of the first vertical grid line the ray hits and the
+ *          necessary step sizes to reach subsequent vertical lines.
  *
  *          Local Variables:
  *          - `intersect`: A pointer (`t_vec2*`) used as a shorthand alias for
- *            `game->ray->intersect`. It's used to store the calculated (x, y)
- *            coordinates of the *first* intersection point with a vertical grid line.
+ *            `game->ray->intersect`. It stores the calculated (x, y)
+ *            coordinates of the *first* intersection point with a vertical
+ *            grid line.
  *          - `step`: A pointer (`t_vec2*`) used as a shorthand alias for
- *            `game->ray->ray_step`. It's used to store the calculated (dx, dy)
- *            step increments. `step->x` is the fixed horizontal distance to the
+ *            `game->ray->ray_step`. It stores the calculated (dx, dy) step
+ *            increments. `step->x` is the fixed horizontal distance to the
  *            next vertical grid line (+/- cell_size), and `step->y` is the
  *            corresponding vertical distance along the ray.
  *          - `delta_x`: A temporary variable (`double`) storing the horizontal
  *            distance between the camera's x-position (`game->camera_pos.x`)
- *            and the x-coordinate of the first vertical intersection (`intersect->x`).
- *            This is used to calculate the initial `intersect->y`.
+ *            and the x-coordinate of the first vertical intersection
+ *            (`intersect->x`). This is used to calculate the initial
+ *            `intersect->y`.
  *
- *          The function determines the initial `intersect->x` based on whether the
- *          ray faces left or right (`game->ray->angle_quad`), using `floor` or
- *          `ceil`. It then calculates `intersect->y` using `delta_x` and the ray's
- *          tangent (`game->ray->tan_current`). Finally, it calculates the step
- *          components (`step->x`, `step->y`). All results are stored back into
- *          the `game->ray` struct via the `intersect` and `step` pointers.
+ *          The function determines the initial `intersect->x` based on whether
+ *          the ray faces left or right (`game->ray->angle_quad`), using `floor`
+ *          or `ceil`. It then calculates `intersect->y` using `delta_x` and the
+ *          ray's tangent (`game->ray->tan_current`). Finally, it calculates
+ *          the step components (`step->x`, `step->y`). All results are stored
+ *          back into the `game->ray` struct via the `intersect` and `step`
+ *          pointers.
  *
- * @param game Pointer to the main game structure (`t_game`), providing access to
- *             `camera_pos`, `cell_size`, and the `ray` whose `intersect` and
- *             `ray_step` fields will be updated.
+ * @param game Pointer to the main game structure (`t_game`), providing access
+ *             to `camera_pos`, `cell_size`, and the `ray` whose `intersect`
+ *             and `ray_step` fields will be updated.
+ *
+ * @note Modifies `game->ray->intersect` and `game->ray->ray_step`. Returns void.
+ *//**
+ * @brief Calculates the initial vertical grid intersection and step increments.
+ * @details This function sets up the starting conditions for vertical grid
+ *          line stepping in the raycasting process. It calculates the
+ *          coordinate of the first vertical grid line the ray hits and the
+ *          necessary step sizes to reach subsequent vertical lines.
+ *
+ *          Local Variables:
+ *          - `intersect`: A pointer (`t_vec2*`) used as a shorthand alias for
+ *            `game->ray->intersect`. It stores the calculated (x, y)
+ *            coordinates of the *first* intersection point with a vertical
+ *            grid line.
+ *          - `step`: A pointer (`t_vec2*`) used as a shorthand alias for
+ *            `game->ray->ray_step`. It stores the calculated (dx, dy) step
+ *            increments. `step->x` is the fixed horizontal distance to the
+ *            next vertical grid line (+/- cell_size), and `step->y` is the
+ *            corresponding vertical distance along the ray.
+ *          - `delta_x`: A temporary variable (`double`) storing the horizontal
+ *            distance between the camera's x-position (`game->camera_pos.x`)
+ *            and the x-coordinate of the first vertical intersection
+ *            (`intersect->x`). This is used to calculate the initial
+ *            `intersect->y`.
+ *
+ *          The function determines the initial `intersect->x` based on whether
+ *          the ray faces left or right (`game->ray->angle_quad`), using `floor`
+ *          or `ceil`. It then calculates `intersect->y` using `delta_x` and the
+ *          ray's tangent (`game->ray->tan_current`). Finally, it calculates
+ *          the step components (`step->x`, `step->y`). All results are stored
+ *          back into the `game->ray` struct via the `intersect` and `step`
+ *          pointers.
+ *
+ * @param game Pointer to the main game structure (`t_game`), providing access
+ *             to `camera_pos`, `cell_size`, and the `ray` whose `intersect`
+ *             and `ray_step` fields will be updated.
  *
  * @note Modifies `game->ray->intersect` and `game->ray->ray_step`. Returns void.
  */
