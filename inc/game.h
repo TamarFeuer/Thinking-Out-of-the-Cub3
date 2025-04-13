@@ -84,11 +84,11 @@ typedef struct s_block_index
 	int y;
 } t_block_index;
 
-typedef struct s_pos
+typedef struct s_vec2
 {
 	double	x;
 	double	y;
-}	t_pos;
+}	t_vec2;
 
 typedef struct s_point
 {
@@ -98,28 +98,48 @@ typedef struct s_point
 
 typedef struct s_player
 {
-	t_pos		pos;
+	t_vec2		pos;
 	double		angle;
 	int			angle_quad;
 }	t_player;
 
+/**
+ * @brief Holds all data pertinent to a single ray during the raycasting process.
+ * @details This structure encapsulates the geometric properties of a ray,
+ *          its state during grid traversal calculations, the results of
+ *          potential vertical and horizontal wall hits, and the final
+ *          determined hit point and distance for that specific ray cast.
+ *
+ * Members:
+ * @param ray_num Identifier for this specific ray (e.g., column index 0 to SCREEN_WIDTH-1).
+ * @param current_angle Absolute angle of the ray in world space (typically radians).
+ * @param relative_angle Angle relative to the player's center view direction (used for fish-eye correction).
+ * @param tan_current Pre-calculated tangent of current_angle for computational efficiency.
+ * @param angle_quad Quadrant (1-4) the current_angle falls into (optimizes stepping direction).
+ * @param intersect Current coordinate point being checked during grid traversal calculation.
+ * @param ray_step The (dx, dy) step increments used to move between grid intersections.
+ * @param v_hit Coordinates of the intersection point if the ray potentially hits a vertical grid line/wall.
+ * @param h_hit Coordinates of the intersection point if the ray potentially hits a horizontal grid line/wall.
+ * @param distance Calculated final distance to the closest wall hit (potentially corrected for fish-eye).
+ * @param is_vertical_first Flag indicating if the vertical hit was closer than the horizontal hit (1=true, 0=false). Consider using bool for clarity.
+ * @param end The final world coordinate of the closest wall hit point (selected from v_hit/h_hit).
+ * @param wall_met Status flag: true if the ray successfully hit a wall within map bounds, false otherwise.
+ */
 typedef struct s_ray
 {
-	t_pos		end;
-	t_pos		intersect;
-	int			number_of_rays;
 	int			ray_num;
-	double		relative_angle;
 	double		current_angle;
+	double		relative_angle;
 	double		tan_current;
 	int			angle_quad;
-	bool		wall_met;
-	int			is_vertical_first;
+	t_vec2		intersect;
+	t_vec2		ray_step;
+	t_vec2		v_hit;
+	t_vec2		h_hit;
 	double		distance;
-	t_pos		v_hit;
-	t_pos		h_hit;
-	t_pos		ray_end[SCREEN_WIDTH];
-	int			direction;
+	bool		is_vertical_first;
+	t_vec2		end;
+	bool		wall_met;
 }	t_ray;
 
 typedef struct s_data
@@ -159,12 +179,14 @@ typedef struct s_game
 	t_data			*data;
 	t_ray			*ray;
 	t_player		player;
-	t_pos			camera_pos;
+	t_vec2			camera_pos;
 	double			pplane;
 	mlx_image_t 	*scene;
 	mlx_image_t		*mini;
 	mlx_image_t 	*stats;
 	mlx_texture_t	*textures[4];
+	int				number_of_rays;
+	t_vec2			ray_end[SCREEN_WIDTH];
 }	t_game;
 
 void		draw_grid(t_game *game, int rows, int cols);
@@ -174,13 +196,13 @@ void		key_hook(mlx_key_data_t keydata, void *param);
 void		print_stats(t_game *game);
 void		clean_nicely(t_game *game, char *error_message);
 int			distance_to_color(int distance, int flag);
-// void	DDA_ray(t_game *game, t_pos start, t_pos end);
-void		DDA_ray(t_game *game, t_pos start, t_pos end, int color);
-void		draw_bresenham_ray(t_game *game, t_pos start, t_pos end);
-double		get_distance(t_pos start, t_pos end);
-int		 	get_block_index(t_game *game, t_pos *grid_pos, t_intersection_flag flag);
+// void	DDA_ray(t_game *game, t_vec2 start, t_vec2 end);
+void		DDA_ray(t_game *game, t_vec2 start, t_vec2 end, int color);
+void		draw_bresenham_ray(t_game *game, t_vec2 start, t_vec2 end);
+double		get_distance(t_vec2 start, t_vec2 end);
+int		 	get_block_index(t_game *game, t_vec2 *grid_pos, t_intersection_flag flag);
 void 		reach_nearest_wall_by_intersections(t_game *game);
-void 		draw_player_direction(t_game *game, t_pos start, double angle);
+void 		draw_player_direction(t_game *game, t_vec2 start, double angle);
 void		normalize_angle_to_2pi(double *angle);
 void		safe_put_pixel(t_game *game, int x, int y, u_int32_t color);
 void 		determine_quad(double angle, int *quad);
@@ -188,8 +210,8 @@ void		init_game_struct(t_game *game);
 void		draw_mmap(void *param);
 double		horiz_intersect(t_game *game);
 double		vertical_intersect(t_game *game);
-bool		is_out_of_bounds(t_game *game, t_pos position);
-int			is_wall_hit(t_game *game, t_pos intersect, t_intersection_flag flag);
+bool		is_out_of_bounds(t_game *game, t_vec2 position);
+int			is_wall_hit(t_game *game, t_vec2 intersect, t_intersection_flag flag);
 void		cursor_hook(double xpos, double ypos, void* param);
 void		mouse_action (mouse_key_t button, action_t action, modifier_key_t mods, void* param);
 int			atoi_limit_255(int *dst, char *str);
@@ -202,5 +224,6 @@ void		lexer(t_game *game);
 int			min(int a, int b);
 int			max(int a, int b);
 void		parser(t_game *game);
+bool	should_continue_stepping(t_game *game, t_vec2 intersect, t_intersection_flag flag);
 
 #endif

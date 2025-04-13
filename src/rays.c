@@ -1,6 +1,6 @@
 #include "../inc/game.h"
 
-int get_block_index(t_game *game, t_pos *grid_pos, t_intersection_flag flag)
+int get_block_index(t_game *game, t_vec2 *grid_pos, t_intersection_flag flag)
 {
 	t_block_index block_index;
 
@@ -16,7 +16,7 @@ int get_block_index(t_game *game, t_pos *grid_pos, t_intersection_flag flag)
 	return (block_index.index);
 }
 
-double get_distance(t_pos start, t_pos end)
+double get_distance(t_vec2 start, t_vec2 end)
 {
 	double dx = end.x - start.x;
 	double dy = end.y - start.y;
@@ -36,8 +36,8 @@ void cast_rays(t_game *game)
 		determine_quad(ray->current_angle, &ray->angle_quad);
 		ray->tan_current = tan(ray->current_angle);
 		reach_nearest_wall_by_intersections(game);
-		ray->ray_end[ray->ray_num].x = ray->end.x;
-		ray->ray_end[ray->ray_num].y = ray->end.y;
+		game->ray_end[ray->ray_num].x = ray->end.x;
+		game->ray_end[ray->ray_num].y = ray->end.y;
 
 		//draw_ray(game, game->camera.pos, game->ray->end);
 		//printf ("in cast_rays: angle is %f\n", game->ray->current_angle);

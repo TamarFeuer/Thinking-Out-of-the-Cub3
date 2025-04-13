@@ -1,6 +1,6 @@
 #include "../inc/game.h"
 
-bool is_out_of_bounds(t_game *game, t_pos position)
+bool is_out_of_bounds(t_game *game, t_vec2 position)
 {
 	if (position.y < 0 || position.x < 0 || position.y >= game->data->map_data.rows * game->cell_size || position.x >= game->data->map_data.cols * game->cell_size)
 	{
@@ -10,7 +10,7 @@ bool is_out_of_bounds(t_game *game, t_pos position)
 	return (false);
 }
 
-// int	is_wall_hit(t_game *game, t_pos inter)
+// int	is_wall_hit(t_game *game, t_vec2 inter)
 // {
 // 	if (game->mapdata[get_block_index(&inter)] == 1)
 // 	{	
@@ -21,7 +21,7 @@ bool is_out_of_bounds(t_game *game, t_pos position)
 // 	return (false);
 // }
 
-int	is_wall_hit(t_game *game, t_pos inter, t_intersection_flag flag)
+int	is_wall_hit(t_game *game, t_vec2 inter, t_intersection_flag flag)
 {
 	return (game->data->map[get_block_index(game, &inter, flag)] == '1');
 }
@@ -52,6 +52,15 @@ void reach_nearest_wall_by_intersections(t_game *game)
 		game->ray->end.x = game->ray->h_hit.x;
 		game->ray->end.y = game->ray->h_hit.y;
 		game->ray->distance = horiz_distance;
-	}
-	
+	}	
+}
+
+bool	should_continue_stepping(t_game *game, t_vec2 intersect, \
+	t_intersection_flag flag)
+{
+	if (is_out_of_bounds(game, intersect))
+		return (false);
+	if (is_wall_hit(game, intersect, flag))
+		return (false);
+	return (true);
 }

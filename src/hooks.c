@@ -1,11 +1,11 @@
 #include "../inc/game.h"
 
-bool is_colliding(t_game *game, t_pos new, t_intersection_flag flag)
+bool is_colliding(t_game *game, t_vec2 new, t_intersection_flag flag)
 {
-    t_pos new_tl = new;
-	t_pos new_tr = {new.x + PLAYER_SIZE * CONST , new.y};
-	t_pos new_bl = {new.x, new.y + PLAYER_SIZE * CONST };
-	t_pos new_br = {new.x + PLAYER_SIZE * CONST -1, new.y + PLAYER_SIZE * CONST };
+    t_vec2 new_tl = new;
+	t_vec2 new_tr = {new.x + PLAYER_SIZE * CONST , new.y};
+	t_vec2 new_bl = {new.x, new.y + PLAYER_SIZE * CONST };
+	t_vec2 new_br = {new.x + PLAYER_SIZE * CONST -1, new.y + PLAYER_SIZE * CONST };
 	
 		if ((is_wall_hit(game, new_tl, flag))
 		|| (is_wall_hit(game, new_tr, flag))
@@ -22,7 +22,7 @@ bool is_colliding(t_game *game, t_pos new, t_intersection_flag flag)
 
 // check if there is any collision
 // if there is separate to vertical and horrizontal
-void check_collision(t_game *game, t_pos old_pos, t_pos new_pos)
+void check_collision(t_game *game, t_vec2 old_pos, t_vec2 new_pos)
 {
 
 	if (is_colliding(game, new_pos, INTERSECT_NONE))
@@ -30,7 +30,7 @@ void check_collision(t_game *game, t_pos old_pos, t_pos new_pos)
 		printf ("COLLIDING\n");
 		//flag: vertical 1, horizontal 0
 		// Try moving only in the horizontal direction
-		t_pos temp_pos1, temp_pos2;
+		t_vec2 temp_pos1, temp_pos2;
 		temp_pos1.x = new_pos.x;
 		temp_pos1.y = old_pos.y;
 		temp_pos2.x = old_pos.x;
@@ -84,7 +84,7 @@ void check_collision(t_game *game, t_pos old_pos, t_pos new_pos)
 
 static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 {
-	t_pos new;
+	t_vec2 new;
 	new.x = game->player.pos.x;
 	new.y = game->player.pos.y;
 	double new_angle = game->player.angle;
@@ -95,25 +95,22 @@ static void check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 		new.y -= (sin(game->player.angle) * DISTANCE_PER_TURN);
 		//printf ("addition is %f\n", sin(game->player.angle) * DISTANCE_PER_TURN);
 		//printf ("quad is %d\n", game->player.angle_quad);
-		game->ray->direction = FORWARD;
 	}
 	else if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
 		new.x -= (cos(game->player.angle) * DISTANCE_PER_TURN);
 		new.y += (sin(game->player.angle) * DISTANCE_PER_TURN);
-		game->ray->direction = BACKWARD;
 	}
 	else if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
 		new.x -= (sin(game->player.angle) * DISTANCE_PER_TURN);
 		new.y -= (cos(game->player.angle) * DISTANCE_PER_TURN);
-		game->ray->direction = FORWARD;
+
 	}
 	else if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
 	{
 		new.x += (sin(game->player.angle) * DISTANCE_PER_TURN);
 		new.y += (cos(game->player.angle) * DISTANCE_PER_TURN);
-		game->ray->direction = BACKWARD;
 		
 	}
 

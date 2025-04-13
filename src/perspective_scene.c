@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                         ::::::::           */
-/*   perspective_scene.c                                 :+:    :+:           */
-/*                                                      +:+                   */
-/*   By: rtorrent <marvin@42.fr>                       +#+                    */
-/*                                                    +#+                     */
-/*   Created: 2025/03/18 11:17:21 by rtorrent       #+#    #+#                */
-/*   Updated: 2025/04/08 15:30:12 by rtorrent       ########   odam.nl        */
+/*                                                        :::      ::::::::   */
+/*   perspective_scene.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tfeuer <tfeuer@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/18 11:17:21 by rtorrent          #+#    #+#             */
+/*   Updated: 2025/04/13 14:06:13 by tfeuer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static enum e_dir	which_texture(t_ray *ray)
 	return (N);
 }
 
-static uint32_t	pixel_color(t_game *game, int h0, int h, t_pos *end)
+static uint32_t	pixel_color(t_game *game, int h0, int h, t_vec2 *end)
 {
 	const enum e_dir		wall_dir = which_texture(game->ray);
 	mlx_texture_t *const	t = game->textures[wall_dir];

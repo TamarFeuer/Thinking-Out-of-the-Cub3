@@ -1,6 +1,6 @@
 #include "../inc/game.h"
 
-void draw_player_direction(t_game *game, t_pos start, double angle)
+void draw_player_direction(t_game *game, t_vec2 start, double angle)
 {
 	
 	double end_x = start.x;
@@ -12,8 +12,8 @@ void draw_player_direction(t_game *game, t_pos start, double angle)
 		end_x += cos(angle) * step_size;
 		end_y -= sin(angle) * step_size;
 		distance += step_size;
-		// if (game->mapdata[get_block_index(&(t_pos){end_x, end_y})] == '1')
-		if (game->data->map[get_block_index(game, &(t_pos){end_x, end_y}, 999)] == '1' || distance > MAX_RAY_DISTANCE)
+		// if (game->mapdata[get_block_index(&(t_vec2){end_x, end_y})] == '1')
+		if (game->data->map[get_block_index(game, &(t_vec2){end_x, end_y}, 999)] == '1' || distance > MAX_RAY_DISTANCE)
 			return;
 		mlx_put_pixel(game->mini, (int)end_x, (int)end_y, distance_to_color(distance, 1));
 	}

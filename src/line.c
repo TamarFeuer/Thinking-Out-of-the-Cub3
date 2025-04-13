@@ -1,6 +1,6 @@
 #include "../inc/game.h"
 
-void draw_bresenham_ray(t_game *game, t_pos start, t_pos end)
+void draw_bresenham_ray(t_game *game, t_vec2 start, t_vec2 end)
 {
     int x = (int)round(start.x);
     int y = (int)round(start.y);
@@ -98,7 +98,7 @@ void draw_bresenham_ray(t_game *game, t_pos start, t_pos end)
 }
 
 
-void DDA_ray(t_game *game, t_pos start, t_pos end, int color)
+void DDA_ray(t_game *game, t_vec2 start, t_vec2 end, int color)
 {
     double dx = end.x - start.x;
     double dy = end.y - start.y;
@@ -118,7 +118,7 @@ void DDA_ray(t_game *game, t_pos start, t_pos end, int color)
     {
         (void)game;
         
-        //double distance = get_distance(start, (t_pos){x, y});
+        //double distance = get_distance(start, (t_vec2){x, y});
         
         //printf("Distance at step %d: %f\n", step_count, distance);
         //mlx_put_pixel(game->scene, (int)round(x), (int)round(y), distance_to_color(distance));

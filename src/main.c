@@ -23,14 +23,14 @@ void	draw_mmap(void *param)
 		// printf ("drawing grid\n");
 		int i = 0;
 		if (game->is_debug == false)
-			game->ray->number_of_rays = SCREEN_WIDTH;
+			game->number_of_rays = SCREEN_WIDTH;
 		else
-			game->ray->number_of_rays = 1;
+			game->number_of_rays = 1;
 			
-		while (i < game->ray->number_of_rays)
+		while (i < game->number_of_rays)
 		// while (i < 1)
 		{
-			draw_bresenham_ray(game, game->camera_pos, game->ray->ray_end[i]);
+			draw_bresenham_ray(game, game->camera_pos, game->ray_end[i]);
 			//DDA_ray(game, game->camera.pos, game->ray->ray_end[i], 0xA4FFAAFF);
 			i++;
 		}
@@ -39,7 +39,7 @@ void	draw_mmap(void *param)
 	
 		//printf ("player angle %f\n", game->player.angle);
 		draw_grid(game, game->data->map_data.rows, game->data->map_data.cols);
-		draw_player_direction(game, (t_pos){game->camera_pos.x, game->camera_pos.y}, game->player.angle);
+		draw_player_direction(game, (t_vec2){game->camera_pos.x, game->camera_pos.y}, game->player.angle);
 		mlx_delete_image(game->mlx, game->stats);
 		print_stats(game);
 	}

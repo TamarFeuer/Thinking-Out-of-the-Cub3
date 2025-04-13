@@ -1,59 +1,109 @@
 #include "../inc/game.h"
 
-double	vertical_intersect(t_game *game)
+/**
+ * @brief Calculates the initial vertical grid intersection and step increments.
+ * @details This function sets up the starting conditions for vertical grid
+ *          line stepping in the raycasting process. It calculates the coordinate
+ *          of the first vertical grid line the ray hits and the necessary step
+ *          sizes to reach subsequent vertical lines.
+ *
+ *          Local Variables:
+ *          - `intersect`: A pointer (`t_vec2*`) used as a shorthand alias for
+ *            `game->ray->intersect`. It's used to store the calculated (x, y)
+ *            coordinates of the *first* intersection point with a vertical grid line.
+ *          - `step`: A pointer (`t_vec2*`) used as a shorthand alias for
+ *            `game->ray->ray_step`. It's used to store the calculated (dx, dy)
+ *            step increments. `step->x` is the fixed horizontal distance to the
+ *            next vertical grid line (+/- cell_size), and `step->y` is the
+ *            corresponding vertical distance along the ray.
+ *          - `delta_x`: A temporary variable (`double`) storing the horizontal
+ *            distance between the camera's x-position (`game->camera_pos.x`)
+ *            and the x-coordinate of the first vertical intersection (`intersect->x`).
+ *            This is used to calculate the initial `intersect->y`.
+ *
+ *          The function determines the initial `intersect->x` based on whether the
+ *          ray faces left or right (`game->ray->angle_quad`), using `floor` or
+ *          `ceil`. It then calculates `intersect->y` using `delta_x` and the ray's
+ *          tangent (`game->ray->tan_current`). Finally, it calculates the step
+ *          components (`step->x`, `step->y`). All results are stored back into
+ *          the `game->ray` struct via the `intersect` and `step` pointers.
+ *
+ * @param game Pointer to the main game structure (`t_game`), providing access to
+ *             `camera_pos`, `cell_size`, and the `ray` whose `intersect` and
+ *             `ray_step` fields will be updated.
+ *
+ * @note Modifies `game->ray->intersect` and `game->ray->ray_step`. Returns void.
+ */
+static void	init_vertical_intercept_and_step(t_game *game)
 {
-	double	increase_x;
-	double	increase_y;
+	t_vec2	*intersect;
+	t_vec2	*step;
+	double	delta_x;
 
-	if (game->ray->tan_current == HUGE_VAL || game->ray->tan_current == -HUGE_VAL)
-		return (OUT_OF_BOUNDS);
-
-	//printf ("\nVERTICAL:\n");
-	
-	//set_inc_vert(game, &increase_x, &delta_x_to_next_vertical, &increase_y);
-	//printf ("increase_y is %f\n", increase_y);
-	//printf ("increase_x is %f, delta_x_to_next_vertical is %d, \n", increase_x, delta_x_to_next_vertical);
+	intersect = &game->ray->intersect;
+	step = &game->ray->ray_step;
 	if (game->ray->angle_quad == 1 || game->ray->angle_quad == 4)
 	{
-		game->ray->intersect.x = ceil(game->camera_pos.x / game->cell_size) * game->cell_size;
-		game->ray->intersect.y = game->camera_pos.y - (game->ray->intersect.x - game->camera_pos.x) * game->ray->tan_current;
-		increase_x = game->cell_size;
-		increase_y = -game->cell_size * game->ray->tan_current; //how much y changes when x changes by 1 (or -1) block_size
+		intersect->x = ceil(game->camera_pos.x / game->cell_size)
+			* game->cell_size;
+		step->x = game->cell_size;
 	}
 	else
 	{
-		game->ray->intersect.x = floor(game->camera_pos.x  / game->cell_size) * game->cell_size;
-		game->ray->intersect.y = game->camera_pos.y - (game->ray->intersect.x - game->camera_pos.x) * game->ray->tan_current;
-		increase_x = -game->cell_size;
-		increase_y = game->cell_size * game->ray->tan_current; //how much y changes when x changes by 1 (or -1) block_size
+		intersect->x = floor(game->camera_pos.x / game->cell_size)
+			* game->cell_size;
+		step->x = -game->cell_size;
 	}
-		
-	
-	//printf ("game->ray->intersect.x %f\n", game->ray->intersect.x);
-	//printf ("game->camera.pos.x %f, floor(game->camera.pos.x / (game->cell_size)) %f\n", game->camera.pos.x, floor(game->camera.pos.x / (game->cell_size)));
-	
-	//printf ("game->ray->intersect.y %f\n", game->ray->intersect.y);
-	while (!is_out_of_bounds(game, game->ray->intersect) && !is_wall_hit(game, game->ray->intersect, INTERSECT_W_VERTICAL))
+	delta_x = intersect->x - game->camera_pos.x;
+	intersect->y = game->camera_pos.y - delta_x * game->ray->tan_current;
+	step->y = step->x * -game->ray->tan_current;
+}
+
+/**
+ * @brief Calculates the distance to the nearest wall intersected by a ray
+ *        when checking along vertical grid lines.
+ * @details This function performs raycasting by specifically checking for
+ *          intersections with vertical grid lines in the map. It first handles
+ *          the edge case of purely vertical rays. Then, it initializes the
+ *          starting intersection point and step increments using
+ *          `init_vertical_intercept_and_step`. It iteratively steps along the
+ *          ray's path from one vertical grid line to the next, using
+ *          `should_continue_stepping` to check for map boundaries or wall hits
+ *          at each step. Once the loop terminates (due to hitting a wall or
+ *          going out of bounds), it determines if a wall was hit within bounds.
+ *          If so, it stores the hit coordinates in `game->ray->v_hit` and
+ *          returns the calculated distance from the camera to the hit point.
+ *          If the ray goes out of bounds first, it returns `OUT_OF_BOUNDS`.
+ *
+ * @param game Pointer to the main game structure (`t_game`). It's used to
+ *             access ray properties (`game->ray`), camera position
+ *             (`game->camera_pos`), map data (via helper functions), and
+ *             will have `game->ray->v_hit` updated upon a successful hit.
+ *
+ * @return double Returns the distance from the camera position to the vertical
+ *         wall hit point (`game->ray->v_hit`), or a specific value
+ *         (`OUT_OF_BOUNDS`, typically -1.0 or similar) if the ray leaves the
+ *         map boundaries before hitting a vertical wall segment.
+ *
+ * @note This function modifies `game->ray->v_hit` if a wall is hit. It also
+ *       relies on `init_vertical_intercept_and_step` to modify
+ *       `game->ray->intersect` and `game->ray->ray_step`.
+ */
+double	vertical_intersect(t_game *game)
+{
+	if (game->ray->tan_current == HUGE_VAL
+		|| game->ray->tan_current == -HUGE_VAL)
+		return (OUT_OF_BOUNDS);
+	init_vertical_intercept_and_step(game);
+	while (should_continue_stepping(game, game->ray->intersect, \
+									INTERSECT_W_VERTICAL))
 	{
-		//if (game->is_debug)
-		//	safe_put_pixel(game, (int)game->ray->intersect.x, (int)game->ray->intersect.y, 0xFFFF00FF);
-		//printf ("vertical intersect. did not hit wall yet\n");
-		//mlx_put_pixel(game->scene, (int)round(game->ray->intersect.x) - X_START,  (int)round(game->ray->intersect.y) - Y_START, 0xFFFF00FF);
-		game->ray->intersect.x += increase_x;
-		game->ray->intersect.y += increase_y; //the sign was already dealt with
-		//printf ("intersect_x is %f, intersect_y is %f\n", game->ray->intersect.x, game->ray->intersect.y);
+		game->ray->intersect.x += game->ray->ray_step.x;
+		game->ray->intersect.y += game->ray->ray_step.y;
 	}
-	
 	if (is_out_of_bounds(game, game->ray->intersect))
 		return (OUT_OF_BOUNDS);
-	//printf ("	in the function, game->ray->intersect.x is %f and game->ray->intersect.y is %f\n", game->ray->intersect.x, game->ray->intersect.y);
-	//printf ("in horiz intersect\n");
-	//if (game->is_debug )
-	//	safe_put_pixel(game, (int)game->ray->intersect.x, (int)game->ray->intersect.y, 0xFFFF00FF);
 	game->ray->v_hit.x = game->ray->intersect.x;
 	game->ray->v_hit.y = game->ray->intersect.y;
-	//printf ("vertical intersect, end.x is %f and end.y is %f\n", game->ray->v_hit.x = game->ray->intersect.x, game->ray->v_hit.y = game->ray->intersect.y);
-	// return (sqrt(pow(game->ray->inter.x - game->camera.pos.x, 2) + 
-	// 			pow(game->ray->inter.y - game->camera.pos.y, 2)));
 	return (get_distance(game->camera_pos, game->ray->v_hit));
 }
