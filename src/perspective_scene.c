@@ -6,7 +6,7 @@
 /*   By: tfeuer <tfeuer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 11:17:21 by rtorrent          #+#    #+#             */
-/*   Updated: 2025/04/13 18:16:38 by tfeuer           ###   ########.fr       */
+/*   Updated: 2025/04/13 20:23:42 by tfeuer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	draw_scene(t_game *game, t_ray *ray)
 	h[CE] = max((SCREEN_HEIGHT - h0) / 2, 0);
 	y = 0;
 	while (y < h[CE])
-	put_pixel_scene(game, ray->ray_num, y++, game->data->map_data.rgba[CE]);
+		put_pixel_scene(game, ray->ray_num, y++, game->data->map_data.rgba[CE]);
 	while (y <= h[FL] && h0)
 	{
 		put_pixel_scene(game, ray->ray_num, y,
@@ -74,5 +74,5 @@ void	draw_scene(t_game *game, t_ray *ray)
 		y++;
 	}
 	while (y < SCREEN_HEIGHT)
-	put_pixel_scene(game, ray->ray_num, y++, game->data->map_data.rgba[FL]);
+		put_pixel_scene(game, ray->ray_num, y++, game->data->map_data.rgba[FL]);
 }

@@ -2,10 +2,10 @@
 
 bool is_colliding(t_game *game, t_vec2 new, t_intersect_type intersect_type)
 {
-    t_vec2 new_tl;
-	t_vec2 new_tr;
-	t_vec2 new_bl;
-	t_vec2 new_br;
+    t_vec2	new_tl;
+	t_vec2	new_tr;
+	t_vec2	new_bl;
+	t_vec2	new_br;
 
 	new_tl = new;
 	new_tr.x = new.x + PLAYER_SIZE;
@@ -18,13 +18,14 @@ bool is_colliding(t_game *game, t_vec2 new, t_intersect_type intersect_type)
 		|| is_wall_hit(game, new_tr, intersect_type)
 		|| is_wall_hit(game, new_bl, intersect_type)
 		|| is_wall_hit(game, new_br, intersect_type))
-		return true;
+		return (true);
 	else
-		return false;
+		return (false);
 }
 
 /**
- * @brief Updates the player's and camera's position based on a new valid position.
+ * @brief Updates the player's and camera's position based on a new valid
+ *        position.
  * @details Sets the `game->player.pos` to `new_valid_pos`. Also updates the
  *          `game->camera_pos` based on the new player position and predefined
  *          offsets (`CAMERA_OFFSET_X`, `CAMERA_OFFSET_Y`).
@@ -66,7 +67,6 @@ static bool	try_slide_movement(t_game *game, t_vec2 old_pos, t_vec2 new_pos)
 	horizontal_try.y = old_pos.y;
 	vertical_try.x = old_pos.x;
 	vertical_try.y = new_pos.y;
-
 	if (!is_colliding(game, horizontal_try, INTERSECT_NONE))
 	{
 		update_player_and_camera_pos(game, horizontal_try);
@@ -144,7 +144,7 @@ static void	handle_movement_keys(t_game *game, mlx_key_data_t keydata,
 		new_pos->x -= move_dy;
 		new_pos->y -= move_dx;
 	}
-	else if (key_is_active && keydata.key == MLX_KEY_D) 
+	else if (key_is_active && keydata.key == MLX_KEY_D)
 	{
 		new_pos->x += move_dy;
 		new_pos->y += move_dx;
@@ -169,34 +169,33 @@ static void	handle_rotation_keys(t_game *game, mlx_key_data_t keydata,
 {
 	double	angle_increment;
 
-	angle_increment = M_PI / 100.0; // Rotation speed
+	angle_increment = M_PI / 100.0;
 	if (!game->is_mouse_active && key_is_active)
 	{
 		if (keydata.key == MLX_KEY_RIGHT)
-		*new_angle -= angle_increment;
+			*new_angle -= angle_increment;
 		else if (keydata.key == MLX_KEY_LEFT)
-		*new_angle += angle_increment;
+			*new_angle += angle_increment;
 	}
 }
-
+    
 /**
- * @brief Clamps the player's intended world position to stay within the map
- *        boundaries, accounting for player size.
+ * @brief Clamps the player's intended world position to stay within map limits.
  * @details Adjusts the x and y components of the player's potential position
  *          vector (`pos`) to ensure the player's bounding box does not go
  *          outside the valid map area. The minimum boundary is (0, 0). The
- *          maximum boundary is calculated based on the map dimensions in cells
- *          (`map_data.cols`, `map_data.rows`), the size of each cell
- *          (`game->cell_size`), and the player's size (`PLAYER_SIZE`).
- *          This prevents the player from moving outside the playable world grid.
+ *          maximum boundary is calculated based on map dimensions in cells
+ *          (`map_data.cols`, `map_data.rows`), cell size (`game->cell_size`),
+ *          and player size (`PLAYER_SIZE`). This prevents the player from
+ *          moving outside the playable world grid.
  *
- * @param game Pointer to the main game structure (for map dimensions, cell size).
+ * @param game Pointer to the main game structure (for map dims, cell size).
  * @param pos Pointer to the `t_vec2` position vector (player's top-left corner)
- *            to be clamped. This vector represents world coordinates.
+ *            to be clamped. Represents world coordinates.
  *
- * @note This function directly modifies the `pos` vector passed to it. It uses
- *       world coordinates and boundaries, NOT minimap pixel dimensions.
- *       Assumes PLAYER_SIZE represents the player's width and height.
+ * @note Modifies the `pos` vector directly. Uses world coordinates and
+ *       boundaries, NOT minimap pixel dimensions. Assumes PLAYER_SIZE
+ *       represents the player's width and height.
  */
 static void	clamp_player_position_to_world(t_game *game, t_vec2 *pos)
 {
@@ -238,8 +237,8 @@ void	check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 	new_pos = game->player.pos;
 	new_angle = game->player.angle;
 	old_pos = game->player.pos;
-	key_is_active = (keydata.action == MLX_PRESS 
-		|| keydata.action == MLX_REPEAT);
+	key_is_active = (keydata.action == MLX_PRESS || \
+		keydata.action == MLX_REPEAT);
 	handle_movement_keys(game, keydata, key_is_active, &new_pos);
 	handle_rotation_keys(game, keydata, key_is_active, &new_angle);
 	if (new_pos.x != old_pos.x || new_pos.y != old_pos.y)
@@ -258,6 +257,7 @@ void	check_keys_for_movement(t_game *game, mlx_key_data_t keydata)
 void	key_hook(mlx_key_data_t keydata, void *param)
 {
 	t_game	*game;
+
 	game = param;
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 	{
