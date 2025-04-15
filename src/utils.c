@@ -27,9 +27,9 @@ void	determine_quad(double angle, int *quad)
 
 void	normalize_angle_to_2pi(double *angle)
 {
-	*angle = fmod(*angle, 2.0 * M_PI);
+	*angle = fmod(*angle, 2.0 * PI);
 	if (*angle < 0.0)
-		*angle += (2.0 * M_PI);
+		*angle += (2.0 * PI);
 }
 
 int	min(int a, int b)

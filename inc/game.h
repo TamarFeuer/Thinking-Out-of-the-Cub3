@@ -12,6 +12,7 @@
 # include <fcntl.h>
 # include "../libs/libft/libft.h"
 
+# define PI 3.141592653
 # define DEG_TO_RAD 0.017453293
 # define MOUSE_SENSITIVITY 0.006283185
 

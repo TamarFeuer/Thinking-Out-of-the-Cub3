@@ -79,7 +79,7 @@ void	print_stats(t_game *game)
 	char	*p;
 
 	p = info + ft_strlcpy(info, "Angle: ", LOG);
-	ft_ftoa_fixed(p, game->player.angle / M_PI, 6);
+	ft_ftoa_fixed(p, game->player.angle / PI, 6);
 	p = info + ft_strlcat(info, "PI X: ", LOG);
 	ft_uitoa(p, game->player.pos.x);
 	p = info + ft_strlcat(info, " Y: ", LOG);

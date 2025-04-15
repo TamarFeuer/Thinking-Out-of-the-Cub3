@@ -62,7 +62,7 @@ static void	handle_rotation_keys(t_game *game, mlx_key_data_t keydata,
 {
 	double	angle_increment;
 
-	angle_increment = M_PI / 100.0;
+	angle_increment = PI / 100.0;
 	if (!game->is_mouse_active && key_is_active)
 	{
 		if (keydata.key == MLX_KEY_RIGHT)

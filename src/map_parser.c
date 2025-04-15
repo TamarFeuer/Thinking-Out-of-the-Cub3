@@ -6,7 +6,7 @@
 /*   By: tfeuer <tfeuer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 13:12:32 by rtorrent          #+#    #+#             */
-/*   Updated: 2025/04/09 16:27:01 by tfeuer           ###   ########.fr       */
+/*   Updated: 2025/04/15 18:06:36 by tfeuer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	check_for_player(char *log, t_game *game, struct s_token *token,
 		direction = W;
 	else if (token->value[index] == 'S')
 		direction = S;
-	game->player.angle = direction * M_PI / 2;
+	game->player.angle = direction * PI / 2;
 	game->player.angle_quad = direction + 1;
 	token->value[index] = EMPTY;
 	check_for_player(log, game, token, index + 1);
