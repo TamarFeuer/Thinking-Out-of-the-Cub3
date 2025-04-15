@@ -1,14 +1,5 @@
 #include "../inc/game.h"
 
-static void	clear_image(mlx_image_t *image, uint32_t npixels)
-{
-	uint8_t	*pixel;
-
-	pixel = image->pixels;
-	while (pixel - image->pixels < npixels)
-		*pixel++ &= 0xFFFFFF00;
-}
-
 void	draw_mmap(void *param)
 {
 	t_game *const	game = (t_game *)param;
@@ -35,60 +26,6 @@ void	draw_mmap(void *param)
 		mlx_delete_image(game->mlx, game->stats);
 		print_stats(game);
 	}
-}
-
-static void	allocate_structures(t_game **pgame)
-{
-	*pgame = malloc(sizeof(t_game));
-	if (*pgame)
-	{
-		(*pgame)->data = malloc(sizeof(t_data));
-		if ((*pgame)->data)
-		{
-			(*pgame)->data->tokens = NULL;
-			(*pgame)->data->map = NULL;
-		}
-		(*pgame)->ray = ft_calloc(1, sizeof(t_ray));
-		(*pgame)->mlx = NULL;
-		(*pgame)->stats = NULL;
-		(*pgame)->mini = NULL;
-		(*pgame)->scene = NULL;
-		(*pgame)->textures[E] = NULL;
-		(*pgame)->textures[N] = NULL;
-		(*pgame)->textures[W] = NULL;
-		(*pgame)->textures[S] = NULL;
-		if ((*pgame)->data && (*pgame)->ray)
-			return ;
-	}
-	clean_nicely(*pgame, "Out of memory");
-}
-
-static void	check_arguments(t_game *game, int argc, char *argv[])
-{
-	char	*extension;
-	char	log[LOG];
-
-	if (argc >= 2)
-		game->is_debug = !ft_strncmp(*++argv, "-d", 3);
-	if (game->is_debug)
-	{
-		argc--;
-		argv++;
-	}
-	if (argc < 2)
-		clean_nicely(game, "Missing scene description file");
-	if (argc > 2)
-		clean_nicely(game, "Too many arguments");
-	extension = ft_strrchr(*argv, '.');
-	if (!extension)
-		clean_nicely(game, "Expected `.cub\' extension");
-	if (ft_strncmp(extension, ".cub", 5))
-	{
-		ft_snprintf(log, LOG, "Unknown format `.%s\'. Expected `.cub\' "
-			"extension", extension);
-		clean_nicely(game, log);
-	}
-	game->data->cub_file = *argv;
 }
 
 /**
@@ -125,6 +62,60 @@ static void	setup_mlx_and_images(t_game *game)
 		game->cell_size + 1, game->data->map_data.rows * game->cell_size + 1);
 	if (!game->mini || (mlx_image_to_window(game->mlx, game->mini, 0, 0) < 0))
 		clean_nicely(game, "Failed to create/display minimap image");
+}
+
+static void	check_arguments(t_game *game, int argc, char *argv[])
+{
+	char	*extension;
+	char	log[LOG];
+
+	if (argc >= 2)
+		game->is_debug = !ft_strncmp(*++argv, "-d", 3);
+	if (game->is_debug)
+	{
+		argc--;
+		argv++;
+	}
+	if (argc < 2)
+		clean_nicely(game, "Missing scene description file");
+	if (argc > 2)
+		clean_nicely(game, "Too many arguments");
+	extension = ft_strrchr(*argv, '.');
+	if (!extension)
+		clean_nicely(game, "Expected `.cub\' extension");
+	if (ft_strncmp(extension, ".cub", 5))
+	{
+		ft_snprintf(log, LOG, "Unknown format `.%s\'. Expected `.cub\' "
+			"extension", extension);
+		clean_nicely(game, log);
+	}
+	game->data->cub_file = *argv;
+}
+
+static void	allocate_structures(t_game **pgame)
+{
+	*pgame = malloc(sizeof(t_game));
+	if (*pgame)
+	{
+		(*pgame)->data = malloc(sizeof(t_data));
+		if ((*pgame)->data)
+		{
+			(*pgame)->data->tokens = NULL;
+			(*pgame)->data->map = NULL;
+		}
+		(*pgame)->ray = ft_calloc(1, sizeof(t_ray));
+		(*pgame)->mlx = NULL;
+		(*pgame)->stats = NULL;
+		(*pgame)->mini = NULL;
+		(*pgame)->scene = NULL;
+		(*pgame)->textures[E] = NULL;
+		(*pgame)->textures[N] = NULL;
+		(*pgame)->textures[W] = NULL;
+		(*pgame)->textures[S] = NULL;
+		if ((*pgame)->data && (*pgame)->ray)
+			return ;
+	}
+	clean_nicely(*pgame, "Out of memory");
 }
 
 /**

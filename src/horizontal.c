@@ -67,7 +67,7 @@ double	horiz_intersect(t_game *game)
 		cotan_current = 1.0 / game->ray->tan_current;
 	init_horizontal_intercept_and_step(game, cotan_current);
 	if (game->is_debug)
-			plot_adjacent_pixels(game, game->ray->intersect, 0xFFFF00FF);
+		plot_adjacent_pixels(game, game->ray->intersect, 0xFFFF00FF);
 	while (should_continue_stepping(game, game->ray->intersect, \
 									INTERSECT_W_HORIZONTAL))
 	{

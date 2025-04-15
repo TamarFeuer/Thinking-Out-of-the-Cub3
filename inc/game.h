@@ -199,46 +199,62 @@ typedef struct s_game
 	t_vec2			ray_end[SCREEN_WIDTH];
 }	t_game;
 
-void		draw_grid(t_game *game, int rows, int cols);
-void		draw_player(t_game *game);
-void		cast_rays(t_game *game);
-void		key_hook(mlx_key_data_t keydata, void *param);
-void		print_stats(t_game *game);
-void		clean_nicely(t_game *game, char *error_message);
-int			distance_to_color(int distance, t_ray_sort ray_sort);
-void		draw_bresenham_ray(t_game *game, t_vec2 start, t_vec2 end);
-double		get_distance(t_vec2 start, t_vec2 end);
-int			get_block_index(t_game *game, t_vec2 *grid_pos, \
-	t_intersect_type intersect_type);
-void		reach_nearest_wall_by_intersections(t_game *game);
-void		draw_player_direction(t_game *game, t_vec2 start, double angle);
-void		normalize_angle_to_2pi(double *angle);
-void		determine_quad(double angle, int *quad);
-void		init_game_struct(t_game *game);
-void		draw_mmap(void *param);
-double		horiz_intersect(t_game *game);
-double		vertical_intersect(t_game *game);
-bool		is_out_of_bounds(t_game *game, t_vec2 position);
-int			is_wall_hit(t_game *game, t_vec2 intersect, \
-	t_intersect_type intersect_type);
-void		cursor_hook(double xpos, double ypos, void *param);
-void		mouse_action(mouse_key_t button, action_t action, \
-	modifier_key_t mods, void *param);
+//PARSING
+void		lexer(t_game *game);
+void		parser(t_game *game);
+void		flood_fill_map(t_game *game, char *dup_map);
 int			atoi_limit_255(int *dst, char *str);
 void		build_map(char *log, t_game *game);
 uint32_t	color_abgr_to_rgba(uint32_t c);
 void		del_token(void *token);
-void		draw_scene(t_game *game, t_ray *ray);
-void		flood_fill_map(t_game *game, char *dup_map);
-void		lexer(t_game *game);
-int			min(int a, int b);
-int			max(int a, int b);
-void		parser(t_game *game);
 
+//MINIMAP
+void		draw_mmap(void *param);
+void		draw_grid(t_game *game, int rows, int cols);
+void		draw_player(t_game *game);
+void		draw_player_direction(t_game *game, t_vec2 start, double angle);
+void		draw_bresenham_ray(t_game *game, t_vec2 start, t_vec2 end);
+void		print_stats(t_game *game);
+void		put_pixel_mmap(t_game *game, int x, int y, u_int32_t color);
+void		clear_image(mlx_image_t *image, uint32_t npixels);
+int			distance_to_color(int distance, t_ray_sort ray_sort);
+
+//RAY CASTING
+void		cast_rays(t_game *game);
+void		reach_nearest_wall_by_intersections(t_game *game);
+double		horiz_intersect(t_game *game);
+double		vertical_intersect(t_game *game);
+double		get_distance(t_vec2 start, t_vec2 end);
 bool		should_continue_stepping(t_game *game, t_vec2 intersect, \
 	t_intersect_type intersect_type);
+
+//SCENE
+void		draw_scene(t_game *game, t_ray *ray);
 void		put_pixel_scene(t_game *game, int x, int y, u_int32_t color);
-void		put_pixel_mmap(t_game *game, int x, int y, u_int32_t color);
+
+//HOOKS
+void		key_hook(mlx_key_data_t keydata, void *param);
+void		cursor_hook(double xpos, double ypos, void *param);
+void		mouse_action(mouse_key_t button, action_t action, \
+	modifier_key_t mods, void *param);
+
+//WALL HITS AND COLLISION
+void		check_collision(t_game *game, t_vec2 old_pos, t_vec2 new_pos);
+int			get_block_index(t_game *game, t_vec2 *grid_pos, \
+	t_intersect_type intersect_type);
+bool		is_out_of_bounds(t_game *game, t_vec2 position);
+int			is_wall_hit(t_game *game, t_vec2 intersect, \
+	t_intersect_type intersect_type);
+
+//UTILS
+int			min(int a, int b);
+int			max(int a, int b);
 void		plot_adjacent_pixels(t_game *game, t_vec2 center, int color);
+void		normalize_angle_to_2pi(double *angle);
+void		determine_quad(double angle, int *quad);
+
+//START AND FINISH
+void		init_game_struct(t_game *game);
+void		clean_nicely(t_game *game, char *error_message);
 
 #endif

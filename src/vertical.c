@@ -135,7 +135,7 @@ double	vertical_intersect(t_game *game)
 		return (OUT_OF_BOUNDS);
 	init_vertical_intercept_and_step(game);
 	if (game->is_debug)
-			plot_adjacent_pixels(game, game->ray->intersect, 0xFF0000FF);
+		plot_adjacent_pixels(game, game->ray->intersect, 0xFF0000FF);
 	while (should_continue_stepping(game, game->ray->intersect, \
 									INTERSECT_W_VERTICAL))
 	{

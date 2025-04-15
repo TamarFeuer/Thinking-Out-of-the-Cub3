@@ -24,7 +24,6 @@ void	init_game_struct(t_game *game)
 {
 	game->is_mmap = game->is_debug;
 	game->is_mouse_active = false;
-	
 	game->ray->wall_met = false;
 	game->player.pos.x = round((game->player.pos.x + .5) * \
 		game->cell_size - PLAYER_SIZE / 2);

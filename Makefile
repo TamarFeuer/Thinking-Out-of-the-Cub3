@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                          ::::::::            #
-#    Makefile                                            :+:    :+:            #
-#                                                       +:+                    #
-#    By: rtorrent <marvin@42.fr>                       +#+                     #
-#                                                     +#+                      #
-#    Created: 2025/04/01 20:19:25 by rtorrent       #+#    #+#                 #
-#    Updated: 2025/04/02 11:16:27 by rtorrent       ########   odam.nl         #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: tfeuer <tfeuer@student.42.fr>              +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/04/01 20:19:25 by rtorrent          #+#    #+#              #
+#    Updated: 2025/04/15 17:40:28 by tfeuer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,9 @@ SRC = src/clean.c \
 	src/rays.c \
 	src/stats.c \
 	src/utils.c \
-	src/vertical.c
+	src/vertical.c \
+	src/collision.c \
+	src/img_utils.c
 
 OBJ_DIR = obj
 OBJ = $(SRC:src/%.c=$(OBJ_DIR)/%.o)
