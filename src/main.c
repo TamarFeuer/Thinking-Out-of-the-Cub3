@@ -27,8 +27,11 @@ void	draw_mmap(void *param)
 		}
 		draw_player(game);
 		draw_grid(game, game->data->map_data.rows, game->data->map_data.cols);
-		draw_player_direction(game, (t_vec2){game->camera_pos.x, \
+		if (game->is_debug == false)
+			draw_player_direction(game, (t_vec2){game->camera_pos.x, \
 			game->camera_pos.y}, game->player.angle);
+		if (game->is_debug == true)
+			cast_rays(game);
 		mlx_delete_image(game->mlx, game->stats);
 		print_stats(game);
 	}

@@ -55,7 +55,7 @@ void	cursor_hook(double xpos, double ypos, void *param)
 		last_x = xpos;
 		return ;
 	}
-	new_angle = game->player.angle - (delta_x * MOUSE_ANGLE_FACTOR);
+	new_angle = game->player.angle - (delta_x * MOUSE_SENSITIVITY);
 	normalize_angle_to_2pi(&new_angle);
 	if (new_angle != game->player.angle)
 	{

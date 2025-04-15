@@ -68,6 +68,8 @@ void	cast_rays(t_game *game)
 	{
 		ray->relative_angle = atan((SCREEN_WIDTH / 2.0 - ray->ray_num) / \
 			game->pplane);
+		if (game->is_debug == true)
+			ray->relative_angle = 0;
 		ray->current_angle = game->player.angle + ray->relative_angle;
 		normalize_angle_to_2pi(&ray->current_angle);
 		determine_quad(ray->current_angle, &ray->angle_quad);

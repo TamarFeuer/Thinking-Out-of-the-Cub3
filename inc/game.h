@@ -1,60 +1,55 @@
 #ifndef GAME_H
 # define GAME_H
 
-#include "MLX42.h"
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <math.h>
-#include <limits.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include "../libs/libft/libft.h"
+# include "MLX42.h"
+# include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <math.h>
+# include <limits.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+# include "../libs/libft/libft.h"
 
-
-#define M_PI 3.14159265358979323846
-#define DEG_TO_RAD (M_PI / 180.0)
-#define MOUSE_SENSITIVITY 0.1f
-#define MOUSE_ANGLE_FACTOR (MOUSE_SENSITIVITY * (2 * M_PI / 100))
+# define DEG_TO_RAD 0.017453293
+# define MOUSE_SENSITIVITY 0.006283185
 
 //screen
-#define SCREEN_WIDTH 1920 // 950
-#define SCREEN_HEIGHT 1080 // 500
-#define FOV 60.0
+# define SCREEN_WIDTH 1920
+# define SCREEN_HEIGHT 1080
+# define FOV 60.0
 
 //map
-#define EMPTY '0'
-#define WALL '1'
-#define SPACE ' '
+# define EMPTY '0'
+# define WALL '1'
+# define SPACE ' '
 
 //scene
-#define SCENE_BLOCK_SIZE 64
+# define SCENE_BLOCK_SIZE 64
 
 //mini map
-#define CONST 4
-#define MMAP_MAX_HEIGHT SCREEN_HEIGHT/4
-#define MMAP_MAX_WIDTH SCREEN_WIDTH/4
-#define COLOR_MMAP_GRID 0x777777FF
+# define CONST 4
+# define COLOR_MMAP_GRID 0x777777FF
 
 //player
-#define PLAYER_SIZE 8
-#define PLAYER_DIRECTION_SIZE 50
-#define CAMERA_OFFSET_X PLAYER_SIZE / 2 - 1
-#define CAMERA_OFFSET_Y PLAYER_SIZE / 2 - 1
+# define PLAYER_SIZE 8
+# define PLAYER_DIRECTION_SIZE 50
+# define CAMERA_OFFSET_X 3
+# define CAMERA_OFFSET_Y 3
 
 //rays
-#define MAX_RAY_DISTANCE 400
-#define DISTANCE_PER_TURN 0.4 * CONST
-#define OUT_OF_BOUNDS INT_MAX
+# define MAX_RAY_DISTANCE 400
+# define DISTANCE_PER_TURN 1.6
+# define OUT_OF_BOUNDS INT_MAX
 
 //error logs
-#define LOG 80
+# define LOG 80
 
 //map
-#define EMPTY '0'
-#define WALL '1'
-#define SPACE ' '
+# define EMPTY '0'
+# define WALL '1'
+# define SPACE ' '
 
 typedef enum e_intersect_type
 {
@@ -240,5 +235,6 @@ void		parser(t_game *game);
 bool		should_continue_stepping(t_game *game, t_vec2 intersect, t_intersect_type intersect_type);
 void		put_pixel_scene(t_game *game, int x, int y, u_int32_t color);
 void		put_pixel_mmap(t_game *game, int x, int y, u_int32_t color);
+void		plot_adjacent_pixels(t_game *game, t_vec2 center, int color);
 
 #endif

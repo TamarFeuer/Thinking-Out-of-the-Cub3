@@ -86,3 +86,29 @@ int	max(int a, int b)
 		return (a);
 	return (b);
 }
+
+void plot_adjacent_pixels(t_game *game, t_vec2 center, int color)
+{
+	t_point neighbors[8];
+	int dx[8];
+	int dy[8];
+	int i;
+
+	dx[0] = -1;	dy[0] = -1;
+	dx[1] =  0;	dy[1] = -1;
+	dx[2] =  1;	dy[2] = -1;
+	dx[3] = -1;	dy[3] =  0;
+	dx[4] =  1;	dy[4] =  0;
+	dx[5] = -1;	dy[5] =  1;
+	dx[6] =  0;	dy[6] =  1;
+	dx[7] =  1;	dy[7] =  1;
+
+	i = 0;
+	while (i < 8)
+	{
+		neighbors[i].x = (int)center.x + dx[i];
+		neighbors[i].y = (int)center.y + dy[i];
+		put_pixel_mmap(game, neighbors[i].x, neighbors[i].y, color);
+		i++;
+	}
+}
