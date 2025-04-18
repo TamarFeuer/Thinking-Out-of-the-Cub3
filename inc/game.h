@@ -6,23 +6,22 @@
 /*   By: tfeuer <tfeuer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:20:08 by tfeuer            #+#    #+#             */
-/*   Updated: 2025/04/17 18:22:35 by tfeuer         ########   odam.nl        */
+/*   Updated: 2025/04/17 19:26:51 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GAME_H
 # define GAME_H
 
-# include "MLX42.h"
-# include <stdio.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <math.h>
-# include <limits.h>
-# include <sys/types.h>
-# include <sys/stat.h>
 # include <fcntl.h>
+# include <limits.h>
+# include <math.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+
 # include "../libs/libft/libft.h"
+# include "MLX42.h"
 
 # define PI 3.141592653
 # define DEG_TO_RAD 0.017453293
@@ -58,11 +57,6 @@
 
 //error logs
 # define LOG 80
-
-//map
-# define EMPTY '0'
-# define WALL '1'
-# define SPACE ' '
 
 typedef enum e_intersect_type
 {
