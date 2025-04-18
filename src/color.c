@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   color.c                                            :+:      :+:    :+:   */
+/*   color.c                                             :+:    :+:           */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfeuer <tfeuer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:15:33 by tfeuer            #+#    #+#             */
-/*   Updated: 2025/04/17 18:15:34 by tfeuer           ###   ########.fr       */
+/*   Updated: 2025/04/17 20:19:29 by rtorrent       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,12 @@ int	distance_to_color(int distance, t_ray_sort ray_sort)
 	normalized_distance = (float)distance / MAX_RAY_DISTANCE;
 	if (normalized_distance > 1.0f)
 		normalized_distance = 1.0f;
-	red = 0xFF;
-	blue = 0x00;
+	red = 0x00;
 	if (ray_sort == PLAYER_DIRECTION)
 		green = 0xFF;
 	else
-		green = 00;
+		green = 0x00;
+	blue = 0xFF;
 	alpha = (1.0f - normalized_distance) * 255;
-	return ((blue << 24) | (green << 16) | (red << 8) | alpha);
+	return ((red << 24) | (green << 16) | (blue << 8) | alpha);
 }
