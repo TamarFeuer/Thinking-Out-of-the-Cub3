@@ -6,7 +6,7 @@
 /*   By: tfeuer <tfeuer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:15:26 by tfeuer            #+#    #+#             */
-/*   Updated: 2025/04/17 18:15:27 by tfeuer           ###   ########.fr       */
+/*   Updated: 2025/04/19 19:55:56 by tfeuer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ static void	handle_movement_keys(t_game *game, mlx_key_data_t keydata,
 	double	move_dx;
 	double	move_dy;
 
-	move_dx = cos(game->player.angle) * DISTANCE_PER_TURN;
-	move_dy = sin(game->player.angle) * DISTANCE_PER_TURN;
+	move_dx = cos(game->player.angle) * DISTANCE_PER_STEP;
+	move_dy = sin(game->player.angle) * DISTANCE_PER_STEP;
 	if (key_is_active && keydata.key == MLX_KEY_W)
 	{
 		new_pos->x += move_dx;
