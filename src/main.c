@@ -6,7 +6,7 @@
 /*   By: tfeuer <tfeuer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:11:46 by tfeuer            #+#    #+#             */
-/*   Updated: 2025/04/17 18:11:48 by tfeuer           ###   ########.fr       */
+/*   Updated: 2025/04/19 22:20:34 by tfeuer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ static void	setup_mlx_and_images(t_game *game)
 		game->cell_size = temp_width;
 	if (game->cell_size < 2 * PLAYER_SIZE)
 		clean_nicely(game, "Map too large for screen resolution");
+	game->step = 0.2 * PLAYER_SIZE;
 	init_game_struct(game);
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, \
