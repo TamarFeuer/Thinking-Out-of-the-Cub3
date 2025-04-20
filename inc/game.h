@@ -6,7 +6,7 @@
 /*   By: tfeuer <tfeuer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:20:08 by tfeuer            #+#    #+#             */
-/*   Updated: 2025/04/20 15:04:01 by tfeuer           ###   ########.fr       */
+/*   Updated: 2025/04/20 15:40:50 by tfeuer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,8 +230,6 @@ void		reach_nearest_wall_by_intersections(t_game *game);
 double		horiz_intersect(t_game *game);
 double		vertical_intersect(t_game *game);
 double		get_distance(t_vec2 start, t_vec2 end);
-bool		should_continue_stepping(t_game *game, t_vec2 intersect, \
-	t_intersect_type intersect_type);
 
 //SCENE
 void		draw_scene(t_game *game, t_ray *ray);

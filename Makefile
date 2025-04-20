@@ -6,7 +6,7 @@
 #    By: tfeuer <tfeuer@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/01 20:19:25 by rtorrent          #+#    #+#              #
-#    Updated: 2025/04/15 17:40:28 by tfeuer           ###   ########.fr        #
+#    Updated: 2025/04/20 15:45:16 by tfeuer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,9 +22,8 @@ SRC = src/clean.c \
 	src/color.c \
 	src/flood_fill_map.c \
 	src/hooks.c \
-	src/horizontal.c \
 	src/init.c \
-	src/intersections.c \
+	src/intersection.c \
 	src/lexer.c \
 	src/line.c \
 	src/main.c \
@@ -34,12 +33,14 @@ SRC = src/clean.c \
 	src/parser.c \
 	src/perspective_scene.c \
 	src/player.c \
-	src/rays.c \
+	src/raycasting.c \
 	src/stats.c \
-	src/utils.c \
-	src/vertical.c \
-	src/collision.c \
-	src/img_utils.c
+	src/utils_img.c \
+	src/utils_math.c \
+	src/utils_raycast.c \
+	src/collision.c
+
+	
 
 OBJ_DIR = obj
 OBJ = $(SRC:src/%.c=$(OBJ_DIR)/%.o)

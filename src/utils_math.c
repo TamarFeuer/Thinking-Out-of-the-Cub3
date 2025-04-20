@@ -1,16 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_math.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfeuer <tfeuer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:14:05 by tfeuer            #+#    #+#             */
-/*   Updated: 2025/04/17 18:14:06 by tfeuer           ###   ########.fr       */
+/*   Updated: 2025/04/20 15:47:00 by tfeuer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/game.h"
+
+int	min(int a, int b)
+{
+	if (a < b)
+		return (a);
+	return (b);
+}
+
+int	max(int a, int b)
+{
+	if (a > b)
+		return (a);
+	return (b);
+}
 
 void	determine_quad(double angle, int *quad)
 {
@@ -44,16 +58,12 @@ void	normalize_angle_to_2pi(double *angle)
 		*angle += (2.0 * PI);
 }
 
-int	min(int a, int b)
+double	get_distance(t_vec2 start, t_vec2 end)
 {
-	if (a < b)
-		return (a);
-	return (b);
-}
+	double	dx;
+	double	dy;
 
-int	max(int a, int b)
-{
-	if (a > b)
-		return (a);
-	return (b);
+	dx = end.x - start.x;
+	dy = end.y - start.y;
+	return (sqrt(dx * dx + dy * dy));
 }

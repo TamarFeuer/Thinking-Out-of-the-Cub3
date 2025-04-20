@@ -6,26 +6,11 @@
 /*   By: tfeuer <tfeuer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:14:57 by tfeuer            #+#    #+#             */
-/*   Updated: 2025/04/17 18:14:58 by tfeuer           ###   ########.fr       */
+/*   Updated: 2025/04/20 15:41:35 by tfeuer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/game.h"
-
-bool	is_out_of_bounds(t_game *game, t_vec2 position)
-{
-	if (position.y < 0 || position.x < 0 || position.y >= \
-		game->data->map_data.rows * game->cell_size || position.x >= \
-		game->data->map_data.cols * game->cell_size)
-		return (true);
-	return (false);
-}
-
-int	is_wall_hit(t_game *game, t_vec2 inter, t_intersect_type intersect_type)
-{
-	return (game->data->map[get_block_index(game, &inter, intersect_type)] == \
-		WALL);
-}
 
 void	reach_nearest_wall_by_intersections(t_game *game)
 {
@@ -50,12 +35,25 @@ void	reach_nearest_wall_by_intersections(t_game *game)
 	}
 }
 
-bool	should_continue_stepping(t_game *game, t_vec2 intersect, \
-	t_intersect_type intersect_type)
+void	cast_rays(t_game *game)
 {
-	if (is_out_of_bounds(game, intersect))
-		return (false);
-	if (is_wall_hit(game, intersect, intersect_type))
-		return (false);
-	return (true);
+	t_ray *const		ray = game->ray;
+
+	ray->ray_num = 0;
+	while (ray->ray_num < game->number_of_rays)
+	{
+		ray->relative_angle = atan((SCREEN_WIDTH / 2.0 - ray->ray_num) / \
+			game->pplane);
+		if (game->is_debug == true)
+			ray->relative_angle = 0;
+		ray->current_angle = game->player.angle + ray->relative_angle;
+		normalize_angle_to_2pi(&ray->current_angle);
+		determine_quad(ray->current_angle, &ray->angle_quad);
+		ray->tan_current = tan(ray->current_angle);
+		reach_nearest_wall_by_intersections(game);
+		game->ray_end[ray->ray_num].x = ray->end.x;
+		game->ray_end[ray->ray_num].y = ray->end.y;
+		draw_scene(game, game->ray);
+		ray->ray_num++;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: tfeuer <tfeuer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:14:53 by tfeuer            #+#    #+#             */
-/*   Updated: 2025/04/17 18:14:54 by tfeuer           ###   ########.fr       */
+/*   Updated: 2025/04/20 15:46:15 by tfeuer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	init_bresenham_params(t_bresenham_params *bres_params, \
  * @param x The current integer x-coordinate of the pixel to potentially plot.
  * @param y The current integer y-coordinate of the pixel to potentially plot.
  */
-static void	plot_valid_pixel(t_game *game, t_vec2 start, int x, int y)
+static void	plot_dissipating_pixel(t_game *game, t_vec2 start, int x, int y)
 {
 	int	distance;
 
@@ -102,7 +102,7 @@ static void	bresenham_loop_gentle(t_game *game, t_bresenham_params *bres_params)
 	decision = 2 * bres_params->abs_dy - bres_params->abs_dx;
 	while (true)
 	{
-		plot_valid_pixel(game, bres_params->start, x, y);
+		plot_dissipating_pixel(game, bres_params->start, x, y);
 		if (x == bres_params->x_end && y == bres_params->y_end)
 			break ;
 		if (decision >= 0)
@@ -140,7 +140,7 @@ static void	bresenham_loop_steep(t_game *game, t_bresenham_params *bres_params)
 	decision = 2 * bres_params->abs_dx - bres_params->abs_dy;
 	while (true)
 	{
-		plot_valid_pixel(game, bres_params->start, x, y);
+		plot_dissipating_pixel(game, bres_params->start, x, y);
 		if (x == bres_params->x_end && y == bres_params->y_end)
 			break ;
 		if (decision >= 0)

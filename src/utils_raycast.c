@@ -1,16 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rays.c                                             :+:      :+:    :+:   */
+/*   utils_raycast.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfeuer <tfeuer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/17 18:14:16 by tfeuer            #+#    #+#             */
-/*   Updated: 2025/04/17 18:14:17 by tfeuer           ###   ########.fr       */
+/*   Created: 2025/04/20 15:47:05 by tfeuer            #+#    #+#             */
+/*   Updated: 2025/04/20 15:47:06 by tfeuer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/game.h"
+
+bool	is_out_of_bounds(t_game *game, t_vec2 position)
+{
+	if (position.y < 0 || position.x < 0 || position.y >= \
+		game->data->map_data.rows * game->cell_size || position.x >= \
+		game->data->map_data.cols * game->cell_size)
+		return (true);
+	return (false);
+}
 
 /**
  * @brief Converts float coordinates to a 1D map index, adjusting for ray 
@@ -61,35 +70,8 @@ int	get_block_index(t_game *game, t_vec2 *grid_pos, \
 	return (block_index.index);
 }
 
-double	get_distance(t_vec2 start, t_vec2 end)
+int	is_wall_hit(t_game *game, t_vec2 inter, t_intersect_type intersect_type)
 {
-	double	dx;
-	double	dy;
-
-	dx = end.x - start.x;
-	dy = end.y - start.y;
-	return (sqrt(dx * dx + dy * dy));
-}
-
-void	cast_rays(t_game *game)
-{
-	t_ray *const		ray = game->ray;
-
-	ray->ray_num = 0;
-	while (ray->ray_num < game->number_of_rays)
-	{
-		ray->relative_angle = atan((SCREEN_WIDTH / 2.0 - ray->ray_num) / \
-			game->pplane);
-		if (game->is_debug == true)
-			ray->relative_angle = 0;
-		ray->current_angle = game->player.angle + ray->relative_angle;
-		normalize_angle_to_2pi(&ray->current_angle);
-		determine_quad(ray->current_angle, &ray->angle_quad);
-		ray->tan_current = tan(ray->current_angle);
-		reach_nearest_wall_by_intersections(game);
-		game->ray_end[ray->ray_num].x = ray->end.x;
-		game->ray_end[ray->ray_num].y = ray->end.y;
-		draw_scene(game, game->ray);
-		ray->ray_num++;
-	}
+	return (game->data->map[get_block_index(game, &inter, intersect_type)] == \
+		WALL);
 }
