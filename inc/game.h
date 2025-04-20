@@ -6,7 +6,7 @@
 /*   By: tfeuer <tfeuer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:20:08 by tfeuer            #+#    #+#             */
-/*   Updated: 2025/04/20 15:40:50 by tfeuer           ###   ########.fr       */
+/*   Updated: 2025/04/20 19:31:48 by tfeuer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@
 
 //rays
 # define MAX_RAY_DISTANCE 400
-# define DISTANCE_PER_STEP 1.6
 # define OUT_OF_BOUNDS INT_MAX
 
 //error logs
@@ -191,6 +190,7 @@ typedef struct s_game
 	bool			is_mouse_active;
 	mlx_t			*mlx;
 	int				cell_size;
+	double			step;
 	t_data			*data;
 	t_ray			*ray;
 	t_player		player;
