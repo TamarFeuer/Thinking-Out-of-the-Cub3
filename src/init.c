@@ -6,7 +6,7 @@
 /*   By: tfeuer <tfeuer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:15:05 by tfeuer            #+#    #+#             */
-/*   Updated: 2025/04/17 18:15:06 by tfeuer           ###   ########.fr       */
+/*   Updated: 2025/04/20 15:03:15 by tfeuer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	init_game_struct(t_game *game)
 	game->player.pos.y = round((game->player.pos.y + .5) * \
 		game->cell_size - PLAYER_SIZE / 2);
 	game->pplane = SCREEN_WIDTH / (2.0 * tan(FOV * DEG_TO_RAD / 2.0));
-	game->camera_pos.x = round(game->player.pos.x) + CAMERA_OFFSET_X;
-	game->camera_pos.y = round(game->player.pos.y) + CAMERA_OFFSET_Y;
+	game->camera_pos.x = round(game->player.pos.x) + (PLAYER_SIZE - 1) / 2;
+	game->camera_pos.y = round(game->player.pos.y) + (PLAYER_SIZE - 1) / 2;
 	if (game->is_debug == false)
 		game->number_of_rays = SCREEN_WIDTH;
 	else

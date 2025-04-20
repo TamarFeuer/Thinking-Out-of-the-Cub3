@@ -6,7 +6,7 @@
 /*   By: tfeuer <tfeuer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:15:40 by tfeuer            #+#    #+#             */
-/*   Updated: 2025/04/17 18:15:41 by tfeuer           ###   ########.fr       */
+/*   Updated: 2025/04/20 15:02:43 by tfeuer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ bool	is_colliding(t_game *game, t_vec2 new, t_intersect_type intersect_type)
  * @brief Updates the player's and camera's position based on a new valid
  *        position.
  * @details Sets the `game->player.pos` to `new_valid_pos`. Also updates the
- *          `game->camera_pos` based on the new player position and predefined
- *          offsets (`CAMERA_OFFSET_X`, `CAMERA_OFFSET_Y`).
+ *          `game->camera_pos` based on the new player position and offsets.
  *
  * @param game Pointer to the main game structure.
  * @param new_valid_pos The new, collision-free position for the player.
@@ -48,8 +47,8 @@ bool	is_colliding(t_game *game, t_vec2 new, t_intersect_type intersect_type)
 static void	update_player_and_camera_pos(t_game *game, t_vec2 new_valid_pos)
 {
 	game->player.pos = new_valid_pos;
-	game->camera_pos.x = game->player.pos.x + CAMERA_OFFSET_X;
-	game->camera_pos.y = game->player.pos.y + CAMERA_OFFSET_Y;
+	game->camera_pos.x = game->player.pos.x + (PLAYER_SIZE - 1) / 2;
+	game->camera_pos.y = game->player.pos.y + (PLAYER_SIZE - 1) / 2;
 }
 
 /**

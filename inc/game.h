@@ -6,7 +6,7 @@
 /*   By: tfeuer <tfeuer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:20:08 by tfeuer            #+#    #+#             */
-/*   Updated: 2025/04/19 19:55:28 by tfeuer           ###   ########.fr       */
+/*   Updated: 2025/04/20 15:04:01 by tfeuer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@
 //player
 # define PLAYER_SIZE 8
 # define PLAYER_DIRECTION_SIZE 50
-# define CAMERA_OFFSET_X 3
-# define CAMERA_OFFSET_Y 3
 
 //rays
 # define MAX_RAY_DISTANCE 400
