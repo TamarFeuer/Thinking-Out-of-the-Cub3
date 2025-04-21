@@ -6,7 +6,7 @@
 /*   By: tfeuer <tfeuer@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 15:47:05 by tfeuer            #+#    #+#             */
-/*   Updated: 2025/04/20 21:47:54 by tfeuer           ###   ########.fr       */
+/*   Updated: 2025/04/21 13:58:51 by tfeuer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,36 +52,24 @@ bool	is_out_of_bounds(t_game *game, t_vec2 position)
  *
  * @return int The 1D index into `game->data->map` for the relevant map cell.
  */
-int	 get_block_index(t_game *game, t_vec2 *grid_pos, \
+int	get_block_index(t_game *game, t_vec2 *grid_pos, \
 	t_intersect_type intersect_type)
 {
 	t_block_index	block_index;
 
 	block_index.x = (int)(grid_pos->x / game->cell_size);
-	//printf ("	block_index.x is %d, grid_pos.x is %.10f\n", block_index.x, grid_pos->x);
 	block_index.y = (int)(grid_pos->y / game->cell_size);
 	if (intersect_type == INTERSECT_W_HORIZONTAL && \
-		(game->ray->angle_quad == 1 || game->ray->angle_quad == 2) && block_index.y != 0)
+		(game->ray->angle_quad == 1 || game->ray->angle_quad == 2) && \
+		block_index.y > 0)
 		block_index.y--;
 	else if (intersect_type == INTERSECT_W_VERTICAL && \
-		(game->ray->angle_quad == 2 || game->ray->angle_quad == 3) && block_index.x != 0)
+		(game->ray->angle_quad == 2 || game->ray->angle_quad == 3) && \
+		block_index.x > 0)
 		block_index.x--;
-	// if (intersect_type == INTERSECT_W_HORIZONTAL && \
-	// 	(game->ray->angle_quad == 1 || game->ray->angle_quad == 2) )
-	// 	block_index.y--;
-	// else if (intersect_type == INTERSECT_W_VERTICAL && \
-	// 	(game->ray->angle_quad == 2 || game->ray->angle_quad == 3) )
-	// 	block_index.x--;
 	block_index.index = block_index.y * game->data->map_data.cols + \
 		block_index.x;
-	if (block_index.index < 0)
-	{
-		printf ("it is %d, ray number is %d\n", block_index.index, game->ray->ray_num);
-		printf("end of this ray horizontallyis x=%f y=%f \n", game->ray->h_hit.x, game->ray->h_hit.y);
-		printf("end of this ray vertically is x=%f y=%f \n", game->ray->v_hit.x, game->ray->v_hit.y);
-		printf ("intersect type is %d, block_index x is %d, block_index y is %d and index is %d\n", intersect_type, block_index.x, block_index.y, block_index.index);
-	}
-		return (block_index.index);
+	return (block_index.index);
 }
 
 int	is_wall_hit(t_game *game, t_vec2 inter, t_intersect_type intersect_type)
