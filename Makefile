@@ -6,12 +6,12 @@
 #    By: tfeuer <tfeuer@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/01 20:19:25 by rtorrent          #+#    #+#              #
-#    Updated: 2025/04/21 13:48:45 by tfeuer           ###   ########.fr        #
+#    Updated: 2025/04/21 15:13:04 by tfeuer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -Ilibs/MLX42/include/MLX42 -fsanitize=address #-g
+CFLAGS = -Wall -Wextra -Werror -Ilibs/MLX42/include/MLX42 #-fsanitize=address -g
 LDFLAGS = -ldl -lglfw -pthread -lm
 
 NAME = cub3D
